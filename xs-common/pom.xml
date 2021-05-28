@@ -3,12 +3,12 @@
     <parent>
         <artifactId>mg2-framework</artifactId>
         <groupId>com.github.shijingsh</groupId>
-        <version>1.4.0</version>
+        <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.shijingsh</groupId>
     <artifactId>mg-common</artifactId>
-    <version>1.4.0</version>
+    <version>1.0.0</version>
     <packaging>jar</packaging>
     <name>mg-common</name>
     <url>http://maven.apache.org</url>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>mg-entity</artifactId>
-            <version>1.4.0</version>
+            <version>1.0.0</version>
         </dependency>
         <!-- Jedis -->
         <dependency>
