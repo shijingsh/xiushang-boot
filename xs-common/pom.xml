@@ -7,10 +7,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.shijingsh</groupId>
-    <artifactId>mg-common</artifactId>
+    <artifactId>xs-common</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
-    <name>mg-common</name>
+    <name>xs-common</name>
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
-            <artifactId>mg-entity</artifactId>
+            <artifactId>xs-entity</artifactId>
             <version>1.0.0</version>
         </dependency>
         <!-- Jedis -->

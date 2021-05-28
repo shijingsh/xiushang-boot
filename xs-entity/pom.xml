@@ -8,7 +8,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.shijingsh</groupId>
-    <artifactId>mg-entity</artifactId>
+    <artifactId>xs-entity</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
     <properties>
@@ -21,7 +21,7 @@
 
     </dependencies>
     <build>
-        <finalName>mg-entity</finalName>
+        <finalName>xs-entity</finalName>
         <defaultGoal>compile</defaultGoal>
         <plugins>
             <!-- query dsl 自动生成相应的查询类-->
