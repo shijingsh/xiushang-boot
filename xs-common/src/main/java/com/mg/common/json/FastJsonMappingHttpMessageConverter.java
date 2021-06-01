@@ -38,7 +38,8 @@ public class FastJsonMappingHttpMessageConverter extends AbstractHttpMessageConv
     }
 
     public FastJsonMappingHttpMessageConverter() {
-        super(MediaType.ALL);
+       // super(MediaType.ALL);
+        super();
     }
 
     public SerializerFeature[] getSerializerFeature() {
@@ -52,7 +53,7 @@ public class FastJsonMappingHttpMessageConverter extends AbstractHttpMessageConv
 
     @Override
     public boolean canRead(Type type, Class<?> contextClass, MediaType mediaType) {
-        return super.canRead(contextClass, mediaType);
+        return true;
     }
 
     @Override
@@ -63,12 +64,12 @@ public class FastJsonMappingHttpMessageConverter extends AbstractHttpMessageConv
 
     @Override
     public boolean canWrite(Type type, Class<?> contextClass, MediaType mediaType) {
-        return super.canWrite(contextClass, mediaType);
+        return true;
     }
 
     @Override
     public void write(Object t, Type type, MediaType contentType, HttpOutputMessage outputMessage) throws IOException, HttpMessageNotWritableException {
-        HttpHeaders headers = outputMessage.getHeaders();
+       /* HttpHeaders headers = outputMessage.getHeaders();
         if (headers.getContentType() == null) {
             if (contentType == null || contentType.isWildcardType() || contentType.isWildcardSubtype()) {
                 contentType = this.getDefaultContentType(t);
@@ -84,7 +85,7 @@ public class FastJsonMappingHttpMessageConverter extends AbstractHttpMessageConv
             if (contentLength != null) {
                 headers.setContentLength(contentLength);
             }
-        }
+        }*/
 
         this.writeInternal(t, outputMessage);
         outputMessage.getBody().flush();

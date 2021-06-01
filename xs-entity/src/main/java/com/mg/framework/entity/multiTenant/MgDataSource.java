@@ -3,10 +3,9 @@ package com.mg.framework.entity.multiTenant;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.pool.DruidPooledConnection;
 import com.mg.framework.sys.PropertyConfigurer;
-import org.apache.shiro.SecurityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.mg.framework.log.Constants;
+
 import java.sql.SQLException;
 
 
@@ -57,6 +56,6 @@ public class MgDataSource extends DruidDataSource {
     }
 
     public static String getTenantID() {
-        return (String) SecurityUtils.getSubject().getSession().getAttribute(Constants.TENANT_ID);
+        return "";//(String) SecurityUtils.getSubject().getSession().getAttribute(Constants.TENANT_ID);
     }
 }

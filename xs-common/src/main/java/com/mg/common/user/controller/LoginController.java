@@ -7,7 +7,6 @@ import com.mg.common.entity.InstanceEntity;
 import com.mg.common.entity.SystemParamEntity;
 import com.mg.common.entity.UserEntity;
 import com.mg.common.instance.service.InstanceService;
-import com.mg.common.shiro.service.UserRealm;
 import com.mg.common.user.service.SystemParamService;
 import com.mg.common.user.service.UserService;
 import com.mg.common.user.vo.PhoneDecryptInfo;
@@ -26,7 +25,6 @@ import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.mgt.RealmSecurityManager;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -55,17 +53,6 @@ public class LoginController {
     private SmsService smsService;
     @Autowired
     private SystemParamService systemParamService;
-    /**
-     * 清理权限缓存
-     */
-    @RequestMapping("/clearAuth")
-    @ResponseBody
-    public boolean clearCachedAuthorization() {
-        RealmSecurityManager rsm = (RealmSecurityManager)SecurityUtils.getSecurityManager();
-        UserRealm realm = (UserRealm)rsm.getRealms().iterator().next();
-        realm.clearCachedAuthorization();
-        return true;
-    }
 
     @ApiOperation(value = "手机号码登陆")
     @ResponseBody

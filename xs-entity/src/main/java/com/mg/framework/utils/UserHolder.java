@@ -1,10 +1,6 @@
 package com.mg.framework.utils;
 
 import com.mg.common.entity.UserEntity;
-import com.mg.framework.log.Constants;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +16,10 @@ public class UserHolder {
      */
     public static UserEntity getLoginUser() {
 
-        Subject currentUser = SecurityUtils.getSubject();
+       /* Subject currentUser = SecurityUtils.getSubject();
         UserEntity user = (UserEntity) currentUser.getPrincipal();
-
-        return user;
+*/
+        return null;
     }
 
     /**
@@ -34,7 +30,7 @@ public class UserHolder {
         if (user == null) {
             return null;
         }
-        return user.getId();
+        return "user.getId()";
     }
 
     /**
@@ -52,8 +48,7 @@ public class UserHolder {
      * 获得当前登录者的User instanceId
      */
     public static String getLoginUserTenantId() {
-        Session session = SecurityUtils.getSubject().getSession();
-        return session.getAttribute(Constants.TENANT_ID) + "";
+        return  "";
     }
 
 }

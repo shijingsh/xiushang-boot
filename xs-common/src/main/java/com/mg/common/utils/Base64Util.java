@@ -1,15 +1,14 @@
 package com.mg.common.utils;
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.util.Base64Utils;
-import sun.misc.BASE64Decoder;
+//import sun.misc.BASE64Decoder;
 
 import java.io.*;
 
 
 public class Base64Util {
 
-    public static String ImageToBase64ByLocal(String imgFile) {
+   /* public static String ImageToBase64ByLocal(String imgFile) {
         byte[] data = null;
         // 读取图片字节数组
         try {
@@ -23,7 +22,7 @@ public class Base64Util {
         }
         // 返回Base64编码过的字节数组字符串
         return Base64Utils.encodeToString(data);
-    }
+    }*/
 
     /**
      * base64字符串转换成图片 (对字节数组字符串进行Base64解码并生成图片)

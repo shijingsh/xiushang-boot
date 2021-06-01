@@ -1,8 +1,6 @@
 
 package com.mg.framework.entity.model;
 
-import com.mg.framework.utils.UserHolder;
-
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.util.Date;
@@ -25,10 +23,10 @@ public class EntityListener {
 	public void prePersist(BaseEntity entity) {
 		entity.setCreatedDate(new Date());
 		entity.setUpdatedDate(new Date());
-		if(UserHolder.getLoginUser()!=null){
+		/*if(UserHolder.getLoginUser()!=null){
 			entity.setCreatedById(UserHolder.getLoginUserId());
 			entity.setUpdatedById(UserHolder.getLoginUserId());
-		}
+		}*/
 	}
 
 	/**
@@ -40,9 +38,9 @@ public class EntityListener {
 	@PreUpdate
 	public void preUpdate(BaseEntity entity) {
 		entity.setUpdatedDate(new Date());
-		if(UserHolder.getLoginUser()!=null){
+		/*if(UserHolder.getLoginUser()!=null){
 			entity.setUpdatedById(UserHolder.getLoginUserId());
-		}
+		}*/
 	}
 
 }

@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 
 import com.querydsl.core.types.Predicate;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 /**
@@ -16,6 +18,11 @@ import java.util.Optional;
 public abstract class BaseServiceImpl<T> {
     @Autowired
     private BaseDao<T> baseDao;
+    @Autowired
+    private HttpServletRequest request;
+
+    @Autowired
+    private HttpServletResponse response;
 
     public T save(T t){
        return baseDao.save(t);
