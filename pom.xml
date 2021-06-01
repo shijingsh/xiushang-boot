@@ -7,7 +7,7 @@
     <version>7</version>
   </parent>
   <groupId>com.github.shijingsh</groupId>
-  <artifactId>mg2-framework</artifactId>
+  <artifactId>xiushang-boot</artifactId>
   <version>1.0.0</version>
   <modules>
     <module>xs-entity</module>
@@ -15,7 +15,7 @@
     <module>xs-pay</module>
   </modules>
   <packaging>pom</packaging>
-  <name>mg2-framework</name>
+  <name>xiushang-boot</name>
   <url>http://maven.apache.org</url>
 
   <licenses>
@@ -26,8 +26,8 @@
     </license>
   </licenses>
   <scm>
-    <url>https://github.com/shijingsh/mg2-framework</url>
-    <connection>scm:git:git@github.com:shijingsh/mg2-framework.git</connection>
+    <url>https://github.com/shijingsh/xiushang-boot</url>
+    <connection>scm:git:git@github.com:shijingsh/xiushang-boot.git</connection>
     <developerConnection>https://github.com/shijingsh</developerConnection>
   </scm>
   <developers>
@@ -65,7 +65,7 @@
     <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
   </properties>
   <build>
-    <finalName>mg2-framework</finalName>
+    <finalName>xiushang-boot</finalName>
     <defaultGoal>compile</defaultGoal>
     <!-- resource and testResource -->
     <resources>
