@@ -12,16 +12,8 @@ import com.mg.common.user.service.SmsCodeService;
 import com.mg.framework.sys.PropertyConfigurer;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
-import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.util.Date;
 
 /**
  * 短信服务类
