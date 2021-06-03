@@ -179,6 +179,22 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>xs-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>xs-entity</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
     <dependencies>
 
         <dependency>
@@ -201,6 +217,11 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
         <dependency>
