@@ -1,6 +1,5 @@
 package com.mg.framework.entity.model;
 
-import com.mg.framework.entity.multiTenant.MgDataSource;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.MappingException;
 import org.hibernate.dialect.Dialect;
@@ -63,7 +62,7 @@ public class TableStringGenerator extends TableGenerator {
 
         // 是空的，就用传统的方式自动生成。
 //        logger.debug("ojb: " + obj.toString());
-        String instanceSeqId =  MgDataSource.getTenantID();
+        String instanceSeqId =  "MgDataSource.getTenantID()";
         String id;
         if(instanceSeqId == null) {
             //logger.warn("没有找到对应的实例，采用缺省的的主键生成方式");
