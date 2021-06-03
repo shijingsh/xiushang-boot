@@ -23,9 +23,6 @@ import com.mg.framework.utils.WebUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -63,21 +60,21 @@ public class LoginController {
             return CommonResult.error(100000, "用户名,密码不能为空。");
         }
 
-        Subject subject = SecurityUtils.getSubject();
+        //Subject subject = SecurityUtils.getSubject();
         //判断是否启用多实例
         String userToken = getInstanceUserToken(userEntity);
-        subject.getSession().setAttribute(Constants.TENANT_ID, null);
+        //subject.getSession().setAttribute(Constants.TENANT_ID, null);
         //切换数据库到默认实例
         InstanceEntity instanceEntity = null;
         if (StringUtils.isNotBlank(userToken)) {
             instanceEntity = instanceService.findInstanceByToken(userToken);
         }
         if (instanceEntity != null) {
-            subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
+           // subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
         }
         try {
-            UsernamePasswordToken token = new UsernamePasswordToken(userEntity.getLoginName(), MD5.GetMD5Code(userEntity.getPassword()));
-            subject.login(token);
+           // UsernamePasswordToken token = new UsernamePasswordToken(userEntity.getLoginName(), MD5.GetMD5Code(userEntity.getPassword()));
+            //subject.login(token);
         } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.error(100000, e.getMessage());
@@ -108,17 +105,17 @@ public class LoginController {
             return CommonResult.error(100000, "没有第三方授权信息。");
         }
 
-        Subject subject = SecurityUtils.getSubject();
+        //Subject subject = SecurityUtils.getSubject();
         //判断是否启用多实例
         String userToken = thirdUserVo.getUserToken();
-        subject.getSession().setAttribute(Constants.TENANT_ID, null);
+        //subject.getSession().setAttribute(Constants.TENANT_ID, null);
         //切换数据库到默认实例
         InstanceEntity instanceEntity = null;
         if (StringUtils.isNotBlank(userToken)) {
             instanceEntity = instanceService.findInstanceByToken(userToken);
         }
         if (instanceEntity != null) {
-            subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
+            //subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
         }
         UserEntity userEntity = null;
         try {
@@ -146,8 +143,8 @@ public class LoginController {
                 }
             }
 
-            UsernamePasswordToken token = new UsernamePasswordToken(userEntity.getLoginName(), userEntity.getPassword());
-            subject.login(token);
+           // UsernamePasswordToken token = new UsernamePasswordToken(userEntity.getLoginName(), userEntity.getPassword());
+           // subject.login(token);
         } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.error(100000, e.getMessage());
@@ -209,16 +206,16 @@ public class LoginController {
             JSONObject jsonObject = JSON.parseObject(json);
             String errcode = jsonObject.getString("errcode");
             if (StringUtils.isBlank(errcode)) {
-                Subject subject = SecurityUtils.getSubject();
+                //Subject subject = SecurityUtils.getSubject();
                 //判断是否启用多实例
-                subject.getSession().setAttribute(Constants.TENANT_ID, null);
+                //subject.getSession().setAttribute(Constants.TENANT_ID, null);
                 //切换数据库到默认实例
                 InstanceEntity instanceEntity = null;
                 if (StringUtils.isNotBlank(userToken)) {
                     instanceEntity = instanceService.findInstanceByToken(userToken);
                 }
                 if (instanceEntity != null) {
-                    subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
+                   // subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
                 }
                 UserEntity userEntity = null;
                 try {
@@ -280,8 +277,8 @@ public class LoginController {
                     }
 
 
-                    UsernamePasswordToken token = new UsernamePasswordToken(userEntity.getLoginName(), userEntity.getPassword());
-                    subject.login(token);
+                    //UsernamePasswordToken token = new UsernamePasswordToken(userEntity.getLoginName(), userEntity.getPassword());
+                    //subject.login(token);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return CommonResult.error(100000, e.getMessage());
@@ -319,8 +316,8 @@ public class LoginController {
     @ResponseBody
     @RequestMapping("/loginOut")
     public CommonResult loginOut() {
-        Subject subject = SecurityUtils.getSubject();
-        subject.logout();
+        //Subject subject = SecurityUtils.getSubject();
+        //subject.logout();
         return CommonResult.success();
     }
 

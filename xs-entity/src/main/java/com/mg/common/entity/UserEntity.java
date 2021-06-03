@@ -96,8 +96,6 @@ public class UserEntity extends ExpandEntity {
     @Transient
     private String userToken;
 
-    @Transient
-    private String companyName;
     /**
      * 短信验证码
      */
@@ -195,14 +193,6 @@ public class UserEntity extends ExpandEntity {
 
     public String getUserToken() {
         return userToken;
-    }
-
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
     }
 
     public void setUserToken(String userToken) {

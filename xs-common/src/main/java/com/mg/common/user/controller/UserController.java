@@ -17,8 +17,6 @@ import com.mg.framework.utils.WebUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.session.Session;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -88,8 +86,8 @@ public class UserController {
         } catch (Exception e) {
             return CommonResult.error(10000, "修改密码失败！");
         }
-        Session session = SecurityUtils.getSubject().getSession();
-        session.setAttribute(Constants.CURRENT_USER, userEntity);
+        //Session session = SecurityUtils.getSubject().getSession();
+        //session.setAttribute(Constants.CURRENT_USER, userEntity);
         return CommonResult.success(userEntity);
     }
 
@@ -130,8 +128,8 @@ public class UserController {
         } catch (Exception e) {
             return CommonResult.error(10000, "修改密码失败！");
         }
-        Session session = SecurityUtils.getSubject().getSession();
-        session.setAttribute(Constants.CURRENT_USER, userEntity);
+        //Session session = SecurityUtils.getSubject().getSession();
+        //session.setAttribute(Constants.CURRENT_USER, userEntity);
         return CommonResult.success();
     }
 
