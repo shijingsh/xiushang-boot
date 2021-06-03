@@ -12,7 +12,6 @@
   <modules>
     <module>xs-entity</module>
     <module>xs-common</module>
-    <module>xs-pay</module>
   </modules>
   <packaging>pom</packaging>
   <name>xiushang-boot</name>

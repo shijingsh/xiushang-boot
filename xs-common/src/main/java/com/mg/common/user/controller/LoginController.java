@@ -6,7 +6,6 @@ import com.mg.common.components.SmsService;
 import com.mg.common.entity.InstanceEntity;
 import com.mg.common.entity.SystemParamEntity;
 import com.mg.common.entity.UserEntity;
-import com.mg.common.instance.service.InstanceService;
 import com.mg.common.user.service.SystemParamService;
 import com.mg.common.user.service.UserService;
 import com.mg.common.user.vo.PhoneDecryptInfo;
@@ -15,9 +14,7 @@ import com.mg.common.user.vo.ThirdUserVo;
 import com.mg.common.utils.AESGetPhoneNumber;
 import com.mg.common.utils.HttpClientUtil;
 import com.mg.common.utils.JsonUtils;
-import com.mg.common.utils.MD5;
 import com.mg.framework.log.CommonResult;
-import com.mg.framework.log.Constants;
 import com.mg.framework.sys.PropertyConfigurer;
 import com.mg.framework.utils.WebUtil;
 import io.swagger.annotations.Api;
@@ -45,8 +42,6 @@ public class LoginController {
     @Autowired
     private UserService userService;
     @Autowired
-    private InstanceService instanceService;
-    @Autowired
     private SmsService smsService;
     @Autowired
     private SystemParamService systemParamService;
@@ -67,7 +62,7 @@ public class LoginController {
         //切换数据库到默认实例
         InstanceEntity instanceEntity = null;
         if (StringUtils.isNotBlank(userToken)) {
-            instanceEntity = instanceService.findInstanceByToken(userToken);
+           // instanceEntity = instanceService.findInstanceByToken(userToken);
         }
         if (instanceEntity != null) {
            // subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
@@ -112,7 +107,7 @@ public class LoginController {
         //切换数据库到默认实例
         InstanceEntity instanceEntity = null;
         if (StringUtils.isNotBlank(userToken)) {
-            instanceEntity = instanceService.findInstanceByToken(userToken);
+            //instanceEntity = instanceService.findInstanceByToken(userToken);
         }
         if (instanceEntity != null) {
             //subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
@@ -212,7 +207,7 @@ public class LoginController {
                 //切换数据库到默认实例
                 InstanceEntity instanceEntity = null;
                 if (StringUtils.isNotBlank(userToken)) {
-                    instanceEntity = instanceService.findInstanceByToken(userToken);
+                   // instanceEntity = instanceService.findInstanceByToken(userToken);
                 }
                 if (instanceEntity != null) {
                    // subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
