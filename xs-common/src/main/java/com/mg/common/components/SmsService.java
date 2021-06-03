@@ -10,8 +10,8 @@ import com.aliyuncs.profile.IClientProfile;
 import com.mg.common.entity.SmsCodeEntity;
 import com.mg.common.user.service.SmsCodeService;
 import com.mg.framework.sys.PropertyConfigurer;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +19,8 @@ import org.springframework.stereotype.Service;
  * 短信服务类
  */
 @Service
+@Slf4j
 public class SmsService {
-	protected final Logger logger = Logger.getLogger("SmsMsgLog");
 
 	//产品名称:云通信短信API产品,开发者无需替换
 	static final String product = "Dysmsapi";
@@ -85,11 +85,11 @@ public class SmsService {
 	}
 	public int sendSms(String mobile, String templateParam,String templateCode) throws Exception {
 		SendSmsResponse response = sendSmsAliyun(mobile,templateParam,templateCode);
-		logger.info("=======================================");
-		logger.info("code:"+response.getCode());
-		logger.info("message:"+response.getMessage());
-		logger.info("bizId:"+response.getBizId());
-		logger.info("requestId:"+response.getRequestId());
+		log.info("=======================================");
+		log.info("code:"+response.getCode());
+		log.info("message:"+response.getMessage());
+		log.info("bizId:"+response.getBizId());
+		log.info("requestId:"+response.getRequestId());
 		if(response.getCode() != null && response.getCode().equals("OK")) {
 			return 1;
 		}

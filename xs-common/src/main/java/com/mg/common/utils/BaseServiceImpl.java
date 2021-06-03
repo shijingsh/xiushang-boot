@@ -19,10 +19,10 @@ public abstract class BaseServiceImpl<T> {
     @Autowired
     private BaseDao<T> baseDao;
     @Autowired
-    private HttpServletRequest request;
+    public HttpServletRequest request;
 
     @Autowired
-    private HttpServletResponse response;
+    public HttpServletResponse response;
 
     public T save(T t){
        return baseDao.save(t);

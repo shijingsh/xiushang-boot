@@ -1,5 +1,6 @@
 package com.mg.common.utils;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.http.*;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -14,7 +15,6 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
 
 import javax.net.ssl.*;
 import java.io.IOException;
@@ -25,9 +25,9 @@ import java.security.cert.X509Certificate;
 import java.util.*;
 import java.util.Map.Entry;
 
+@Slf4j
 public class HttpClientUtil
 {
-  private static Logger logger = Logger.getLogger(HttpClientUtil.class);
 
   public static String sendGetRequest(String reqURL)
   {
@@ -63,19 +63,19 @@ public class HttpClientUtil
       System.out.println("url："+reqURL);
     }
     catch (ConnectTimeoutException cte) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时连接超时,堆栈轨迹如下").toString(), cte);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时连接超时,堆栈轨迹如下").toString(), cte);
     } catch (SocketTimeoutException ste) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时读取超时,堆栈轨迹如下").toString(), ste);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时读取超时,堆栈轨迹如下").toString(), ste);
     }
     catch (ClientProtocolException cpe) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时协议异常,堆栈轨迹如下").toString(), cpe);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时协议异常,堆栈轨迹如下").toString(), cpe);
     } catch (ParseException pe) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时解析异常,堆栈轨迹如下").toString(), pe);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时解析异常,堆栈轨迹如下").toString(), pe);
     }
     catch (IOException ioe) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时网络异常,堆栈轨迹如下").toString(), ioe);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时网络异常,堆栈轨迹如下").toString(), ioe);
     } catch (Exception e) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时偶遇异常,堆栈轨迹如下").toString(), e);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时偶遇异常,堆栈轨迹如下").toString(), e);
     }
     finally {
       httpClient.getConnectionManager().shutdown();
@@ -111,11 +111,11 @@ public class HttpClientUtil
         EntityUtils.consume(entity);
       }
     } catch (ConnectTimeoutException cte) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时连接超时,堆栈轨迹如下").toString(), cte);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时连接超时,堆栈轨迹如下").toString(), cte);
     } catch (SocketTimeoutException ste) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时读取超时,堆栈轨迹如下").toString(), ste);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时读取超时,堆栈轨迹如下").toString(), ste);
     } catch (Exception e) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时偶遇异常,堆栈轨迹如下").toString(), e);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时偶遇异常,堆栈轨迹如下").toString(), e);
     } finally {
       httpClient.getConnectionManager().shutdown();
     }
@@ -181,13 +181,13 @@ public class HttpClientUtil
       }
     }
     catch (ConnectTimeoutException cte) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时连接超时,堆栈轨迹如下").toString(), cte);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时连接超时,堆栈轨迹如下").toString(), cte);
     }
     catch (SocketTimeoutException ste) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时读取超时,堆栈轨迹如下").toString(), ste);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时读取超时,堆栈轨迹如下").toString(), ste);
     }
     catch (Exception e) {
-      logger.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时偶遇异常,堆栈轨迹如下").toString(), e);
+      log.error(new StringBuilder().append("请求通信[").append(reqURL).append("]时偶遇异常,堆栈轨迹如下").toString(), e);
     } finally {
       httpClient.getConnectionManager().shutdown();
     }
