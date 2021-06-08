@@ -1,7 +1,7 @@
 package com.xiushang.common.user.controller;
 
 import com.xiushang.common.components.SmsService;
-import com.xiushang.common.entity.UserEntity;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.RegisterVo;
 import com.xiushang.common.utils.MD5;

@@ -1,7 +1,7 @@
 package com.xiushang.common.user.controller;
 
 import com.xiushang.common.components.SmsService;
-import com.xiushang.common.entity.SmsCodeEntity;
+import com.xiushang.entity.SmsCodeEntity;
 import com.xiushang.common.user.service.SmsCodeService;
 
 import com.xiushang.framework.log.CommonResult;

@@ -1,6 +1,7 @@
-package com.xiushang.framework.entity.model;
+package com.xiushang.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.xiushang.framework.entity.model.EntityListener;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.collection.spi.PersistentCollection;

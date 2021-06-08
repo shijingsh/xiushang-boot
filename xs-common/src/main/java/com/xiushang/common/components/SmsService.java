@@ -7,7 +7,7 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
-import com.xiushang.common.entity.SmsCodeEntity;
+import com.xiushang.entity.SmsCodeEntity;
 import com.xiushang.common.user.service.SmsCodeService;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import lombok.extern.slf4j.Slf4j;

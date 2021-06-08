@@ -1,6 +1,6 @@
 package com.xiushang.common.user.service;
 
-import com.xiushang.common.entity.SmsCodeEntity;
+import com.xiushang.entity.SmsCodeEntity;
 
 /**
  * Created by liukefu on 2017/6/24.

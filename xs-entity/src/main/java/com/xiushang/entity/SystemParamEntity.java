@@ -1,6 +1,4 @@
-package com.xiushang.common.entity;
-
-import com.xiushang.framework.entity.model.BaseEntity;
+package com.xiushang.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;

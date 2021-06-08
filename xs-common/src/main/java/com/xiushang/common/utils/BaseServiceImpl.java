@@ -1,5 +1,6 @@
 package com.xiushang.common.utils;
 
+import com.xiushang.jpa.repository.BaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

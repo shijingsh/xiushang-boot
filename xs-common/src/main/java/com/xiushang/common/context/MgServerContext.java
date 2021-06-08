@@ -1,6 +1,6 @@
 package com.xiushang.common.context;
 
-import com.xiushang.common.entity.InstanceEntity;
+import com.xiushang.entity.InstanceEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

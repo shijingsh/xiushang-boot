@@ -3,7 +3,7 @@ package com.xiushang.common.user.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.xiushang.common.entity.SystemParamEntity;
+import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.common.upload.service.UploadService;
 import com.xiushang.common.upload.vo.UploadBean;
 import com.xiushang.common.user.service.SystemParamService;

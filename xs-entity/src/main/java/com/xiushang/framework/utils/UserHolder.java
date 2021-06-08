@@ -1,6 +1,6 @@
 package com.xiushang.framework.utils;
 
-import com.xiushang.common.entity.UserEntity;
+import com.xiushang.entity.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

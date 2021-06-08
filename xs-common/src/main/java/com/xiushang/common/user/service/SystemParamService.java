@@ -1,6 +1,6 @@
 package com.xiushang.common.user.service;
 
-import com.xiushang.common.entity.SystemParamEntity;
+import com.xiushang.entity.SystemParamEntity;
 
 public interface SystemParamService {
 

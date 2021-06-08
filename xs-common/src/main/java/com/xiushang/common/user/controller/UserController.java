@@ -2,7 +2,7 @@ package com.xiushang.common.user.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.xiushang.common.components.SmsService;
-import com.xiushang.common.entity.UserEntity;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.common.upload.service.UploadService;
 import com.xiushang.common.upload.vo.UploadBean;
 import com.xiushang.common.user.service.UserService;

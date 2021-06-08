@@ -1,7 +1,7 @@
 package com.xiushang.common.user.service;
 
-import com.xiushang.common.entity.SmsCodeEntity;
-import com.xiushang.common.user.dao.SmsCodeDao;
+import com.xiushang.entity.SmsCodeEntity;
+import com.xiushang.jpa.repository.SmsCodeDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

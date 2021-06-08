@@ -1,5 +1,6 @@
 package com.xiushang.framework.entity.model;
 
+import com.xiushang.entity.BaseEntity;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.MappingException;
 import org.hibernate.dialect.Dialect;

@@ -1,6 +1,4 @@
-package com.xiushang.common.entity;
-
-import com.xiushang.framework.entity.model.BaseEntity;
+package com.xiushang.entity;
 
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;

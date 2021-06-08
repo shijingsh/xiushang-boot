@@ -1,6 +1,6 @@
 package com.xiushang.common.user.service;
 
-import com.xiushang.common.entity.UserEntity;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.common.user.vo.ThirdUserVo;
 import com.xiushang.framework.entity.vo.PageTableVO;
 

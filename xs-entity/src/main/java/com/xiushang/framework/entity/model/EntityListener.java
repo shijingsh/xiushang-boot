@@ -1,6 +1,8 @@
 
 package com.xiushang.framework.entity.model;
 
+import com.xiushang.entity.BaseEntity;
+
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import java.util.Date;

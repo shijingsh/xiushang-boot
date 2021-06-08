@@ -1,4 +1,4 @@
-package com.xiushang.common.entity;
+package com.xiushang.entity;
 
 import com.xiushang.framework.utils.StatusEnum;
 import org.hibernate.annotations.CacheConcurrencyStrategy;

@@ -1,7 +1,6 @@
-package com.xiushang.common.user.dao;
+package com.xiushang.jpa.repository;
 
-import com.xiushang.common.entity.UserEntity;
-import com.xiushang.common.utils.BaseDao;
+import com.xiushang.entity.UserEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository

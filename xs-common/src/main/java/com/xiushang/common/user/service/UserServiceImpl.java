@@ -1,9 +1,9 @@
 package com.xiushang.common.user.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xiushang.common.entity.QUserEntity;
-import com.xiushang.common.entity.UserEntity;
-import com.xiushang.common.user.dao.UserDao;
+import com.xiushang.entity.QUserEntity;
+import com.xiushang.entity.UserEntity;
+import com.xiushang.jpa.repository.UserDao;
 import com.xiushang.common.user.vo.ThirdUserVo;
 import com.xiushang.common.utils.MD5;
 import com.xiushang.framework.entity.vo.PageTableVO;
