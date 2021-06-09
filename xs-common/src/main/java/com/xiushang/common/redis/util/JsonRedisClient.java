@@ -4,9 +4,11 @@ package com.xiushang.common.redis.util;
 import com.xiushang.common.redis.dao.AbstractBaseRedisDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
 
+@Component
 public class JsonRedisClient extends AbstractBaseRedisDao
 {
   private JsonRedisSeriaziler jsonRedisSeriaziler;
