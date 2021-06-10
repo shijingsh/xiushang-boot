@@ -3,6 +3,8 @@ package com.xiushang.common.user.controller;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.xiushang.common.components.SmsService;
+import com.xiushang.common.utils.MD5;
+import com.xiushang.constant.ConstantKey;
 import com.xiushang.entity.InstanceEntity;
 import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.entity.UserEntity;
@@ -16,7 +18,10 @@ import com.xiushang.common.utils.HttpClientUtil;
 import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.sys.PropertyConfigurer;
+import com.xiushang.framework.utils.StatusEnum;
 import com.xiushang.framework.utils.WebUtil;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -27,7 +32,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 用户登录/退出
@@ -57,7 +64,7 @@ public class LoginController {
 
         //Subject subject = SecurityUtils.getSubject();
         //判断是否启用多实例
-        String userToken = getInstanceUserToken(userEntity);
+        /*String userToken = getInstanceUserToken(userEntity);
         //subject.getSession().setAttribute(Constants.TENANT_ID, null);
         //切换数据库到默认实例
         InstanceEntity instanceEntity = null;
@@ -66,15 +73,27 @@ public class LoginController {
         }
         if (instanceEntity != null) {
            // subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
-        }
+        }*/
+        UserEntity user = userService.getUser(userEntity.getLoginName());
         try {
            // UsernamePasswordToken token = new UsernamePasswordToken(userEntity.getLoginName(), MD5.GetMD5Code(userEntity.getPassword()));
             //subject.login(token);
+            if(user==null){
+                return CommonResult.error(100000, "用户不存在！");
+            }
+            if(!user.getPassword().equals(MD5.GetMD5Code(userEntity.getPassword()))){
+                return CommonResult.error(100001, "用户名或密码错误！");
+            }
+            if(user.getStatus()!= StatusEnum.STATUS_VALID){
+                return CommonResult.error(100001, "用户已冻结！");
+            }
+
+            user = this.createToken(userEntity);
         } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.error(100000, e.getMessage());
         }
-        UserEntity user = userService.getUser(userEntity.getLoginName());
+
         if(user!=null){
             user.setLastLoginPlatform(userEntity.getLastLoginPlatform());
             userService.updateUserLastLoginDate(user);
@@ -102,16 +121,16 @@ public class LoginController {
 
         //Subject subject = SecurityUtils.getSubject();
         //判断是否启用多实例
-        String userToken = thirdUserVo.getUserToken();
+        //String userToken = thirdUserVo.getUserToken();
         //subject.getSession().setAttribute(Constants.TENANT_ID, null);
         //切换数据库到默认实例
-        InstanceEntity instanceEntity = null;
-        if (StringUtils.isNotBlank(userToken)) {
+        //InstanceEntity instanceEntity = null;
+        //if (StringUtils.isNotBlank(userToken)) {
             //instanceEntity = instanceService.findInstanceByToken(userToken);
-        }
-        if (instanceEntity != null) {
+        //}
+        //if (instanceEntity != null) {
             //subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
-        }
+        //}
         UserEntity userEntity = null;
         try {
             if (StringUtils.isNotBlank(thirdUserVo.getMobile())) {
@@ -119,6 +138,7 @@ public class LoginController {
 
                 String code = thirdUserVo.getVerifyCode();
                 if (StringUtils.isBlank(code)) {
+                    //绑定手机号码，需要验证码
                     return CommonResult.error(100002, "验证码不能为空。");
                 }
                 if(smsService.validateCode(thirdUserVo.getMobile(),code)){
@@ -140,6 +160,7 @@ public class LoginController {
 
            // UsernamePasswordToken token = new UsernamePasswordToken(userEntity.getLoginName(), userEntity.getPassword());
            // subject.login(token);
+            userEntity = this.createToken(userEntity);
         } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.error(100000, e.getMessage());
@@ -205,13 +226,13 @@ public class LoginController {
                 //判断是否启用多实例
                 //subject.getSession().setAttribute(Constants.TENANT_ID, null);
                 //切换数据库到默认实例
-                InstanceEntity instanceEntity = null;
-                if (StringUtils.isNotBlank(userToken)) {
+                //InstanceEntity instanceEntity = null;
+                //if (StringUtils.isNotBlank(userToken)) {
                    // instanceEntity = instanceService.findInstanceByToken(userToken);
-                }
-                if (instanceEntity != null) {
+                //}
+                //if (instanceEntity != null) {
                    // subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
-                }
+                //}
                 UserEntity userEntity = null;
                 try {
                     String unionId = jsonObject.getString("unionid");
@@ -274,6 +295,7 @@ public class LoginController {
 
                     //UsernamePasswordToken token = new UsernamePasswordToken(userEntity.getLoginName(), userEntity.getPassword());
                     //subject.login(token);
+                    userEntity = this.createToken(userEntity);
                 } catch (Exception e) {
                     e.printStackTrace();
                     return CommonResult.error(100000, e.getMessage());
@@ -416,6 +438,22 @@ public class LoginController {
             return CommonResult.error(100004, "验证码输入错误");
         }
         return CommonResult.success(user);
+    }
+
+    private UserEntity createToken(UserEntity userEntity){
+        // 这里可以根据用户信息查询对应的角色信息，这里为了简单，我直接设置个空list
+        List roleList = new ArrayList<>();
+        String subject = userEntity.getLoginName() + "-" + roleList;
+        String token = Jwts.builder()
+                .setSubject(subject)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 365 * 24 * 60 * 60 * 1000)) // 设置过期时间 365 * 24 * 60 * 60秒(这里为了方便测试，所以设置了1年的过期时间，实际项目需要根据自己的情况修改)
+                .signWith(SignatureAlgorithm.HS512, ConstantKey.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
+                .compact();
+
+        userEntity.setUserToken(token);
+
+        return userEntity;
     }
 
 }

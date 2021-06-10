@@ -23,6 +23,12 @@
             <artifactId>xs-entity</artifactId>
             <version>1.0.0</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-jwt-security</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
         <!-- Jedis -->
         <!--<dependency>
             <groupId>org.crazycake</groupId>
