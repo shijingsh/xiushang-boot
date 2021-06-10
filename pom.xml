@@ -12,6 +12,7 @@
     <modules>
         <module>xs-entity</module>
         <module>xs-common</module>
+        <module>xs-jwt-security</module>
     </modules>
     <packaging>pom</packaging>
     <name>xiushang-boot</name>
@@ -64,6 +65,7 @@
         <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
         <commons-pool2.version>2.5.0</commons-pool2.version>
         <druid.version>1.2.6</druid.version>
+        <jjwt.version>0.9.1</jjwt.version>
     </properties>
     <build>
         <finalName>xiushang-boot</finalName>
@@ -277,6 +279,18 @@
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
             <version>${druid.version}</version>
+        </dependency>
+
+        <!-- spring-security 和 jwt -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>${jjwt.version}</version>
         </dependency>
 
         <!-- querydsl -->
