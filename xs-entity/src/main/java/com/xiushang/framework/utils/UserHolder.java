@@ -1,25 +1,32 @@
 package com.xiushang.framework.utils;
 
 import com.xiushang.entity.UserEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
+import java.util.Objects;
 
 /**
  *  提供会话中的一些主要常量，如登录者的用户ID等.
  *
  */
 public class UserHolder {
-    private static Logger logger = LoggerFactory.getLogger(UserHolder.class);
 
     /**
      * 获得当前登录者User
      */
     public static UserEntity getLoginUser() {
-
-       /* Subject currentUser = SecurityUtils.getSubject();
-        UserEntity user = (UserEntity) currentUser.getPrincipal();
-*/
-        return null;
+        UserEntity user = null;
+        // 获取用户认证信息对象。
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        // 认证信息可能为空，因此需要进行判断。
+        if (Objects.nonNull(authentication)) {
+            Object principal = authentication.getPrincipal();
+            if (principal instanceof UserEntity) {
+                user = (UserEntity) principal;
+            }
+        }
+        return user;
     }
 
     /**
@@ -30,7 +37,7 @@ public class UserHolder {
         if (user == null) {
             return null;
         }
-        return "user.getId()";
+        return user.getId();
     }
 
     /**
