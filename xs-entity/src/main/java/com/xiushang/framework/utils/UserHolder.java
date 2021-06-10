@@ -1,6 +1,5 @@
 package com.xiushang.framework.utils;
 
-import com.xiushang.entity.UserEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -15,40 +14,19 @@ public class UserHolder {
     /**
      * 获得当前登录者User
      */
-    public static UserEntity getLoginUser() {
-        UserEntity user = null;
+    public static String getLoginName() {
         // 获取用户认证信息对象。
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // 认证信息可能为空，因此需要进行判断。
         if (Objects.nonNull(authentication)) {
             Object principal = authentication.getPrincipal();
-            if (principal instanceof UserEntity) {
-                user = (UserEntity) principal;
-            }
-        }
-        return user;
-    }
 
-    /**
-     * 获得当前登录者的User ID
-     */
-    public static String getLoginUserId() {
-        UserEntity user = getLoginUser();
-        if (user == null) {
-            return null;
-        }
-        return user.getId();
-    }
+            String userName = (String) principal;
+            String loginName = userName.split("-")[0];
 
-    /**
-     * 获得当前登录者的User Name
-     */
-    public static String getLoginUserName() {
-        UserEntity user = getLoginUser();
-        if (user == null) {
-            return null;
+            return loginName;
         }
-        return user.getName();
+        return null;
     }
 
     /**

@@ -312,8 +312,8 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserEntity getUserByRequest(HttpServletRequest request) {
-
-        UserEntity userEntity = UserHolder.getLoginUser();
+        String loginName = UserHolder.getLoginName();
+        UserEntity userEntity = getUser(loginName);
         if(userEntity != null){
             return userEntity;
         }

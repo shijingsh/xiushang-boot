@@ -67,7 +67,7 @@ public class UserController {
         if (psw.length() < 6) {
             return CommonResult.error(1, "密码长度不能少于6位！");
         }
-        String userId = UserHolder.getLoginUserId();
+        String userId = UserHolder.getLoginName();
         if (StringUtils.isBlank(userId)) {
             return CommonResult.error(1, "登录超时，请重新登录！");
         }
@@ -88,48 +88,6 @@ public class UserController {
         //Session session = SecurityUtils.getSubject().getSession();
         //session.setAttribute(Constants.CURRENT_USER, userEntity);
         return CommonResult.success(userEntity);
-    }
-
-    /**
-     * 首次登陆修改密码
-     *
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("/modifyPassFirst")
-    public CommonResult modifyPassFirst() {
-
-        String psw = req.getParameter("newPassword");
-        String pswConfirm = req.getParameter("confirmPassword");
-        UserEntity userSession = UserHolder.getLoginUser();
-        if (userSession.getLastLoginDate() != null) {
-            return CommonResult.error(1, "非法访问");
-        }
-        if (StringUtils.isBlank(psw)) {
-            return CommonResult.error(1, "请输入登录密码");
-        }
-
-        if (psw.length() < 6) {
-            return CommonResult.error(1, "密码长度不能少于6位！");
-        }
-        String userId = UserHolder.getLoginUserId();
-        if (StringUtils.isBlank(userId)) {
-            return CommonResult.error(1, "登录超时，请重新登录！");
-        }
-        UserEntity userEntity = userService.getUserById(userId);
-
-        if (!StringUtils.equals(psw, pswConfirm)) {
-            return CommonResult.error(1, "两次密码输入不一致，请重新输入");
-        }
-        userEntity.setPassword(MD5.GetMD5Code(psw));
-        try {
-            userService.updateUser(userEntity);
-        } catch (Exception e) {
-            return CommonResult.error(10000, "修改密码失败！");
-        }
-        //Session session = SecurityUtils.getSubject().getSession();
-        //session.setAttribute(Constants.CURRENT_USER, userEntity);
-        return CommonResult.success();
     }
 
     @ApiOperation(value = "重置密码")
