@@ -1,23 +1,22 @@
 package com.xiushang.common.user.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.components.SmsService;
-import com.xiushang.entity.UserEntity;
 import com.xiushang.common.upload.service.UploadService;
 import com.xiushang.common.upload.vo.UploadBean;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.ResetPwdVo;
 import com.xiushang.common.utils.MD5;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.CommonResult;
-
 import com.xiushang.framework.utils.UserHolder;
 import com.xiushang.framework.utils.WebUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
@@ -26,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Api(tags = "用户管理")
-@Order(1)
+@ApiSort(value = 1)
 @Controller
 @RequestMapping(value = "/user",
         produces = "application/json; charset=UTF-8")

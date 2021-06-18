@@ -2,20 +2,21 @@ package com.xiushang.common.user.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.components.SmsService;
-import com.xiushang.common.utils.MD5;
-import com.xiushang.constant.ConstantKey;
-import com.xiushang.entity.InstanceEntity;
-import com.xiushang.entity.SystemParamEntity;
-import com.xiushang.entity.UserEntity;
 import com.xiushang.common.user.service.SystemParamService;
 import com.xiushang.common.user.service.UserService;
+import com.xiushang.common.user.vo.LoginVo;
 import com.xiushang.common.user.vo.PhoneDecryptInfo;
-import com.xiushang.common.user.vo.ThirdLoginVo;
+import com.xiushang.common.user.vo.WxLoginVo;
 import com.xiushang.common.user.vo.ThirdUserVo;
 import com.xiushang.common.utils.AESGetPhoneNumber;
 import com.xiushang.common.utils.HttpClientUtil;
 import com.xiushang.common.utils.JsonUtils;
+import com.xiushang.common.utils.MD5;
+import com.xiushang.constant.ConstantKey;
+import com.xiushang.entity.SystemParamEntity;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.model.AuthorizationVo;
 import com.xiushang.framework.sys.PropertyConfigurer;
@@ -27,7 +28,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -40,7 +40,7 @@ import java.util.List;
  * 用户登录/退出
  */
 @Api(tags = "用户管理")
-@Order(1)
+@ApiSort(value = 1)
 @Controller
 @RequestMapping(value = "/",
         produces = "application/json; charset=UTF-8")
@@ -57,9 +57,9 @@ public class LoginController {
     @ApiOperation(value = "手机号码登陆")
     @ResponseBody
     @PostMapping("/login")
-    public CommonResult<UserEntity> login(@RequestBody UserEntity userEntity) {
+    public CommonResult<UserEntity> login(@RequestBody LoginVo loginVo) {
 
-        if (StringUtils.isBlank(userEntity.getLoginName()) || StringUtils.isBlank(userEntity.getPassword())) {
+        if (StringUtils.isBlank(loginVo.getLoginName()) || StringUtils.isBlank(loginVo.getPassword())) {
             return CommonResult.error(100000, "用户名,密码不能为空。");
         }
 
@@ -75,28 +75,28 @@ public class LoginController {
         if (instanceEntity != null) {
            // subject.getSession().setAttribute(Constants.TENANT_ID, instanceEntity.getId());
         }*/
-        UserEntity user = userService.getUser(userEntity.getLoginName());
+        UserEntity user = userService.getUser(loginVo.getLoginName());
         try {
            // UsernamePasswordToken token = new UsernamePasswordToken(userEntity.getLoginName(), MD5.GetMD5Code(userEntity.getPassword()));
             //subject.login(token);
             if(user==null){
                 return CommonResult.error(100000, "用户不存在！");
             }
-            if(!user.getPassword().equals(MD5.GetMD5Code(userEntity.getPassword()))){
+            if(!user.getPassword().equals(MD5.GetMD5Code(loginVo.getPassword()))){
                 return CommonResult.error(100001, "用户名或密码错误！");
             }
             if(user.getStatus()!= StatusEnum.STATUS_VALID){
                 return CommonResult.error(100001, "用户已冻结！");
             }
 
-            user = this.createToken(userEntity);
+            user = this.createToken(user);
         } catch (Exception e) {
             e.printStackTrace();
             return CommonResult.error(100000, e.getMessage());
         }
 
         if(user!=null){
-            user.setLastLoginPlatform(userEntity.getLastLoginPlatform());
+            user.setLastLoginPlatform(loginVo.getLastLoginPlatform());
             userService.updateUserLastLoginDate(user);
         }
 
@@ -182,7 +182,7 @@ public class LoginController {
     @ApiOperation(value = "小程序登陆")
     @ResponseBody
     @PostMapping("/weixinLogin")
-    public CommonResult<UserEntity> weixinLogin(@RequestBody ThirdLoginVo loginVo) {
+    public CommonResult<UserEntity> weixinLogin(@RequestBody WxLoginVo loginVo) {
 
         System.out.println("weixinLogin登录中：");
         System.out.println(JsonUtils.toJsonStr(loginVo));
@@ -330,7 +330,7 @@ public class LoginController {
     /**
      * 退出
      */
-    @ApiOperation(value = "退出登陆")
+    /*@ApiOperation(value = "退出登陆")
     @ResponseBody
     @GetMapping("/loginOut")
     public CommonResult loginOut() {
@@ -338,7 +338,7 @@ public class LoginController {
         //subject.logout();
         return CommonResult.success();
     }
-
+*/
     @ApiOperation(value = "获取微信Token")
     @ResponseBody
     @GetMapping("/weixinToken")

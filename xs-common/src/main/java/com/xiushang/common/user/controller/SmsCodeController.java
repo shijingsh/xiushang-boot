@@ -1,9 +1,9 @@
 package com.xiushang.common.user.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.components.SmsService;
-import com.xiushang.entity.SmsCodeEntity;
 import com.xiushang.common.user.service.SmsCodeService;
-
+import com.xiushang.entity.SmsCodeEntity;
 import com.xiushang.framework.log.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -12,7 +12,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +21,7 @@ import java.util.Date;
 import java.util.Random;
 
 @Api(tags = "用户管理")
-@Order(1)
+@ApiSort(value = 1)
 @Controller
 @RequestMapping(value = "/",
 		produces = "application/json; charset=UTF-8")
@@ -41,7 +40,7 @@ public class SmsCodeController {
      */
 	@ApiOperation(value = "获取验证码")
 	@ResponseBody
-    @GetMapping("verifyCode")
+    @GetMapping("/verifyCode")
     public CommonResult verifyCode(String mobile) {
     	if(StringUtils.isBlank(mobile)) {
 			return CommonResult.error(100000, "请输入手机号码");

@@ -1,6 +1,6 @@
 package com.xiushang.common.user.vo;
 
-public class ThirdLoginVo implements java.io.Serializable{
+public class WxLoginVo implements java.io.Serializable{
 
     private String shopId;
 

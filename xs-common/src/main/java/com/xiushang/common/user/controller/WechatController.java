@@ -18,9 +18,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
@@ -88,7 +86,7 @@ public class WechatController {
 
     @ApiOperation("微信网页分享")
     @ResponseBody
-    @RequestMapping("/config")
+    @GetMapping("/config")
     public CommonResult config() {
         String grant_type = req.getParameter("grant_type");
         String appid = req.getParameter("appid");
@@ -138,7 +136,7 @@ public class WechatController {
 
     @ApiOperation("微信小程序：获取当期页面的分享二维码")
     @ResponseBody
-    @RequestMapping("/miniQrCodeByPage")
+    @PostMapping("/miniQrCodeByPage")
     public CommonResult<String> miniQrCodeByPage(@RequestBody QrCodeVo qrCodeVo) {
 
         String appid = "";

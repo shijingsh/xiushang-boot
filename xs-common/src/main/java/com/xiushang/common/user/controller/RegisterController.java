@@ -1,16 +1,16 @@
 package com.xiushang.common.user.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.components.SmsService;
-import com.xiushang.entity.UserEntity;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.RegisterVo;
 import com.xiushang.common.utils.MD5;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.log.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(tags = "用户管理")
 @Controller
-@Order(1)
+@ApiSort(value = 1)
 @RequestMapping(value = "/",
         produces = "application/json; charset=UTF-8")
 public class RegisterController {
