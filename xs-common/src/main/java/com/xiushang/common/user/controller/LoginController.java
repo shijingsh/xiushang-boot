@@ -17,6 +17,7 @@ import com.xiushang.common.utils.AESGetPhoneNumber;
 import com.xiushang.common.utils.HttpClientUtil;
 import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.framework.log.CommonResult;
+import com.xiushang.framework.model.AuthorizationVo;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import com.xiushang.framework.utils.StatusEnum;
 import com.xiushang.framework.utils.WebUtil;
@@ -26,10 +27,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -40,6 +40,7 @@ import java.util.List;
  * 用户登录/退出
  */
 @Api(tags = "用户管理")
+@Order(1)
 @Controller
 @RequestMapping(value = "/",
         produces = "application/json; charset=UTF-8")
@@ -55,7 +56,7 @@ public class LoginController {
 
     @ApiOperation(value = "手机号码登陆")
     @ResponseBody
-    @RequestMapping("/login")
+    @PostMapping("/login")
     public CommonResult<UserEntity> login(@RequestBody UserEntity userEntity) {
 
         if (StringUtils.isBlank(userEntity.getLoginName()) || StringUtils.isBlank(userEntity.getPassword())) {
@@ -109,7 +110,7 @@ public class LoginController {
      */
     @ApiOperation(value = "第三方授权登陆")
     @ResponseBody
-    @RequestMapping("/loginThird")
+    @PostMapping("/loginThird")
     public CommonResult<UserEntity> loginThird(@RequestBody ThirdUserVo thirdUserVo) {
 
         System.out.println("loginThird登录中：");
@@ -180,7 +181,7 @@ public class LoginController {
      */
     @ApiOperation(value = "小程序登陆")
     @ResponseBody
-    @RequestMapping("/weixinLogin")
+    @PostMapping("/weixinLogin")
     public CommonResult<UserEntity> weixinLogin(@RequestBody ThirdLoginVo loginVo) {
 
         System.out.println("weixinLogin登录中：");
@@ -318,20 +319,20 @@ public class LoginController {
      * @param userEntity
      * @return
      */
-    protected String getInstanceUserToken(UserEntity userEntity) {
+   /* protected String getInstanceUserToken(UserEntity userEntity) {
         if (StringUtils.isNotBlank(userEntity.getUserToken())) {
             return userEntity.getUserToken();
         }
 
         return null;
-    }
+    }*/
 
     /**
      * 退出
      */
     @ApiOperation(value = "退出登陆")
     @ResponseBody
-    @RequestMapping("/loginOut")
+    @GetMapping("/loginOut")
     public CommonResult loginOut() {
         //Subject subject = SecurityUtils.getSubject();
         //subject.logout();
@@ -340,7 +341,7 @@ public class LoginController {
 
     @ApiOperation(value = "获取微信Token")
     @ResponseBody
-    @RequestMapping("/weixinToken")
+    @GetMapping("/weixinToken")
     public CommonResult<String> weixinToken(String grant_type,String appid,String secret) {
 
         if (StringUtils.isNotBlank(grant_type)){
@@ -369,7 +370,7 @@ public class LoginController {
      * 解密并且获取用户手机号码
      */
     @ResponseBody
-    @RequestMapping("/deciphering")
+    @GetMapping("/deciphering")
     public  CommonResult<PhoneDecryptInfo> deciphering(String encryptedData,
                                             String iv, String sessionKey,
                                             HttpServletRequest request) {
@@ -402,7 +403,7 @@ public class LoginController {
 
 
     @ResponseBody
-    @RequestMapping("/bindingMobile")
+    @PostMapping("/bindingMobile")
     public CommonResult<UserEntity> bindingMobile() {
 
         String jsonString = WebUtil.getJsonBody(req);
@@ -451,7 +452,7 @@ public class LoginController {
                 .signWith(SignatureAlgorithm.HS512, ConstantKey.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
                 .compact();
 
-        userEntity.setUserToken(token);
+        userEntity.setAuthorization(new AuthorizationVo(token,"Bearer "));
 
         return userEntity;
     }

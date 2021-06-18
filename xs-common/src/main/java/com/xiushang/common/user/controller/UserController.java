@@ -17,16 +17,16 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Api(tags = "用户管理")
+@Order(1)
 @Controller
 @RequestMapping(value = "/user",
         produces = "application/json; charset=UTF-8")
@@ -42,7 +42,7 @@ public class UserController {
 
     @ApiOperation(value = "修改用户信息")
     @ResponseBody
-    @RequestMapping("/modify")
+    @PostMapping("/modify")
     public CommonResult<UserEntity> modify(@RequestBody UserEntity user) {
 
         try {
@@ -55,7 +55,7 @@ public class UserController {
     }
 
     @ResponseBody
-    @RequestMapping("/modifyPass")
+    @GetMapping("/modifyPass")
     public CommonResult<UserEntity> modifyPass() {
 
         String pswOld = req.getParameter("oldPassword");
@@ -92,7 +92,7 @@ public class UserController {
 
     @ApiOperation(value = "重置密码")
     @ResponseBody
-    @RequestMapping("/resetPassword")
+    @PostMapping("/resetPassword")
     public CommonResult<UserEntity> resetPassword(ResetPwdVo resetPwdVo) {
 
         if (StringUtils.isBlank(resetPwdVo.getLoginName()) || StringUtils.isBlank(resetPwdVo.getPassword())) {
@@ -125,7 +125,7 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/pageList")
+    @PostMapping("/pageList")
     public CommonResult getPageList() {
         String jsonString = WebUtil.getJsonBody(req);
         PageTableVO param = JSON.parseObject(jsonString, PageTableVO.class);
@@ -136,26 +136,12 @@ public class UserController {
     }
 
     /**
-     * 初始化用户登录帐号的密码
-     *
-     * @return
-     */
-    @ResponseBody
-    @RequestMapping("/initPassWord")
-    public CommonResult initPassWord(String id) {
-
-        userService.saveInitUserPassWord(id);
-
-        return CommonResult.success(null);
-    }
-
-    /**
      * 删除用户
      * @param id
      * @return
      */
     @ResponseBody
-    @RequestMapping("/delete")
+    @GetMapping("/delete")
     public CommonResult delete(String id) {
 
         userService.delete(id);
@@ -165,7 +151,7 @@ public class UserController {
 
     @ApiOperation(value = "上传用户头像")
     @ResponseBody
-    @RequestMapping("/headPortrait")
+    @PostMapping("/headPortrait")
     public CommonResult<UserEntity> headPortrait(HttpServletRequest request,String userPath) {
 
         MultipartHttpServletRequest mulRequest = (MultipartHttpServletRequest) (request);
@@ -191,7 +177,7 @@ public class UserController {
      */
     @ApiOperation(value = "获取用户信息")
     @ResponseBody
-    @RequestMapping("/info")
+    @GetMapping("/info")
     public CommonResult<UserEntity> info(HttpServletRequest request) {
         UserEntity userEntity = userService.getUserByRequest(request);
 
@@ -203,7 +189,7 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/get")
+    @GetMapping("/get")
     public CommonResult<UserEntity> get(String id) {
         UserEntity userEntity = userService.getUserById(id);
 

@@ -12,7 +12,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -20,6 +22,7 @@ import java.util.Date;
 import java.util.Random;
 
 @Api(tags = "用户管理")
+@Order(1)
 @Controller
 @RequestMapping(value = "/",
 		produces = "application/json; charset=UTF-8")
@@ -38,7 +41,7 @@ public class SmsCodeController {
      */
 	@ApiOperation(value = "获取验证码")
 	@ResponseBody
-    @RequestMapping("verifyCode")
+    @GetMapping("verifyCode")
     public CommonResult verifyCode(String mobile) {
     	if(StringUtils.isBlank(mobile)) {
 			return CommonResult.error(100000, "请输入手机号码");

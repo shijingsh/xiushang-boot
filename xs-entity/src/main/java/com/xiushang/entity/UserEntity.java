@@ -1,5 +1,6 @@
 package com.xiushang.entity;
 
+import com.xiushang.framework.model.AuthorizationVo;
 import com.xiushang.framework.utils.StatusEnum;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
@@ -87,17 +88,16 @@ public class UserEntity extends ExpandEntity {
     @Column(columnDefinition = "TINYINT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean isInitRecommend = Boolean.FALSE;
-    /**
-     * 用户的公司实例标识
-     */
-    @Transient
-    private String userToken;
+
 
     /**
      * 短信验证码
      */
     @Transient
     private String verifyCode;
+
+    @Transient
+    private AuthorizationVo authorization;
 
     public UserEntity(){}
 
@@ -188,14 +188,6 @@ public class UserEntity extends ExpandEntity {
         this.weibo = weibo;
     }
 
-    public String getUserToken() {
-        return userToken;
-    }
-
-    public void setUserToken(String userToken) {
-        this.userToken = userToken;
-    }
-
     public String getLastLoginPlatform() {
         return lastLoginPlatform;
     }
@@ -282,5 +274,13 @@ public class UserEntity extends ExpandEntity {
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public AuthorizationVo getAuthorization() {
+        return authorization;
+    }
+
+    public void setAuthorization(AuthorizationVo authorization) {
+        this.authorization = authorization;
     }
 }
