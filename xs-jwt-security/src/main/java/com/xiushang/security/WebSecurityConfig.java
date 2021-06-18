@@ -1,5 +1,6 @@
 package com.xiushang.security;
 
+import com.xiushang.config.JWTIgnoreUrlsConfig;
 import com.xiushang.filter.JWTAuthenticationFilter;
 import com.xiushang.filter.JWTLoginFilter;
 import com.xiushang.handler.Http401AuthenticationEntryPoint;
@@ -16,6 +17,8 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.List;
+
 /**
  * SpringSecurity的配置
  * 通过SpringSecurity的配置，将JWTLoginFilter，JWTAuthenticationFilter组合在一起
@@ -27,24 +30,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    /**
-     * 需要放行的URL
-     */
-    private static final String[] AUTH_WHITELIST = {
-            // -- register url
-            "/users/signup",
-            "/login",
-            "/users/addTask",
-            // -- swagger ui
-            "/v2/api-docs",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
-            "/swagger-ui.html",
-            "/webjars/**"
-            // other public endpoints of your API may be appended to this array
-    };
+    @Autowired
+    private JWTIgnoreUrlsConfig ignoreUrlsConfig;
 
     @Autowired
     private UserDetailsService userDetailsService;
@@ -64,6 +51,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     // 设置 HTTP 验证规则
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        List<String> list = ignoreUrlsConfig.getUrls();
+        String[] AUTH_WHITELIST = list.toArray(new String[list.size()]);
         LogoutConfigurer<HttpSecurity> httpSecurityLogoutConfigurer = http.cors().and().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 .authorizeRequests()
@@ -76,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .and()
 //                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler) // 自定义访问失败处理器
 //                .and()
-                .addFilter(new JWTLoginFilter(authenticationManager()))
+                //.addFilter(new JWTLoginFilter(authenticationManager()))
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .logout() // 默认注销行为为logout，可以通过下面的方式来修改
                 .logoutUrl("/logout")

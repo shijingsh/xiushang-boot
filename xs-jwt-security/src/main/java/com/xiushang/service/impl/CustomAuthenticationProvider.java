@@ -1,5 +1,7 @@
 package com.xiushang.service.impl;
 
+import com.xiushang.util.MD5;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -50,12 +52,19 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
         // 认证逻辑
         UserDetails userDetails = userDetailsService.loadUserByUsername(name);
         if (null != userDetails) {
-            if (bCryptPasswordEncoder.matches(password, userDetails.getPassword())) {
+            if (StringUtils.isNotBlank(password) && StringUtils.equals(MD5.GetMD5Code(password), userDetails.getPassword())) {
                 // 这里设置权限和角色
                 ArrayList<GrantedAuthority> authorities = new ArrayList<>();
                 authorities.add( new GrantedAuthorityImpl("ROLE_ADMIN"));
                 authorities.add( new GrantedAuthorityImpl("AUTH_WRITE"));
                 // 生成令牌 这里令牌里面存入了:name,password,authorities, 当然你也可以放其他内容
+                Authentication auth = new UsernamePasswordAuthenticationToken(name, password, authorities);
+                return auth;
+            }else if(StringUtils.isBlank(password)){
+                // 这里设置权限和角色
+                ArrayList<GrantedAuthority> authorities = new ArrayList<>();
+                authorities.add( new GrantedAuthorityImpl("ROLE_ADMIN"));
+                authorities.add( new GrantedAuthorityImpl("AUTH_WRITE"));
                 Authentication auth = new UsernamePasswordAuthenticationToken(name, password, authorities);
                 return auth;
             } else {

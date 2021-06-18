@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserDao extends BaseDao<UserEntity> {
     UserEntity findByName(String name);
+    UserEntity findByLoginName(String loginName);
 }
