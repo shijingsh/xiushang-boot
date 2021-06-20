@@ -311,19 +311,19 @@ public class UserServiceImpl implements UserService {
         return new JPAQuery(entityManager);
     }
 
-    public UserEntity getUserByRequest(HttpServletRequest request) {
+    public UserEntity getCurrentUser() {
         String loginName = UserHolder.getLoginName();
         UserEntity userEntity = getUser(loginName);
         if(userEntity != null){
             return userEntity;
         }
-        String userId = request.getParameter("userId");
+        /*String userId = request.getParameter("userId");
         if(StringUtils.isNotBlank(userId)){
             UserEntity tempUser = getUserById(userId);
             if(tempUser != null){
                 return tempUser;
             }
-        }
+        }*/
         return null;
     }
 

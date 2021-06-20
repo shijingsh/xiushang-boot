@@ -157,7 +157,7 @@ public class UserController {
 
         List<UploadBean> list = uploadService.upload(mulRequest,userPath);
         UploadBean bean = list!=null&&list.size()>0?list.get(0):new UploadBean();
-        UserEntity userEntity = userService.getUserByRequest(request);
+        UserEntity userEntity = userService.getCurrentUser();
 
         if(userEntity!=null){
             if(StringUtils.isNotBlank(userEntity.getHeadPortrait())){
@@ -178,7 +178,7 @@ public class UserController {
     @ResponseBody
     @GetMapping("/info")
     public CommonResult<UserEntity> info(HttpServletRequest request) {
-        UserEntity userEntity = userService.getUserByRequest(request);
+        UserEntity userEntity = userService.getCurrentUser();
 
         return CommonResult.success(userEntity);
     }

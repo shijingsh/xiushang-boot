@@ -111,7 +111,7 @@ public interface UserService {
      */
     public List<UserEntity> getUsersByIds(List<String> userIds);
 
-    UserEntity getUserByRequest(HttpServletRequest request);
+    UserEntity getCurrentUser();
 
     UserEntity getThirdUser(ThirdUserVo thirdUserVo);
 
