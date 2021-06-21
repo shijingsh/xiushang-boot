@@ -324,16 +324,26 @@ public class UserServiceImpl implements UserService {
         if(StringUtils.isBlank(loginName)){
             //获取token
             String token = request.getHeader(ConstantKey.ACCESS_TOKEN);
-            Claims claims = Jwts.parser().setSigningKey(ConstantKey.SIGNING_KEY).parseClaimsJws(token.replace("Bearer ", "")).getBody();
-            String user = claims.getSubject();
-            if (user != null) {
-                loginName = user.split("-")[0];
+            if(StringUtils.isNotBlank(token)){
+                Claims claims = Jwts.parser().setSigningKey(ConstantKey.SIGNING_KEY).parseClaimsJws(token.replace("Bearer ", "")).getBody();
+                String user = claims.getSubject();
+                if (user != null) {
+                    String tmpLoginName = user.split("-")[0];
+                    if(StringUtils.isNotBlank(tmpLoginName) && !"anonymousUser".equals(tmpLoginName)){
+                        loginName = tmpLoginName;
+                    }
+                }
             }
         }
-        log.info("获取当前用：{}",loginName);
-        UserEntity userEntity = getUser(loginName);
+        log.info("获取当前用户LoginName：{}。",loginName);
+        UserEntity userEntity = null;
+        if(StringUtils.isNotBlank(loginName)){
+            userEntity = getUser(loginName);
+        }
         if(userEntity != null){
             return userEntity;
+        }else {
+            log.info("getCurrentUser：没有当前用户信息。");
         }
 
         /*String userId = request.getParameter("userId");
