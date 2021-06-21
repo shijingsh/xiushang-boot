@@ -321,7 +321,7 @@ public class UserServiceImpl implements UserService {
     public UserEntity getCurrentUser() {
 
         String loginName = UserHolder.getLoginName();
-        if(StringUtils.isBlank(loginName)){
+        if(StringUtils.isBlank(loginName) || "anonymousUser".equals(loginName)){
             //获取token
             String token = request.getHeader(ConstantKey.ACCESS_TOKEN);
             if(StringUtils.isNotBlank(token)){
@@ -343,7 +343,7 @@ public class UserServiceImpl implements UserService {
         if(userEntity != null){
             return userEntity;
         }else {
-            log.info("getCurrentUser：没有当前用户信息。");
+           // log.info("getCurrentUser：没有当前用户信息。");
         }
 
         /*String userId = request.getParameter("userId");
