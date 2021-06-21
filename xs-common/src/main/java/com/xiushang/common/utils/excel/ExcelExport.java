@@ -1,6 +1,6 @@
 package com.xiushang.common.utils.excel;
 
-import com.xiushang.framework.exception.ServiceException;
+import com.xiushang.common.exception.ServiceException;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import org.apache.poi.hssf.usermodel.*;
 import org.apache.poi.hssf.util.HSSFColor;

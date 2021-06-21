@@ -1,4 +1,4 @@
-package com.xiushang.framework.exception;
+package com.xiushang.common.exception;
 
 /**
  * 抛出运行时异常

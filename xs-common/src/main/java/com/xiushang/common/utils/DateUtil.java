@@ -1,6 +1,6 @@
 package com.xiushang.common.utils;
 
-import com.xiushang.framework.exception.ServiceException;
+import com.xiushang.common.exception.ServiceException;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
