@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class JsonRedisClient extends AbstractBaseRedisDao
 {
-  private JsonRedisSeriaziler jsonRedisSeriaziler;
+  private JsonRedisSeriaziler jsonRedisSeriaziler = new JsonRedisSeriaziler();
 
   public JsonRedisSeriaziler getJsonRedisSeriaziler()
   {
