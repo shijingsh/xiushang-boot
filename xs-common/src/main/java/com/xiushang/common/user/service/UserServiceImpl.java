@@ -1,6 +1,7 @@
 package com.xiushang.common.user.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.xiushang.constant.ConstantKey;
 import com.xiushang.entity.QUserEntity;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.jpa.repository.UserDao;
@@ -11,6 +12,9 @@ import com.xiushang.framework.utils.StatusEnum;
 import com.xiushang.framework.utils.UserHolder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,15 +22,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
 
 @Service
+@Slf4j
 @Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
-
+    @Resource
+    private HttpServletRequest request;
 
     public Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -312,11 +319,23 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserEntity getCurrentUser() {
+
         String loginName = UserHolder.getLoginName();
+        if(StringUtils.isBlank(loginName)){
+            //获取token
+            String token = request.getHeader(ConstantKey.ACCESS_TOKEN);
+            Claims claims = Jwts.parser().setSigningKey(ConstantKey.SIGNING_KEY).parseClaimsJws(token.replace("Bearer ", "")).getBody();
+            String user = claims.getSubject();
+            if (user != null) {
+                loginName = user.split("-")[0];
+            }
+        }
+        log.info("获取当前用：{}",loginName);
         UserEntity userEntity = getUser(loginName);
         if(userEntity != null){
             return userEntity;
         }
+
         /*String userId = request.getParameter("userId");
         if(StringUtils.isNotBlank(userId)){
             UserEntity tempUser = getUserById(userId);
