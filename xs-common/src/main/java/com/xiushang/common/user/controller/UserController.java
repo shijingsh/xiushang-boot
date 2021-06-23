@@ -92,7 +92,7 @@ public class UserController {
     @ApiOperation(value = "重置密码")
     @ResponseBody
     @PostMapping("/resetPassword")
-    public CommonResult<UserEntity> resetPassword(ResetPwdVo resetPwdVo) {
+    public CommonResult<UserEntity> resetPassword(@RequestBody ResetPwdVo resetPwdVo) {
 
         if (StringUtils.isBlank(resetPwdVo.getLoginName()) || StringUtils.isBlank(resetPwdVo.getPassword())) {
             return CommonResult.error(100000, "用户名,密码不能为空。");
