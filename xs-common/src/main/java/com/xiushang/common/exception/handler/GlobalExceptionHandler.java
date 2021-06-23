@@ -29,10 +29,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Throwable.class)
     public CommonResult handleException(Throwable e, HttpServletRequest request){
         // 打印堆栈信息
-        log.info("==============================发生错误==============================");
-        log.info(request.getContextPath());
-        log.info(request.getQueryString());
-        log.info(request.getHeader(ConstantKey.ACCESS_TOKEN));
+        this.printLog(request);
         e.printStackTrace();
         return CommonResult.error(e.getMessage());
     }
@@ -41,10 +38,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(Exception.class)
     public CommonResult handleException(Exception e, HttpServletRequest request) {
-        log.info("==============================发生错误==============================");
-        log.info(request.getContextPath());
-        log.info(request.getQueryString());
-        log.info(request.getHeader(ConstantKey.ACCESS_TOKEN));
+        this.printLog(request);
         e.printStackTrace();
         return CommonResult.error(e.getMessage());
     }
@@ -106,5 +100,12 @@ public class GlobalExceptionHandler {
         //log.error(e.getMessage());
         e.printStackTrace();
         return CommonResult.error( e.getMessage());
+    }
+
+    private void printLog(HttpServletRequest request){
+        log.info("==============================发生错误==============================");
+        log.info("url:"+request.getRequestURL());
+        log.info("queryStr:"+request.getQueryString());
+        log.info("token:"+request.getHeader(ConstantKey.ACCESS_TOKEN));
     }
 }
