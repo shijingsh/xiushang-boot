@@ -324,7 +324,7 @@ public class UserServiceImpl implements UserService {
         if(StringUtils.isBlank(loginName) || "anonymousUser".equals(loginName)){
             //获取token
             String token = request.getHeader(ConstantKey.ACCESS_TOKEN);
-            if(StringUtils.isNotBlank(token)){
+            if(StringUtils.isNotBlank(token) && !StringUtils.equals(token,"null") && !StringUtils.equals(token,"NULL")){
                 Claims claims = Jwts.parser().setSigningKey(ConstantKey.SIGNING_KEY).parseClaimsJws(token.replace("Bearer ", "")).getBody();
                 String user = claims.getSubject();
                 if (user != null) {
