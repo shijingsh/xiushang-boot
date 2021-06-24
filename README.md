@@ -17,6 +17,15 @@ jpa对于简单的业务非常方便，为了实现简约的代码风格。约�
 JPA is very convenient for simple business, in order to achieve simple code style. It is agreed that all entity classes do not use one to many
 Entity classes should be less than object cascades.
 
+
+if you found error: Q***Entity is not found
+please run mvn clean and than mvn install
+
+```
+mvn clean 
+mvn install
+```
+
 ### todo
 
 - JenkinsFile
