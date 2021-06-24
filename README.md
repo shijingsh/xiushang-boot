@@ -26,6 +26,38 @@ mvn clean
 mvn install
 ```
 
+###usage
+
+Select the library you need to install
+
+安装你需要的依赖
+```xml
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xiushang-boot</artifactId>
+            <version>1.0.0</version>
+            <type>pom</type>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-entity</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-common</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-job</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type>
+        </dependency>
+```
+
 ### todo
 
 - JenkinsFile
