@@ -1,22 +1,28 @@
-### 概述
-基于自己的业务系统，整理一套共用框架代码，方便以后集成和开发。
+### summary
+A demo of Xiushang boot.
 
-主要使用技术栈：springboot+jpa+jwt
+Mainly use technology stack：springboot+jpa+jwt
 
 demo：https://github.com/shijingsh/xiushang-boot-example
+### create db
+   创建空数据库即可，依赖表结构，将会自动生成
+   
+    You can create an empty database. Depending on the table structure, it will be generated automatically
 
-### 关于entity
+### about entity
 
 jpa对于简单的业务非常方便，为了实现简约的代码风格。约定所有实体类不使用一对多
 实体类尽量少于对象级联。
 
+JPA is very convenient for simple business, in order to achieve simple code style. It is agreed that all entity classes do not use one to many
+Entity classes should be less than object cascades.
+
 ### todo
 
--JenkinsFile
--订阅消息
--定时任务集成
--支付集成
--api授权
+- JenkinsFile
+- Subscribe to message
+- pay
+- api auth
 
-### 秀上官网
+### official website
 - www.xiushangsh.com
