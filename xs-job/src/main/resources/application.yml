@@ -1,0 +1,75 @@
+# 无端口方式启动
+spring:
+  profiles:
+    active: @env.id@
+  application:
+    name: Marketing-Job
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+  # 数据源
+  datasource:
+    username: ${amy.mysql.username}
+    password: ${amy.mysql.password}
+    driver-class-name: ${amy.mysql.driverClassName}
+    url: ${amy.mysql.url}
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5 #连接池初始化大小
+      min-idle: 10 #最小空闲连接数
+      max-active: 20 #最大连接数
+      timeBetweenEvictionRunsMillis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      minEvictableIdleTimeMillis: 300000 # 配置有一个连接在连接池中的最小生存时间，单位是毫秒
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true # 打开PSCache，指定每个连接上PSCache的大小
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat, wall, slf4j # 配置监控统计拦截的filters，去掉后监控界面sql将无法统计，'wall'用于防火墙
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=3000 # 通过connectProperties属性来打开mergeSql功能，慢SQL记录
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+        profile-enable: true
+      stat-view-servlet: #访问监控网页的登录用户名和密码
+        enabled: true # 开启监控
+        url-pattern: /druid/*
+        login-username: druid
+        login-password: druid
+        allow: 127.0.0.1,192.168.15.1/255,180.168.41.154
+        reset-enable: true
+  # redis token信息
+  redis:
+    key:
+      prefix:
+        database: "Marketing:"
+        userToken: "user:token:"
+        passwordError: "user:password:error:"
+        permissionRefresh: "user:token:permissionRefresh:"
+      expire:
+        userToken: 604800 # 7天 7*24*3600
+        passwordError: 3600 # 一个小时
+        permissionRefresh: 604800 # 7天 7*24*3600
+    allowMultipleLogin: true # 允许多处登陆
+    host: ${amy.redis.ip} # Redis服务器地址
+    port: ${amy.redis.port} # Redis服务器连接端口
+    password: ${amy.redis.password} # Redis服务器连接密码（默认为空）
+    database: ${amy.redis.database} # Redis数据库索引（默认为0）
+    jedis:
+      pool:
+        max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 8 # 连接池中的最大空闲连接
+        min-idle: 0 # 连接池中的最小空闲连接
+    timeout: ${amy.redis.timeout} # 连接超时时间（毫秒
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  mapper-locations: classpath:mapper/${project.database}/**/*.xml,classpath:mapper/*.xml
+  global-config:
+    db-config:
+      logic-delete-value: 1
+      logic-not-delete-value: 0
+      logic-delete-field: deleted

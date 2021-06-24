@@ -13,6 +13,7 @@
         <module>xs-entity</module>
         <module>xs-common</module>
         <module>xs-jwt-security</module>
+        <module>xs-job</module>
     </modules>
     <packaging>pom</packaging>
     <name>xiushang-boot</name>

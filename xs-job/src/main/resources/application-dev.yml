@@ -1,0 +1,23 @@
+# 开发环境配置
+amy:
+  port: 8787 #应用端口
+  mysql:
+    ip: 192.168.29.11
+    port: 3306
+    driverClassName: com.mysql.jdbc.Driver
+    database: amy-marketing
+    username: proxy1
+    password: proxy1
+    url: jdbc:mysql://${amy.mysql.ip}:${amy.mysql.port}/${amy.mysql.database}?serverTimezone=GMT%2b8&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true&nullCatalogMeansCurrent=true
+  redis:
+    ip: 192.168.29.12
+    port: 6379
+    password: # Redis服务器连接密码（默认为空）
+    database: 0
+    timeout: 3000ms # 连接超时时间（毫秒）
+  rocketmq:
+    enabled: true
+    ip: 127.0.0.1
+    port: 5672
+    username: admin
+    password: 123456
