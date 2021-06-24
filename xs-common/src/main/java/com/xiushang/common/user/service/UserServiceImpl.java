@@ -1,17 +1,17 @@
 package com.xiushang.common.user.service;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xiushang.constant.ConstantKey;
-import com.xiushang.entity.QUserEntity;
-import com.xiushang.entity.UserEntity;
-import com.xiushang.jpa.repository.UserDao;
-import com.xiushang.common.user.vo.ThirdUserVo;
-import com.xiushang.common.utils.MD5;
-import com.xiushang.framework.entity.vo.PageTableVO;
-import com.xiushang.framework.utils.StatusEnum;
-import com.xiushang.framework.utils.UserHolder;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
+import com.xiushang.common.user.vo.ThirdUserVo;
+import com.xiushang.common.utils.MD5;
+import com.xiushang.entity.QUserEntity;
+import com.xiushang.entity.UserEntity;
+import com.xiushang.framework.entity.vo.PageTableVO;
+import com.xiushang.framework.log.Constants;
+import com.xiushang.framework.utils.StatusEnum;
+import com.xiushang.framework.utils.UserHolder;
+import com.xiushang.jpa.repository.UserDao;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
@@ -323,9 +323,9 @@ public class UserServiceImpl implements UserService {
         String loginName = UserHolder.getLoginName();
         if(StringUtils.isBlank(loginName) || "anonymousUser".equals(loginName)){
             //获取token
-            String token = request.getHeader(ConstantKey.ACCESS_TOKEN);
+            String token = request.getHeader(Constants.ACCESS_TOKEN);
             if(StringUtils.isNotBlank(token) && !StringUtils.equals(token,"null") && !StringUtils.equals(token,"NULL")){
-                Claims claims = Jwts.parser().setSigningKey(ConstantKey.SIGNING_KEY).parseClaimsJws(token.replace("Bearer ", "")).getBody();
+                Claims claims = Jwts.parser().setSigningKey(Constants.SIGNING_KEY).parseClaimsJws(token.replace("Bearer ", "")).getBody();
                 String user = claims.getSubject();
                 if (user != null) {
                     String tmpLoginName = user.split("-")[0];

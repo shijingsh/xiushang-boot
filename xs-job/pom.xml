@@ -7,6 +7,8 @@
         <groupId>com.github.shijingsh</groupId>
         <version>1.0.0</version>
     </parent>
+    <modelVersion>4.0.0</modelVersion>
+
     <groupId>com.github.shijingsh</groupId>
     <artifactId>xs-job</artifactId>
     <version>1.0.0</version>
@@ -15,6 +17,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <quartz.version>2.3.2</quartz.version>
     </properties>
 
     <dependencies>
@@ -22,70 +25,27 @@
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-entity</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.quartz-scheduler</groupId>
+            <artifactId>quartz</artifactId>
+            <version>${quartz.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.mchange</groupId>
+                    <artifactId>c3p0</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.zaxxer</groupId>
+                    <artifactId>HikariCP-java6</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 
-    <!--配置环境的profile-->
-    <profiles>
-        <profile>
-            <id>dev</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <!--使用${env.id}获取值-->
-                <env.id>dev</env.id>
-            </properties>
-        </profile>
-        <profile>
-            <id>uat</id>
-            <properties>
-                <env.id>uat</env.id>
-            </properties>
-        </profile>
-        <profile>
-            <id>stg</id>
-            <properties>
-                <env.id>stg</env.id>
-            </properties>
-        </profile>
-    </profiles>
-
     <build>
-        <finalName>${project.artifactId}</finalName>
-        <resources>
-            <!--先排除所有环境配置文件-->
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>application-*.yml</exclude>
-                </excludes>
-            </resource>
-            <!-- 打包需要包含的环境配置文件 -->
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-                <includes>
-                    <include>application.yml</include>
-                    <include>application-${env.id}.yml</include>
-                </includes>
-            </resource>
-        </resources>
-
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <outputDirectory>${project.build.directory}/${project.build.finalName}</outputDirectory>
-                    <excludes>
-                        <exclude>
-                            <groupId>org.projectlombok</groupId>
-                            <artifactId>lombok</artifactId>
-                        </exclude>
-                    </excludes>
-                </configuration>
-            </plugin>
-        </plugins>
+        <finalName>xs-job</finalName>
+        <defaultGoal>compile</defaultGoal>
     </build>
 
 </project>

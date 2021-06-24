@@ -1,7 +1,7 @@
 package com.xiushang.filter;
 
-import com.xiushang.constant.ConstantKey;
 import com.xiushang.exception.TokenException;
+import com.xiushang.framework.log.Constants;
 import com.xiushang.service.impl.GrantedAuthorityImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -56,7 +56,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
         // parse the token.
         String user = null;
         try {
-            Claims claims = Jwts.parser().setSigningKey(ConstantKey.SIGNING_KEY).parseClaimsJws(token.replace("Bearer ", "")).getBody();
+            Claims claims = Jwts.parser().setSigningKey(Constants.SIGNING_KEY).parseClaimsJws(token.replace("Bearer ", "")).getBody();
             // token签发时间
 			long issuedAt = claims.getIssuedAt().getTime();
 			// 当前时间
@@ -81,7 +81,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 	                    .setSubject(claims.getSubject())
 	                    .setIssuedAt(now)//签发时间
 	                    .setExpiration(time)//过期时间
-	                    .signWith(SignatureAlgorithm.HS512, ConstantKey.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
+	                    .signWith(SignatureAlgorithm.HS512, Constants.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
 	                    .compact();
 	            // 重新生成token end
 

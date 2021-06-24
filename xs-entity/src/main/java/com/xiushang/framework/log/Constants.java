@@ -6,33 +6,10 @@ public class Constants {
 	==============================================================*/
 
 	/**
-	 * 多实例的唯一标识
+	 * 签名key
 	 */
-	public final static String TENANT_ID = "TENANT_INSTANCE_SEQ_ID";
+	public static final String SIGNING_KEY = "spring-security-@Jwt!&Secret^#";
 
-	/**
-	 * 多实例的公司名称
-	 */
-	public final static String TENANT_COMPANY = "TENANT_INSTANCE_COMPANY_NAME";
-
-	/**
-	 * 当前用户常量
-	 */
-	public static final String CURRENT_USER = "current_user";
-
-	/**
-	 * 当前用户能访问的url
-	 */
-	public static final String CURRENT_USER_URLS = "CURRENT_USER_URLS";
-
-	/**
-	 * 当前用户能访问的url
-	 */
-	public static final String CURRENT_USER_URLS_ALL = "CURRENT_USER_URLS_ALL";
-
-	/**
-	 * 当前用户能访问的url
-	 */
-	public static final String CURRENT_USER_OBJECT = "CURRENT_USER_OBJECT";
+	public static final String ACCESS_TOKEN = "Authorization";
 }
 
