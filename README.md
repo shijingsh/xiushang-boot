@@ -1,6 +1,7 @@
 ### summary
 
 基于自己的业务系统，整理一套共用框架代码，方便以后集成和开发。
+
 Based on their own business system, sort out a set of common framework code to facilitate future integration and development.
 
 Mainly use technology stack：springboot+jpa+jwt
