@@ -67,6 +67,7 @@
         <commons-pool2.version>2.5.0</commons-pool2.version>
         <druid.version>1.2.6</druid.version>
         <jjwt.version>0.9.1</jjwt.version>
+        <hutool.version>5.3.8</hutool.version>
     </properties>
     <build>
         <finalName>xiushang-boot</finalName>
@@ -408,6 +409,13 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>1.18.12</version>
+        </dependency>
+
+        <!--Hutool Java工具包-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
         </dependency>
 
     </dependencies>
