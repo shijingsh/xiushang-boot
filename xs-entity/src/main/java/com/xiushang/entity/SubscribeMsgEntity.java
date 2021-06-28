@@ -12,6 +12,12 @@ import java.util.Date;
 public class SubscribeMsgEntity extends BaseEntity {
 
     /**
+     * 标题
+     */
+    @ApiModelProperty(notes = "标题")
+    @ApiParam("标题")
+    private String name;
+    /**
      * 开始时间
      */
     @ApiModelProperty(notes = "开始日期")
@@ -30,6 +36,14 @@ public class SubscribeMsgEntity extends BaseEntity {
     @ApiModelProperty(notes = "状态")
     @ApiParam("状态")
     private Integer status;
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 
     public Date getStart() {
         return start;

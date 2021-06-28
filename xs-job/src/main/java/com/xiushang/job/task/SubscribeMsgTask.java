@@ -1,13 +1,13 @@
 package com.xiushang.job.task;
 
 
-import com.xiushang.job.service.DynamicTaskService;
+import com.xiushang.common.job.service.DynamicTaskService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 
 /**
- * 读取当天会开播的直播加入DynamicTask
+ * 读取当天DynamicTask
  */
 @Component
 public class SubscribeMsgTask {

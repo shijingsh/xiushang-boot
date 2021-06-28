@@ -1,10 +1,9 @@
 package com.xiushang.common.user.service;
 
-import com.xiushang.entity.UserEntity;
 import com.xiushang.common.user.vo.ThirdUserVo;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 public interface UserService {
@@ -117,5 +116,5 @@ public interface UserService {
 
     UserEntity saveThirdUser(ThirdUserVo thirdUserVo);
 
-    UserEntity saveThirdUser(ThirdUserVo thirdUserVo,UserEntity userEntity);
+    UserEntity saveThirdUser(ThirdUserVo thirdUserVo, UserEntity userEntity);
 }

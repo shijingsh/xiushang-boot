@@ -31,6 +31,14 @@ public class SubscribeMsgAppointEntity extends BaseEntity {
     @ApiParam("订阅对象ID")
     private String subscribeObjectId;
 
+    /**
+     * 状态
+     * 1 有限 0 无效
+     */
+    @ApiModelProperty(notes = "状态")
+    @ApiParam("状态")
+    private Integer status = 1;
+
     public String getUserId() {
         return userId;
     }
@@ -53,5 +61,13 @@ public class SubscribeMsgAppointEntity extends BaseEntity {
 
     public void setSubscribeObjectId(String subscribeObjectId) {
         this.subscribeObjectId = subscribeObjectId;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

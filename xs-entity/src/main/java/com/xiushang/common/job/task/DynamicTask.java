@@ -1,7 +1,7 @@
-package com.xiushang.job.task;
+package com.xiushang.common.job.task;
 
 import com.google.common.collect.Lists;
-import com.xiushang.job.service.SubscribeMsgService;
+import com.xiushang.common.job.service.SubscribeMsgService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
