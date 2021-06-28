@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.CronTask;
@@ -26,7 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Slf4j
 public class DynamicTask implements SchedulingConfigurer {
 
-  private final SubscribeMsgService subscribeMsgService;
+  @Autowired
+  private  SubscribeMsgService subscribeMsgService;
 
   private static final ExecutorService es = new ThreadPoolExecutor(10, 20,
       0L, TimeUnit.MILLISECONDS,
@@ -40,9 +42,6 @@ public class DynamicTask implements SchedulingConfigurer {
 
   private volatile List<TaskConstant> taskConstants = Lists.newArrayList();
 
-  public DynamicTask(SubscribeMsgService msgService) {
-    this.subscribeMsgService = msgService;
-  }
 
   @Override
   public void configureTasks(ScheduledTaskRegistrar registrar) {

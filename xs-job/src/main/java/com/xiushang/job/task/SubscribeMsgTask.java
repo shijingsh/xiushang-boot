@@ -19,7 +19,11 @@ public class SubscribeMsgTask {
     }
 
     @Scheduled(cron = "0 0 0 * * ?")
-    public synchronized void initTask() throws Exception {
-        dynamicTaskService.refreshTodayTask();
+    public synchronized void initTask() {
+        try{
+            dynamicTaskService.refreshTodayTask();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
