@@ -2,7 +2,9 @@ package com.xiushang.common.upload.utils;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;

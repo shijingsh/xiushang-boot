@@ -1,5 +1,12 @@
 package com.xiushang.common.utils;
 
+import com.alibaba.fastjson.JSON;
+import com.xiushang.common.user.vo.PhoneDecryptInfo;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
+import javax.crypto.Cipher;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.AlgorithmParameters;
 import java.security.Key;
@@ -7,15 +14,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.Security;
 import java.security.spec.InvalidParameterSpecException;
 import java.util.Base64;
-
-import javax.crypto.Cipher;
-import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.SecretKeySpec;
-
-import com.xiushang.common.user.vo.PhoneDecryptInfo;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-
-import com.alibaba.fastjson.JSON;
 
 public class AESGetPhoneNumber {
 

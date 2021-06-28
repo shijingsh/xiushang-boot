@@ -3,22 +3,11 @@ package com.xiushang.common.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
 import javax.persistence.EntityManager;
-import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.*;
 import javax.persistence.criteria.CriteriaBuilder.In;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
+import java.io.Serializable;
+import java.util.*;
 
 /**
  * CriteriaQuery  封装

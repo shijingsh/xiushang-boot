@@ -24,11 +24,11 @@ public interface UploadService {
     List<UploadBean> uploadBase64(UploadBase64 uploadBase64);
 
     UploadBean uploadWithBlock(UploadBean uploadBean,
-                                String md5,
-                                Long size,
-                                Integer chunks,
-                                Integer chunk,
-                                MultipartFile file) throws IOException;
+                               String md5,
+                               Long size,
+                               Integer chunks,
+                               Integer chunk,
+                               MultipartFile file) throws IOException;
 
     File getTargetFile(UploadBean uploadBean);
 }
