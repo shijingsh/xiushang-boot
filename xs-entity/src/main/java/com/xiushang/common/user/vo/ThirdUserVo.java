@@ -5,6 +5,7 @@ package com.xiushang.common.user.vo;
  * Created by liukefu on 2018/8/11.
  */
 public class ThirdUserVo implements java.io.Serializable{
+    private String openId;
     private String unionId;
     private String appleId;
     private String loginName;
@@ -31,6 +32,14 @@ public class ThirdUserVo implements java.io.Serializable{
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public String getUnionId() {

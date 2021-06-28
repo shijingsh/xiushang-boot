@@ -237,6 +237,7 @@ public class LoginController {
                 UserEntity userEntity = null;
                 try {
                     String unionId = jsonObject.getString("unionid");
+                    String openId = jsonObject.getString("openid");
                     System.out.println("weixinLogin返回unionid："+unionId);
                     if (StringUtils.isBlank(unionId)){
                         unionId =  jsonObject.getString("openid");
@@ -262,6 +263,7 @@ public class LoginController {
 
                     ThirdUserVo thirdUserVo = new ThirdUserVo();
                     thirdUserVo.setUnionId(unionId);
+                    thirdUserVo.setOpenId(openId);
                     thirdUserVo.setLoginName(mobile);
                     thirdUserVo.setAccessToken(sessionKey);
                     thirdUserVo.setUserAvatar(avatarUrl);

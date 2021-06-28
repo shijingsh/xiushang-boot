@@ -420,7 +420,9 @@ public class UserServiceImpl implements UserService {
         if(StringUtils.isNotBlank(thirdUserVo.getUnionId())){
             userEntity.setUnionId(thirdUserVo.getUnionId());
         }
-
+        if(StringUtils.isNotBlank(thirdUserVo.getOpenId())){
+            userEntity.setOpenId(thirdUserVo.getOpenId());
+        }
         if(StringUtils.isNotBlank(thirdUserVo.getUserName())){
             userEntity.setName(thirdUserVo.getUserName());
         }

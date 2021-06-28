@@ -21,6 +21,8 @@ public class UserEntity extends ExpandEntity {
     /**登录名 */
     private String unionId;
     /**登录名 */
+    private String openId;
+    /**登录名 */
     private String appleId;
     /**姓名 */
     private String name;
@@ -126,6 +128,14 @@ public class UserEntity extends ExpandEntity {
 
     public String getAppleId() {
         return appleId;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public void setAppleId(String appleId) {
