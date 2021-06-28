@@ -64,7 +64,7 @@ public class SubscribeMsgService {
 
         SubscribeMsgAppointEntity subscribeMsgAppointEntity = it.next();
         //发送订阅消息（用户从微信小程序订阅一次接收一次，所以发完要删除预约记录）
-        CommonResult<String> result = sendSubscribeMsg(code, subscribeMsgAppointEntity.getOpenId(), subscribeMsgEntity.getName(), dateTime);
+        CommonResult<String> result = sendSubscribeMsg(subscribeMsgEntity, subscribeMsgAppointEntity);
         if (null != result && result.getErrorCode()== CommonResult.SUCCESS) {
           //记录发送成功的预约主键
           appointCodeList.add(subscribeMsgAppointEntity);
@@ -88,19 +88,17 @@ public class SubscribeMsgService {
    * 发送订阅消息
    * @return
    */
-  public CommonResult<String> sendSubscribeMsg(String code, String openId, String title, Date time){
+  public CommonResult<String> sendSubscribeMsg(SubscribeMsgEntity subscribeMsgEntity,SubscribeMsgAppointEntity subscribeMsgAppointEntity){
 
     JSONObject data = new JSONObject();
-    data.put("thing", new JSONObject().put("value", title));
-    data.put("time", new JSONObject().put("value", DateUtil.formatDateTime(time)));
+    data.put("thing", new JSONObject().put("value", subscribeMsgEntity.getName()));
+    data.put("time", new JSONObject().put("value", DateUtil.formatDateTime(subscribeMsgEntity.getStart())));
 
     JSONObject param = new JSONObject();
-    param.put("touser", openId);
+    param.put("touser", subscribeMsgAppointEntity.getOpenId());
     param.put("data", data);
-    param.put("id", code);
-    Map<String, String> headerMap = new HashMap<>();
-    headerMap.put("token", "amyyy");
-    headerMap.put("Content-Type", "application/json;charset=UTF-8");
+    param.put("id", subscribeMsgEntity.getId());
+
     try {
 
       String grant_type = "client_credential";
@@ -137,21 +135,22 @@ public class SubscribeMsgService {
       log.info("Request Params =================== {}", params);
 
       String url = PropertyConfigurer.getConfig("weixin.subscribeSendUrl");
-      String subscribeMsgTemplateId = PropertyConfigurer.getConfig("weixin.subscribeMsgTemplateId");;
+      if(StringUtils.isBlank(url)){
+        url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send";
+      }
+      String subscribeMsgTemplateId = subscribeMsgAppointEntity.getSubscribeMsgTemplateId();
       String miniprogramState = PropertyConfigurer.getConfig("weixin.miniprogramState");
       if(StringUtils.isBlank(miniprogramState)){
         miniprogramState = "formal";
       }
-      String page = "/pages/index/index?switch=switch2&tabindex=2";
-      if (null != param.get("id") && StrUtil.isNotBlank(param.get("id").toString())) {
-        page= page + "&id=" + param.get("id");
-      }
+      String page = subscribeMsgAppointEntity.getPage();
+
       param.put("access_token", accessToken);
       param.put("page", page);
       param.put("template_id", subscribeMsgTemplateId);
       param.put("miniprogram_state", miniprogramState);
       String jsonResult= HttpUtil.post(url,JSONUtil.toJsonStr(param));
-      log.info("微信返回值:"+jsonResult);
+      log.info("发送订阅消息，微信返回值:"+jsonResult);
       return CommonResult.success(jsonResult);
 
     } catch (Exception e) {

@@ -6,13 +6,19 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.xiushang.common.job.task.DynamicTask;
+import com.xiushang.common.job.vo.SubscribeMsgAppointVo;
 import com.xiushang.common.job.vo.SubscribeSearchVo;
+import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.utils.BaseServiceImpl;
 import com.xiushang.common.utils.LazyLoadUtil;
 import com.xiushang.entity.QSubscribeMsgEntity;
+import com.xiushang.entity.SubscribeMsgAppointEntity;
 import com.xiushang.entity.SubscribeMsgEntity;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
+import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.utils.WebUtil;
+import com.xiushang.jpa.repository.SysSubscribeMsgAppointDao;
 import com.xiushang.jpa.repository.SysSubscribeMsgDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,11 +37,15 @@ import java.util.List;
 public class DynamicTaskService  extends BaseServiceImpl<SubscribeMsgEntity> {
   @Resource
   private SysSubscribeMsgDao subscribeMsgDao;
+  @Resource
+  private SysSubscribeMsgAppointDao sysSubscribeMsgAppointDao;
 
   @Autowired
   private DynamicTask dynamicTask;
   @Autowired
   public HttpServletRequest request;
+  @Autowired
+  private UserService userService;
 
   public void saveOrUpdateTask(SubscribeMsgEntity subscribeMsgEntity) {
     Date currentDate = DateUtil.date();
@@ -134,5 +144,32 @@ public class DynamicTaskService  extends BaseServiceImpl<SubscribeMsgEntity> {
     PageTableVO vo = new PageTableVO(page,searchVo);
 
     return vo;
+  }
+
+  public SubscribeMsgAppointEntity appoint(SubscribeMsgAppointVo appointVo) {
+    UserEntity userEntity = userService.getCurrentUser();
+
+    SubscribeMsgEntity subscribeMsgEntity = subscribeMsgDao.getOne(appointVo.getSubscribeObjectId());
+    if(subscribeMsgEntity==null || subscribeMsgEntity.getStatus()>=3){
+      //已结束，直接返回
+      return null;
+    }
+
+    List<SubscribeMsgAppointEntity> list = sysSubscribeMsgAppointDao.findBySubscribeObjectIdAndUserId(appointVo.getSubscribeObjectId(),userEntity.getId());
+    SubscribeMsgAppointEntity appointEntity = null;
+    if(list!=null && list.size()>0){
+      appointEntity = list.get(0);
+    }else{
+      appointEntity = new SubscribeMsgAppointEntity();
+      appointEntity.setUserId(userEntity.getId());
+      appointEntity.setOpenId(appointVo.getOpenId());
+    }
+    appointEntity.setSubscribeObjectId(appointVo.getSubscribeObjectId());
+    appointEntity.setSubscribeMsgTemplateId(appointVo.getSubscribeMsgTemplateId());
+    appointEntity.setPage(appointVo.getPage());
+
+    sysSubscribeMsgAppointDao.save(appointEntity);
+
+    return appointEntity;
   }
 }

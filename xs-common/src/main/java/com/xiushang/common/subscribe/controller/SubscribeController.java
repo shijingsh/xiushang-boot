@@ -1,7 +1,9 @@
 package com.xiushang.common.subscribe.controller;
 
 import com.xiushang.common.job.service.DynamicTaskService;
+import com.xiushang.common.job.vo.SubscribeMsgAppointVo;
 import com.xiushang.common.user.service.UserService;
+import com.xiushang.entity.SubscribeMsgAppointEntity;
 import com.xiushang.entity.SubscribeMsgEntity;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
@@ -9,6 +11,7 @@ import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.utils.WebUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -21,8 +24,7 @@ import javax.servlet.http.HttpServletRequest;
         produces = "application/json; charset=UTF-8")
 public class SubscribeController {
 
-    @Autowired
-    private UserService userService;
+
 
     @Autowired
     private  DynamicTaskService dynamicTaskService;
@@ -48,7 +50,6 @@ public class SubscribeController {
     @ResponseBody
     @PostMapping("/post")
     public CommonResult<SubscribeMsgEntity> post(@RequestBody SubscribeMsgEntity entity) {
-        UserEntity userEntity = userService.getCurrentUser();
 
         dynamicTaskService.saveOrUpdateTask(entity);
         return CommonResult.success(entity);
@@ -94,6 +95,15 @@ public class SubscribeController {
         PageTableVO vo = dynamicTaskService.findPageList();
 
         return CommonResult.success(vo);
+    }
+
+    @ApiOperation("订阅消息")
+    @PostMapping("/appoint")
+    @ResponseBody
+    public CommonResult<SubscribeMsgAppointEntity> appoint(@RequestBody SubscribeMsgAppointVo appointVo) {
+        SubscribeMsgAppointEntity appointEntity = dynamicTaskService.appoint(appointVo);
+
+        return CommonResult.success(appointEntity);
     }
 
 
