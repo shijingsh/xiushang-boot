@@ -2,6 +2,7 @@
 package com.xiushang.framework.entity.model;
 
 import com.xiushang.entity.BaseEntity;
+import com.xiushang.framework.utils.UserHolder;
 
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
@@ -25,10 +26,10 @@ public class EntityListener {
 	public void prePersist(BaseEntity entity) {
 		entity.setCreatedDate(new Date());
 		entity.setUpdatedDate(new Date());
-		/*if(UserHolder.getLoginUser()!=null){
-			entity.setCreatedById(UserHolder.getLoginUserId());
-			entity.setUpdatedById(UserHolder.getLoginUserId());
-		}*/
+		if(UserHolder.getLoginName()!=null){
+			entity.setCreatedById(UserHolder.getLoginName());
+			entity.setUpdatedById(UserHolder.getLoginName());
+		}
 	}
 
 	/**
@@ -40,9 +41,9 @@ public class EntityListener {
 	@PreUpdate
 	public void preUpdate(BaseEntity entity) {
 		entity.setUpdatedDate(new Date());
-		/*if(UserHolder.getLoginUser()!=null){
-			entity.setUpdatedById(UserHolder.getLoginUserId());
-		}*/
+		if(UserHolder.getLoginName()!=null){
+			entity.setUpdatedById(UserHolder.getLoginName());
+		}
 	}
 
 }
