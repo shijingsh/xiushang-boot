@@ -29,7 +29,8 @@ public class GlobalExceptionHandler {
     public CommonResult handleException(Throwable e, HttpServletRequest request){
         // 打印堆栈信息
         this.printLog(request);
-        e.printStackTrace();
+        log.error("Exception,exception:{}", e, e);
+
         return CommonResult.error(e.getMessage());
     }
     /**
@@ -38,7 +39,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public CommonResult handleException(Exception e, HttpServletRequest request) {
         this.printLog(request);
-        e.printStackTrace();
+        log.error("Exception,exception:{}", e, e);
         return CommonResult.error(e.getMessage());
     }
 
@@ -47,8 +48,8 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ServiceException.class)
     CommonResult ServiceExceptionHandler(ServiceException e) {
-        //log.error("Exception,exception:{}", e, e);
-        e.printStackTrace();
+        log.error("Exception,exception:{}", e, e);
+
         return CommonResult.error( e.getMessage());
     }
 
@@ -70,8 +71,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = EntityNotFoundException.class)
     public CommonResult entityNotFoundException(EntityNotFoundException e) {
         // 打印堆栈信息
-        //log.error(ThrowableUtil.getStackTrace(e));
-        e.printStackTrace();
+        log.error("Exception,exception:{}", e, e);
         return CommonResult.error( e.getMessage());
     }
 
@@ -82,7 +82,7 @@ public class GlobalExceptionHandler {
     CommonResult methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
         log.error("methodArgumentNotValidExceptionHandler bindingResult.allErrors():{},exception:{}", e.getBindingResult().getAllErrors(), e);
         List<ObjectError> errors = e.getBindingResult().getAllErrors();
-        e.printStackTrace();
+        log.error("Exception,exception:{}", e, e);
         return CommonResult.error( e.getMessage());
     }
 
@@ -90,15 +90,14 @@ public class GlobalExceptionHandler {
     public CommonResult badCredentialsException(BadCredentialsException e){
         // 打印堆栈信息
         //String message = "坏的凭证".equals(e.getMessage()) ? "用户名或密码不正确" : e.getMessage();
-        e.printStackTrace();
+        log.error("Exception,exception:{}", e, e);
         return CommonResult.error( e.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public CommonResult handleAuthorizationException(AccessDeniedException e)
     {
-        //log.error(e.getMessage());
-        e.printStackTrace();
+        log.error("Exception,exception:{}", e, e);
         return CommonResult.error( e.getMessage());
     }
 
