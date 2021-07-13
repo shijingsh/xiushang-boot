@@ -89,7 +89,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 				response.addHeader("refreshToken", refreshToken);
 			}
             long end = System.currentTimeMillis();
-            logger.info("执行时间: {}", (end - start) + " 毫秒");
+            //logger.info("执行时间: {}", (end - start) + " 毫秒");
             user = claims.getSubject();
             if (user != null) {
                 String[] split = user.split("-")[1].split(",");

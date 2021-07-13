@@ -335,7 +335,7 @@ public class UserServiceImpl implements UserService {
                 }
             }
         }
-        log.info("获取当前用户LoginName：{}。",loginName);
+        //log.info("获取当前用户LoginName：{}。",loginName);
         UserEntity userEntity = null;
         if(StringUtils.isNotBlank(loginName)){
             userEntity = getUser(loginName);
