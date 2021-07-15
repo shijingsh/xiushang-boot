@@ -40,6 +40,8 @@ public class UserEntity extends ExpandEntity {
     private String alipay;
     /**微博 */
     private String weibo;
+    /**职位 */
+    private String position;
     /**
      * 状态
      */
@@ -196,6 +198,14 @@ public class UserEntity extends ExpandEntity {
 
     public void setWeibo(String weibo) {
         this.weibo = weibo;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public String getLastLoginPlatform() {

@@ -59,9 +59,7 @@ public class UserServiceImpl implements UserService {
         QUserEntity qUserEntity = QUserEntity.userEntity;
         query.from(qUserEntity);
 
-        query.where(
-                qUserEntity.loginName.eq(mobile).or(qUserEntity.mobile.eq(mobile))
-        );
+        query.where(qUserEntity.status.eq(StatusEnum.STATUS_VALID).and(qUserEntity.loginName.eq(mobile).or(qUserEntity.mobile.eq(mobile))));
         List<UserEntity> users = query.fetch();
         if (users != null && users.size()>0) {
             return users.get(0);
@@ -77,7 +75,7 @@ public class UserServiceImpl implements UserService {
         query.from(qUserEntity);
 
         query.where(
-                qUserEntity.unionId.eq(unionId)
+                qUserEntity.status.eq(StatusEnum.STATUS_VALID).and(qUserEntity.unionId.eq(unionId))
         );
         List<UserEntity> users = query.fetch();
         if (users != null && users.size()>0) {
@@ -94,7 +92,7 @@ public class UserServiceImpl implements UserService {
         query.from(qUserEntity);
 
         query.where(
-                qUserEntity.appleId.eq(appleId)
+                qUserEntity.status.eq(StatusEnum.STATUS_VALID).and(qUserEntity.appleId.eq(appleId))
         );
         List<UserEntity> users = query.fetch();
         if (users != null && users.size()>0) {
@@ -110,7 +108,7 @@ public class UserServiceImpl implements UserService {
         query.from(qUserEntity);
 
         query.where(
-                qUserEntity.loginName.eq(loginName).and(qUserEntity.password.eq(password))
+                qUserEntity.loginName.eq(loginName).and(qUserEntity.status.eq(StatusEnum.STATUS_VALID)).and(qUserEntity.password.eq(password))
         );
         List<UserEntity> users = query.fetch();
 
@@ -219,7 +217,7 @@ public class UserServiceImpl implements UserService {
         JPAQuery query = new JPAQuery(entityManager);
         query.from(user)
                 .where(
-                        user.name.in(userNames)
+                        user.name.in(userNames).and(user.status.eq(StatusEnum.STATUS_VALID))
                 );
         return query.fetch();
 
@@ -288,7 +286,7 @@ public class UserServiceImpl implements UserService {
         query.from(qUserEntity);
         if(StringUtils.isNotBlank(name)){
             query.where(
-                    qUserEntity.name.like("%" + name + "%")
+                    qUserEntity.name.like("%" + name + "%").and(qUserEntity.status.eq(StatusEnum.STATUS_VALID))
             );
         }
         return query.fetch();

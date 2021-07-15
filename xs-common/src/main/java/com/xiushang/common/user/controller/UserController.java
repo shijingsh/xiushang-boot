@@ -11,6 +11,7 @@ import com.xiushang.common.utils.MD5;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.CommonResult;
+import com.xiushang.framework.utils.StatusEnum;
 import com.xiushang.framework.utils.UserHolder;
 import com.xiushang.framework.utils.WebUtil;
 import io.swagger.annotations.Api;
@@ -136,17 +137,16 @@ public class UserController {
 
     /**
      * 删除用户
-     * @param id
      * @return
      */
-    @ResponseBody
+    /*@ResponseBody
     @GetMapping("/delete")
     public CommonResult delete(String id) {
 
         userService.delete(id);
 
         return CommonResult.success(null);
-    }
+    }*/
 
     @ApiOperation(value = "上传用户头像")
     @ResponseBody
@@ -193,5 +193,22 @@ public class UserController {
         UserEntity userEntity = userService.getUserById(id);
 
         return CommonResult.success(userEntity);
+    }
+
+    @ApiOperation(value = "注销账号")
+    @ResponseBody
+    @GetMapping("/userCancel")
+    public CommonResult userCancel() {
+        //Subject subject = SecurityUtils.getSubject();
+        //subject.logout();
+        UserEntity userEntity = userService.getCurrentUser();
+        if(userEntity!=null){
+
+            userEntity.setStatus(StatusEnum.STATUS_INVALID);
+            userService.updateUser(userEntity);
+        }else{
+            return CommonResult.error("用户登录已失效，请重新登陆！");
+        }
+        return CommonResult.success();
     }
 }
