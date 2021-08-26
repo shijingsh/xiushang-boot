@@ -18,6 +18,11 @@ public class WxLoginVo implements java.io.Serializable{
     private String encryptedData;
     private String iv;
 
+    /**
+     * 推送 clientId
+     */
+    private String clientId;
+
     public String getShopId() {
         return shopId;
     }
@@ -105,5 +110,13 @@ public class WxLoginVo implements java.io.Serializable{
 
     public void setIv(String iv) {
         this.iv = iv;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 }

@@ -97,6 +97,7 @@ public class LoginController {
 
         if(user!=null){
             user.setLastLoginPlatform(loginVo.getLastLoginPlatform());
+            user.setClientId(loginVo.getClientId());
             userService.updateUserLastLoginDate(user);
         }
 
@@ -168,6 +169,7 @@ public class LoginController {
         }
         if(userEntity!=null){
             userEntity.setLastLoginPlatform(thirdUserVo.getLastLoginPlatform());
+            userEntity.setClientId(thirdUserVo.getClientId());
             userService.updateUserLastLoginDate(userEntity);
         }
 
@@ -305,6 +307,7 @@ public class LoginController {
                 }
                 if(userEntity!=null){
                     userEntity.setLastLoginPlatform(loginVo.getLastLoginPlatform());
+                    userEntity.setClientId(loginVo.getClientId());
                     userService.updateUserLastLoginDate(userEntity);
                 }
 
@@ -315,32 +318,7 @@ public class LoginController {
         return CommonResult.success(null);
     }
 
-    /**
-     * 获取公司实例
-     *
-     * @param userEntity
-     * @return
-     */
-   /* protected String getInstanceUserToken(UserEntity userEntity) {
-        if (StringUtils.isNotBlank(userEntity.getUserToken())) {
-            return userEntity.getUserToken();
-        }
 
-        return null;
-    }*/
-
-    /**
-     * 退出
-     */
-    /*@ApiOperation(value = "退出登陆")
-    @ResponseBody
-    @GetMapping("/loginOut")
-    public CommonResult loginOut() {
-        //Subject subject = SecurityUtils.getSubject();
-        //subject.logout();
-        return CommonResult.success();
-    }
-*/
     @ApiOperation(value = "获取微信Token")
     @ResponseBody
     @GetMapping("/weixinToken")

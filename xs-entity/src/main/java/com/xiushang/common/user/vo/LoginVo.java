@@ -17,6 +17,11 @@ public class LoginVo implements java.io.Serializable{
      */
     @ApiModelProperty(value = "登录平台")
     private String lastLoginPlatform;
+    /**
+     * 推送 clientId
+     */
+    @ApiModelProperty(value = "推送服务 客户ID")
+    private String clientId;
 
     public String getLoginName() {
         return loginName;
@@ -40,5 +45,13 @@ public class LoginVo implements java.io.Serializable{
 
     public void setLastLoginPlatform(String lastLoginPlatform) {
         this.lastLoginPlatform = lastLoginPlatform;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 }

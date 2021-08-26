@@ -80,6 +80,11 @@ public class UserEntity extends ExpandEntity {
     private String accessToken;
 
     /**
+     * 第三方推送 客户ID
+     */
+    private String clientId;
+
+    /**
      * 是否管理员
      */
     @Column(columnDefinition = "TINYINT")
@@ -302,5 +307,13 @@ public class UserEntity extends ExpandEntity {
 
     public void setAuthorization(AuthorizationVo authorization) {
         this.authorization = authorization;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 }

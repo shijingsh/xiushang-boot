@@ -25,6 +25,10 @@ public class ThirdUserVo implements java.io.Serializable{
      * 最后登录平台
      */
     private String lastLoginPlatform;
+    /**
+     * 推送 clientId
+     */
+    private String clientId;
 
     public String getEmail() {
         return email;
@@ -128,5 +132,13 @@ public class ThirdUserVo implements java.io.Serializable{
 
     public void setLastLoginPlatform(String lastLoginPlatform) {
         this.lastLoginPlatform = lastLoginPlatform;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 }
