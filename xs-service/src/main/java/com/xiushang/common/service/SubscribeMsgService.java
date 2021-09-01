@@ -92,8 +92,10 @@ public class SubscribeMsgService {
   public CommonResult<String> sendSubscribeMsg(SubscribeMsgEntity subscribeMsgEntity,SubscribeMsgAppointEntity subscribeMsgAppointEntity){
 
     JSONObject data = new JSONObject();
-    data.put("thing", new JSONObject().put("value", subscribeMsgEntity.getName()));
-    data.put("time", new JSONObject().put("value", DateUtil.formatDateTime(subscribeMsgEntity.getStart())));
+    JSONObject paramJsonObject =  subscribeMsgAppointEntity.getParamJsonObject();
+    for(String str:paramJsonObject.keySet()){
+      data.put(str, new JSONObject().put("value", paramJsonObject.get(str)));
+    }
 
     JSONObject param = new JSONObject();
     param.put("touser", subscribeMsgAppointEntity.getOpenId());
