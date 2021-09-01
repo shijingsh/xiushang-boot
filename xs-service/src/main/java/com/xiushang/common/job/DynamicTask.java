@@ -1,7 +1,7 @@
-package com.xiushang.common.job.task;
+package com.xiushang.common.job;
 
 import com.google.common.collect.Lists;
-import com.xiushang.common.job.service.SubscribeMsgService;
+import com.xiushang.common.service.SubscribeMsgService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
@@ -28,7 +28,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class DynamicTask implements SchedulingConfigurer {
 
   @Autowired
-  private  SubscribeMsgService subscribeMsgService;
+  private SubscribeMsgService subscribeMsgService;
 
   private static final ExecutorService es = new ThreadPoolExecutor(10, 20,
       0L, TimeUnit.MILLISECONDS,

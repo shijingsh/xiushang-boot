@@ -1,4 +1,4 @@
-package com.xiushang.common.job.service;
+package com.xiushang.common.service;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
@@ -15,6 +15,7 @@ import com.xiushang.entity.SubscribeMsgEntity;
 import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.sys.PropertyConfigurer;
+import com.xiushang.job.service.DynamicTaskService;
 import com.xiushang.jpa.repository.SysSubscribeMsgAppointDao;
 import com.xiushang.jpa.repository.SysSubscribeMsgDao;
 import lombok.extern.slf4j.Slf4j;

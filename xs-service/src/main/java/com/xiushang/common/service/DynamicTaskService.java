@@ -1,28 +1,23 @@
-package com.xiushang.common.job.service;
+package com.xiushang.job.service;
 
 
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.json.JSONUtil;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import com.xiushang.common.job.task.DynamicTask;
+import com.xiushang.common.job.DynamicTask;
 import com.xiushang.common.job.vo.SubscribeMsgAppointVo;
-import com.xiushang.common.job.vo.SubscribeSearchVo;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.utils.BaseServiceImpl;
 import com.xiushang.common.utils.JsonUtils;
-import com.xiushang.common.utils.LazyLoadUtil;
 import com.xiushang.entity.QSubscribeMsgEntity;
 import com.xiushang.entity.SubscribeMsgAppointEntity;
 import com.xiushang.entity.SubscribeMsgEntity;
 import com.xiushang.entity.UserEntity;
-import com.xiushang.framework.entity.vo.PageTableVO;
-import com.xiushang.framework.utils.WebUtil;
 import com.xiushang.jpa.repository.SysSubscribeMsgAppointDao;
 import com.xiushang.jpa.repository.SysSubscribeMsgDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
