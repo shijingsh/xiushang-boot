@@ -170,8 +170,8 @@ public class DynamicTaskService  extends BaseServiceImpl<SubscribeMsgEntity> {
     }else{
       appointEntity = new SubscribeMsgAppointEntity();
       appointEntity.setUserId(userEntity.getId());
-      appointEntity.setOpenId(appointVo.getOpenId());
     }
+    appointEntity.setOpenId(appointVo.getOpenId());
     appointEntity.setStatus(1);
     appointEntity.setSubscribeObjectId(appointVo.getSubscribeObjectId());
     appointEntity.setSubscribeMsgTemplateId(appointVo.getSubscribeMsgTemplateId());
