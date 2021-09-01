@@ -12,6 +12,12 @@ import java.util.Date;
 public class SubscribeMsgEntity extends BaseEntity {
 
     /**
+     * 订阅对象ID
+     */
+    @ApiModelProperty(notes = "订阅对象ID")
+    @ApiParam("订阅对象ID")
+    private String subscribeObjectId;
+    /**
      * shopId
      */
     @ApiModelProperty(notes = "shopId")
@@ -42,6 +48,14 @@ public class SubscribeMsgEntity extends BaseEntity {
     @ApiModelProperty(notes = "状态")
     @ApiParam("状态")
     private Integer status = 1;
+
+    public String getSubscribeObjectId() {
+        return subscribeObjectId;
+    }
+
+    public void setSubscribeObjectId(String subscribeObjectId) {
+        this.subscribeObjectId = subscribeObjectId;
+    }
 
     public String getShopId() {
         return shopId;

@@ -1,7 +1,10 @@
 package com.xiushang.common.job.vo;
 
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
+
+import java.util.Date;
 
 public class SubscribeMsgAppointVo {
 
@@ -35,6 +38,32 @@ public class SubscribeMsgAppointVo {
     @ApiParam("消息跳转的页面")
     private String page;
 
+    @ApiModelProperty(notes = "参数模板")
+    @ApiParam("参数模板")
+    private JSONObject paramJsonObject;
+
+    //-------------------消息内容------------------------------
+    @ApiModelProperty(notes = "shopId")
+    @ApiParam("shopId")
+    private String shopId;
+
+    @ApiModelProperty(notes = "标题")
+    @ApiParam("标题")
+    private String name;
+    /**
+     * 开始时间
+     */
+    @ApiModelProperty(notes = "开始日期")
+    @ApiParam("开始日期")
+    private Date start;
+    /**
+     * 结束时间
+     */
+    @ApiModelProperty(notes = "结束日期")
+    @ApiParam("结束日期")
+    private Date end;
+
+
     public String getOpenId() {
         return openId;
     }
@@ -65,5 +94,45 @@ public class SubscribeMsgAppointVo {
 
     public void setPage(String page) {
         this.page = page;
+    }
+
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
+    public JSONObject getParamJsonObject() {
+        return paramJsonObject;
+    }
+
+    public void setParamJsonObject(JSONObject paramJsonObject) {
+        this.paramJsonObject = paramJsonObject;
     }
 }

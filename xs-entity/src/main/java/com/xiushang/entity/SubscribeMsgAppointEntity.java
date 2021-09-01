@@ -1,10 +1,11 @@
 package com.xiushang.entity;
 
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name="sys_subscribe_msg_appoint")
@@ -53,6 +54,14 @@ public class SubscribeMsgAppointEntity extends BaseEntity {
     @ApiParam("消息跳转的页面")
     private String page;
 
+    @ApiModelProperty(notes = "参数模板")
+    @ApiParam("参数模板")
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    private String paramJson;
+
+    @Transient
+    private JSONObject paramJsonObject;
 
     public String getUserId() {
         return userId;
@@ -100,5 +109,24 @@ public class SubscribeMsgAppointEntity extends BaseEntity {
 
     public void setPage(String page) {
         this.page = page;
+    }
+
+    public String getParamJson() {
+        return paramJson;
+    }
+
+    public void setParamJson(String paramJson) {
+        this.paramJson = paramJson;
+    }
+
+    public JSONObject getParamJsonObject() {
+        if(StringUtils.isNotBlank(this.paramJson)){
+            return  JSONObject.parseObject(this.paramJson);
+        }
+        return paramJsonObject;
+    }
+
+    public void setParamJsonObject(JSONObject paramJsonObject) {
+        this.paramJsonObject = paramJsonObject;
     }
 }

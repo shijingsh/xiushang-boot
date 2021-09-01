@@ -10,13 +10,13 @@ import com.xiushang.common.job.vo.SubscribeMsgAppointVo;
 import com.xiushang.common.job.vo.SubscribeSearchVo;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.utils.BaseServiceImpl;
+import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.common.utils.LazyLoadUtil;
 import com.xiushang.entity.QSubscribeMsgEntity;
 import com.xiushang.entity.SubscribeMsgAppointEntity;
 import com.xiushang.entity.SubscribeMsgEntity;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
-import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.utils.WebUtil;
 import com.xiushang.jpa.repository.SysSubscribeMsgAppointDao;
 import com.xiushang.jpa.repository.SysSubscribeMsgDao;
@@ -24,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -46,18 +47,6 @@ public class DynamicTaskService  extends BaseServiceImpl<SubscribeMsgEntity> {
   public HttpServletRequest request;
   @Autowired
   private UserService userService;
-
-  public void saveOrUpdateTask(SubscribeMsgEntity subscribeMsgEntity) {
-    Date currentDate = DateUtil.date();
-    Date dateTime = subscribeMsgEntity.getStart();
-    subscribeMsgDao.save(subscribeMsgEntity);
-
-    if (currentDate.getTime() <= dateTime.getTime()) {
-      List<DynamicTask.TaskConstant> taskConstants = dynamicTask.getTaskConstants();
-      addTodayTask(taskConstants, subscribeMsgEntity.getId(), subscribeMsgEntity.getStart());
-    }
-
-  }
 
   public void deleteTask(String id) {
     List<DynamicTask.TaskConstant> taskConstants = dynamicTask.getTaskConstants();
@@ -122,37 +111,61 @@ public class DynamicTaskService  extends BaseServiceImpl<SubscribeMsgEntity> {
     log.info(StrUtil.format("当前预约消息推送任务：{}", JSONUtil.toJsonStr(taskConstants)));
   }
 
-  public SubscribeMsgEntity get(String id) {
-    return subscribeMsgDao.getOne(id);
-  }
+  public Integer getSubscribeStatus(String subscribeObjectId) {
+    UserEntity userEntity = userService.getCurrentUser();
 
-  public PageTableVO findPageList() {
-
-    SubscribeSearchVo searchVo = WebUtil.getJsonBody(request, SubscribeSearchVo.class);
-
-    QSubscribeMsgEntity entity = QSubscribeMsgEntity.subscribeMsgEntity;
-
-    BooleanExpression ex = entity.shopId.eq(searchVo.getShopId());
-    if(searchVo.getStatus()!=null){
-      ex = ex.and(entity.status.eq(searchVo.getStatus()));
+    List<SubscribeMsgEntity> subscribeList = subscribeMsgDao.findBySubscribeObjectId(subscribeObjectId);
+    SubscribeMsgEntity subscribeMsgEntity = null;
+    if(subscribeList!=null && subscribeList.size()>0){
+      subscribeMsgEntity = subscribeList.get(0);
     }
 
-    Iterable<SubscribeMsgEntity> iterable = subscribeMsgDao.findAll(ex);
+    List<SubscribeMsgAppointEntity> list = sysSubscribeMsgAppointDao.findBySubscribeObjectIdAndUserId(subscribeObjectId,userEntity.getId());
+    SubscribeMsgAppointEntity appointEntity = null;
+    if(list!=null && list.size()>0){
+      appointEntity = list.get(0);
+    }
 
-    Page<SubscribeMsgEntity> page = findPageList(ex,searchVo.createPageRequest());
-    LazyLoadUtil.fullLoad(page);
-    PageTableVO vo = new PageTableVO(page,searchVo);
+    if(subscribeMsgEntity!=null && appointEntity!=null){
+      if(appointEntity.getStatus()==1) {
+        return 1;
+      }
+    }
 
-    return vo;
+    return 0;
   }
 
+  @Transactional
   public SubscribeMsgAppointEntity appoint(SubscribeMsgAppointVo appointVo) {
     UserEntity userEntity = userService.getCurrentUser();
 
-    SubscribeMsgEntity subscribeMsgEntity = subscribeMsgDao.getOne(appointVo.getSubscribeObjectId());
-    if(subscribeMsgEntity==null || subscribeMsgEntity.getStatus()>=3){
+    List<SubscribeMsgEntity> subscribeList = subscribeMsgDao.findBySubscribeObjectId(appointVo.getSubscribeObjectId());
+    SubscribeMsgEntity subscribeMsgEntity = null;
+    if(subscribeList!=null && subscribeList.size()>0){
+      subscribeMsgEntity = subscribeList.get(0);
+    }
+    if(subscribeMsgEntity!=null && subscribeMsgEntity.getStatus()>=3) {
       //已结束，直接返回
       return null;
+    }
+    //没有订阅消息，则创建
+    if(subscribeMsgEntity==null){
+      subscribeMsgEntity = new SubscribeMsgEntity();
+      subscribeMsgEntity.setSubscribeObjectId(appointVo.getSubscribeObjectId());
+      subscribeMsgEntity.setName(appointVo.getName());
+      subscribeMsgEntity.setStatus(1);
+      subscribeMsgEntity.setStart(appointVo.getStart());
+      subscribeMsgEntity.setEnd(appointVo.getEnd());
+      subscribeMsgEntity.setShopId(appointVo.getShopId());
+
+      subscribeMsgDao.save(subscribeMsgEntity);
+
+      Date currentDate = DateUtil.date();
+      Date dateTime = subscribeMsgEntity.getStart();
+      if (currentDate.getTime() <= dateTime.getTime()) {
+        List<DynamicTask.TaskConstant> taskConstants = dynamicTask.getTaskConstants();
+        addTodayTask(taskConstants, subscribeMsgEntity.getId(), subscribeMsgEntity.getStart());
+      }
     }
 
     List<SubscribeMsgAppointEntity> list = sysSubscribeMsgAppointDao.findBySubscribeObjectIdAndUserId(appointVo.getSubscribeObjectId(),userEntity.getId());
@@ -164,12 +177,32 @@ public class DynamicTaskService  extends BaseServiceImpl<SubscribeMsgEntity> {
       appointEntity.setUserId(userEntity.getId());
       appointEntity.setOpenId(appointVo.getOpenId());
     }
+    appointEntity.setStatus(1);
     appointEntity.setSubscribeObjectId(appointVo.getSubscribeObjectId());
     appointEntity.setSubscribeMsgTemplateId(appointVo.getSubscribeMsgTemplateId());
     appointEntity.setPage(appointVo.getPage());
 
+    if(appointVo.getParamJsonObject()!=null){
+      appointEntity.setParamJson(JsonUtils.toJsonStr(appointVo.getParamJsonObject()));
+    }
+
     sysSubscribeMsgAppointDao.save(appointEntity);
 
     return appointEntity;
+  }
+
+  @Transactional
+  public void appointCancel(String subscribeObjectId) {
+
+    UserEntity userEntity = userService.getCurrentUser();
+    List<SubscribeMsgAppointEntity> list = sysSubscribeMsgAppointDao.findBySubscribeObjectIdAndUserId(subscribeObjectId,userEntity.getId());
+    SubscribeMsgAppointEntity appointEntity = null;
+    if(list!=null && list.size()>0){
+      appointEntity = list.get(0);
+
+      appointEntity.setStatus(0);
+      sysSubscribeMsgAppointDao.save(appointEntity);
+    }
+
   }
 }
