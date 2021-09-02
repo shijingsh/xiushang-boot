@@ -47,14 +47,6 @@ public class SubscribeMsgAppointEntity extends BaseEntity {
     private String subscribeObjectId;
 
     /**
-     * 状态
-     * 1 有效 0 无效
-     */
-    @ApiModelProperty(notes = "状态")
-    @ApiParam("状态")
-    private Integer status = 1;
-
-    /**
      * 推送状态
      * 0 未推送  1 已推送
      */
@@ -169,14 +161,6 @@ public class SubscribeMsgAppointEntity extends BaseEntity {
 
     public void setEnd(Date end) {
         this.end = end;
-    }
-
-    public Integer getStatus() {
-        return status;
-    }
-
-    public void setStatus(Integer status) {
-        this.status = status;
     }
 
     public Integer getType() {

@@ -44,7 +44,7 @@ public class SubscribeMsgService {
   public boolean sendSubscribeMsg(String code){
     SubscribeMsgAppointEntity msgAppointEntity = sysSubscribeMsgAppointDao.getOne(code);
     if (null != msgAppointEntity) {
-      if (msgAppointEntity.getStatus() == 0 || msgAppointEntity.getPullStatus()==1) {
+      if (msgAppointEntity.getPullStatus()==1) {
         dynamicTaskService.deleteTask(msgAppointEntity.getId());
         return false;
       }

@@ -48,10 +48,10 @@ public class SubscribeController {
     @ApiOperation("订阅消息")
     @PostMapping("/appoint")
     @ResponseBody
-    public CommonResult<SubscribeMsgAppointEntity> appoint(@RequestBody SubscribeMsgAppointVo appointVo) {
-        SubscribeMsgAppointEntity appointEntity = dynamicTaskService.appoint(appointVo);
+    public CommonResult<Boolean> appoint(@RequestBody SubscribeMsgAppointVo appointVo) {
+        Boolean flag = dynamicTaskService.appoint(appointVo);
 
-        return CommonResult.success(appointEntity);
+        return CommonResult.success(flag);
     }
 
 
