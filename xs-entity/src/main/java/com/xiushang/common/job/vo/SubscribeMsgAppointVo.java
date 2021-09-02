@@ -46,6 +46,15 @@ public class SubscribeMsgAppointVo {
     @ApiModelProperty(notes = "shopId")
     @ApiParam("shopId")
     private String shopId;
+    /**
+     * 订阅类型
+     * 0 默认  DynamicTask 来处理，其他类型需要自定义TASK来处理
+     * 1 活动
+     * 2 抽奖
+     */
+    @ApiModelProperty(notes = "订阅类型")
+    @ApiParam("订阅类型")
+    private Integer type = 0;
 
     @ApiModelProperty(notes = "标题")
     @ApiParam("标题")
@@ -110,6 +119,14 @@ public class SubscribeMsgAppointVo {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public Date getStart() {

@@ -2,7 +2,6 @@ package com.xiushang.common.subscribe.controller;
 
 import com.xiushang.common.job.vo.SubscribeMsgAppointVo;
 import com.xiushang.entity.SubscribeMsgAppointEntity;
-import com.xiushang.entity.SubscribeMsgEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.job.service.DynamicTaskService;
 import io.swagger.annotations.Api;
@@ -40,7 +39,7 @@ public class SubscribeController {
     @ApiOperation(value = "取消订阅消息")
     @ResponseBody
     @GetMapping("/cancel")
-    public CommonResult<SubscribeMsgEntity> cancel(String subscribeObjectId) {
+    public CommonResult<String> cancel(String subscribeObjectId) {
 
         dynamicTaskService.appointCancel(subscribeObjectId);
         return CommonResult.success();

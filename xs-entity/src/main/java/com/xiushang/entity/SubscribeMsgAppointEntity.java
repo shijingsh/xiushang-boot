@@ -6,10 +6,24 @@ import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 @Table(name="sys_subscribe_msg_appoint")
 public class SubscribeMsgAppointEntity extends BaseEntity {
+
+    /**
+     * shopId
+     */
+    @ApiModelProperty(notes = "shopId")
+    @ApiParam("shopId")
+    private String shopId;
+    /**
+     * 标题
+     */
+    @ApiModelProperty(notes = "标题")
+    @ApiParam("标题")
+    private String name;
 
     /**
      * 用户主键
@@ -34,11 +48,41 @@ public class SubscribeMsgAppointEntity extends BaseEntity {
 
     /**
      * 状态
-     * 1 有限 0 无效
+     * 1 有效 0 无效
      */
     @ApiModelProperty(notes = "状态")
     @ApiParam("状态")
     private Integer status = 1;
+
+    /**
+     * 推送状态
+     * 0 未推送  1 已推送
+     */
+    @ApiModelProperty(notes = "推送状态")
+    @ApiParam("推送状态")
+    private Integer pullStatus = 0;
+
+    /**
+     * 订阅类型
+     * 0 默认  DynamicTask 来处理，其他类型需要自定义TASK来处理
+     * 1 活动
+     * 2 抽奖
+     */
+    @ApiModelProperty(notes = "订阅类型")
+    @ApiParam("订阅类型")
+    private Integer type = 0;
+    /**
+     * 开始时间
+     */
+    @ApiModelProperty(notes = "开始日期")
+    @ApiParam("开始日期")
+    private Date start;
+    /**
+     * 结束时间
+     */
+    @ApiModelProperty(notes = "结束日期")
+    @ApiParam("结束日期")
+    private Date end;
 
     /**
      * 订阅消息模板ID
@@ -87,12 +131,60 @@ public class SubscribeMsgAppointEntity extends BaseEntity {
         this.subscribeObjectId = subscribeObjectId;
     }
 
+    public String getShopId() {
+        return shopId;
+    }
+
+    public void setShopId(String shopId) {
+        this.shopId = shopId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getPullStatus() {
+        return pullStatus;
+    }
+
+    public void setPullStatus(Integer pullStatus) {
+        this.pullStatus = pullStatus;
+    }
+
+    public Date getStart() {
+        return start;
+    }
+
+    public void setStart(Date start) {
+        this.start = start;
+    }
+
+    public Date getEnd() {
+        return end;
+    }
+
+    public void setEnd(Date end) {
+        this.end = end;
+    }
+
     public Integer getStatus() {
         return status;
     }
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 
     public String getSubscribeMsgTemplateId() {

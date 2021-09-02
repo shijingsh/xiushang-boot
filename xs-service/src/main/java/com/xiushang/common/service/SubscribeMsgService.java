@@ -1,7 +1,6 @@
 package com.xiushang.common.service;
 
 import cn.hutool.core.collection.CollectionUtil;
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
@@ -11,28 +10,24 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.xiushang.common.user.service.SystemParamService;
 import com.xiushang.entity.QSubscribeMsgAppointEntity;
 import com.xiushang.entity.SubscribeMsgAppointEntity;
-import com.xiushang.entity.SubscribeMsgEntity;
 import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import com.xiushang.job.service.DynamicTaskService;
 import com.xiushang.jpa.repository.SysSubscribeMsgAppointDao;
-import com.xiushang.jpa.repository.SysSubscribeMsgDao;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 @Service
 @Slf4j
 public class SubscribeMsgService {
-
-
-  @Resource
-  private SysSubscribeMsgDao subscribeMsgDao;
 
   @Resource
   private SysSubscribeMsgAppointDao sysSubscribeMsgAppointDao;
@@ -47,37 +42,20 @@ public class SubscribeMsgService {
    * @return
    */
   public boolean sendSubscribeMsg(String code){
-    SubscribeMsgEntity subscribeMsgEntity = subscribeMsgDao.getOne(code);
-    if (null != subscribeMsgEntity) {
-      if (subscribeMsgEntity.getStatus() >= 4) {
-        dynamicTaskService.deleteTask(subscribeMsgEntity.getId());
+    SubscribeMsgAppointEntity msgAppointEntity = sysSubscribeMsgAppointDao.getOne(code);
+    if (null != msgAppointEntity) {
+      if (msgAppointEntity.getStatus() == 0 || msgAppointEntity.getPullStatus()==1) {
+        dynamicTaskService.deleteTask(msgAppointEntity.getId());
         return false;
       }
-      Date dateTime = subscribeMsgEntity.getStart();
 
-      QSubscribeMsgAppointEntity entity = QSubscribeMsgAppointEntity.subscribeMsgAppointEntity;
-      BooleanExpression ex =  entity.status.eq(1);
-      ex = ex.and(entity.subscribeObjectId.eq(code));
-      Iterable<SubscribeMsgAppointEntity> iterable =  sysSubscribeMsgAppointDao.findAll(ex);
-      Iterator<SubscribeMsgAppointEntity> it = iterable.iterator();
-      List<SubscribeMsgAppointEntity> appointCodeList = new ArrayList<>();
-      while (it.hasNext()){
+      CommonResult<String> result = sendSubscribeMsg(msgAppointEntity);
+      if (null != result && result.getErrorCode()== CommonResult.SUCCESS) {
+        //订阅消息发送成功,设置为已推送
+        msgAppointEntity.setPullStatus(1);
+        sysSubscribeMsgAppointDao.save(msgAppointEntity);
 
-        SubscribeMsgAppointEntity subscribeMsgAppointEntity = it.next();
-        //发送订阅消息（用户从微信小程序订阅一次接收一次，所以发完要删除预约记录）
-        CommonResult<String> result = sendSubscribeMsg(subscribeMsgEntity, subscribeMsgAppointEntity);
-        if (null != result && result.getErrorCode()== CommonResult.SUCCESS) {
-          //记录发送成功的预约主键
-          appointCodeList.add(subscribeMsgAppointEntity);
-        }
-      }
-      if (CollectionUtil.isNotEmpty(appointCodeList)) {
-        for (SubscribeMsgAppointEntity appointEntity:appointCodeList){
-          //逻辑删除订阅消息发送成功的
-          appointEntity.setStatus(0);
-          sysSubscribeMsgAppointDao.save(appointEntity);
-        }
-        log.info(StrUtil.format("{}-{}: 有人预约!成功推送：{}条 ", code, subscribeMsgEntity.getName(),appointCodeList.size()));
+        log.info(StrUtil.format("{}-{}: 有人预约!推送成功 ", code, msgAppointEntity.getName()));
       }
 
       return true;
@@ -89,7 +67,7 @@ public class SubscribeMsgService {
    * 发送订阅消息
    * @return
    */
-  public CommonResult<String> sendSubscribeMsg(SubscribeMsgEntity subscribeMsgEntity,SubscribeMsgAppointEntity subscribeMsgAppointEntity){
+  public CommonResult<String> sendSubscribeMsg(SubscribeMsgAppointEntity subscribeMsgAppointEntity){
 
     JSONObject data = new JSONObject();
     JSONObject paramJsonObject =  subscribeMsgAppointEntity.getParamJsonObject();
@@ -100,7 +78,7 @@ public class SubscribeMsgService {
     JSONObject param = new JSONObject();
     param.put("touser", subscribeMsgAppointEntity.getOpenId());
     param.put("data", data);
-    param.put("id", subscribeMsgEntity.getId());
+    param.put("id", subscribeMsgAppointEntity.getId());
 
     try {
 
