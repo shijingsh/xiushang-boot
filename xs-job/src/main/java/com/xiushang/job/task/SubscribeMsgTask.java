@@ -1,7 +1,7 @@
 package com.xiushang.job.task;
 
 
-import com.xiushang.job.service.DynamicTaskService;
+import com.xiushang.common.service.DynamicTaskService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 

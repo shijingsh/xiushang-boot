@@ -1,29 +1,24 @@
 package com.xiushang.common.service;
 
-import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.querydsl.core.types.dsl.BooleanExpression;
 import com.xiushang.common.user.service.SystemParamService;
-import com.xiushang.entity.QSubscribeMsgAppointEntity;
+import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.entity.SubscribeMsgAppointEntity;
 import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.sys.PropertyConfigurer;
-import com.xiushang.job.service.DynamicTaskService;
 import com.xiushang.jpa.repository.SysSubscribeMsgAppointDao;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -41,25 +36,41 @@ public class SubscribeMsgService {
    * 发送订阅消息
    * @return
    */
+  @Transactional
   public boolean sendSubscribeMsg(String code){
-    SubscribeMsgAppointEntity msgAppointEntity = sysSubscribeMsgAppointDao.getOne(code);
-    if (null != msgAppointEntity) {
-      if (msgAppointEntity.getPullStatus()==1) {
-        dynamicTaskService.deleteTask(msgAppointEntity.getId());
-        return false;
+
+    try {
+      SubscribeMsgAppointEntity msgAppointEntity = sysSubscribeMsgAppointDao.getOne(code);
+      if (null != msgAppointEntity) {
+        if (msgAppointEntity.getPullStatus()==1) {
+          dynamicTaskService.deleteTask(msgAppointEntity.getId());
+          return false;
+        }
+
+        CommonResult<String> result = sendSubscribeMsg(msgAppointEntity);
+        if (null != result && result.getErrorCode()== CommonResult.SUCCESS) {
+
+          String json = result.getData();
+          JSONObject jsonObject = JsonUtils.toJSONObject(json);
+          if(jsonObject.getInteger("errcode")==0){
+            //订阅消息发送成功,设置为已推送
+            msgAppointEntity.setPullStatus(1);
+            sysSubscribeMsgAppointDao.save(msgAppointEntity);
+
+            log.info(StrUtil.format("{}-{}: 有人预约!推送成功 ", code, msgAppointEntity.getName()));
+          }else{
+
+            log.info(StrUtil.format("预约推送失败：{} ", json));
+          }
+
+        }
+
+        return true;
       }
-
-      CommonResult<String> result = sendSubscribeMsg(msgAppointEntity);
-      if (null != result && result.getErrorCode()== CommonResult.SUCCESS) {
-        //订阅消息发送成功,设置为已推送
-        msgAppointEntity.setPullStatus(1);
-        sysSubscribeMsgAppointDao.save(msgAppointEntity);
-
-        log.info(StrUtil.format("{}-{}: 有人预约!推送成功 ", code, msgAppointEntity.getName()));
-      }
-
-      return true;
+    }catch(Exception ex){
+      ex.printStackTrace();
     }
+
     return false;
   }
 
@@ -72,7 +83,9 @@ public class SubscribeMsgService {
     JSONObject data = new JSONObject();
     JSONObject paramJsonObject =  subscribeMsgAppointEntity.getParamJsonObject();
     for(String str:paramJsonObject.keySet()){
-      data.put(str, new JSONObject().put("value", paramJsonObject.get(str)));
+      JSONObject object =  new JSONObject();
+      object.put("value", paramJsonObject.get(str));
+      data.put(str,object);
     }
 
     JSONObject param = new JSONObject();
@@ -85,7 +98,7 @@ public class SubscribeMsgService {
       String grant_type = "client_credential";
       String appid = "";
       String secret = "";
-      String shopId = "";
+      String shopId = subscribeMsgAppointEntity.getShopId();
       if(StringUtils.isNotBlank(shopId)){
         SystemParamEntity systemParam = systemParamService.findByName(shopId,shopId+"_weixin.appid");
         if(systemParam==null){
@@ -112,12 +125,9 @@ public class SubscribeMsgService {
       }
       log.info("sendSubscribeMsg accessToken=================== {}", accessToken);
 
-      String params = JSONUtil.toJsonStr(param);
-      log.info("Request Params =================== {}", params);
-
       String url = PropertyConfigurer.getConfig("weixin.subscribeSendUrl");
       if(StringUtils.isBlank(url)){
-        url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send";
+        url = "https://api.weixin.qq.com/cgi-bin/message/subscribe/send?access_token="+accessToken;
       }
       String subscribeMsgTemplateId = subscribeMsgAppointEntity.getSubscribeMsgTemplateId();
       String miniprogramState = PropertyConfigurer.getConfig("weixin.miniprogramState");
@@ -130,7 +140,11 @@ public class SubscribeMsgService {
       param.put("page", page);
       param.put("template_id", subscribeMsgTemplateId);
       param.put("miniprogram_state", miniprogramState);
-      String jsonResult= HttpUtil.post(url,JSONUtil.toJsonStr(param));
+
+      String params = JSONUtil.toJsonStr(param);
+      log.info("Request Params =================== {}", params);
+
+      String jsonResult= HttpUtil.post(url,params);
       log.info("发送订阅消息，微信返回值:"+jsonResult);
       return CommonResult.success(jsonResult);
 

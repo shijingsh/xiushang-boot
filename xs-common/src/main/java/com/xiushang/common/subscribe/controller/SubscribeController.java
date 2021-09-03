@@ -1,9 +1,8 @@
 package com.xiushang.common.subscribe.controller;
 
 import com.xiushang.common.job.vo.SubscribeMsgAppointVo;
-import com.xiushang.entity.SubscribeMsgAppointEntity;
+import com.xiushang.common.service.DynamicTaskService;
 import com.xiushang.framework.log.CommonResult;
-import com.xiushang.job.service.DynamicTaskService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;

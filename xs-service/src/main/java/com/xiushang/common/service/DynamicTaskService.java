@@ -1,4 +1,4 @@
-package com.xiushang.job.service;
+package com.xiushang.common.service;
 
 
 import cn.hutool.core.date.DateUtil;
