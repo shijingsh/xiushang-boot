@@ -8,12 +8,18 @@ import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
 import com.xiushang.common.user.service.SmsCodeService;
+import com.xiushang.common.user.service.SystemParamService;
+import com.xiushang.common.user.vo.SmsVo;
 import com.xiushang.entity.SmsCodeEntity;
+import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
 
 /**
  * 短信服务类
@@ -26,6 +32,8 @@ public class SmsService {
 	static final String product = "Dysmsapi";
 	//产品域名,开发者无需替换
 	static final String domain = "dysmsapi.aliyuncs.com";
+	@Autowired
+	private SystemParamService paramService;
 
 	@Autowired
 	private SmsCodeService smsCodeService;
@@ -72,24 +80,60 @@ public class SmsService {
 		return sendSmsResponse;
 	}
 
-	public int sendSmsAliyunForVerificationCode(String mobile, String randomStr) throws Exception {
-		//模板代码
-		String templateParam = "{\"code\":\""+randomStr+"\"}";
-		String templateCode = PropertyConfigurer.getConfig("sms.templateCode");
-		SendSmsResponse response = sendSmsAliyun(mobile,templateParam,templateCode);
+	@Transactional
+	public int sendSmsAliyunForVerificationCode(SmsVo smsVo) throws Exception {
+
+		SendSmsResponse response = sendSmsAliyun(smsVo.getMobile(),smsVo.getTemplateParam(),smsVo.getTemplateCode());
+
+		//保存短信验证码
+		SmsCodeEntity smsCodeEntity = new SmsCodeEntity();
+		smsCodeEntity.setTemplateCode(smsVo.getTemplateCode());
+		smsCodeEntity.setTemplateParam(smsVo.getTemplateParam());
+		smsCodeEntity.setShopId(smsVo.getShopId());
+		smsCodeEntity.setSystemFlag(smsVo.getSystemFlag());
+		smsCodeEntity.setMobile(smsVo.getMobile());
+		smsCodeEntity.setSmsCode(smsVo.getSmsCode());
+		smsCodeEntity.setSendTime(new Date());
+		smsCodeService.save(smsCodeEntity);
+
 		if(response.getCode() != null && response.getCode().equals("OK")) {
 			return 1;
 		}
 
 		return 0;
 	}
-	public int sendSms(String mobile, String templateParam,String templateCode) throws Exception {
-		SendSmsResponse response = sendSmsAliyun(mobile,templateParam,templateCode);
+
+	@Transactional
+	public int sendSms(SmsVo smsVo) throws Exception {
+		String shopId = smsVo.getShopId();
+		if(StringUtils.isNotBlank(shopId)) {
+			//判断店铺短信开关 0 关闭  1 打开
+			SystemParamEntity param = paramService.findByName(shopId, shopId + "_sms.opened");
+			if (param != null) {
+				if("0".equals(param.getParamValue())){
+					log.info("shopId："+shopId+" 短信功能已关闭，未发送短信");
+					return 0;
+				}
+			}
+		}
+		SendSmsResponse response = sendSmsAliyun(smsVo.getMobile(),smsVo.getTemplateParam(),smsVo.getTemplateCode());
 		log.info("=======================================");
 		log.info("code:"+response.getCode());
 		log.info("message:"+response.getMessage());
 		log.info("bizId:"+response.getBizId());
 		log.info("requestId:"+response.getRequestId());
+
+		//保存短信记录
+		SmsCodeEntity smsCodeEntity = new SmsCodeEntity();
+		smsCodeEntity.setMobile(smsVo.getMobile());
+		smsCodeEntity.setSmsCode("");
+		smsCodeEntity.setTemplateCode(smsVo.getTemplateCode());
+		smsCodeEntity.setTemplateParam(smsVo.getTemplateParam());
+		smsCodeEntity.setShopId(shopId);
+		smsCodeEntity.setSystemFlag(smsVo.getSystemFlag());
+		smsCodeEntity.setSendTime(new Date());
+		smsCodeService.save(smsCodeEntity);
+
 		if(response.getCode() != null && response.getCode().equals("OK")) {
 			return 1;
 		}
