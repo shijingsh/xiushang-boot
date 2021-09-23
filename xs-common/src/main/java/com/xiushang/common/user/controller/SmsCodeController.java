@@ -87,12 +87,12 @@ public class SmsCodeController {
 	 * @param smsVo
 	 * @return
 	 */
-	@ApiOperation(value = "自签名验证码")
+	@ApiOperation(value = "自定义验证码")
 	@ResponseBody
-	@GetMapping("/verifyCodeShop")
-	public CommonResult verifyCodeShop(SmsVo smsVo) {
+	@GetMapping("/verifyCodeCustom")
+	public CommonResult verifyCodeCustom(SmsVo smsVo) {
 		if(StringUtils.isBlank(smsVo.getShopId())) {
-			return CommonResult.error(100000, "自签名验证码，shopId不能为空！");
+			return CommonResult.error(100000, "自定义验证码，shopId不能为空！");
 		}
 		if(StringUtils.isBlank(smsVo.getMobile())) {
 			return CommonResult.error(100000, "请输入手机号码");

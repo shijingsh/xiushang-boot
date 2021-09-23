@@ -40,6 +40,12 @@ public class SmsCodeEntity extends BaseEntity {
      * 短信发送时间
      */
     private  Date sendTime;
+    //-------------返回内容-------------------
+    private String requestId;
+    private String bizId;
+    private String code;
+    private String message;
+
 
     public String getShopId() {
         return shopId;
@@ -95,5 +101,37 @@ public class SmsCodeEntity extends BaseEntity {
 
     public void setSystemFlag(int systemFlag) {
         this.systemFlag = systemFlag;
+    }
+
+    public String getRequestId() {
+        return requestId;
+    }
+
+    public void setRequestId(String requestId) {
+        this.requestId = requestId;
+    }
+
+    public String getBizId() {
+        return bizId;
+    }
+
+    public void setBizId(String bizId) {
+        this.bizId = bizId;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

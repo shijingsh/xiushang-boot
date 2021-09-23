@@ -86,15 +86,7 @@ public class SmsService {
 		SendSmsResponse response = sendSmsAliyun(smsVo.getMobile(),smsVo.getTemplateParam(),smsVo.getTemplateCode());
 
 		//保存短信验证码
-		SmsCodeEntity smsCodeEntity = new SmsCodeEntity();
-		smsCodeEntity.setTemplateCode(smsVo.getTemplateCode());
-		smsCodeEntity.setTemplateParam(smsVo.getTemplateParam());
-		smsCodeEntity.setShopId(smsVo.getShopId());
-		smsCodeEntity.setSystemFlag(smsVo.getSystemFlag());
-		smsCodeEntity.setMobile(smsVo.getMobile());
-		smsCodeEntity.setSmsCode(smsVo.getSmsCode());
-		smsCodeEntity.setSendTime(new Date());
-		smsCodeService.save(smsCodeEntity);
+		saveSmsLog(smsVo,response);
 
 		if(response.getCode() != null && response.getCode().equals("OK")) {
 			return 1;
@@ -116,24 +108,10 @@ public class SmsService {
 				}
 			}
 		}
+
 		SendSmsResponse response = sendSmsAliyun(smsVo.getMobile(),smsVo.getTemplateParam(),smsVo.getTemplateCode());
-		log.info("=======================================");
-		log.info("code:"+response.getCode());
-		log.info("message:"+response.getMessage());
-		log.info("bizId:"+response.getBizId());
-		log.info("requestId:"+response.getRequestId());
-
-		//保存短信记录
-		SmsCodeEntity smsCodeEntity = new SmsCodeEntity();
-		smsCodeEntity.setMobile(smsVo.getMobile());
-		smsCodeEntity.setSmsCode("");
-		smsCodeEntity.setTemplateCode(smsVo.getTemplateCode());
-		smsCodeEntity.setTemplateParam(smsVo.getTemplateParam());
-		smsCodeEntity.setShopId(shopId);
-		smsCodeEntity.setSystemFlag(smsVo.getSystemFlag());
-		smsCodeEntity.setSendTime(new Date());
-		smsCodeService.save(smsCodeEntity);
-
+		//保存短信日志
+		saveSmsLog(smsVo,response);
 		if(response.getCode() != null && response.getCode().equals("OK")) {
 			return 1;
 		}
@@ -144,5 +122,28 @@ public class SmsService {
 	public  boolean validateCode(String mobile,String code) {
 		SmsCodeEntity smsCodeEntity = smsCodeService.findByMobileAndSmsCode(mobile,code);
 		return smsCodeEntity!=null;
+	}
+
+	private void saveSmsLog(SmsVo smsVo,SendSmsResponse response ){
+		log.info("=======================================");
+		log.info("code:"+response.getCode());
+		log.info("message:"+response.getMessage());
+		log.info("bizId:"+response.getBizId());
+		log.info("requestId:"+response.getRequestId());
+		//保存短信记录
+		SmsCodeEntity smsCodeEntity = new SmsCodeEntity();
+		smsCodeEntity.setMobile(smsVo.getMobile());
+		smsCodeEntity.setSmsCode(smsVo.getSmsCode());
+		smsCodeEntity.setTemplateCode(smsVo.getTemplateCode());
+		smsCodeEntity.setTemplateParam(smsVo.getTemplateParam());
+		smsCodeEntity.setShopId(smsVo.getShopId());
+		smsCodeEntity.setSystemFlag(smsVo.getSystemFlag());
+		smsCodeEntity.setSendTime(new Date());
+
+		smsCodeEntity.setRequestId(response.getRequestId());
+		smsCodeEntity.setBizId(response.getBizId());
+		smsCodeEntity.setCode(response.getCode());
+		smsCodeEntity.setMessage(response.getMessage());
+		smsCodeService.save(smsCodeEntity);
 	}
 }
