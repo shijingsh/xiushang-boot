@@ -8,6 +8,22 @@ public class SmsVo  implements java.io.Serializable {
     private String templateParam ;
     private String templateCode ;
 
+    public SmsVo() {
+    }
+
+    public SmsVo(String shopId, String mobile, String templateParam, String templateCode) {
+        this.shopId = shopId;
+        this.mobile = mobile;
+        this.templateParam = templateParam;
+        this.templateCode = templateCode;
+    }
+
+    public SmsVo(String mobile, String templateParam, String templateCode) {
+        this.mobile = mobile;
+        this.templateParam = templateParam;
+        this.templateCode = templateCode;
+    }
+
     public String getShopId() {
         return shopId;
     }
