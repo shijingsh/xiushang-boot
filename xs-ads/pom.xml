@@ -7,10 +7,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.shijingsh</groupId>
-    <artifactId>xs-ad</artifactId>
+    <artifactId>xs-ads</artifactId>
     <version>1.3.0</version>
     <packaging>jar</packaging>
-    <name>xs-ad</name>
+    <name>xs-ads</name>
     <url>http://maven.apache.org</url>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
