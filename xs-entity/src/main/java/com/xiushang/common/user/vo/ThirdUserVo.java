@@ -1,33 +1,49 @@
 package com.xiushang.common.user.vo;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 第三方登录用户
  * Created by liukefu on 2018/8/11.
  */
 public class ThirdUserVo implements java.io.Serializable{
+    @ApiModelProperty(notes = "openId")
     private String openId;
+    @ApiModelProperty(notes = "unionId")
     private String unionId;
+    @ApiModelProperty(notes = "appleId")
     private String appleId;
+    @ApiModelProperty(notes = "账号登录名")
     private String loginName;
+    @ApiModelProperty(notes = "姓名、昵称")
     private String userName;
+    @ApiModelProperty(notes = "第三方登录token")
     private String accessToken;
+    @ApiModelProperty(notes = "头像")
     private String userAvatar;
+    @ApiModelProperty(notes = "性别")
     private String userGender;
+    @ApiModelProperty(notes = "手机号")
     private String mobile;
+    @ApiModelProperty(notes = "email")
     private String email;
+    @ApiModelProperty(notes = "验证码")
     private String verifyCode;
     /**
      * 多实例用户token
      */
+    @ApiModelProperty(notes = "多实例用户token")
     private String userToken;
 
     /**
      * 最后登录平台
      */
+    @ApiModelProperty(notes = "最后登录平台")
     private String lastLoginPlatform;
     /**
      * 推送 clientId
      */
+    @ApiModelProperty(notes = "推送 clientId")
     private String clientId;
 
     public String getEmail() {

@@ -1,7 +1,10 @@
 package com.xiushang.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.xiushang.framework.model.AuthorizationVo;
 import com.xiushang.framework.utils.StatusEnum;
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
@@ -14,49 +17,67 @@ import java.util.Date;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserEntity extends ExpandEntity {
 
-    /**默认密码*/
-    public static String DEFAULT_PASSWORD = "123456";
-    /**登录名 */
+    /**账号登录名 */
+    @ApiModelProperty(notes = "账号登录名")
     private String loginName;
-    /**登录名 */
+    /**unionId登录名 */
+    @JSONField(serialize = false, deserialize = false)
+    @JsonIgnore
     private String unionId;
-    /**登录名 */
+    /**openId登录名 */
+    @JSONField(serialize = false, deserialize = false)
+    @JsonIgnore
     private String openId;
-    /**登录名 */
+    /**appleId登录名 */
+    @JSONField(serialize = false, deserialize = false)
+    @JsonIgnore
     private String appleId;
-    /**姓名 */
+    /**姓名、昵称 */
+    @ApiModelProperty(notes = "姓名、昵称")
     private String name;
     /**手机号 */
+    @ApiModelProperty(notes = "手机号")
     private String mobile;
     /**密码 */
+    @JSONField(serialize = false, deserialize = false)
     private String password;
     /**邮箱 */
+    @ApiModelProperty(notes = "邮箱")
     private String email;
     /**QQ */
+    @ApiModelProperty(notes = "qq")
     private String qq;
     /**微信 */
+    @ApiModelProperty(notes = "微信")
     private String weixin;
     /**支付宝 */
+    @ApiModelProperty(notes = "支付宝")
     private String alipay;
     /**微博 */
+    @ApiModelProperty(notes = "微博")
     private String weibo;
     /**职位 */
+    @ApiModelProperty(notes = "职位")
     private String position;
     /**
      * 状态
      */
+    @ApiModelProperty(notes = "状态 （0 无效  1 有效）")
     private int status = StatusEnum.STATUS_VALID;
     /**
      * 最后登录时间
      */
+    @ApiModelProperty(notes = "最后登录时间")
     protected Date lastLoginDate;
     /**
      * 最后登录平台
      */
+    @ApiModelProperty(notes = "最后登录平台")
     private String lastLoginPlatform;
     /**
      * 头像
      */
+    @ApiModelProperty(notes = "用户头像")
     @Lob
     @Basic(fetch = FetchType.EAGER)
     private String headPortrait;
@@ -77,11 +98,15 @@ public class UserEntity extends ExpandEntity {
      */
     @Lob
     @Basic(fetch = FetchType.EAGER)
+    @JSONField(serialize = false, deserialize = false)
+    @JsonIgnore
     private String accessToken;
 
     /**
      * 第三方推送 客户ID
      */
+    @JSONField(serialize = false, deserialize = false)
+    @JsonIgnore
     private String clientId;
 
     /**
@@ -96,6 +121,8 @@ public class UserEntity extends ExpandEntity {
      */
     @Column(columnDefinition = "TINYINT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
+    @JSONField(serialize = false, deserialize = false)
+    @JsonIgnore
     private Boolean isInitRecommend = Boolean.FALSE;
 
 

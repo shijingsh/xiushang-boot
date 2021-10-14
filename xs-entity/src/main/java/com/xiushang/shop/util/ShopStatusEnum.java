@@ -2,7 +2,7 @@ package com.xiushang.shop.util;
 
 /**
  * 店铺状态
- * Created by liukefu on 2017/2/13.
+ * 开通账号 目前采用免审核
  */
 public enum ShopStatusEnum {
     SHOP_NONE,

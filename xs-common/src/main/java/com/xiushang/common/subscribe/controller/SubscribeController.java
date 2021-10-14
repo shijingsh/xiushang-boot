@@ -5,6 +5,7 @@ import com.xiushang.common.service.DynamicTaskService;
 import com.xiushang.framework.log.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class SubscribeController {
     @ApiOperation(value = "查看是否已订阅消息")
     @ResponseBody
     @GetMapping("/getSubscribeStatus")
-    public CommonResult<Integer> getSubscribeStatus(String subscribeObjectId) {
+    public CommonResult<Integer> getSubscribeStatus(@ApiParam(value = "订阅对象id",required = true) String subscribeObjectId) {
         Integer entity = dynamicTaskService.getSubscribeStatus(subscribeObjectId);
 
         return CommonResult.success(entity);
@@ -38,7 +39,7 @@ public class SubscribeController {
     @ApiOperation(value = "取消订阅消息")
     @ResponseBody
     @GetMapping("/cancel")
-    public CommonResult<String> cancel(String subscribeObjectId) {
+    public CommonResult<String> cancel(@ApiParam(value = "订阅对象id",required = true) String subscribeObjectId) {
 
         dynamicTaskService.appointCancel(subscribeObjectId);
         return CommonResult.success();

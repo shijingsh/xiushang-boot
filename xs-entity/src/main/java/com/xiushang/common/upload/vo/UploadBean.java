@@ -1,30 +1,38 @@
 package com.xiushang.common.upload.vo;
 
+import io.swagger.annotations.ApiModelProperty;
+
 /**
  * 上传文件参数
  */
 public class UploadBean {
-    String key;
+    @ApiModelProperty(value = "file input 名称 （废弃）", name = "key")
+    private String key;
     /**
      * 文件自定义存储路径
      */
-    String userPath;
+    @ApiModelProperty(notes = "自定义文件存放路径")
+    private String userPath;
     /**
      * 文件名
      */
-    String fileName ;
+    @ApiModelProperty(notes = "文件名",required = true)
+    private String fileName ;
     /**
      * 源文件名
      */
-    String sourceFileName ;
+    @ApiModelProperty(notes = "源文件名")
+    private String sourceFileName ;
     /**
      * 相对路径
      */
-    String relativePath ;
+    @ApiModelProperty(notes = "相对路径")
+    private String relativePath ;
     /**
      * 绝对路径
      */
-    String path ;
+    @ApiModelProperty(notes = "绝对路径")
+    private String path ;
 
     public String getKey() {
         return key;

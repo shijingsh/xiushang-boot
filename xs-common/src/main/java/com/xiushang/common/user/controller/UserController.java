@@ -6,7 +6,10 @@ import com.xiushang.common.components.SmsService;
 import com.xiushang.common.upload.service.UploadService;
 import com.xiushang.common.upload.vo.UploadBean;
 import com.xiushang.common.user.service.UserService;
+import com.xiushang.common.user.vo.ModifyPassVo;
 import com.xiushang.common.user.vo.ResetPwdVo;
+import com.xiushang.common.user.vo.UserHeadPortraitVo;
+import com.xiushang.common.user.vo.UserVo;
 import com.xiushang.common.utils.MD5;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
@@ -16,6 +19,7 @@ import com.xiushang.framework.utils.UserHolder;
 import com.xiushang.framework.utils.WebUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -40,38 +44,76 @@ public class UserController {
     @Autowired
     private SmsService smsService;
 
-    @ApiOperation(value = "修改用户信息")
+    @ApiOperation(value = "修改个人信息")
     @ResponseBody
     @PostMapping("/modify")
-    public CommonResult<UserEntity> modify(@RequestBody UserEntity user) {
+    public CommonResult<UserEntity> modify(@RequestBody UserVo user) {
 
+        UserEntity userEntity = userService.getCurrentUser();
+        if (userEntity==null) {
+            return CommonResult.error(1, "登录超时，请重新登录！");
+        }
         try {
-            userService.updateUser(user);
+            if(StringUtils.isNotBlank(user.getName())){
+                userEntity.setName(user.getName());
+            }
+            if(StringUtils.isNotBlank(user.getMobile())){
+                userEntity.setMobile(user.getMobile());
+            }
+            if(StringUtils.isNotBlank(user.getEmail())){
+                userEntity.setEmail(user.getEmail());
+            }
+            if(StringUtils.isNotBlank(user.getQq())){
+                userEntity.setQq(user.getQq());
+            }
+            if(StringUtils.isNotBlank(user.getWeixin())){
+                userEntity.setWeixin(user.getWeixin());
+            }
+            if(StringUtils.isNotBlank(user.getAlipay())){
+                userEntity.setAlipay(user.getAlipay());
+            }
+            if(StringUtils.isNotBlank(user.getWeibo())){
+                userEntity.setWeibo(user.getWeibo());
+            }
+            if(StringUtils.isNotBlank(user.getPosition())){
+                userEntity.setPosition(user.getPosition());
+            }
+            if(StringUtils.isNotBlank(user.getHeadPortrait())){
+                userEntity.setHeadPortrait(user.getHeadPortrait());
+            }
+            if(user.getLatitude() != null){
+                userEntity.setLatitude(user.getLatitude());
+            }
+            if(user.getLongitude() != null){
+                userEntity.setLatitude(user.getLongitude());
+            }
+            userService.updateUser(userEntity);
         } catch (Exception e) {
-            return CommonResult.error(10000, "修改员工信息出现异常");
+            return CommonResult.error(10000, "修改用户信息出现异常");
         }
 
-        return CommonResult.success(user);
+        return CommonResult.success(userEntity);
     }
 
+    @ApiOperation(value = "修改个人密码")
     @ResponseBody
-    @GetMapping("/modifyPass")
-    public CommonResult<UserEntity> modifyPass() {
+    @PostMapping("/modifyPass")
+    public CommonResult<UserEntity> modifyPass(@RequestBody ModifyPassVo modifyPassVo) {
 
-        String pswOld = req.getParameter("oldPassword");
-        String psw = req.getParameter("newPassword");
-        String pswConfirm = req.getParameter("confirmPassword");
+        UserEntity userEntity = userService.getCurrentUser();
+        if (userEntity==null) {
+            return CommonResult.error(1, "登录超时，请重新登录！");
+        }
+        String pswOld =  modifyPassVo.getOldPassword();
+        String psw = modifyPassVo.getNewPassword();
+        String pswConfirm = modifyPassVo.getConfirmPassword();
         if (StringUtils.isBlank(psw)) {
             return CommonResult.error(1, "请输入登录密码");
         }
         if (psw.length() < 6) {
             return CommonResult.error(1, "密码长度不能少于6位！");
         }
-        String userId = UserHolder.getLoginName();
-        if (StringUtils.isBlank(userId)) {
-            return CommonResult.error(1, "登录超时，请重新登录！");
-        }
-        UserEntity userEntity = userService.getUserById(userId);
+
         //String oldPassMd5 = MD5.GetMD5Code(pswOld);
         if (!StringUtils.equals(pswOld, userEntity.getPassword())) {
             return CommonResult.error(1, "原密码不正确，请重新输入");
@@ -90,7 +132,7 @@ public class UserController {
         return CommonResult.success(userEntity);
     }
 
-    @ApiOperation(value = "重置密码")
+    @ApiOperation(value = "重置密码（短信验证码方式）")
     @ResponseBody
     @PostMapping("/resetPassword")
     public CommonResult<UserEntity> resetPassword(@RequestBody ResetPwdVo resetPwdVo) {
@@ -148,22 +190,18 @@ public class UserController {
         return CommonResult.success(null);
     }*/
 
-    @ApiOperation(value = "上传用户头像")
+    @ApiOperation(value = "修改用户头像")
     @ResponseBody
-    @PostMapping("/headPortrait")
-    public CommonResult<UserEntity> headPortrait(HttpServletRequest request,String userPath) {
+    @PostMapping("/modifyHeadPortrait")
+    public CommonResult<UserEntity> modifyHeadPortrait(@RequestBody UserHeadPortraitVo userHeadPortraitVo) {
 
-        MultipartHttpServletRequest mulRequest = (MultipartHttpServletRequest) (request);
-
-        List<UploadBean> list = uploadService.upload(mulRequest,userPath);
-        UploadBean bean = list!=null&&list.size()>0?list.get(0):new UploadBean();
         UserEntity userEntity = userService.getCurrentUser();
 
-        if(userEntity!=null){
+        if(userEntity!=null && StringUtils.isNotBlank(userHeadPortraitVo.getHeadPortrait())){
             if(StringUtils.isNotBlank(userEntity.getHeadPortrait())){
                 uploadService.removeFile(userEntity.getHeadPortrait());
             }
-            userEntity.setHeadPortrait(bean.getRelativePath());
+            userEntity.setHeadPortrait(userHeadPortraitVo.getHeadPortrait());
             userService.updateUser(userEntity);
         }
 
@@ -177,7 +215,7 @@ public class UserController {
     @ApiOperation(value = "获取用户信息")
     @ResponseBody
     @GetMapping("/info")
-    public CommonResult<UserEntity> info(HttpServletRequest request) {
+    public CommonResult<UserEntity> info() {
         UserEntity userEntity = userService.getCurrentUser();
 
         return CommonResult.success(userEntity);
@@ -199,8 +237,7 @@ public class UserController {
     @ResponseBody
     @GetMapping("/userCancel")
     public CommonResult userCancel() {
-        //Subject subject = SecurityUtils.getSubject();
-        //subject.logout();
+
         UserEntity userEntity = userService.getCurrentUser();
         if(userEntity!=null){
 

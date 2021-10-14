@@ -146,6 +146,9 @@ public class UploadServiceImpl implements UploadService {
 
     public boolean removeFile(String path) {
 
+        if(StringUtils.isNotBlank(path) || path.startsWith("http")){
+            return false;
+        }
         String home = (String) PropertyConfigurer.getContextProperty("temppath");
         File file = new File(home + path);
         file.deleteOnExit();

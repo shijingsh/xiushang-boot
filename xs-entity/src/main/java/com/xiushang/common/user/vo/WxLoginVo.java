@@ -1,26 +1,39 @@
 package com.xiushang.common.user.vo;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class WxLoginVo implements java.io.Serializable{
 
+    @ApiModelProperty(notes = "shopId")
     private String shopId;
-
+    @ApiModelProperty(notes = "微信code")
     private String code;
+    @ApiModelProperty(notes = "userToken")
     private String userToken;
+    @ApiModelProperty(notes = "昵称")
     private String nickName;
+    @ApiModelProperty(notes = "头像")
     private String avatarUrl;
+    @ApiModelProperty(notes = "性别")
     private String gender;
+    @ApiModelProperty(notes = "手机号")
     private String mobile;
+    @ApiModelProperty(notes = "email")
     private String email;
+    @ApiModelProperty(notes = "最后登录平台")
     private String lastLoginPlatform;
     /**
      * 加密手机号码
      */
+    @ApiModelProperty(notes = "加密手机号码encryptedData")
     private String encryptedData;
+    @ApiModelProperty(notes = "加密手机号码iv")
     private String iv;
 
     /**
      * 推送 clientId
      */
+    @ApiModelProperty(notes = "推送 clientId")
     private String clientId;
 
     public String getShopId() {

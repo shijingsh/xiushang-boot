@@ -244,7 +244,7 @@ public class UserServiceImpl implements UserService {
             return user;
         }
 
-        UserEntity userEntity = new UserEntity(userName, StringUtils.isBlank(password) ? UserEntity.DEFAULT_PASSWORD : password);
+        UserEntity userEntity = new UserEntity(userName, StringUtils.isBlank(password) ? Constants.DEFAULT_PASSWORD : password);
 
         entityManager.persist(userEntity);
 
@@ -389,7 +389,7 @@ public class UserServiceImpl implements UserService {
         }
 
         userEntity.setHeadPortrait(thirdUserVo.getUserAvatar());
-        userEntity.setPassword(MD5.GetMD5Code(UserEntity.DEFAULT_PASSWORD));
+        userEntity.setPassword(MD5.GetMD5Code(Constants.DEFAULT_PASSWORD));
         userEntity.setAccessToken(thirdUserVo.getAccessToken());
         if(StringUtils.isNotBlank(thirdUserVo.getMobile())){
             userEntity.setMobile(thirdUserVo.getMobile());
@@ -428,7 +428,7 @@ public class UserServiceImpl implements UserService {
             userEntity.setHeadPortrait(thirdUserVo.getUserAvatar());
         }
         if(StringUtils.isBlank(userEntity.getPassword())){
-            userEntity.setPassword(MD5.GetMD5Code(UserEntity.DEFAULT_PASSWORD));
+            userEntity.setPassword(MD5.GetMD5Code(Constants.DEFAULT_PASSWORD));
         }
 
         userEntity.setAccessToken(thirdUserVo.getAccessToken());

@@ -1,7 +1,6 @@
 package com.xiushang.common.job.vo;
 
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,34 +10,31 @@ public class SubscribeMsgAppointVo implements java.io.Serializable{
     /**
      * 微信OpenId
      */
-    @ApiModelProperty(notes = "微信OpenId")
-    @ApiParam("微信OpenId")
+    @ApiModelProperty(notes = "微信OpenId",required = true)
     private String openId;
 
     /**
      * 所属店铺
      */
-    @ApiModelProperty(notes = "shopId")
-    @ApiParam("shopId")
+    @ApiModelProperty(notes = "shopId",required = true)
     private String shopId;
 
     /**
      * 订阅对象ID
      */
-    @ApiModelProperty(notes = "订阅对象ID")
-    @ApiParam("订阅对象ID")
+    @ApiModelProperty(notes = "订阅对象ID",required = true)
     private String subscribeObjectId;
 
     /**
      * 订阅对象名称
      */
-    @ApiModelProperty(notes = "订阅对象名称")
-    @ApiParam("订阅对象名称")
+    @ApiModelProperty(notes = "订阅对象名称",required = true)
     private String name;
 
     /**
      * 订阅列表
      */
+    @ApiModelProperty(notes = "订阅列表",required = true)
     private List<AppointItemVo> list = new ArrayList<>();
 
     public String getOpenId() {

@@ -11,5 +11,7 @@ public class Constants {
 	public static final String SIGNING_KEY = "spring-security-@Jwt!&Secret^#";
 
 	public static final String ACCESS_TOKEN = "Authorization";
+
+	public static final String DEFAULT_PASSWORD = "123456";
 }
 

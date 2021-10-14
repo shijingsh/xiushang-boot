@@ -4,7 +4,9 @@ import com.xiushang.common.utils.excel.DownExcelUtil;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
@@ -27,10 +29,10 @@ public class DownLoadFileController {
      * @return
      */
     @ApiOperation(value = "下载文件")
-    @RequestMapping(value = "/download")
-    public void download(String path,HttpServletResponse response) {
+    @GetMapping(value = "/download")
+    public void download(@ApiParam(value = "文件路径",required = true) String path, HttpServletResponse response) {
 
-        String fileName = String.valueOf(new Date().getTime())+".xls";
+        String fileName = new Date().getTime()+".xls";
         DownExcelUtil.downFromTempPath(path, fileName, response);
     }
 
@@ -40,8 +42,8 @@ public class DownLoadFileController {
      * @param response
      */
     @ApiOperation(value = "显示文件")
-    @RequestMapping(value="showImg")
-    public void showImg(String path,HttpServletResponse response)  {
+    @GetMapping(value="showImg")
+    public void showImg(@ApiParam(value = "文件路径",required = true) String path,HttpServletResponse response)  {
         String rootPath = ""+ PropertyConfigurer.getContextProperty("temppath");
         FileInputStream inputStream = null;
         OutputStream outStream = null;

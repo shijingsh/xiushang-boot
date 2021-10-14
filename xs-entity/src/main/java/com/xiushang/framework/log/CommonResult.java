@@ -1,28 +1,30 @@
 package com.xiushang.framework.log;
 
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
  * 封装接口相应对象
  */
+@ApiModel
 public class CommonResult<T> implements java.io.Serializable{
 	public static int SUCCESS = 0;
 	public static int ERROR = 1;
 	//错误代码
-	@ApiModelProperty("响应编码")
+	@ApiModelProperty(value = "响应编码 code:0为成功 其他值为失败", name = "errorCode")
 	private int errorCode;
 	//错误提示
-	@ApiModelProperty("错误消息")
+	@ApiModelProperty(value = "错误消息", name = "code")
     private String errorText;
 
     //成功时的提示
-	@ApiModelProperty("成功消息")
+	@ApiModelProperty(value = "成功消息")
     private String successText;
-	@ApiModelProperty("是否执行成功")
+	@ApiModelProperty(value = "是否执行成功")
     private boolean execResult = true;
 
     //返回对象
-	@ApiModelProperty("响应数据对象")
+	@ApiModelProperty(value = "响应数据对象", name = "data")
     private T data;
 
     public CommonResult() {

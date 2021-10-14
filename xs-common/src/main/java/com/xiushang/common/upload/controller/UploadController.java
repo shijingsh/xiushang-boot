@@ -7,8 +7,10 @@ import com.xiushang.common.upload.vo.UploadBean;
 import com.xiushang.framework.log.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,8 +43,8 @@ public class UploadController{
      */
     @ApiOperation(value = "上传文件")
     @ResponseBody
-    @RequestMapping("/upload")
-    public CommonResult<List<UploadBean>> upload(HttpServletRequest request, String userPath) {
+    @PostMapping("/upload")
+    public CommonResult<List<UploadBean>> upload(HttpServletRequest request, @ApiParam(value = "上传根路径 <br />（指定上传文件存放的文件夹）",required = true) String userPath) {
 
         MultipartHttpServletRequest mulRequest = (MultipartHttpServletRequest) (request);
 
@@ -58,16 +60,16 @@ public class UploadController{
      */
     @ApiOperation(value = "上传文件base64")
     @ResponseBody
-    @RequestMapping("/uploadBase64")
+    @PostMapping("/uploadBase64")
     public CommonResult<List<UploadBean>> uploadBase64(@RequestBody UploadBase64 uploadBase64) {
         List<UploadBean> list = uploadService.uploadBase64(uploadBase64);
 
         return CommonResult.success(list);
     }
 
-    @ResponseBody
-    @RequestMapping("/uploadBig")
     @ApiOperation(value = "上传大文件")
+    @ResponseBody
+    @PostMapping("/uploadBig")
     public CommonResult uploadBig(HttpServletRequest request,String userPath,String md5,
                             Long size,
                             Integer chunks,
