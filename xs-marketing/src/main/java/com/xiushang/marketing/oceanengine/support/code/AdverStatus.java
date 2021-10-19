@@ -3,9 +3,7 @@ package com.xiushang.marketing.oceanengine.support.code;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public enum AdverStatus {
     STATUS_DISABLE, STATUS_PENDING_CONFIRM, STATUS_PENDING_VERIFIED, STATUS_CONFIRM_FAIL, STATUS_ENABLE,
     STATUS_CONFIRM_FAIL_END, STATUS_PENDING_CONFIRM_MODIFY, STATUS_CONFIRM_MODIFY_FAIL, STATUS_LIMIT,

@@ -8,9 +8,7 @@ import com.xiushang.marketing.oceanengine.support.UrlConst;
 
 import java.util.Objects;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public class AgentApi extends OceanEngineResource {
 
     public static ListAdverResponse listAdver(String token, Integer page, Integer pageSize) throws OceanEngineRestException {

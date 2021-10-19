@@ -6,9 +6,7 @@ import com.xiushang.marketing.oceanengine.support.HttpMethod;
 import com.xiushang.marketing.oceanengine.support.OceanEngineResource;
 import lombok.extern.slf4j.Slf4j;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public class ItunesApi extends OceanEngineResource {
     static String ITUNES_LOOKUP_URL = "https://itunes.apple.com/cn/lookup?id=%s&entity=album";
 

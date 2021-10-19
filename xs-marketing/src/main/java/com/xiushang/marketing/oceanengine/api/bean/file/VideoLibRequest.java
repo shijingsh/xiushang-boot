@@ -5,9 +5,7 @@ import com.xiushang.marketing.oceanengine.api.bean.BaseModel;
 import com.xiushang.marketing.oceanengine.support.utils.URIUtil;
 import lombok.Data;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 @Data
 public class VideoLibRequest extends BaseModel {
     Long advertiser_id;

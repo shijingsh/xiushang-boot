@@ -5,9 +5,7 @@ import com.xiushang.marketing.oceanengine.support.HttpMethod;
 import com.xiushang.marketing.oceanengine.support.OceanEngineResource;
 import com.xiushang.marketing.oceanengine.support.UrlConst;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public class QueryToolApi extends OceanEngineResource {
 
     public static QueryPredictTaResponse estimateAudience(String token, QueryPredictTaRequest request) {

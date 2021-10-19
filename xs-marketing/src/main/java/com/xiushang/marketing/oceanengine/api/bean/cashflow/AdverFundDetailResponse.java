@@ -8,9 +8,7 @@ import lombok.Data;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 @Data
 public class AdverFundDetailResponse extends OceanEngineResponse<AdverFundDetailResponse.Data> {
 

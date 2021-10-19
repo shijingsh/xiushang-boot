@@ -7,9 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.Objects;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 @Data
 public class AdverFundDetailRequest extends BaseModel {
     private Long advertiser_id;

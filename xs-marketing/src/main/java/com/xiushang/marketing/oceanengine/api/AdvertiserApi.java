@@ -16,7 +16,6 @@ import java.util.Objects;
 /**
  * 广告主相关
  *
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
  */
 public class AdvertiserApi extends OceanEngineResource {
 

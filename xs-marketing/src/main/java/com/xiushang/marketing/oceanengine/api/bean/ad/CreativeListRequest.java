@@ -8,9 +8,7 @@ import lombok.Data;
 import java.util.List;
 import java.util.Objects;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 @Data
 public class CreativeListRequest extends BaseModel {
     private Long advertiser_id;

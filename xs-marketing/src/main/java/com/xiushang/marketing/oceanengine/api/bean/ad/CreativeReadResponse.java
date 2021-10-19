@@ -8,9 +8,7 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 @Data
 public class CreativeReadResponse extends OceanEngineResponse<List<CreativeReadResponse.CreativeInfo>> {
 

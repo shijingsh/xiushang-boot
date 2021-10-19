@@ -9,9 +9,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public class OceanEngineResource {
 
     public static final int defaultConnectionTimeoutSecs = 30;

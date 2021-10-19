@@ -6,9 +6,7 @@ import com.xiushang.marketing.oceanengine.support.*;
 
 import java.util.List;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public class AuthApi extends OceanEngineResource {
 
     public static String buildAuthorizationUrl(OceanEngineConfig conf, String redirectURI, List<Integer> scopeList,

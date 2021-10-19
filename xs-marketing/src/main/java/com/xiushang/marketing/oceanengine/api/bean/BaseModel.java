@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 
 /**
  *
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
+
  */
 public class BaseModel {
     /**

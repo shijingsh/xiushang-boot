@@ -3,9 +3,7 @@ package com.xiushang.marketing.oceanengine.api.bean.query_tool;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 @Data
 @Accessors(chain = true)
 public class QueryWebsiteRequest {

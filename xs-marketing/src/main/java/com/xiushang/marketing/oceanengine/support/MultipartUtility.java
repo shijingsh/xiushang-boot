@@ -8,9 +8,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public class MultipartUtility {
     private final String boundary;
     private static final String LINE_FEED = "\r\n";

@@ -8,9 +8,7 @@ import lombok.Data;
 import java.util.List;
 import java.util.Map;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 @Data
 public class AdGetResponse extends OceanEngineResponse<AdGetResponse.Data> {
 

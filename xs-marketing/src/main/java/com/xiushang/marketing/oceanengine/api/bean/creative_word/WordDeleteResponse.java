@@ -4,9 +4,7 @@ import com.xiushang.marketing.oceanengine.api.bean.OceanEngineResponse;
 import com.xiushang.marketing.oceanengine.api.bean.file.ImageQueryResponse;
 import lombok.Data;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 @Data
 public class WordDeleteResponse extends OceanEngineResponse<ImageQueryResponse.Data> {
 

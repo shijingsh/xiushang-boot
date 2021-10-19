@@ -6,9 +6,7 @@ import com.xiushang.marketing.oceanengine.support.OceanEngineResource;
 import com.xiushang.marketing.oceanengine.support.OceanEngineRestException;
 import com.xiushang.marketing.oceanengine.support.UrlConst;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public class CreativeApi extends OceanEngineResource {
 
     public static CreativeListResponse getList(String token, CreativeListRequest request) throws OceanEngineRestException {

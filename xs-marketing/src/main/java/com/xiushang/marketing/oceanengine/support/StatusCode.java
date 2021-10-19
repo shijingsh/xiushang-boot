@@ -2,9 +2,7 @@ package com.xiushang.marketing.oceanengine.support;
 
 import java.util.Arrays;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public enum StatusCode {
     UNKOWN(-1, "uknown", "未知"),
     OK(0, "OK", "成功"),

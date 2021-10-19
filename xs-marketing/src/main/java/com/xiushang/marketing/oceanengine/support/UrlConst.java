@@ -1,8 +1,6 @@
 package com.xiushang.marketing.oceanengine.support;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public class UrlConst {
     // auth 相关
     public static String CONNECT_OAUTH2_AUTHORIZE_URL = "https://ad.oceanengine.com/openapi/audit/oauth.html?app_id=%s&state=%s&scope=%s&redirect_uri=%s";

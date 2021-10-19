@@ -6,9 +6,7 @@ import com.xiushang.marketing.oceanengine.support.OceanEngineResource;
 import com.xiushang.marketing.oceanengine.support.OceanEngineRestException;
 import com.xiushang.marketing.oceanengine.support.UrlConst;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public class CampaignApi extends OceanEngineResource {
 
     public static CampaignGetResponse get(String token, CampaignGetRequest request) throws OceanEngineRestException {

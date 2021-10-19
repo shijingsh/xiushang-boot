@@ -2,9 +2,7 @@ package com.xiushang.marketing.oceanengine.support.code;
 
 import java.util.Arrays;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public enum AdStatus {
     UNKNOWN("未知"),
     AD_STATUS_DELIVERY_OK("投放中"),

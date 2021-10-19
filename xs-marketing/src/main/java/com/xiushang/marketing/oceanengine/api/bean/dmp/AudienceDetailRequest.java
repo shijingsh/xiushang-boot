@@ -4,9 +4,7 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 @Data
 public class AudienceDetailRequest {
     Long advertiser_id;

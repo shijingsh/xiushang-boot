@@ -5,9 +5,7 @@ import lombok.experimental.Accessors;
 
 import java.util.List;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 @lombok.Data
 @Accessors(chain = true)
 public class ConvertListIdResponse extends OceanEngineResponse<ConvertListIdResponse.Data> {

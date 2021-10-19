@@ -6,9 +6,7 @@ import lombok.experimental.Accessors;
 
 import java.util.Objects;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 @Data
 @Accessors(chain = true)
 public class ReportAdverRequest {

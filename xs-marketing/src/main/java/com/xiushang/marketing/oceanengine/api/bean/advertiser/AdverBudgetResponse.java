@@ -6,9 +6,7 @@ import com.xiushang.marketing.oceanengine.support.code.BudgetMode;
 import java.math.BigDecimal;
 import java.util.List;
 
-/**
- * @author <a href="mailto:gy1zc3@gmail.com">zacky</a>
- */
+
 public class AdverBudgetResponse extends OceanEngineResponse<List<AdverBudgetResponse.Data>> {
 
     @lombok.Data
