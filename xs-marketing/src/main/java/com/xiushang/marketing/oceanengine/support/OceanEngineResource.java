@@ -1,19 +1,15 @@
 package com.xiushang.marketing.oceanengine.support;
 
+import cn.hutool.http.HttpRequest;
+import cn.hutool.http.HttpUtil;
+import cn.hutool.http.Method;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.xiushang.marketing.oceanengine.api.bean.OceanEngineResponse;
-
-import javax.net.ssl.HttpsURLConnection;
-import java.io.*;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-
+import org.apache.commons.lang3.StringUtils;
 
 
 public class OceanEngineResource {
-
-    public static final int defaultConnectionTimeoutSecs = 30;
-    public static final int defaultReadTimeoutSecs = 120;
 
 
     public static <T extends OceanEngineResponse> T execute(HttpMethod httpMethod, String apiUrl, String payLoad,
@@ -22,56 +18,29 @@ public class OceanEngineResource {
         return JSON.parseObject(response, clazz);
     }
 
-    private static HttpsURLConnection httpsConnect(HttpMethod httpMethod, String apiUrl, String accessToken) throws IOException {
-        URL url = new URL(apiUrl);
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-        connection.setConnectTimeout(defaultConnectionTimeoutSecs * 1000);
-        connection.setReadTimeout(defaultReadTimeoutSecs * 1000);
-        connection.setDoOutput(true);
-        connection.setDoInput(true);
-        connection.setRequestMethod(httpMethod.name());
-        connection.setRequestProperty("Content-Type", "application/json");
-        connection.setRequestProperty("Api-Version", "0.1");
-        connection.setRequestProperty("User-Agent", "OceanEngine Marketing-api Java SDK");
-        if (accessToken != null) {
-            connection.setRequestProperty("Access-Token", accessToken);
-        }
-        return connection;
-    }
 
     public static String request(HttpMethod httpMethod, String apiUrl, String payLoad, String token) throws OceanEngineRestException {
         try {
-            HttpsURLConnection connection = httpsConnect(httpMethod, apiUrl, token);
+            JSONObject jsonObject = JSONObject.parseObject(payLoad);
+
+            Method method = Method.GET;
             if (httpMethod == HttpMethod.POST) {
-                connection.setDoOutput(true);
-                Writer wr = new OutputStreamWriter(connection.getOutputStream(), StandardCharsets.UTF_8);
-                wr.write(payLoad);
-                wr.flush();
-                wr.close();
+                method = Method.POST;
+            }
+            HttpRequest request = HttpUtil.createRequest(method,apiUrl).contentType("application/json")
+                    .header("Api-Version", "0.1")
+                    .header("User-Agent", "OceanEngine Marketing-api Java SDK");
+
+            if (StringUtils.isNotBlank(token)) {
+                request.header("Access-Token", token);
             }
 
-            boolean error = false;
-            int responseCode = connection.getResponseCode();
-            InputStream is;
-            if (responseCode >= 200 && responseCode < 300) {
-                is = connection.getInputStream();
-            } else {
-                is = connection.getErrorStream();
-                error = true;
-            }
-            BufferedReader rd = new BufferedReader(new InputStreamReader(is));
-            String line;
-            StringBuffer response = new StringBuffer();
-            while ((line = rd.readLine()) != null) {
-                response.append(line);
-            }
-            rd.close();
-            String responseString = response.toString();
-            if (error) {
-                throw new OceanEngineRestException("api call error response: " + responseCode + " body " + responseString + " url=" + apiUrl);
-            }
+            String responseString =  request.form(jsonObject)//表单内容
+                    .timeout(20000)//超时，毫秒
+                    .execute().body();;
+
             return responseString;
-        } catch (IOException e) {
+        } catch (Exception e) {
             throw new OceanEngineRestException("api request io error, url=" + apiUrl, e);
         }
     }
