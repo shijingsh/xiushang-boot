@@ -64,9 +64,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticationEntryPoint(
                             new Http401AuthenticationEntryPoint("Basic realm=\"xiushang\""))
                     .and()
-//                .exceptionHandling().accessDeniedHandler(customAccessDeniedHandler) // 自定义访问失败处理器
-//                .and()
+                //.exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler()) // 自定义访问失败处理器
+                //.and()
                 //.addFilter(new JWTLoginFilter(authenticationManager()))
+                //.and()
                 .addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 .logout() // 默认注销行为为logout，可以通过下面的方式来修改
                 .logoutUrl("/logout")

@@ -1,6 +1,8 @@
 package com.xiushang.exception;
 
-public class TokenException extends BaseException {
+import org.springframework.security.core.AuthenticationException;
+
+public class TokenException extends AuthenticationException {
 
     private static final long serialVersionUID = 1L;
 
