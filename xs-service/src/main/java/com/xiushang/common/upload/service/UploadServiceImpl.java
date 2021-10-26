@@ -210,7 +210,7 @@ public class UploadServiceImpl implements UploadService {
         try {
             String enableFtp = PropertyConfigurer.getConfig("ftp.enable");
             try {
-                if("1".equals(enableFtp)){
+                if("1".equals(enableFtp) || "true".equalsIgnoreCase(enableFtp)){
                     String name = getNewFileName(file, multipartFile);
                     uploadBean.setFileName(name);
                     logger.info("启用了FTP上传");
