@@ -31,12 +31,12 @@ public class UploadServiceImpl implements UploadService {
     private static final char separator = '/';
 
     public List<UploadBean> upload(MultipartHttpServletRequest mulRequest, String userPath) {
-        logger.debug("上传文件开始...");
+        logger.info("上传文件开始...");
         List<UploadBean> list = new ArrayList<>();
         Map<String, MultipartFile> fileMap = mulRequest.getFileMap();
         Iterator<String> it = fileMap.keySet().iterator();
-        logger.debug("文件个数："+fileMap.size());
-        logger.debug("保存路径："+userPath);
+        logger.info("文件个数："+fileMap.size());
+        logger.info("保存路径："+userPath);
         try{
             while (it.hasNext()) {
                 UploadBean uploadBean = new UploadBean();
