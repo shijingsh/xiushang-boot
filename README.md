@@ -8,17 +8,21 @@ Mainly use technology stack：springboot+jpa+jwt
 
 demo：https://github.com/shijingsh/xiushang-boot-example
 ### create db
-   创建空数据库即可，依赖表结构，将会自动生成
-   
-    You can create an empty database. Depending on the table structure, it will be generated automatically
+   项目依赖的数据库脚本，由于hibernate自动生成。需要创建空数据库。
+   application.yml 文件中 确保ddl-auto 选项设置为create
+   ```
+     jpa:
+       properties:
+         hibernate:
+           dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+       hibernate:
+         ddl-auto: update # Hibernate ddl auto (create, create-drop, validate, update)
+    ```
 
-### about entity
+### 实体类
 
 jpa对于简单的业务非常方便，为了实现简约的代码风格。约定所有实体类不使用一对多
 实体类尽量少于对象级联。
-
-JPA is very convenient for simple business, in order to achieve simple code style. It is agreed that all entity classes do not use one to many
-Entity classes should be less than object cascades.
 
 
 if you found error: Q***Entity is not found
@@ -61,10 +65,45 @@ Select the library you need to install
         </dependency>
 ```
 
+
+### api 多版本控制
+
+- 方法上增加注解 @ApiVersion
+- mapping中增加 {version}
+    如：@GetMapping("/{version}/get")
+
+-  类增加注解@ApiVersion 代表默认版本号1
+  （注意mapping仍需要增加mapping中增加 {version}）
+```java
+@ApiVersion
+@Api(tags = "常用接口")
+@Controller
+@RequestMapping(value = "/api/news",
+        produces = "application/json; charset=UTF-8")
+public class NewsController {
+
+    @ApiOperation(value = "获取公告详情")
+    @ResponseBody
+    @GetMapping("/{version}/get")
+    public CommonResult<NewsEntity> get(String id) {
+
+        return CommonResult.success();
+    }
+
+    @ApiVersion(2)
+    @ApiOperation(value = "获取公告详情V2")
+    @ResponseBody
+    @GetMapping("/{version}/get")
+    public CommonResult<NewsEntity> get(String id) {
+
+        return CommonResult.success();
+    }
+
+}
+```
+
 ### todo
 
-- JenkinsFile
-- Subscribe to message
 - pay
 - api auth
 
