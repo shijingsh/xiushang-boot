@@ -7,16 +7,17 @@
   demo：https://github.com/shijingsh/xiushang-boot-example
   
 ### 数据库脚本
-   项目依赖的数据库脚本，由于hibernate自动生成。需要创建空数据库。
+   项目依赖的数据库脚本，由hibernate自动生成。需要创建空数据库。
    application.yml 文件中 确保ddl-auto 选项设置为create
-   ```
+   
+```
      jpa:
        properties:
          hibernate:
            dialect: org.hibernate.dialect.MySQL5InnoDBDialect
        hibernate:
          ddl-auto: update # Hibernate ddl auto (create, create-drop, validate, update)
-    ```
+```
 
 ### 实体类
 
@@ -73,6 +74,7 @@ Select the library you need to install
 
 -  类增加注解@ApiVersion 代表默认版本号1
   （注意mapping仍需要增加mapping中增加 {version}）
+  
 ```java
 @ApiVersion
 @Api(tags = "常用接口")
