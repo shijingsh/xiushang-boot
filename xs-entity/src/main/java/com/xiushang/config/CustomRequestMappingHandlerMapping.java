@@ -32,7 +32,10 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
             if(m.find()){
                 //System.out.println("woo: " + m.group());
                 //System.out.println("ReplaceAll:" + m.replaceAll("v1"));
-                if(customCondition instanceof ApiVersionCondition){
+                if(customCondition==null){
+                    //默认v1版本
+                    path[i] = m.replaceAll("v1");
+                }else  if(customCondition instanceof ApiVersionCondition){
                     ApiVersionCondition apiVersionCondition = (ApiVersionCondition)customCondition;
                     path[i] = m.replaceAll("v"+apiVersionCondition.getApiVersion());
                 }
