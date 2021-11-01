@@ -1,13 +1,12 @@
-### summary
+### 简介
+ Xiushang boot .
 
-基于自己的业务系统，整理一套共用框架代码，方便以后集成和开发。
-
-Based on their own business system, sort out a set of common framework code to facilitate future integration and development.
-
-Mainly use technology stack：springboot+jpa+jwt
-
-demo：https://github.com/shijingsh/xiushang-boot-example
-### create db
+ 基础库为API接口项目开发，完成API通用功能：用户模块、Api授权、短信、定时任务、上传文件、文档管理、微信相关接口。
+ 主要技术栈：springboot+jpa+jwt
+ 
+  demo：https://github.com/shijingsh/xiushang-boot-example
+  
+### 数据库脚本
    项目依赖的数据库脚本，由于hibernate自动生成。需要创建空数据库。
    application.yml 文件中 确保ddl-auto 选项设置为create
    ```
@@ -107,5 +106,5 @@ public class NewsController {
 - pay
 - api auth
 
-### official website
+### 官网
 - www.xiushangsh.com
