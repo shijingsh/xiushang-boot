@@ -102,6 +102,41 @@ public class NewsController {
 
 }
 ```
+-  swagger2 配置多版本
+```java
+@Configuration
+@EnableSwagger2WebMvc
+@Import(BeanValidatorPluginsConfiguration.class)
+public class SwaggerConfiguration {
+
+    @Bean
+    public Docket v1Default(){
+        return new Docket(DocumentationType.SWAGGER_2)
+                .apiInfo(groupApiInfo())
+                .groupName("1-V1版本")
+                .select()
+                .apis(input -> {
+                    ApiVersion apiVersion = input.getHandlerMethod().getMethodAnnotation(ApiVersion.class);
+                    if(apiVersion!=null){
+                        System.out.println("读取到版本信息："+apiVersion.value());
+                    }
+                    if(apiVersion!=null && Arrays.asList(apiVersion.value()).contains(1)){
+                        return true;
+                    }
+                    // 方法所在的类是否标注
+                    ApiVersion annotationOnClass = input.getHandlerMethod().getBeanType().getAnnotation(ApiVersion.class);
+                    if (annotationOnClass != null) {
+                        if (Arrays.asList(annotationOnClass.value()).contains(1)) {
+                            return true;
+                        }
+                    }
+                    return false;
+                })//controller路径
+                .paths(PathSelectors.any())
+                .build();
+    }
+}
+```
 
 ### redis的使用
 
