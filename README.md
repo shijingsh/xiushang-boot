@@ -25,8 +25,8 @@ jpa对于简单的业务非常方便，为了实现简约的代码风格。约�
 实体类尽量少于对象级联。
 
 
-if you found error: Q***Entity is not found
-please run mvn clean and than mvn install
+jpa自动生成类找不到问题: Q***Entity is not found
+运行如下命令解决
 
 ```
 mvn clean 
@@ -102,6 +102,72 @@ public class NewsController {
 
 }
 ```
+
+### redis的使用
+
+```java
+@Api(tags = "redis 缓存")
+@Controller
+@RequestMapping(value = "/redis",
+        produces = "application/json; charset=UTF-8")
+public class RedisController {
+    @Resource(name = "jsonRedisClient")
+    private JsonRedisClient jsonRedisClient;
+
+    @ApiOperation(value = "获取redis数据")
+    @ResponseBody
+    @GetMapping("/myRedis")
+    public CommonResult<String> myRedis(String type) {
+        
+        jsonRedisClient.set("key","value", new Long(24 * 60 * 60 * 60));
+        jsonRedisClient.remove("key");
+        jsonRedisClient.getValue("key",String.class);
+        
+        return CommonResult.success();
+    }
+}
+```
+
+### 约束
+
+
+#### 接口命名
+和Java命名规范一样，好的、统一的接口命名规范，不仅可以增强其可读性，而且还会减少很多不必要的口头/书面上的解释。
+
+可结合【接口路径规范】、【版本控制规范】，外加具体接口命名(路径中可包含请求数据，如：id等)，建议具体接口命名也要规范些，可使用"驼峰命名法"按照实现接口的业务类型、业务场景等命名，有必要时可采取多级目录命名，但目录不宜过长，两级目录较为适宜。
+    
+
+一、前缀
+    通用前缀api，如
+    /api/xxxx
+    指定作用域pubic,public 为预留作用域，代表不需要登录、不需要权限的公共数据。
+    私有重要数据，不要放在该域下面。
+    /api/pubic/xxxx
+    
+    完整实例：
+    /api/public/pay/payInfo
+    /api/作用域（选填）/模块名/功能名
+二、接口路径规范
+
+    作为接口路径，为了方便清晰的区分来自不同的模块，可以采用不同系统/模块名作为接口路径前缀。
+
+    格式规范如下：
+
+    支付模块  /pay/xx
+    订单模块  /order/xx
+ 
+
+三、版本控制规范
+
+    为了便于后期接口的升级和维护，建议在接口路径中加入版本号，便于管理，实现接口多版本的可维护性。如果你细心留意过的话，你会发现好多框架对外提供的API接口中(如：Eureka)，都带有版本号的。如：接口路径中添加类似"v1"、"v2"等版本号。
+
+    格式规范如下：
+    
+          /news/v1/xx
+    
+    更新版本后可以使用v2、v3等、依次递加。
+
+
 
 ### todo
 
