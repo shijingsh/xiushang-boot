@@ -7,6 +7,19 @@
   demo：https://github.com/shijingsh/xiushang-boot-example
   
 ### 数据库脚本
+
+   application.yml 文件中 修改数据库连接为你的数据库
+    
+```
+spring:
+  datasource:
+    username: proxy1
+    password: proxy1
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.29.11:3306/mg_xiushang?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2b8
+    type: com.alibaba.druid.pool.DruidDataSource
+```
+    
    项目依赖的数据库脚本，由hibernate自动生成。需要创建空数据库。
    application.yml 文件中 确保ddl-auto 选项设置为create
    
@@ -19,6 +32,7 @@
          ddl-auto: update # Hibernate ddl auto (create, create-drop, validate, update)
 ```
 
+   注意:数据库生成后，请务必修改ddl-auto 选项设置为update，以免数据被清空。
 ### 实体类
 
 jpa对于简单的业务非常方便，为了实现简约的代码风格。约定所有实体类不使用一对多
