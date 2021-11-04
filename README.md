@@ -2,7 +2,7 @@
  Xiushang boot .
 
  基础库为API接口项目开发，完成API通用功能：用户模块、Api授权、短信、定时任务、上传文件、文档管理、微信相关接口。
- 主要技术栈：springboot+jpa+jwt
+ 主要技术栈：springboot jpa jwt job pay marketingApi knife4j Swagger2  
  
   demo：https://github.com/shijingsh/xiushang-boot-example
   
@@ -187,15 +187,22 @@ public class RedisController {
     
 
 一、前缀
+
     通用前缀api，如
     /api/xxxx
-    指定作用域pubic,public 为预留作用域，代表不需要登录、不需要权限的公共数据。
+    
+    预留作用域pubic 和 oauth
+    
+    指定作用域pubic,代表不需要登录、不需要权限的公共数据。
     私有重要数据，不要放在该域下面。
     /api/pubic/xxxx
     
     完整实例：
-    /api/public/pay/payInfo
+    /api/public/good/detail
     /api/作用域（选填）/模块名/功能名
+    
+    指定作用域oauth,代表需要授权的私密数据
+    /api/oauth/user/all
 二、接口路径规范
 
     作为接口路径，为了方便清晰的区分来自不同的模块，可以采用不同系统/模块名作为接口路径前缀。
