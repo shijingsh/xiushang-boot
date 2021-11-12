@@ -134,7 +134,7 @@ public abstract class BaseInnerEnum {
 
     /**
      * 构造方法.
-     * 如果只写TMSBaseInnerEnum(int id, String name)，继承类会报错。另外，采用
+     * 如果只写BaseInnerEnum(int id, String name)，继承类会报错。另外，采用
      * protected是因为本类不可外部实例化。
      */
     protected BaseInnerEnum() {

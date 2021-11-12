@@ -15,7 +15,7 @@ import java.util.Date;
 
 
 /**
- * TMS系统的实体对象的基础类.
+ * 系统的实体对象的基础类.
  * 这是一个抽象类，且不是被持久化的实体类，但可以被子类继承并包含对应的字段。所包括的字段为
  * 绝大多数实体类都需要用到的字段。对于不需要用到的，设定默认值即可。
  */
@@ -67,6 +67,12 @@ public abstract class BaseEntity implements java.io.Serializable{
     @Column(name = "updated_date")
     protected Date updatedDate;
 
+    /**
+     * 是否已删除
+     */
+    @Column(name = "is_deleted")
+    @JSONField(serialize = false, deserialize = false)
+    private boolean isDeleted = false;
 
     public String getId() {
         return id;
@@ -115,6 +121,14 @@ public abstract class BaseEntity implements java.io.Serializable{
 
     public void setUpdatedDate(Date updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override

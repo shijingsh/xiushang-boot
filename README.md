@@ -223,12 +223,9 @@ public class RedisController {
     
     更新版本后可以使用v2、v3等、依次递加。
 
+### auth2 授权
 
 
-### todo
-
-- pay
-- api auth
 
 ### 官网
 - www.xiushangsh.com

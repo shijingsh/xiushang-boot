@@ -13,5 +13,9 @@ public class Constants {
 	public static final String ACCESS_TOKEN = "Authorization";
 
 	public static final String DEFAULT_PASSWORD = "123456";
+
+	public static final String ADMIN_NAME = "超级管理员";
+
+	public static final String ROLE_ADMIN = "ROLE_超级管理员";
 }
 

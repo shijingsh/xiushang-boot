@@ -24,10 +24,10 @@ public final class EnumFactory {
 
     /**
      * 注册内部枚举类，一个注册一次就行了。重复注册只是替换之前的，没有任何意义。
-     * @param tmsBaseInnerEnum 统中的内部枚举对象，如SexEnum等
+     * @param baseInnerEnum 统中的内部枚举对象，如SexEnum等
      */
-    public static void register(BaseInnerEnum tmsBaseInnerEnum) {
-        innerEnumMap.put(tmsBaseInnerEnum.getClass(), tmsBaseInnerEnum);
+    public static void register(BaseInnerEnum baseInnerEnum) {
+        innerEnumMap.put(baseInnerEnum.getClass(), baseInnerEnum);
     }
 
     /**

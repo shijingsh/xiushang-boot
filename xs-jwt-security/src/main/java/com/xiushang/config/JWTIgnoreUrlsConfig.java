@@ -19,4 +19,5 @@ import java.util.List;
 public class JWTIgnoreUrlsConfig {
 
     private List<String> urls = new ArrayList<>();
+
 }
