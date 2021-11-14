@@ -3,6 +3,7 @@ package com.xiushang.common.exception.handler;
 import com.xiushang.common.exception.ServiceException;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.log.Constants;
+import com.xiushang.framework.log.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -105,6 +106,7 @@ public class GlobalExceptionHandler {
         log.info("==============================发生错误==============================");
         log.info("url:"+request.getRequestURL());
         log.info("queryStr:"+request.getQueryString());
-        log.info("token:"+request.getHeader(Constants.SIGNING_KEY));
+        log.info("Authorization:"+request.getHeader(SecurityConstants.HEADER_STRING));
+        log.info("AccessToken:"+request.getHeader(SecurityConstants.AUTH_HEADER_STRING));
     }
 }

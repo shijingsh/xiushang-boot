@@ -10,6 +10,7 @@ import com.xiushang.security.provider.SecurityAuthenticationProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.AccessDecisionManager;
@@ -26,6 +27,8 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
@@ -46,7 +49,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private  UrlAccessDecisionManager urlAccessDecisionManager;
 
+    @Autowired
+    private SecurityAccessDeniedHandler securityAccessDeniedHandler;
 
+    @Autowired
+    private SecurityAuthenticationEntryPoint securityAuthenticationEntryPoint;
     /**
      * 访问静态资源
      */
@@ -87,9 +94,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
+                .authenticationEntryPoint(securityAuthenticationEntryPoint)
                 .and().exceptionHandling()
-                .accessDeniedHandler(new SecurityAccessDeniedHandler())
+                .accessDeniedHandler(securityAccessDeniedHandler)
 
                 .and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
 

@@ -18,6 +18,7 @@ import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.log.Constants;
+import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.framework.model.AuthorizationVo;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import com.xiushang.framework.utils.StatusEnum;
@@ -429,10 +430,10 @@ public class LoginController {
                 .setSubject(subject)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 365 * 24 * 60 * 60 * 1000)) // 设置过期时间 365 * 24 * 60 * 60秒(这里为了方便测试，所以设置了1年的过期时间，实际项目需要根据自己的情况修改)
-                .signWith(SignatureAlgorithm.HS512, Constants.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
+                .signWith(SignatureAlgorithm.HS512, SecurityConstants.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
                 .compact();
 
-        userEntity.setAuthorization(new AuthorizationVo(token,"Bearer "));
+        userEntity.setAuthorization(new AuthorizationVo(token, SecurityConstants.TOKEN_PREFIX));
 
         return userEntity;
     }

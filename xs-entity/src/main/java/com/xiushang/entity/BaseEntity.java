@@ -72,7 +72,7 @@ public abstract class BaseEntity implements java.io.Serializable{
      */
     @Column(name = "is_deleted")
     @JSONField(serialize = false, deserialize = false)
-    private boolean isDeleted = false;
+    private Boolean isDeleted = false;
 
     public String getId() {
         return id;
@@ -123,11 +123,14 @@ public abstract class BaseEntity implements java.io.Serializable{
         this.updatedDate = updatedDate;
     }
 
-    public boolean isDeleted() {
+    public Boolean getDeleted() {
+        if(isDeleted==null){
+            return false;
+        }
         return isDeleted;
     }
 
-    public void setDeleted(boolean deleted) {
+    public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
 

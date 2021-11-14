@@ -4,6 +4,7 @@ package com.xiushang.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.log.Constants;
+import com.xiushang.framework.log.SecurityConstants;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -79,12 +80,12 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
                     .setSubject(auth.getName() + "-" + roleList)
                     .setIssuedAt(now)//签发时间
                     .setExpiration(time)//过期时间
-                    .signWith(SignatureAlgorithm.HS512, Constants.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
+                    .signWith(SignatureAlgorithm.HS512, SecurityConstants.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
                     .compact();
             // 生成token end
 
             // 登录成功后，返回token到header里面
-            response.addHeader("Authorization", "Bearer " + token);
+            response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
         } catch (Exception e) {
             e.printStackTrace();
         }

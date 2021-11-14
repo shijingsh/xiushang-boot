@@ -9,6 +9,7 @@ import com.xiushang.entity.QUserEntity;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.Constants;
+import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.framework.utils.StatusEnum;
 import com.xiushang.framework.utils.UserHolder;
 import com.xiushang.jpa.repository.UserDao;
@@ -321,9 +322,9 @@ public class UserServiceImpl implements UserService {
         String loginName = UserHolder.getLoginName();
         if(StringUtils.isBlank(loginName) || "anonymousUser".equals(loginName)){
             //获取token
-            String token = request.getHeader(Constants.ACCESS_TOKEN);
+            String token = request.getHeader(SecurityConstants.HEADER_STRING);
             if(StringUtils.isNotBlank(token) && !StringUtils.equals(token,"null") && !StringUtils.equals(token,"NULL")){
-                Claims claims = Jwts.parser().setSigningKey(Constants.SIGNING_KEY).parseClaimsJws(token.replace("Bearer ", "")).getBody();
+                Claims claims = Jwts.parser().setSigningKey(SecurityConstants.SIGNING_KEY).parseClaimsJws(token.replace(SecurityConstants.TOKEN_PREFIX, "")).getBody();
                 String user = claims.getSubject();
                 if (user != null) {
                     String tmpLoginName = user.split("-")[0];

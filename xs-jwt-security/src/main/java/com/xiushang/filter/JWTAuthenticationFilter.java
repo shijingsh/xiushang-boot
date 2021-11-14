@@ -1,7 +1,7 @@
 package com.xiushang.filter;
 
 import com.xiushang.exception.TokenException;
-import com.xiushang.framework.log.Constants;
+import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.service.impl.GrantedAuthorityImpl;
 import io.jsonwebtoken.*;
 import org.slf4j.Logger;
@@ -37,8 +37,8 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
-        String header = request.getHeader("Authorization");
-        if (header == null || !header.startsWith("Bearer ")) {
+        String header = request.getHeader(SecurityConstants.HEADER_STRING);
+        if (header == null || !header.startsWith(SecurityConstants.TOKEN_PREFIX)) {
             chain.doFilter(request, response);
             return;
         }
@@ -49,14 +49,14 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request, HttpServletResponse response) {
         long start = System.currentTimeMillis();
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(SecurityConstants.HEADER_STRING);
         if (token == null || token.isEmpty()) {
             throw new TokenException("Token为空");
         }
         // parse the token.
         String user = null;
         try {
-            Claims claims = Jwts.parser().setSigningKey(Constants.SIGNING_KEY).parseClaimsJws(token.replace("Bearer ", "")).getBody();
+            Claims claims = Jwts.parser().setSigningKey(SecurityConstants.SIGNING_KEY).parseClaimsJws(token.replace("Bearer ", "")).getBody();
             // token签发时间
 			long issuedAt = claims.getIssuedAt().getTime();
 			// 当前时间
@@ -81,7 +81,7 @@ public class JWTAuthenticationFilter extends BasicAuthenticationFilter {
 	                    .setSubject(claims.getSubject())
 	                    .setIssuedAt(now)//签发时间
 	                    .setExpiration(time)//过期时间
-	                    .signWith(SignatureAlgorithm.HS512, Constants.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
+	                    .signWith(SignatureAlgorithm.HS512, SecurityConstants.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
 	                    .compact();
 	            // 重新生成token end
 

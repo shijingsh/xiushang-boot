@@ -1,6 +1,8 @@
 package com.xiushang.config;
 
 
+import com.xiushang.security.hadler.AuthExceptionEntryPoint;
+import com.xiushang.security.hadler.CustomTokenExtractor;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
 import lombok.RequiredArgsConstructor;
@@ -42,11 +44,24 @@ public class OAuth2ServerConfig {
     @EnableResourceServer
     protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
+
+        @Autowired
+        CustomTokenExtractor customTokenExtractor;
+
+        @Autowired
+        AuthExceptionEntryPoint authExceptionEntryPoint;
+
+        @Autowired
+        SecurityAccessDeniedHandler customAccessDeniedHandler;
         @Override
         public void configure(ResourceServerSecurityConfigurer resources) {
             // 如果关闭 stateless，则 accessToken 使用时的 session id 会被记录，后续请求不携带 accessToken 也可以正常响应
             // 如果 stateless 为 true 打开状态，则 每次请求都必须携带 accessToken 请求才行，否则将无法访问
             resources.resourceId(RESOURCE_ID).stateless(true);
+
+            resources.tokenExtractor(customTokenExtractor);
+            resources.authenticationEntryPoint(authExceptionEntryPoint)
+                    .accessDeniedHandler(customAccessDeniedHandler);
         }
 
         /**
