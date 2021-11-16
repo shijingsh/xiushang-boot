@@ -1,0 +1,61 @@
+# 开发环境配置
+spring:
+  thymeleaf:
+    cache: false
+  datasource:
+    username: proxy1
+    password: proxy1
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://192.168.29.11:3306/mg_xiushang?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2b8
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      initial-size: 5 #连接池初始化大小
+      min-idle: 10 #最小空闲连接数
+      max-active: 20 #最大连接数
+      timeBetweenEvictionRunsMillis: 60000 # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+      minEvictableIdleTimeMillis: 300000 # 配置有一个连接在连接池中的最小生存时间，单位是毫秒
+      testWhileIdle: true
+      testOnBorrow: false
+      testOnReturn: false
+      poolPreparedStatements: true # 打开PSCache，指定每个连接上PSCache的大小
+      maxPoolPreparedStatementPerConnectionSize: 20
+      filters: stat, wall, slf4j # 配置监控统计拦截的filters，去掉后监控界面sql将无法统计，'wall'用于防火墙
+      connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=3000 # 通过connectProperties属性来打开mergeSql功能，慢SQL记录
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: "*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*" #不统计这些请求数据
+        profile-enable: true
+      stat-view-servlet: #访问监控网页的登录用户名和密码
+        enabled: true # 开启监控
+        url-pattern: /druid/*
+        login-username: druid
+        login-password: druid
+        allow: 127.0.0.1,192.168.15.1/255,180.168.41.154
+        reset-enable: true
+  redis:
+    host: 10.50.50.27 # Redis服务器地址
+    database: 0 # Redis数据库索引（默认为0）
+    port: 6379 # Redis服务器连接端口
+    password: # Redis服务器连接密码（默认为空）
+    jedis:
+      pool:
+        max-active: 8 # 连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1ms # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 8 # 连接池中的最大空闲连接
+        min-idle: 0 # 连接池中的最小空闲连接
+    timeout: 3000ms # 连接超时时间（毫秒
+file:
+  #文件上传目录 绝对路径 末尾请加 /
+  #path: D:/files/ #windows
+  path: /data/amy-xiushang/file/ #linux
+  #文件预览、下载的url, 末尾请勿加 /
+  url: https://xiushang.365me.me/files
+
+knife4j:
+  basic:
+    enable: true
+    username: amy-xiushang-knife
+    password: amy-xiushang-knife-pwd
+
+temppath: /data/images

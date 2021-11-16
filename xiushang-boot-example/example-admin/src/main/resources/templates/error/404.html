@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>404</title>
+    <style>
+        #banner {
+            background: url("/app_images/404.png") no-repeat;
+            background-size: 100%;
+            overflow: hidden;
+        }
+        .container {
+            position: relative;
+            margin: 0 auto;
+            padding: 0 15px;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 40px;
+        }
+    </style>
+</head>
+<body>
+<div class="container" style="height: 500px;width: 600px;" id="banner">
+</div>
+<div class="container" style="text-align: center;margin-top: 20px;">
+    <h1>404</h1>
+    <h3>您访问的页面好像不存在哦！</h3>
+</div>
+</body>
+<script>
+    //跳出 iframe 到顶级窗口
+    if (top.location != self.location) {
+        top.location = self.location;
+    }
+</script>
+</html>

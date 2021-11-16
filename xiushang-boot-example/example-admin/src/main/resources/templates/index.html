@@ -1,0 +1,327 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>秀上，快来领取你的网络地盘</title>
+    <link href="/home/css/bootstrap.css" rel="stylesheet" type="text/css" media="all">
+    <link href="/home/css/style.css" rel="stylesheet" type="text/css" media="all"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="keywords" content="秀上 小程序 头条小程序"/>
+    <script type="application/x-javascript"> addEventListener("load", function () {
+        setTimeout(hideURLbar, 0);
+    }, false);
+
+    function hideURLbar() {
+        window.scrollTo(0, 1);
+    } </script>
+
+
+    <script src="/home/js/jquery-1.11.1.min.js"></script>
+    <!---- start-smoth-scrolling---->
+    <script type="text/javascript" src="/home/js/move-top.js"></script>
+    <script type="text/javascript" src="/home/js/easing.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(function ($) {
+            $(".scroll").click(function (event) {
+                event.preventDefault();
+                $('html,body').animate({scrollTop: $(this.hash).offset().top}, 1200);
+            });
+        });
+    </script>
+    <!---End-smoth-scrolling---->
+</head>
+<body>
+<div class="header">
+    <div class="container">
+        <div class="header-top">
+            <div class="logo">
+                <a href="index.html"><span>[</span> 秀上 <span>]</span></a>
+            </div>
+			<div class="login">
+				<a href="/admin/user/login">登录</a>
+				<a href="/admin/User/Register">注册</a>
+			</div>
+            <div class="top-menu">
+                <span class="menu"><img src="/home/images/nav.png" alt=""/></span>
+                <ul>
+                    <li><a class="active scroll" href="#home" >首页</a></li>
+                    <li><a href="/doc.html" >API接口</a></li>
+                    <li><a href="#services" class="scroll">服务</a></li>
+<!--
+                    <li><a href="#video" class="scroll">视频</a></li>
+-->
+                    <li><a href="#features" class="scroll">特色</a></li>
+                    <li><a href="#team" class="scroll">案例</a></li>
+                    <li><a href="#contact" class="scroll">联系我们</a></li>
+                </ul>
+            </div>
+            <!-- script for menu -->
+
+            <script>
+                $("span.menu").click(function () {
+                    $(".top-menu ul").slideToggle("slow", function () {
+                    });
+                });
+            </script>
+
+            <!-- //script for menu -->
+
+
+            <div class="clearfix"></div>
+        </div>
+        <div class="button">
+            <h2>下载秀上，生成属于自己的小程序，改变从现在开始</h2>
+			<div class="dpQrcode">
+				<div class="qrcodeItem" >
+					<div class="qrcodeImg"><img src="/home/images/qrcode.png"></div>
+					<div class="qrcodeText" >IOS版下载</div>
+				</div>
+				<div class="qrcodeItem">
+					<div class="qrcodeImg"><img src="/home/images/qrcode.png"></div>
+					<div class="qrcodeText">Android版下载</div>
+				</div>
+			</div>
+        </div>
+        <div class="center-img">
+            <img src="/home/images/weixin1.jpg">
+            <img src="/home/images/weixin2.jpg">
+        </div>
+    </div>
+</div>
+<div class="content">
+    <div class="service-section" id="services">
+        <div class="container">
+            <h3><span>[</span> 服务 <span>]</span></h3>
+            <div class="service-grids">
+                <div class="col-md-3 service-grid">
+                    <img src="/home/images/res-1.png">
+                    <h4>微信小程序</h4>
+                    <p>完全属于您的小程序，完全免费，支持你经营自己</p>
+                </div>
+                <div class="col-md-3 service-grid">
+					<img src="/home/images/res-1.png">
+                    <h4>头条小程序</h4>
+                    <p>借助头条新媒体，打开属于你的商业圈</p>
+                </div>
+                <div class="col-md-3 service-grid">
+					<img src="/home/images/res-1.png">
+                    <h4>支付宝小程序</h4>
+                    <p>打通全渠道经营能力</p>
+                </div>
+                <div class="col-md-3 service-grid">
+					<img src="/home/images/res-1.png">
+                    <h4>百度小程序</h4>
+                    <p>为你接通新的平台，零成本</p>
+                </div>
+
+                <div class="clearfix"></div>
+            </div>
+        </div>
+    </div>
+<!--    <div class="video" id="video">
+        <div class="container">
+            <h3><span>[</span> video demo <span>]</span></h3>
+            <iframe src="https://player.vimeo.com/video/38996930"></iframe>
+        </div>
+    </div>-->
+    <div class="feature" id="features">
+        <div class="container">
+            <h3><span>[</span> 特色 <span>]</span></h3>
+            <div class="feature-grids">
+                <div class="feature1">
+                    <div class="col-md-6 feature-grid">
+                        <img src="/home/images/img1.jpg">
+                    </div>
+                    <div class="col-md-6 feature-grid1">
+                        <h4>开设自己的产品，开始经营自己</h4>
+                        <p>
+							只要你有一技之长，就应该好好经营。把特长转变成你的特有能力，服务大众，从而获得应有的回报
+						</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="feature2">
+                    <div class="col-md-6 feature-grid2">
+                        <h4>客户管理</h4>
+                        <p>
+							帮你慢慢积累属于你的客户群体。对客户的每次服务，记录在案，提升你的服务能力
+						</p>
+                    </div>
+                    <div class="col-md-6 feature-grid3">
+                        <img src="/home/images/img2.jpg">
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="feature3">
+                    <div class="col-md-6 feature-grid">
+                        <img src="/home/images/img3.jpg">
+                    </div>
+                    <div class="col-md-6 feature-grid1">
+                        <h4>定制</h4>
+                        <p>
+							定制属于你的内容管理
+						</p>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+<div class="team-section" id="team">
+    <div class="container">
+        <h3><span>[</span> 案例 <span>]</sapn></h3>
+        <div class="screen-shots">
+            <!--sreen-gallery-cursual-->
+            <div class="sreen-gallery-cursual">
+                <!-- start content_slider -->
+                <div id="owl-demo" class="owl-carousel">
+                    <div class="item">
+                        <div class="item-grid">
+                            <div class="item-pic">
+                                <img src="/home/images/pic1.jpg"/>
+                            </div>
+                            <h4>推广活动</h4>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-grid">
+                            <div class="item-pic">
+                                <img src="/home/images/pic2.jpg"/>
+                            </div>
+                            <h4>报名活动</h4>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-grid">
+                            <div class="item-pic">
+                                <img src="/home/images/pic3.jpg"/>
+                            </div>
+                            <h4>日常管理</h4>
+                        </div>
+                    </div>
+                    <div class="item">
+                        <div class="item-grid">
+                            <div class="item-pic">
+                                <img src="/home/images/pic4.jpg"/>
+                            </div>
+                            <h4>知识管理</h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--//sreen-gallery-cursual-->
+        </div>
+        <!-- requried-jsfiles-for owl -->
+        <link href="/home/css/owl.carousel.css" rel="stylesheet">
+        <script src="/home/js/owl.carousel.js"></script>
+        <script>
+            $(document).ready(function () {
+                $("#owl-demo").owlCarousel({
+                    items: 4,
+                    lazyLoad: true,
+                    autoPlay: true,
+                    navigation: false,
+                    navigationText: false,
+                    pagination: true,
+                });
+            });
+        </script>
+        <!-- //requried-jsfiles-for owl -->
+    </div>
+</div>
+</div>
+<div class="footer-section" id="contact" >
+    <div class="container">
+        <div class="contact-header">
+            <h3><span>[</span> 联系我们 <span>]</span></h3>
+        </div>
+        <div class="contact">
+            <div class="contact-grids" style="padding-top: 20px">
+                <div class="col-md-4 contactgrid">
+                    <div style="color: #fff;text-align: center;line-height: 30px;margin-top: 15px;}">
+                        <p><a href="tel:19888122579" style="margin-right: 5px;color: #31C3DB">19888122579</a>微信同号</p>
+                        <p style="color: #E03E2D">要酒吧爸爸要爱爱吾妻久</p>
+                        <p>QQ：3161452030</p>
+                    </div>
+                </div>
+                <div class="col-md-4 contactgrid">
+                    <div style="color: #fff;text-align: center;line-height: 30px">
+                        <p>关注秀上</p>
+                        <div>
+                            <img src="/app_images/qrcode.jpg" style="width: 100px;height: 100px">
+                        </div>
+                    </div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="contact">
+            <div class="contact-grids" >
+                <div class="col-md-4 contactgrid">
+                    <input type="text" class="text" value=" 姓名" onfocus="this.value = '';"
+                           onblur="if (this.value == '') {this.value = ' 姓名';}">
+                </div>
+                <div class="col-md-4 contactgrid">
+                    <input type="text" class="text" value="手机号" onfocus="this.value = '';"
+                           onblur="if (this.value == '') {this.value = '手机号';}">
+                </div>
+                <div class="clearfix"></div>
+            </div>
+            <div class="contact-grids1">
+                <div class="col-md-8 contactgrid1">
+                    <textarea onfocus="if(this.value == '你的留言') this.value='';"
+                              onblur="if(this.value == '') this.value='你的留言';">你的留言</textarea>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+			<div class="contact-grids1">
+				<div class="col-md-5 contactgrid2" style="margin: 0 auto;text-align: center;">
+					<input type="button" value="[ 发送 ]">
+				</div>
+				<div class="clearfix"></div>
+			</div>
+            <div class="clearfix"></div>
+        </div>
+        <div class="footer-bottom">
+            <p> 上海时竟科技有限公司 </p>
+            <p> Copyright &copy;2020 All rights Reserved </p>
+            <script>
+                setTimeout(function () {
+                    var meHost = window.location.host;
+                    if(meHost=='www.xiushangsh.com'){
+                        document.getElementById('beiLink').innerText = '沪ICP备19021249号-2'
+                    }else if(meHost=='www.xiushangsh.cn'){
+                        document.getElementById('beiLink').innerText = '沪ICP备19021249号-1'
+                    }else{
+                        document.getElementById('beiLink').innerText = '沪ICP备 19021249号'
+                    }
+                }, 1000);
+            </script>
+            <a href="https://beian.miit.gov.cn"  target="_blank" class="pl-10" id="beiLink"></a>
+        </div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                /*
+                var defaults = {
+                      containerID: 'toTop', // fading element id
+                    containerHoverID: 'toTopHover', // fading element hover id
+                    scrollSpeed: 1200,
+                    easingType: 'linear'
+                 };
+                */
+
+                $().UItoTop({easingType: 'easeOutQuart'});
+
+            });
+        </script>
+        <a href="#" id="toTop" style="display: block;"> <span id="toTopHover" style="opacity: 1;"> </span></a>
+    </div>
+
+</div>
+</div>
+
+
+</body>
+</html>
