@@ -44,6 +44,8 @@ public class OAuth2ServerConfig {
     @EnableResourceServer
     protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
+        @Autowired
+        OAuth2UrlConfig oAuth2UrlConfig;
 
         @Autowired
         CustomTokenExtractor customTokenExtractor;
@@ -76,12 +78,12 @@ public class OAuth2ServerConfig {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                     // 资源服务器拦截的路径 注意此路径不要和主过滤器冲突
-                    .requestMatchers().antMatchers("/api/oauth/**");
+                    .requestMatchers().antMatchers(oAuth2UrlConfig.getUrl()+"**");
             //
             http
                 .authorizeRequests()
                      // 配置资源服务器已拦截的路径才有效
-                    .antMatchers("/api/oauth/**").authenticated();
+                    .antMatchers(oAuth2UrlConfig.getUrl()+"**").authenticated();
                     // .access(" #oauth2.hasScope('select') or hasAnyRole('ROLE_超级管理员', 'ROLE_设备管理员')");
             //            //
             http

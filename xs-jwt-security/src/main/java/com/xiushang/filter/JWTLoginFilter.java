@@ -85,7 +85,7 @@ public class JWTLoginFilter extends UsernamePasswordAuthenticationFilter {
             // 生成token end
 
             // 登录成功后，返回token到header里面
-            response.addHeader(SecurityConstants.HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
+            response.addHeader(SecurityConstants.USER_HEADER_STRING, SecurityConstants.TOKEN_PREFIX + token);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -5,6 +5,8 @@ import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Lists;
 import com.xiushang.config.ApiVersion;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
+import com.xiushang.config.OAuth2UrlConfig;
+import com.xiushang.framework.log.SecurityConstants;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -32,6 +34,9 @@ public class SwaggerConfiguration {
 
     @Autowired
     private JWTIgnoreUrlsConfig ignoreUrlsConfig;
+
+    @Autowired
+    private OAuth2UrlConfig oAuth2UrlConfig;
 
     @Bean
     public Docket defaultApi() {
@@ -198,9 +203,16 @@ public class SwaggerConfiguration {
         //设置需要登录认证的路径
         List<SecurityContext> result = new ArrayList<>();
         result.add(SecurityContext.builder()
-            .securityReferences(defaultAuth())
+            .securityReferences(defaultUserAuth())
             .forPaths(PathSelectors.regex(builder.toString()))
             .build());
+
+        //设置需要授权认证的路径  非公共路径，都需要授权
+        result.add(SecurityContext.builder()
+                .securityReferences(defaultAuth())
+                .forPaths(PathSelectors.regex(".*"+oAuth2UrlConfig.getUrl()+".*"))
+                .build());
+
         return result;
     }
 
@@ -209,8 +221,16 @@ public class SwaggerConfiguration {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        result.add(new SecurityReference("Authorization", authorizationScopes));
-        result.add(new SecurityReference("AccessToken", authorizationScopes));
+        result.add(new SecurityReference(SecurityConstants.AUTH_HEADER_STRING, authorizationScopes));
+        return result;
+    }
+
+    private List<SecurityReference> defaultUserAuth() {
+        List<SecurityReference> result = new ArrayList<>();
+        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = authorizationScope;
+        result.add(new SecurityReference(SecurityConstants.USER_HEADER_STRING, authorizationScopes));
         return result;
     }
 

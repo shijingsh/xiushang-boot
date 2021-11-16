@@ -322,7 +322,7 @@ public class UserServiceImpl implements UserService {
         String loginName = UserHolder.getLoginName();
         if(StringUtils.isBlank(loginName) || "anonymousUser".equals(loginName)){
             //获取token
-            String token = request.getHeader(SecurityConstants.HEADER_STRING);
+            String token = request.getHeader(SecurityConstants.USER_HEADER_STRING);
             if(StringUtils.isNotBlank(token) && !StringUtils.equals(token,"null") && !StringUtils.equals(token,"NULL")){
                 Claims claims = Jwts.parser().setSigningKey(SecurityConstants.SIGNING_KEY).parseClaimsJws(token.replace(SecurityConstants.TOKEN_PREFIX, "")).getBody();
                 String user = claims.getSubject();

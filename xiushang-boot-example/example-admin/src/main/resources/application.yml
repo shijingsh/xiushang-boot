@@ -104,3 +104,9 @@ jwt:
       - /**/favicon.ico
       - /**/*.apk
       - /**/*.txt
+
+
+#oauth path
+oauth:
+  path:
+    url: /api/

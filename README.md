@@ -177,6 +177,21 @@ public class RedisController {
 }
 ```
 
+
+### auth2 授权配置
+
+配置auth2 授权路径 （默认为： /api/oauth/）
+```
+oauth:
+  path:
+    url: /api/
+```
+
+####  接口请求header 参数
+
+Authorization：租户auth2 授权token
+AccessToken：  用户jwt登陆 token
+
 ### 约束
 
 
@@ -222,10 +237,6 @@ public class RedisController {
           /news/v1/xx
     
     更新版本后可以使用v2、v3等、依次递加。
-
-### auth2 授权
-
-
 
 ### 官网
 - www.xiushangsh.com

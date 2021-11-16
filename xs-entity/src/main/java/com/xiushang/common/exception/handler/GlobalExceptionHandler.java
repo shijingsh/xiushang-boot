@@ -106,7 +106,7 @@ public class GlobalExceptionHandler {
         log.info("==============================发生错误==============================");
         log.info("url:"+request.getRequestURL());
         log.info("queryStr:"+request.getQueryString());
-        log.info("Authorization:"+request.getHeader(SecurityConstants.HEADER_STRING));
-        log.info("AccessToken:"+request.getHeader(SecurityConstants.AUTH_HEADER_STRING));
+        log.info(SecurityConstants.USER_HEADER_STRING+":"+request.getHeader(SecurityConstants.USER_HEADER_STRING));
+        log.info(SecurityConstants.AUTH_HEADER_STRING+":"+request.getHeader(SecurityConstants.AUTH_HEADER_STRING));
     }
 }
