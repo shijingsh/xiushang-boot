@@ -189,8 +189,8 @@ oauth:
 
 ####  接口请求header 参数
 
-Authorization：租户auth2 授权token
-AccessToken：  用户jwt登陆 token
+- Authorization：租户oauth2 授权token。请求受保护接口必填
+- AccessToken：  用户jwt登陆 token。   请求需用户登陆路径必填   
 
 ### 约束
 
