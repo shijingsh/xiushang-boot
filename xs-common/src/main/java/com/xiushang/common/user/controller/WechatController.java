@@ -33,7 +33,7 @@ import java.util.UUID;
 
 @Api(tags = "微信接口")
 @Controller
-@RequestMapping(value = "/wechat",
+@RequestMapping(value = "/api/wx",
         produces = "application/json; charset=UTF-8")
 public class WechatController {
 

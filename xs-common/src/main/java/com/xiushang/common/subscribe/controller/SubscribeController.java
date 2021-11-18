@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "微信接口")
 @Controller
-@RequestMapping(value = "/subscribe",
+@RequestMapping(value = "/api/wx/subscribe",
         produces = "application/json; charset=UTF-8")
 public class SubscribeController {
 

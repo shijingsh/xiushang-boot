@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @Api(tags = "文件上传")
 @Controller
-@RequestMapping(value = "/",
+@RequestMapping(value = "/api/public",
         produces = "application/json; charset=UTF-8")
 public class UploadController{
     @Autowired

@@ -8,8 +8,8 @@ import com.xiushang.common.user.service.SystemParamService;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.LoginVo;
 import com.xiushang.common.user.vo.PhoneDecryptInfo;
-import com.xiushang.common.user.vo.WxLoginVo;
 import com.xiushang.common.user.vo.ThirdUserVo;
+import com.xiushang.common.user.vo.WxLoginVo;
 import com.xiushang.common.utils.AESGetPhoneNumber;
 import com.xiushang.common.utils.HttpClientUtil;
 import com.xiushang.common.utils.JsonUtils;
@@ -17,7 +17,6 @@ import com.xiushang.common.utils.MD5;
 import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.log.CommonResult;
-import com.xiushang.framework.log.Constants;
 import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.framework.model.AuthorizationVo;
 import com.xiushang.framework.sys.PropertyConfigurer;
@@ -43,7 +42,7 @@ import java.util.List;
 @Api(tags = "用户管理")
 @ApiSort(value = 1)
 @Controller
-@RequestMapping(value = "/",
+@RequestMapping(value = "/api/user",
         produces = "application/json; charset=UTF-8")
 public class LoginController {
     @Autowired

@@ -32,7 +32,7 @@ import java.util.List;
 @Api(tags = "用户管理")
 @ApiSort(value = 1)
 @Controller
-@RequestMapping(value = "/user",
+@RequestMapping(value = "/api/user",
         produces = "application/json; charset=UTF-8")
 public class UserController {
     @Autowired

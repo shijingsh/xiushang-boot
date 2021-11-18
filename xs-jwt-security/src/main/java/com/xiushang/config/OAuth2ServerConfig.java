@@ -126,6 +126,7 @@ public class OAuth2ServerConfig {
          */
         @Bean
         public ClientDetailsService clientDetails() {
+
             return new JdbcClientDetailsService(dataSource);
         }
 
