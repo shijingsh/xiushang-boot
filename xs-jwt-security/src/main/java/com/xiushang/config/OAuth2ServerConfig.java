@@ -5,8 +5,8 @@ import com.xiushang.security.hadler.AuthExceptionEntryPoint;
 import com.xiushang.security.hadler.CustomTokenExtractor;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -100,15 +100,15 @@ public class OAuth2ServerConfig {
 
     @Configuration
     @EnableAuthorizationServer
-    //Lombok提供的注解 @RequiredArgsConstructor 来解决@Autowired 找不到告警
-    //@RequiredArgsConstructor(onConstructor = @__(@Autowired))
     protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
 
         @Autowired
         private  AuthenticationManager authenticationManager;
         @Autowired
         private  DataSource dataSource;
+
         @Autowired
+        @Qualifier("userDetailsServiceImpl")
         private  UserDetailsService userDetailsService;
         @Autowired
         private  ClientDetailsService clientDetailsService;
@@ -174,6 +174,20 @@ public class OAuth2ServerConfig {
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             // 1. 数据库的方式
             clients.withClientDetails(clientDetails());
+            // 2. 內存的方式
+            /*clients.inMemory()
+                    .withClient("c1")
+                    .secret(new BCryptPasswordEncoder().encode("secret"))
+                    //资源列表
+                    .resourceIds("res1")
+                    //授权类型
+                    .authorizedGrantTypes("authorization_code","password","client_credentials","implicit","refresh_token")
+                    //允许的授权范围，all是自定义的字符串
+                    .scopes("all")
+                    //false代表跳转到授权页面
+                    .autoApprove(false)
+                    //验证回调地址
+                    .redirectUris("http://www.baidu.com");*/
         }
 
 
@@ -186,9 +200,9 @@ public class OAuth2ServerConfig {
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 
             endpoints.tokenStore(tokenStore())
-                    .authenticationManager(authenticationManager)
+                    .authenticationManager(authenticationManager) //授权码模式需要
+                    .authorizationCodeServices(authorizationCodeServices) //密码模式需要
                     .userDetailsService(userDetailsService)
-                    .authorizationCodeServices(authorizationCodeServices)
                     .setClientDetailsService(clientDetailsService);
         }
 

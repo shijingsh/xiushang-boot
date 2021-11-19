@@ -7,15 +7,11 @@ import com.xiushang.security.hadler.SecurityLogoutSuccessHandler;
 import com.xiushang.security.manager.UrlAccessDecisionManager;
 import com.xiushang.security.metadatasource.UrlFilterInvocationSecurityMetadataSource;
 import com.xiushang.security.provider.SecurityAuthenticationProvider;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.access.AccessDecisionManager;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -27,8 +23,6 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
@@ -37,8 +31,6 @@ import java.util.List;
 @Configuration
 @EnableWebSecurity
 @Slf4j
-//Lombok提供的注解 @RequiredArgsConstructor 来解决@Autowired 找不到告警
-//@RequiredArgsConstructor(onConstructor = @__(@Autowired))
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private  JWTIgnoreUrlsConfig ignoreUrlsConfig;
@@ -74,6 +66,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        //用户名、密码登录
         auth.authenticationProvider(securityAuthenticationProvider);
     }
 
@@ -84,6 +77,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         String[] AUTH_WHITELIST = list.toArray(new String[list.size()]);
 
         http.cors().and().csrf().disable()
+                /**
+                 *  //控制器
+                 *   .sessionManagement()
+                 *   .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                 * 们可以通过下列选项控制会话何时创建及如何与SpringSecurity交互
+                 *
+                 * 机制	描述
+                 * always	没有session存在就创建一个
+                 * ifRequired	如果有需要就创建一个登陆时(默认)
+                 * never	SpringSecurity不会创建session,但是应用其他地方创建来的话,可以使用
+                 * stateless	不创建不使用
+                 */
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .authorizeRequests()
@@ -105,6 +110,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")// 设置注销成功后跳转页面，默认是跳转到登录页面;
                 .logoutSuccessHandler(new SecurityLogoutSuccessHandler())
                 .permitAll();
+
 
     }
 

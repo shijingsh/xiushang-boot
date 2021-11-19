@@ -17,7 +17,8 @@ import org.springframework.stereotype.Component;
 public class SecurityAuthenticationProvider implements AuthenticationProvider {
 
 
-	@Autowired
+    @Qualifier("userDetailsServiceImpl")
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Autowired
