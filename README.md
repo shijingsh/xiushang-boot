@@ -192,6 +192,11 @@ oauth:
 - Authorization：租户oauth2 授权token。请求受保护接口必填
 - AccessToken：  用户jwt登陆 token。   请求需用户登陆路径必填   
 
+#### OAuth2 数据库表
+https://github.com/spring-projects/spring-security-oauth/blob/main/spring-security-oauth2/src/test/resources/schema.sql
+
+表结构说明：https://blog.csdn.net/qq_34997906/article/details/89609297
+
 ### 约束
 
 
