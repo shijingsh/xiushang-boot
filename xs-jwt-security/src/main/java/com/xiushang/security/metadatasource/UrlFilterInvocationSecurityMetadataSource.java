@@ -90,10 +90,10 @@ public class UrlFilterInvocationSecurityMetadataSource implements FilterInvocati
     private boolean checkIgnores(HttpServletRequest request) {
         String method = request.getMethod();
 
-        HttpMethod httpMethod = HttpMethod.resolve(method);
+        /*HttpMethod httpMethod = HttpMethod.resolve(method);
         if (null == httpMethod) {
             httpMethod = HttpMethod.GET;
-        }
+        }*/
 
         Set<String> ignores = Sets.newHashSet();
         ignores.addAll(ignoreUrlsConfig.getUrls());

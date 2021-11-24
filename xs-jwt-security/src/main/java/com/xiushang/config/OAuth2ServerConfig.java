@@ -28,6 +28,8 @@ import org.springframework.security.oauth2.provider.code.AuthorizationCodeServic
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
 import javax.sql.DataSource;
 
@@ -82,6 +84,11 @@ public class OAuth2ServerConfig {
             //
             http
                 .authorizeRequests()
+                    .antMatchers("/api/user/login","/api/user/verifyCode","/api/user/register","/api/user/loginThird","/api/user/weixinLogin" ,
+                            "/authentication/form",
+                            "/authentication/mobile",
+                            "/authentication/openid")
+                    .permitAll()
                      // 配置资源服务器已拦截的路径才有效
                     .antMatchers(oAuth2UrlConfig.getUrl()+"**").authenticated();
                     // .access(" #oauth2.hasScope('select') or hasAnyRole('ROLE_超级管理员', 'ROLE_设备管理员')");
@@ -119,6 +126,16 @@ public class OAuth2ServerConfig {
         // @Autowired
         // private RedisConnectionFactory redisConnectionFactory;
 
+        @Bean
+        public PersistentTokenRepository persistentTokenRepository() {
+            //使用jdbc来存储
+            JdbcTokenRepositoryImpl tokenRepository = new JdbcTokenRepositoryImpl();
+            //设置数据源
+            tokenRepository.setDataSource(dataSource);
+            //当为true的时候就会自动创建表
+            //tokenRepository.setCreateTableOnStartup(true);
+            return tokenRepository;
+        }
         /**
          * ClientDetails实现
          *

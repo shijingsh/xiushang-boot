@@ -8,6 +8,8 @@
 
 auth2账号登录 应该是存储在session 之中，解决集群问题 
 auth2登录 使用fiter 怎么生成swagger文档
+token 过期处理逻辑
+auth2 获取授权的账号
 
 ### oauth2 文章
 

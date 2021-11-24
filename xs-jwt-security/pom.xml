@@ -24,6 +24,11 @@
             <artifactId>xs-entity</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-service</artifactId>
+        </dependency>
+
         <!-- spring-security-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -49,6 +54,7 @@
             <artifactId>spring-security-crypto</artifactId>
             <version>5.1.2.RELEASE</version>
         </dependency>
+
 
     </dependencies>
     <build>

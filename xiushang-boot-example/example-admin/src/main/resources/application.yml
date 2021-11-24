@@ -91,9 +91,9 @@ jwt:
       - /favicon.ico
       - /favicon.png
       - /captcha.jpg
-      - /login
-      - /logout
-      - /captcha
+      - /api/user/login
+      - /api/user/logout
+      - /api/user/captcha
       #- static
       - /**/*.js
       - /**/*.css
@@ -105,8 +105,30 @@ jwt:
       - /**/*.apk
       - /**/*.txt
 
-
 #oauth path
 oauth:
   path:
     url: /api/
+
+system:
+  #客户端配置
+  client:
+    clients[0]:
+      clientId: lvhaibao
+      clientSecret: 123456
+    clients[1]:
+      clientId: lhb
+      clientSecret: 123456
+    clients[2]:
+      clientId: app
+      clientSecret: app
+  social:
+    qq:
+      app-id: xxxx
+      app-secret: xxxx
+      providerId: callback.do
+
+    filterProcessesUrl: /qqLogin
+    weixin:
+      app-id: wx8a47a66e22296c62
+      app-secret: deb57af7ec1753a2668889e74b34b789

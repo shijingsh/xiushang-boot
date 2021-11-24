@@ -1,5 +1,6 @@
 package com.xiushang.framework.utils;
 
+import com.xiushang.security.authentication.SecurityUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -21,8 +22,18 @@ public class UserHolder {
         if (Objects.nonNull(authentication)) {
             Object principal = authentication.getPrincipal();
 
-            String userName = (String) principal;
-            String loginName = userName.split("-")[0];
+            String loginName ;
+            if(principal instanceof SecurityUser){
+                SecurityUser securityUser = (SecurityUser) principal;
+                loginName = securityUser.getUsername();
+            }else if(principal instanceof org.springframework.security.core.userdetails.User){
+                org.springframework.security.core.userdetails.User securityUser = (org.springframework.security.core.userdetails.User) principal;
+                loginName = securityUser.getUsername();
+            }else {
+                String userName = (String) principal;
+                loginName = userName.split("-")[0];
+            }
+
 
             return loginName;
         }

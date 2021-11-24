@@ -205,6 +205,11 @@
             </dependency>
             <dependency>
                 <groupId>com.github.shijingsh</groupId>
+                <artifactId>xs-service</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
                 <artifactId>xs-entity</artifactId>
                 <version>${project.version}</version>
             </dependency>

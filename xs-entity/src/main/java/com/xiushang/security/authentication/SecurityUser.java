@@ -21,7 +21,7 @@ public class SecurityUser extends UserEntity implements UserDetails, Serializabl
     private Boolean credentialsNonExpired=true;
     @Setter
     private Boolean enabled=true;
-    public SecurityUser (UserEntity user) {
+    public SecurityUser(UserEntity user) {
         if(user != null) {
             BeanUtils.copyProperties(user, this);
         }

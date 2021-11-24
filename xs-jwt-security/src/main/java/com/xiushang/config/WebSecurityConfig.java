@@ -1,6 +1,8 @@
 package com.xiushang.config;
 
 import com.xiushang.filter.JWTAuthenticationFilter;
+import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.xiushang.security.authentication.openid.OpenIdAuthenticationConfig;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
 import com.xiushang.security.hadler.SecurityLogoutSuccessHandler;
@@ -46,6 +48,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SecurityAuthenticationEntryPoint securityAuthenticationEntryPoint;
+
+    @Autowired
+    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
+
+    @Autowired
+    private OpenIdAuthenticationConfig openIdAuthenticationConfig;
     /**
      * 访问静态资源
      */
@@ -94,6 +102,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/*.html","/*.svg","/*.png","/*.jpg","/*.js","/*.css").permitAll()
+                .antMatchers("/v2/api-docs",
+                        "/authentication/form",
+                        "/authentication/mobile",
+                        "/authentication/openid",
+                        "/myLogout").permitAll()
                 .anyRequest()
                 .authenticated().withObjectPostProcessor(urlObjectPostProcessor())
 
@@ -104,12 +117,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(securityAccessDeniedHandler)
 
                 .and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                //短信验证码配置
+                .apply(smsCodeAuthenticationSecurityConfig)
+                //openID登录
+                .and().apply(openIdAuthenticationConfig)
 
-                .logout() // 默认注销行为为logout，可以通过下面的方式来修改
+                .and().logout() // 默认注销行为为logout，可以通过下面的方式来修改
                 .logoutUrl("/logout")
                 .logoutSuccessUrl("/login")// 设置注销成功后跳转页面，默认是跳转到登录页面;
                 .logoutSuccessHandler(new SecurityLogoutSuccessHandler())
-                .permitAll();
+                .permitAll()
+        ;
+
+
+
 
 
     }

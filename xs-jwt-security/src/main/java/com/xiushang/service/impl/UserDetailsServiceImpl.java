@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 import static java.util.Collections.emptyList;
 
 /**
@@ -34,4 +36,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new org.springframework.security.core.userdetails.User(user.getLoginName(), user.getPassword(), emptyList());
     }
 
+    public UserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
+        Optional<UserEntity> optional = userDao.findById(userId);
+        if(!optional.isPresent()){
+            throw new UsernameNotFoundException(userId);
+        }
+        UserEntity user = optional.get();
+        return new org.springframework.security.core.userdetails.User(user.getLoginName(), user.getPassword(), emptyList());
+    }
 }
