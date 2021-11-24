@@ -1,5 +1,7 @@
 package com.xiushang.security.authentication.mobile;
 
+import com.xiushang.common.user.vo.LoginSmsVo;
+import com.xiushang.framework.utils.WebUtil;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -32,11 +34,13 @@ public class SmsCodeAuthenticationFilter extends AbstractAuthenticationProcessin
         if (this.postOnly && !request.getMethod().equals("POST")) {
             throw new AuthenticationServiceException("Authentication method not supported: " + request.getMethod());
         } else {
-            String mobile = this.obtainMobile(request);
+
+            LoginSmsVo loginSmsVo = WebUtil.getJsonBody(request, LoginSmsVo.class);
+
+            String mobile = loginSmsVo.getMobile();
             if (mobile == null) {
                 mobile = "";
             }
-
 
             mobile = mobile.trim();
             //把手机号传进SmsCodeAuthenticationToken

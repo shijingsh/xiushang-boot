@@ -1,7 +1,9 @@
 package com.xiushang.config;
 
+import com.xiushang.common.components.SmsService;
 import com.xiushang.filter.JWTAuthenticationFilter;
 import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
+import com.xiushang.security.authentication.mobile.SmsCodeFilter;
 import com.xiushang.security.authentication.openid.OpenIdAuthenticationConfig;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
@@ -26,6 +28,9 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import java.util.List;
@@ -54,6 +59,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private OpenIdAuthenticationConfig openIdAuthenticationConfig;
+
+    @Autowired
+    private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
+
+    @Autowired
+    private AuthenticationFailureHandler authenticationFailureHandler;
+
+    @Autowired
+    private SmsService smsService;
     /**
      * 访问静态资源
      */
@@ -84,7 +98,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         List<String> list = ignoreUrlsConfig.getUrls();
         String[] AUTH_WHITELIST = list.toArray(new String[list.size()]);
 
-        http.cors().and().csrf().disable()
+        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
+        smsCodeFilter.setSmsService(smsService);
+        smsCodeFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+        smsCodeFilter.afterPropertiesSet();
+
+        http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                //表单登录,loginPage为登录请求的url,loginProcessingUrl为表单登录处理的URL
+                .formLogin().loginPage("/authentication/require").loginProcessingUrl("/authentication/form")
+                //登录成功之后的处理
+                .successHandler(myAuthenticationSuccessHandler)
+                //禁用跨站伪造
+                .and().cors().and().csrf().disable()
                 /**
                  *  //控制器
                  *   .sessionManagement()
@@ -116,6 +141,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().exceptionHandling()
                 .accessDeniedHandler(securityAccessDeniedHandler)
 
+                //JWT用户登陆过滤器
                 .and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 //短信验证码配置
                 .apply(smsCodeAuthenticationSecurityConfig)

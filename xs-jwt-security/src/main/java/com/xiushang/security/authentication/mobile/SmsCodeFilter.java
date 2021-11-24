@@ -3,19 +3,19 @@ package com.xiushang.security.authentication.mobile;
 import com.xiushang.common.components.SmsService;
 import com.xiushang.common.user.vo.LoginSmsVo;
 import com.xiushang.framework.utils.WebUtil;
+import com.xiushang.framework.web.BodyReaderHttpServletRequestWrapper;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.bind.ServletRequestBindingException;
-import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -60,6 +60,13 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+        //解决WebUtil.getJsonBody 只能使用一次问题
+        HttpServletRequest requestWrapper = null;
+        if( request instanceof BodyReaderHttpServletRequestWrapper) {
+            requestWrapper = request;
+        }else{
+            requestWrapper = new BodyReaderHttpServletRequestWrapper( request);
+        }
 
         boolean action = false;
         for (String url : urls) {
@@ -69,13 +76,21 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
         }
 
         if (action) {
-            LoginSmsVo loginSmsVo = WebUtil.getJsonBody(request, LoginSmsVo.class);
+            LoginSmsVo loginSmsVo = WebUtil.getJsonBody(requestWrapper, LoginSmsVo.class);
+            if(StringUtils.isBlank(loginSmsVo.getMobile())){
+                authenticationFailureHandler.onAuthenticationFailure(request, response, new ValidateCodeException("手机号不能为空！"));
+                return;
+            }
+            if(StringUtils.isBlank(loginSmsVo.getVerifyCode())){
+                authenticationFailureHandler.onAuthenticationFailure(request, response, new ValidateCodeException("验证码不能为空！"));
+                return;
+            }
             if(!smsService.validateCode(loginSmsVo.getMobile(),loginSmsVo.getVerifyCode())){
-                authenticationFailureHandler.onAuthenticationFailure(request, response, new ValidateCodeException("验证码不正确！"));
+                authenticationFailureHandler.onAuthenticationFailure(request, response, new ValidateCodeException("短信验证码不正确或已过期！"));
                 return;
             }
         }
-        chain.doFilter(request, response);
+        chain.doFilter(requestWrapper, response);
     }
 
 }
