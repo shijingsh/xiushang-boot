@@ -12,8 +12,14 @@ token 过期处理逻辑
 auth2 获取授权的账号
 
 ### oauth2 文章
+AuthorizationEndpoint  oauth/authorize路径处理器
+
+TokenEndpoint   /oauth/token
 
 https://blog.csdn.net/czh8487888/article/details/111578200  Spring Security Oauth2关于自定义登录的几种解决方案
 https://zhuanlan.zhihu.com/p/166420642  我扒了半天源码，终于找到了Oauth2自定义处理结果的最佳方案！
 
 https://www.cnblogs.com/javammc/p/14219006.html
+
+
+https://cloud.tencent.com/developer/article/1377637  自定义AuthorizationEndpoint

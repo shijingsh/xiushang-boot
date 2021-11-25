@@ -67,7 +67,7 @@
         <querydsl.version>4.2.2</querydsl.version>
         <logback.version>1.2.3</logback.version>
         <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
-       <!-- <spring.boot.version>2.5.1</spring.boot.version>-->
+       <!-- <spring.boot.version>2.5.2</spring.boot.version>-->
         <commons-pool2.version>2.5.0</commons-pool2.version>
         <druid.version>1.2.6</druid.version>
         <jjwt.version>0.9.1</jjwt.version>
