@@ -1,7 +1,8 @@
 package com.xiushang.security.provider;
 
-import com.xiushang.security.authentication.SecurityUser;
+import com.xiushang.common.utils.MD5;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.*;
@@ -33,12 +34,12 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
         String inputPassword = (String) authentication.getCredentials();
 
         // [2] 使用用户名从数据库读取用户信息
-        SecurityUser userDetails = (SecurityUser) userDetailsService.loadUserByUsername(userName);
+        org.springframework.security.core.userdetails.User userDetails = (org.springframework.security.core.userdetails.User) userDetailsService.loadUserByUsername(userName);
 
         // 判断账号是否被禁用
-        if (null != userDetails && userDetails.getStatus() == 0){
+        /*if (null != userDetails && userDetails.getStatus() == 0){
             userDetails.setEnabled(false);
-        }
+        }*/
 
      	// [3] 检查用户信息
         if(userDetails == null) {
@@ -56,7 +57,11 @@ public class SecurityAuthenticationProvider implements AuthenticationProvider {
         // [4] 数据库用户的密码，一般都是加密过的
         String encryptedPassword = userDetails.getPassword();
         // 根据加密算法加密用户输入的密码，然后和数据库中保存的密码进行比较
-        if(!passwordEncoder.matches(inputPassword, encryptedPassword)) {
+        /*if(!passwordEncoder.matches(inputPassword, encryptedPassword)) {
+            throw new BadCredentialsException(userName + " 输入账号或密码不正确");
+        }*/
+
+        if(!StringUtils.equals(MD5.GetMD5Code(inputPassword),encryptedPassword)){
             throw new BadCredentialsException(userName + " 输入账号或密码不正确");
         }
 

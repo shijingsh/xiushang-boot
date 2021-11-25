@@ -1,4 +1,4 @@
-package com.xiushang.filter;
+package com.xiushang.security.filter;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.Ordered;

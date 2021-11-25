@@ -5,6 +5,8 @@ import com.xiushang.filter.JWTAuthenticationFilter;
 import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.xiushang.security.authentication.mobile.SmsCodeFilter;
 import com.xiushang.security.authentication.openid.OpenIdAuthenticationConfig;
+import com.xiushang.security.authentication.user.JwtFilter;
+import com.xiushang.security.filter.UsernamePasswordJsonAuthenticationFilter;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
 import com.xiushang.security.hadler.SecurityLogoutSuccessHandler;
@@ -92,22 +94,45 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         auth.authenticationProvider(securityAuthenticationProvider);
     }
 
+
+    /**
+     * 自定义登录拦截器
+     */
+    @Bean
+    UsernamePasswordJsonAuthenticationFilter usernamePasswordJsonAuthenticationFilter() throws Exception {
+        UsernamePasswordJsonAuthenticationFilter authenticationFilter = new UsernamePasswordJsonAuthenticationFilter();
+        authenticationFilter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
+        authenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+        authenticationFilter.setAuthenticationManager(authenticationManagerBean());
+        return authenticationFilter;
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
         List<String> list = ignoreUrlsConfig.getUrls();
         String[] AUTH_WHITELIST = list.toArray(new String[list.size()]);
-
+        //短信验证码登陆
         SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
         smsCodeFilter.setSmsService(smsService);
         smsCodeFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
         smsCodeFilter.afterPropertiesSet();
 
-        http.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+        //jwt 用户登陆
+        JwtFilter jwtFilter = new JwtFilter();
+        jwtFilter.setUrls(list);
+        jwtFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+
+        http
+                //用户名、密码登录验证
+                .addFilterAt(usernamePasswordJsonAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 //表单登录,loginPage为登录请求的url,loginProcessingUrl为表单登录处理的URL
                 .formLogin().loginPage("/authentication/require").loginProcessingUrl("/authentication/form")
                 //登录成功之后的处理
                 .successHandler(myAuthenticationSuccessHandler)
+                .failureHandler(authenticationFailureHandler)
                 //禁用跨站伪造
                 .and().cors().and().csrf().disable()
                 /**
@@ -142,9 +167,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .accessDeniedHandler(securityAccessDeniedHandler)
 
                 //JWT用户登陆过滤器
-                .and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
+                //.and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 //短信验证码配置
-                .apply(smsCodeAuthenticationSecurityConfig)
+                .and().apply(smsCodeAuthenticationSecurityConfig)
                 //openID登录
                 .and().apply(openIdAuthenticationConfig)
 

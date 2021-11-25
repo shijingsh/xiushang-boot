@@ -4,11 +4,11 @@ import com.xiushang.common.components.SmsService;
 import com.xiushang.common.user.vo.LoginSmsVo;
 import com.xiushang.framework.utils.WebUtil;
 import com.xiushang.framework.web.BodyReaderHttpServletRequestWrapper;
+import com.xiushang.security.exception.ValidateException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -75,15 +75,15 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
         if (action) {
             LoginSmsVo loginSmsVo = WebUtil.getJsonBody(requestWrapper, LoginSmsVo.class);
             if(StringUtils.isBlank(loginSmsVo.getMobile())){
-                authenticationFailureHandler.onAuthenticationFailure(request, response, new ValidateCodeException("手机号不能为空！"));
+                authenticationFailureHandler.onAuthenticationFailure(request, response, new ValidateException("手机号不能为空！"));
                 return;
             }
             if(StringUtils.isBlank(loginSmsVo.getVerifyCode())){
-                authenticationFailureHandler.onAuthenticationFailure(request, response, new ValidateCodeException("验证码不能为空！"));
+                authenticationFailureHandler.onAuthenticationFailure(request, response, new ValidateException("验证码不能为空！"));
                 return;
             }
             if(!smsService.validateCode(loginSmsVo.getMobile(),loginSmsVo.getVerifyCode())){
-                authenticationFailureHandler.onAuthenticationFailure(request, response, new ValidateCodeException("短信验证码不正确或已过期！"));
+                authenticationFailureHandler.onAuthenticationFailure(request, response, new ValidateException("短信验证码不正确或已过期！"));
                 return;
             }
         }
