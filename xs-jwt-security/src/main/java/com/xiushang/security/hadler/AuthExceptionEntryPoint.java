@@ -36,7 +36,7 @@ public class AuthExceptionEntryPoint implements AuthenticationEntryPoint
         response.setCharacterEncoding("utf-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        CommonResult<String> commonResult = CommonResult.error(403,"无权访问，未认证或授权访问受保护的资源。");
+        CommonResult<String> commonResult = CommonResult.error(403,authException.getMessage());
         String resBody = JsonUtils.toJsonStr(commonResult);
 
         PrintWriter printWriter = response.getWriter();

@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.DefaultSecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
@@ -19,6 +20,8 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
     private UserDetailsService userDetailsService;
     @Autowired
     private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
+    @Autowired
+    private AuthenticationFailureHandler authenticationFailureHandler;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -28,8 +31,8 @@ public class SmsCodeAuthenticationSecurityConfig extends SecurityConfigurerAdapt
         smsCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
 
         //设置成功失败处理器
+        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
         smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
-//        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(myAuthenticationSuccessHandler);
 
         //设置provider
         SmsCodeAuthenticationProvider smsCodeAuthenticationProvider = new SmsCodeAuthenticationProvider();

@@ -29,10 +29,8 @@ public class SmsCodeFilter extends OncePerRequestFilter implements InitializingB
     /**
      * 验证码校验失败处理器
      */
-    @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
-    @Autowired
     private SmsService smsService;
 
     private Set<String> urls = new HashSet<>();

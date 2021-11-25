@@ -94,6 +94,7 @@ jwt:
       - /api/user/login
       - /api/user/logout
       - /api/user/captcha
+      - /authentication/**
       #- static
       - /**/*.js
       - /**/*.css
