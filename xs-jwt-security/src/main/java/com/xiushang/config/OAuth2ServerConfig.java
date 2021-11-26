@@ -40,6 +40,9 @@ public class OAuth2ServerConfig {
 
     private static final String RESOURCE_ID = "oauth2";
 
+    /**
+     * 对外提供接口的资源服务，也就是被保护的对象。
+     */
     @Configuration
     @EnableResourceServer
     protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
@@ -103,6 +106,9 @@ public class OAuth2ServerConfig {
     }
 
 
+    /**
+     * 认证服务器。
+     */
     @Configuration
     @EnableAuthorizationServer
     protected static class AuthorizationServerConfiguration extends AuthorizationServerConfigurerAdapter {
