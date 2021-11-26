@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>授权</title>
+</head>
+<!-- 省略样式 -->
+<body style="margin: 0px">
+<div class="title">
+    <div class="title-right">秀上数据运营平台 授权</div>
+    <div class="title-left">
+        <a href="#help">help</a>
+    </div>
+</div>
+<div class="container">
+    <h3 th:text="'应用 '+${clientName}+' 请求授权，该应用将获取你的以下信息'"></h3>
+    <p>昵称，账号</p>
+    授权后表明你已同意
+    <form method="post" action="/oauth/authorize">
+        <input type="hidden" name="user_oauth_approval" value="true">
+        <input type="hidden" name="scope.all" value="true">
+        <input type="hidden" name="_csrf" th:value="${_csrf.getToken()}"/>
+        <button class="btn" type="submit"> 同意/授权</button>
+    </form>
+</div>
+</body>
+</html>

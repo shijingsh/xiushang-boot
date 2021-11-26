@@ -129,7 +129,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 //表单登录,loginPage为登录请求的url,loginProcessingUrl为表单登录处理的URL
-                .formLogin().loginPage("/authentication/require").loginProcessingUrl("/authentication/form")
+                .formLogin()
+                .loginPage("/authentication/require")
+                .failureUrl("/authentication/error")
+                .loginProcessingUrl("/authentication/form")
                 //登录成功之后的处理
                 .successHandler(myAuthenticationSuccessHandler)
                 .failureHandler(authenticationFailureHandler)

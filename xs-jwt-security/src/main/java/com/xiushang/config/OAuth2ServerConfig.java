@@ -23,9 +23,12 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.approval.ApprovalStore;
+import org.springframework.security.oauth2.provider.approval.JdbcApprovalStore;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
@@ -132,7 +135,7 @@ public class OAuth2ServerConfig {
 
         /**
          * ClientDetails实现
-         *
+         * 数据库管理client  从数据库（oauth_client_details） 读取客户端数据
          * @return
          */
         @Bean
@@ -141,6 +144,10 @@ public class OAuth2ServerConfig {
             return new JdbcClientDetailsService(dataSource);
         }
 
+        /**
+         * 数据库管理access_token和refresh_token
+         * @return
+         */
         @Bean
         public TokenStore tokenStore() {
             return new JdbcTokenStore(dataSource);
@@ -148,6 +155,10 @@ public class OAuth2ServerConfig {
 
         /**
          * 加入对授权码模式的支持
+         *  数据库管理授权码
+         *  授权码默认生成类
+         *  <code>RandomValueAuthorizationCodeServices</code>
+         *  <code>RandomValueStringGenerator</code>
          * @param dataSource
          * @return
          */
@@ -181,6 +192,14 @@ public class OAuth2ServerConfig {
         //     return tokenServices;
         // }
 
+        /**
+         * 数据库管理client，从dataSource配置的数据源读取客户端数据
+         * 这里指定从数据库（oauth_client_details）
+         *
+         * 读取客户端数据
+         * @param clients
+         * @throws Exception
+         */
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             // 1. 数据库的方式
@@ -210,11 +229,32 @@ public class OAuth2ServerConfig {
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 
-            endpoints.tokenStore(tokenStore())
+            TokenStore tokenStore = tokenStore();
+            endpoints.tokenStore(tokenStore)
                     .authenticationManager(authenticationManager) //授权码模式需要
                     .authorizationCodeServices(authorizationCodeServices) //密码模式需要
-                    .userDetailsService(userDetailsService)
-                    .setClientDetailsService(clientDetailsService);
+                    .userDetailsService(userDetailsService)             //用户信息查询服务
+                    .setClientDetailsService(clientDetailsService);     //
+
+
+            // 数据库管理授权码
+            //endpoints.authorizationCodeServices(new JdbcAuthorizationCodeServices(dataSource));
+
+            // 数据库管理授权信息
+            ApprovalStore approvalStore = new JdbcApprovalStore(dataSource);
+            endpoints.approvalStore(approvalStore);
+
+            //令牌库
+            DefaultTokenServices tokenServices = new DefaultTokenServices();
+            tokenServices.setTokenStore(tokenStore);
+            tokenServices.setSupportRefreshToken(true);
+            tokenServices.setClientDetailsService(new JdbcClientDetailsService(dataSource));
+            // tokenServices.setAccessTokenValiditySeconds(60 * 3);   //token有效期自定义设置，默认12小时
+            // tokenServices.setRefreshTokenValiditySeconds(60 * 60);  //默认30天，这里修改
+
+            endpoints.tokenServices(tokenServices);
+
+            //endpoints.tokenGranter(tokenGranter);
         }
 
 
