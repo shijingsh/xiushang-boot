@@ -5,8 +5,6 @@ import com.xiushang.config.JWTIgnoreUrlsConfig;
 import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.xiushang.security.authentication.mobile.SmsCodeFilter;
 import com.xiushang.security.authentication.openid.OpenIdAuthenticationConfig;
-import com.xiushang.security.authentication.user.JwtAuthenticationSecurityConfig;
-import com.xiushang.security.authentication.user.JwtFilter;
 import com.xiushang.security.filter.UsernamePasswordJsonAuthenticationFilter;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
@@ -65,9 +63,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private OpenIdAuthenticationConfig openIdAuthenticationConfig;
 
     @Autowired
-    private JwtAuthenticationSecurityConfig jwtAuthenticationSecurityConfig;
-
-    @Autowired
     private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
 
     @Autowired
@@ -124,16 +119,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         smsCodeFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
         smsCodeFilter.afterPropertiesSet();
 
-        //jwt 用户登陆
-        JwtFilter jwtFilter = new JwtFilter();
-        jwtFilter.setUrls(list);
-        jwtFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
-        jwtFilter.afterPropertiesSet();
+
 
         http
                 //用户名、密码登录验证
                 .addFilterAt(usernamePasswordJsonAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 //表单登录,loginPage为登录请求的url,loginProcessingUrl为表单登录处理的URL
                 .formLogin()
@@ -182,7 +172,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().apply(smsCodeAuthenticationSecurityConfig)
                 //openID登录
                 .and().apply(openIdAuthenticationConfig)
-                .and().apply(jwtAuthenticationSecurityConfig)
 
                 .and().logout() // 默认注销行为为logout，可以通过下面的方式来修改
                 .logoutUrl("/logout")

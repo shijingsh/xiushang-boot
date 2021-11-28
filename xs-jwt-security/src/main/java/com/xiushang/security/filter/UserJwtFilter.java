@@ -1,19 +1,19 @@
-package com.xiushang.security.authentication.user;
+package com.xiushang.security.filter;
 
+import com.xiushang.config.JWTIgnoreUrlsConfig;
 import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.security.exception.ValidateException;
 import com.xiushang.service.impl.GrantedAuthorityImpl;
 import io.jsonwebtoken.*;
-import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.InitializingBean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
-import org.springframework.web.filter.OncePerRequestFilter;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
+import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -22,39 +22,61 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 用户认证
+ * 废弃
+ * spring security oauth2 认证流程大体也就分成两步，先认证客户端再认证用户，做多租户公司的项目就是把租户ID和用户名放到一个jwt
+ *
+ *         final Map<String, Object> additionalInfo = new HashMap<>();
+ *
+ *         additionalInfo.put("userId", "userId");
+ *         additionalInfo.put("openId","openId");
+ *         additionalInfo.put("tenantId","tenantId");
+ *         // 注意添加的额外信息，最好不要和已有的json对象中的key重名，容易出现错误
+ *         //additionalInfo.put("authorities", user.getAuthorities());
+ *
+ *         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
+ */
+// @Component
+public class UserJwtFilter implements Filter {
 
-@Slf4j
-@Data
-public class JwtFilter extends OncePerRequestFilter implements InitializingBean {
+    private static final Logger logger = LoggerFactory.getLogger(UserJwtFilter.class);
 
-    /**
-     * 验证码校验失败处理器
-     */
+    @Autowired
+    private JWTIgnoreUrlsConfig ignoreUrlsConfig;
+
+    @Autowired
     private AuthenticationFailureHandler authenticationFailureHandler;
 
-    /**
-     * 验证请求url与配置的url是否匹配的工具类
-     */
     private AntPathMatcher pathMatcher = new AntPathMatcher();
-    /**
-     * 免登陆URL列表
-     */
-    private List<String> urls = new ArrayList<>();
 
-    /**
-     * 初始化要拦截的url配置信息
-     */
+    private FilterConfig config;
+
     @Override
-    public void afterPropertiesSet() throws ServletException {
-        super.afterPropertiesSet();
+    public void destroy() {
+
     }
-
+    /**
+     * 解决oauth2认证跨域
+     * @param req
+     * @param resp
+     * @param chain
+     * @throws IOException
+     * @throws ServletException
+     */
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
+    public void doFilter(ServletRequest req, ServletResponse resp,
+                         FilterChain chain) throws IOException, ServletException {
+        HttpServletResponse response = (HttpServletResponse) resp;
+        HttpServletRequest request = (HttpServletRequest) req;
+
+        long start = System.currentTimeMillis();
+
+        List<String> list = ignoreUrlsConfig.getUrls();
 
         //免登陆URL
         boolean action = false;
-        for (String url : urls) {
+        for (String url : list) {
             if (pathMatcher.match(url, request.getRequestURI())) {
                 action = true;
             }
@@ -117,7 +139,7 @@ public class JwtFilter extends OncePerRequestFilter implements InitializingBean 
                 for (int i=0; i < split.length; i++) {
                     authorities.add(new GrantedAuthorityImpl(split[i]));
                 }
-               // return new UsernamePasswordAuthenticationToken(user, null, authorities);
+                // return new UsernamePasswordAuthenticationToken(user, null, authorities);
             }
         } catch (ExpiredJwtException e) {
             logger.error("Token已过期: {} " + e);
@@ -141,7 +163,11 @@ public class JwtFilter extends OncePerRequestFilter implements InitializingBean 
             return;
         }
 
-        chain.doFilter(request, response);
+        chain.doFilter(req, resp);
     }
 
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        config = filterConfig;
+    }
 }
