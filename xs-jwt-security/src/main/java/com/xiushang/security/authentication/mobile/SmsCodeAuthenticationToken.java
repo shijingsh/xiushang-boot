@@ -10,7 +10,7 @@ public class SmsCodeAuthenticationToken  extends AbstractAuthenticationToken {
     private static final long serialVersionUID = 420L;
     private final Object principal;
 
-    SmsCodeAuthenticationToken(String mobile) {
+    public  SmsCodeAuthenticationToken(String mobile) {
         //因为刚开始并没有认证，因此用户没有任何权限，并且设置没有认证的信息（setAuthenticated(false)）
         super(null);
         //这里的principal就是手机号
@@ -18,7 +18,7 @@ public class SmsCodeAuthenticationToken  extends AbstractAuthenticationToken {
         this.setAuthenticated(false);
     }
 
-    SmsCodeAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
+    public  SmsCodeAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;
         super.setAuthenticated(true);

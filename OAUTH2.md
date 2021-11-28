@@ -29,7 +29,7 @@ http://andaily.com/spring-oauth-server/db_table_description.html
 
 
 ###核心源码解读
-
+https://blog.csdn.net/weixin_42271016/article/details/104212326
 https://www.bianchengquan.com/article/566420.html
 
 TokenEndpoint#postAccessToken(...) 主入口
