@@ -25,20 +25,20 @@ public class JwtAuthenticationSecurityConfig extends SecurityConfigurerAdapter<D
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        JwtAuthenticationFilter smsCodeAuthenticationFilter = new JwtAuthenticationFilter();
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter();
 
         //设置AuthenticationManager
-        smsCodeAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
+        jwtAuthenticationFilter.setAuthenticationManager(http.getSharedObject(AuthenticationManager.class));
 
         //设置成功失败处理器
-        smsCodeAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
-        smsCodeAuthenticationFilter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
+        jwtAuthenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+        jwtAuthenticationFilter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
 
         //设置provider
-        JwtAuthenticationProvider smsCodeAuthenticationProvider = new JwtAuthenticationProvider();
-        smsCodeAuthenticationProvider.setMyUserDetailsService(userDetailsService);
+        JwtAuthenticationProvider jwtAuthenticationProvider = new JwtAuthenticationProvider();
+        jwtAuthenticationProvider.setMyUserDetailsService(userDetailsService);
 
-        http.authenticationProvider(smsCodeAuthenticationProvider)
-                .addFilterAfter(smsCodeAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+        http.authenticationProvider(jwtAuthenticationProvider)
+                .addFilterAfter(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }

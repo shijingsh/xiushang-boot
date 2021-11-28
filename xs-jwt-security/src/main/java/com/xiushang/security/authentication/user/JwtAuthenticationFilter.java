@@ -26,7 +26,7 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     public JwtAuthenticationFilter() {
         //要拦截的请求
-        super(new AntPathRequestMatcher("/authentication/mobile", null));
+        super(new AntPathRequestMatcher("/api/**", null));
     }
 
     @Override

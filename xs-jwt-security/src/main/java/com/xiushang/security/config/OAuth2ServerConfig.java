@@ -115,7 +115,8 @@ public class OAuth2ServerConfig {
                     .antMatchers("/api/user/login","/api/user/verifyCode","/api/user/register","/api/user/loginThird","/api/user/weixinLogin" ,
                             "/authentication/form",
                             "/authentication/mobile",
-                            "/authentication/openid")
+                            "/authentication/openid",
+                            "/oauth/authorize", "/oauth/token")
                     .permitAll()
                      // 配置资源服务器已拦截的路径才有效
                     .antMatchers(oAuth2UrlConfig.getUrl()+"**").authenticated();

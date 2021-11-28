@@ -5,6 +5,7 @@ import com.xiushang.config.JWTIgnoreUrlsConfig;
 import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.xiushang.security.authentication.mobile.SmsCodeFilter;
 import com.xiushang.security.authentication.openid.OpenIdAuthenticationConfig;
+import com.xiushang.security.authentication.user.JwtAuthenticationSecurityConfig;
 import com.xiushang.security.authentication.user.JwtFilter;
 import com.xiushang.security.filter.UsernamePasswordJsonAuthenticationFilter;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
@@ -35,6 +36,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
+import javax.servlet.Filter;
 import java.util.List;
 
 @Configuration
@@ -61,6 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private OpenIdAuthenticationConfig openIdAuthenticationConfig;
+
+    @Autowired
+    private JwtAuthenticationSecurityConfig jwtAuthenticationSecurityConfig;
 
     @Autowired
     private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
@@ -107,6 +112,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return authenticationFilter;
     }
 
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -122,6 +128,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         JwtFilter jwtFilter = new JwtFilter();
         jwtFilter.setUrls(list);
         jwtFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
+        jwtFilter.afterPropertiesSet();
 
         http
                 //用户名、密码登录验证
@@ -175,6 +182,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and().apply(smsCodeAuthenticationSecurityConfig)
                 //openID登录
                 .and().apply(openIdAuthenticationConfig)
+                .and().apply(jwtAuthenticationSecurityConfig)
 
                 .and().logout() // 默认注销行为为logout，可以通过下面的方式来修改
                 .logoutUrl("/logout")
@@ -188,8 +196,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
     }
-
-
 
     /**
      * 解决session失效后 sessionRegistry中session没有同步失效的问题
