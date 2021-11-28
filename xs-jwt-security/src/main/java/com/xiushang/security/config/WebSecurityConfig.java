@@ -1,7 +1,7 @@
-package com.xiushang.config;
+package com.xiushang.security.config;
 
 import com.xiushang.common.components.SmsService;
-import com.xiushang.filter.JWTAuthenticationFilter;
+import com.xiushang.config.JWTIgnoreUrlsConfig;
 import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
 import com.xiushang.security.authentication.mobile.SmsCodeFilter;
 import com.xiushang.security.authentication.openid.OpenIdAuthenticationConfig;
@@ -42,7 +42,7 @@ import java.util.List;
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private  JWTIgnoreUrlsConfig ignoreUrlsConfig;
+    private JWTIgnoreUrlsConfig ignoreUrlsConfig;
     @Autowired
     private  SecurityAuthenticationProvider securityAuthenticationProvider;
     @Autowired

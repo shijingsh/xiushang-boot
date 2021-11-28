@@ -1,4 +1,4 @@
-package com.xiushang.filter;
+package com.xiushang.security.filter;
 
 import com.xiushang.exception.TokenException;
 import com.xiushang.framework.log.SecurityConstants;

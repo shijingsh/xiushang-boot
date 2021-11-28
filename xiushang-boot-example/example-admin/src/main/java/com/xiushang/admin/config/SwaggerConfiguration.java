@@ -5,7 +5,7 @@ import com.fasterxml.classmate.TypeResolver;
 import com.google.common.collect.Lists;
 import com.xiushang.config.ApiVersion;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
-import com.xiushang.config.OAuth2UrlConfig;
+import com.xiushang.security.config.OAuth2UrlConfig;
 import com.xiushang.framework.log.SecurityConstants;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
