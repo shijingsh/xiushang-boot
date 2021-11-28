@@ -3,6 +3,8 @@ package com.xiushang.security.authentication.openid;
 import com.xiushang.entity.UserSocialEntity;
 import com.xiushang.jpa.repository.UserSocialDao;
 import com.xiushang.service.impl.UserDetailsServiceImpl;
+import com.xiushang.util.SocialTypeEnum;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -34,7 +36,12 @@ public class OpenIdAuthenticationProvider implements AuthenticationProvider {
 
         //校验手机号
         String providerUserId = (String) authenticationToken.getPrincipal();
-        UserSocialEntity userSocialEntity = userSocialDao.findBySocialTypeAndSocialId(authenticationToken.getProviderId(),providerUserId);
+        String providerId = authenticationToken.getProviderId();
+        SocialTypeEnum socialType =SocialTypeEnum.SOCIAL_TYPE_OPEN_ID;
+        if(StringUtils.isNotBlank(providerId)){
+            socialType = SocialTypeEnum.valueOf(providerId);
+        }
+        UserSocialEntity userSocialEntity = userSocialDao.findBySocialTypeAndSocialId(socialType,providerUserId);
 
         if(userSocialEntity == null){
             throw new InternalAuthenticationServiceException("无法获取用户信息");
