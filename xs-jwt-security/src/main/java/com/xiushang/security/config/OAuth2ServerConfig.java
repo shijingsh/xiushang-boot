@@ -4,7 +4,7 @@ package com.xiushang.security.config;
 import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.security.granter.SmsCodeTokenGranter;
 import com.xiushang.security.hadler.AuthExceptionEntryPoint;
-import com.xiushang.security.hadler.CustomTokenExtractor;
+import com.xiushang.security.token.CustomTokenExtractor;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
 import com.xiushang.security.token.CustomTokenEnhancer;
@@ -294,6 +294,7 @@ public class OAuth2ServerConfig {
             //enhancerChain.setTokenEnhancers(Arrays.asList(customTokenEnhancer(), jwtAccessTokenConverter()));
 
             TokenStore tokenStore = tokenStore();
+
             endpoints.tokenStore(tokenStore)
                     //.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
                     .authenticationManager(authenticationManager) //授权码模式需要
@@ -317,8 +318,11 @@ public class OAuth2ServerConfig {
             // tokenServices.setAccessTokenValiditySeconds(60 * 3);   //token有效期自定义设置，默认12小时
             // tokenServices.setRefreshTokenValiditySeconds(60 * 60);  //默认30天，这里修改
 
+            //配置token增强
+            endpoints.tokenEnhancer(tokenEnhancerChain);
+            //配置tokenServices
             endpoints.tokenServices(tokenServices);
-
+            //配置tokenGranter
             endpoints.tokenGranter(tokenGranter);
         }
 
