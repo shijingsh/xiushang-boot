@@ -1,4 +1,4 @@
-package com.xiushang.exception;
+package com.xiushang.security.exception;
 
 import org.springframework.security.core.AuthenticationException;
 

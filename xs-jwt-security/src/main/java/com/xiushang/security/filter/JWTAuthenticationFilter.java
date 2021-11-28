@@ -1,6 +1,6 @@
 package com.xiushang.security.filter;
 
-import com.xiushang.exception.TokenException;
+import com.xiushang.security.exception.TokenException;
 import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.service.impl.GrantedAuthorityImpl;
 import io.jsonwebtoken.*;
