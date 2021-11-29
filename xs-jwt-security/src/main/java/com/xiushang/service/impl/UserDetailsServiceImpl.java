@@ -31,7 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserEntity user = userDao.findByLoginName(username);
         if(user == null){
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(username + " 用户不存在");
         }
         return new org.springframework.security.core.userdetails.User(user.getLoginName(), user.getPassword(), emptyList());
     }

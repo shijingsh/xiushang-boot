@@ -95,8 +95,6 @@ jwt:
       - /api/user/logout
       - /api/user/captcha
       - /authentication/**
-      - /oauth/authorize
-      - /oauth/token
       #- static
       - /**/*.js
       - /**/*.css

@@ -2,20 +2,20 @@ package com.xiushang.security.config;
 
 import com.xiushang.common.components.SmsService;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
-import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationSecurityConfig;
-import com.xiushang.security.authentication.mobile.SmsCodeFilter;
+import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationProvider;
 import com.xiushang.security.authentication.openid.OpenIdAuthenticationConfig;
-import com.xiushang.security.filter.UsernamePasswordJsonAuthenticationFilter;
+import com.xiushang.security.authentication.username.SecurityAuthenticationProvider;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
 import com.xiushang.security.hadler.SecurityLogoutSuccessHandler;
 import com.xiushang.security.manager.UrlAccessDecisionManager;
 import com.xiushang.security.metadatasource.UrlFilterInvocationSecurityMetadataSource;
-import com.xiushang.security.provider.SecurityAuthenticationProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -26,15 +26,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
-import javax.servlet.Filter;
 import java.util.List;
 
 @Configuration
@@ -43,8 +42,6 @@ import java.util.List;
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JWTIgnoreUrlsConfig ignoreUrlsConfig;
-    @Autowired
-    private  SecurityAuthenticationProvider securityAuthenticationProvider;
     @Autowired
     private  UrlFilterInvocationSecurityMetadataSource urlFilterInvocationSecurityMetadataSource;
     @Autowired
@@ -57,12 +54,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private SecurityAuthenticationEntryPoint securityAuthenticationEntryPoint;
 
     @Autowired
-    private SmsCodeAuthenticationSecurityConfig smsCodeAuthenticationSecurityConfig;
-
-    @Autowired
-    private OpenIdAuthenticationConfig openIdAuthenticationConfig;
-
-    @Autowired
     private AuthenticationSuccessHandler myAuthenticationSuccessHandler;
 
     @Autowired
@@ -70,6 +61,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SmsService smsService;
+
+    @Autowired
+    @Qualifier("userDetailsServiceImpl")
+    private UserDetailsService userDetailsService;
     /**
      * 访问静态资源
      */
@@ -91,21 +86,37 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         //用户名、密码登录
-        auth.authenticationProvider(securityAuthenticationProvider);
+        auth.authenticationProvider(userNameAuthenticationProvider())
+        .authenticationProvider(smsCodeAuthenticationProvider())
+        ;
     }
-
 
     /**
-     * 自定义登录拦截器
+     * 手机验证码认证授权提供者
+     *
+     * @return
      */
     @Bean
-    UsernamePasswordJsonAuthenticationFilter usernamePasswordJsonAuthenticationFilter() throws Exception {
-        UsernamePasswordJsonAuthenticationFilter authenticationFilter = new UsernamePasswordJsonAuthenticationFilter();
-        authenticationFilter.setAuthenticationSuccessHandler(myAuthenticationSuccessHandler);
-        authenticationFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
-        authenticationFilter.setAuthenticationManager(authenticationManagerBean());
-        return authenticationFilter;
+    public SmsCodeAuthenticationProvider smsCodeAuthenticationProvider() {
+        SmsCodeAuthenticationProvider provider = new SmsCodeAuthenticationProvider();
+        provider.setMyUserDetailsService(userDetailsService);
+        provider.setSmsService(smsService);
+        return provider;
     }
+
+    /**
+     * 用户名密码认证授权提供者
+     *
+     * @return
+     */
+    @Bean
+    public SecurityAuthenticationProvider userNameAuthenticationProvider() {
+        SecurityAuthenticationProvider provider = new SecurityAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+
+        return provider;
+    }
+
 
 
     @Override
@@ -113,18 +124,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         List<String> list = ignoreUrlsConfig.getUrls();
         String[] AUTH_WHITELIST = list.toArray(new String[list.size()]);
-        //短信验证码登陆
-        SmsCodeFilter smsCodeFilter = new SmsCodeFilter();
-        smsCodeFilter.setSmsService(smsService);
-        smsCodeFilter.setAuthenticationFailureHandler(authenticationFailureHandler);
-        smsCodeFilter.afterPropertiesSet();
 
 
 
         http
                 //用户名、密码登录验证
-                .addFilterAt(usernamePasswordJsonAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
+                //.addFilterAt(usernamePasswordJsonAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
+                //.addFilterBefore(smsCodeFilter, UsernamePasswordAuthenticationFilter.class)
                 //表单登录,loginPage为登录请求的url,loginProcessingUrl为表单登录处理的URL
                 .formLogin()
                 .loginPage("/authentication/require")
@@ -169,9 +175,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //JWT用户登陆过滤器
                 //.and().addFilter(new JWTAuthenticationFilter(authenticationManager()))
                 //短信验证码配置
-                .and().apply(smsCodeAuthenticationSecurityConfig)
+               // .and().apply(smsCodeAuthenticationSecurityConfig)
                 //openID登录
-                .and().apply(openIdAuthenticationConfig)
+                //.and().apply(openIdAuthenticationConfig)
 
                 .and().logout() // 默认注销行为为logout，可以通过下面的方式来修改
                 .logoutUrl("/logout")

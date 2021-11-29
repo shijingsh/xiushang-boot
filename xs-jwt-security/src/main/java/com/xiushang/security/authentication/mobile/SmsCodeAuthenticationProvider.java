@@ -1,6 +1,8 @@
 package com.xiushang.security.authentication.mobile;
 
+import com.xiushang.common.components.SmsService;
 import lombok.Data;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
@@ -8,33 +10,46 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.util.HashSet;
+
 @Data
 public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailsService myUserDetailsService;
 
+    private SmsService smsService;
+
+
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-
-        //这个authentication就是SmsCodeAuthenticationToken
         SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
+        String mobile = (String) authenticationToken.getPrincipal();
+        String code = (String) authenticationToken.getCredentials();
+
+        if(StringUtils.isBlank(mobile)){
+            throw new InternalAuthenticationServiceException("验证码不正确");
+        }
+        if(StringUtils.isBlank(code)){
+            throw new InternalAuthenticationServiceException("验证码不能为空");
+        }
+        if(!smsService.validateCode(mobile,code)){
+            throw new InternalAuthenticationServiceException("验证码不正确");
+        }
 
         //校验手机号
-        UserDetails user = myUserDetailsService.loadUserByUsername((String) authenticationToken.getPrincipal());
+        UserDetails user = myUserDetailsService.loadUserByUsername(mobile);
         if (user == null) {
             throw new InternalAuthenticationServiceException("无法获取用户信息");
         }
 
-        //这时候已经认证成功了
-        SmsCodeAuthenticationToken authenticationResult = new SmsCodeAuthenticationToken(user, user.getAuthorities());
-        authenticationResult.setDetails(authenticationToken.getDetails());
-
-        return authenticationResult;
+        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(user, authentication.getCredentials(), new HashSet<>());
+        result.setDetails(authentication.getDetails());
+        return result;
     }
+
 
     @Override
     public boolean supports(Class<?> authentication) {
-        //该SmsCodeAuthenticationProvider智支持SmsCodeAuthenticationToken的token认证
         return SmsCodeAuthenticationToken.class.isAssignableFrom(authentication);
     }
 

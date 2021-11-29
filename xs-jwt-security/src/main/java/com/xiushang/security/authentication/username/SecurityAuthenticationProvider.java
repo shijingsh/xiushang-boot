@@ -1,6 +1,7 @@
-package com.xiushang.security.provider;
+package com.xiushang.security.authentication.username;
 
 import com.xiushang.common.utils.MD5;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,17 +14,13 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-@Component
-@Slf4j
+@Data
 public class SecurityAuthenticationProvider implements AuthenticationProvider {
 
 
     @Qualifier("userDetailsServiceImpl")
     @Autowired
     private UserDetailsService userDetailsService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
 	@Override
 	public Authentication authenticate(Authentication authentication ) throws AuthenticationException {

@@ -2,6 +2,7 @@ package com.xiushang.security.config;
 
 
 import com.xiushang.framework.log.SecurityConstants;
+import com.xiushang.security.granter.CaptchaTokenGranter;
 import com.xiushang.security.granter.SmsCodeTokenGranter;
 import com.xiushang.security.hadler.AuthExceptionEntryPoint;
 import com.xiushang.security.token.CustomTokenExtractor;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -46,9 +49,7 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @author lirong
@@ -145,7 +146,6 @@ public class OAuth2ServerConfig {
         private  AuthenticationManager authenticationManager;
         @Autowired
         private  DataSource dataSource;
-
         @Autowired
         @Qualifier("userDetailsServiceImpl")
         private  UserDetailsService userDetailsService;
@@ -155,13 +155,8 @@ public class OAuth2ServerConfig {
         private  AuthorizationCodeServices authorizationCodeServices;
         @Autowired
         private  PasswordEncoder passwordEncoder;
-        // @Autowired
-        // private RedisConnectionFactory redisConnectionFactory;
-
         @Autowired
-        private TokenGranter tokenGranter;
-
-        private AuthorizationServerTokenServices tokenServices;
+        private  StringRedisTemplate stringRedisTemplate;
 
         /**
          * ClientDetails实现
@@ -170,7 +165,6 @@ public class OAuth2ServerConfig {
          */
         @Bean
         public ClientDetailsService clientDetails() {
-
             return new JdbcClientDetailsService(dataSource);
         }
 
@@ -291,42 +285,95 @@ public class OAuth2ServerConfig {
             tokenEnhancers.add(jwtAccessTokenConverter());
             tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
 
-            //TokenEnhancerChain enhancerChain = new TokenEnhancerChain();
-            //enhancerChain.setTokenEnhancers(Arrays.asList(customTokenEnhancer(), jwtAccessTokenConverter()));
+            // 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
+            List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
+            // 添加验证码授权模式授权者
+            granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                    endpoints.getOAuth2RequestFactory(), authenticationManager, stringRedisTemplate
+            ));
+            // 添加手机短信验证码授权模式的授权者
+            granterList.add(new SmsCodeTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                    endpoints.getOAuth2RequestFactory(), authenticationManager
+            ));
+
+            CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 
             TokenStore tokenStore = tokenStore();
 
-            endpoints.tokenStore(tokenStore)
-                    //.allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
-                    .authenticationManager(authenticationManager) //授权码模式需要
-                    .authorizationCodeServices(authorizationCodeServices) //密码模式需要
+            endpoints
+                    .authenticationManager(authenticationManager)     //授权码模式需要
+                    .accessTokenConverter(jwtAccessTokenConverter())
+                    .tokenEnhancer(tokenEnhancerChain)              //配置token增强
+                    .tokenGranter(compositeTokenGranter)            //自定义授权方式
+                    /** refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true
+                     *  1 重复使用：access token过期刷新时， refresh token过期时间未改变，仍以初次生成的时间为准
+                     *  2 非重复使用：access token过期刷新时， refresh token过期时间延续，在refresh token有效期内刷新便永不失效达到无需再次登录的目的
+                     */
+                    .reuseRefreshTokens(true)
+                    .tokenServices(tokenServices(endpoints))
+                    .tokenStore(tokenStore)                         //token
+                    .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)  //  oauth/token 请求支持GET POST
+
+                    .authorizationCodeServices(authorizationCodeServices) //授权code
                     .userDetailsService(userDetailsService)             //用户信息查询服务
-                    .setClientDetailsService(clientDetailsService);     //
+                    .setClientDetailsService(clientDetailsService);     //客户端信息
 
-
-            // 数据库管理授权码
-            //endpoints.authorizationCodeServices(new JdbcAuthorizationCodeServices(dataSource));
 
             // 数据库管理授权信息
             ApprovalStore approvalStore = new JdbcApprovalStore(dataSource);
             endpoints.approvalStore(approvalStore);
 
             //令牌库 生成令牌控制
-            DefaultTokenServices tokenServices = new DefaultTokenServices();
-            tokenServices.setTokenStore(tokenStore);
-            tokenServices.setSupportRefreshToken(true);
-            tokenServices.setClientDetailsService(new JdbcClientDetailsService(dataSource));
+            //DefaultTokenServices tokenServices = new DefaultTokenServices();
+            //tokenServices.setTokenStore(tokenStore);
+            //tokenServices.setSupportRefreshToken(true);
+            //tokenServices.setClientDetailsService(new JdbcClientDetailsService(dataSource));
             // tokenServices.setAccessTokenValiditySeconds(60 * 3);   //token有效期自定义设置，默认12小时
             // tokenServices.setRefreshTokenValiditySeconds(60 * 60);  //默认30天，这里修改
 
             //配置token增强
-            endpoints.tokenEnhancer(tokenEnhancerChain);
+            //endpoints.tokenEnhancer(tokenEnhancerChain);
             //配置tokenServices
-            endpoints.tokenServices(tokenServices);
+            //endpoints.tokenServices(tokenServices);
             //配置tokenGranter
-            endpoints.tokenGranter(tokenGranter);
+            //endpoints.tokenGranter(tokenGranter);
         }
 
+
+
+        public DefaultTokenServices tokenServices(AuthorizationServerEndpointsConfigurer endpoints) {
+            TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+            List<TokenEnhancer> tokenEnhancers = new ArrayList<>();
+            tokenEnhancers.add(customTokenEnhancer());
+            tokenEnhancers.add(jwtAccessTokenConverter());
+            tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
+
+            DefaultTokenServices tokenServices = new DefaultTokenServices();
+            tokenServices.setTokenStore(endpoints.getTokenStore());
+            tokenServices.setSupportRefreshToken(true);
+            tokenServices.setClientDetailsService(clientDetailsService);
+            tokenServices.setTokenEnhancer(tokenEnhancerChain);
+
+            // 多用户体系下，刷新token再次认证客户端ID和 UserDetailService 的映射Map
+           /* Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();
+            clientUserDetailsServiceMap.put(SecurityConstants.ADMIN_CLIENT_ID, sysUserDetailsService); // 系统管理客户端
+            clientUserDetailsServiceMap.put(SecurityConstants.APP_CLIENT_ID, memberUserDetailsService); // Android、IOS、H5 移动客户端
+            clientUserDetailsServiceMap.put(SecurityConstants.WEAPP_CLIENT_ID, memberUserDetailsService); // 微信小程序客户端
+
+            // 刷新token模式下，重写预认证提供者替换其AuthenticationManager，可自定义根据客户端ID和认证方式区分用户体系获取认证用户信息
+            PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
+            provider.setPreAuthenticatedUserDetailsService(new PreAuthenticatedUserDetailsService<>(clientUserDetailsServiceMap));
+            tokenServices.setAuthenticationManager(new ProviderManager(Arrays.asList(provider)));
+
+            //添加预身份验证
+            if (userDetailsService != null) {
+                PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
+                provider.setPreAuthenticatedUserDetailsService(new UserDetailsByNameServiceWrapper<>(userDetailsService));
+                tokenServices.setAuthenticationManager(new ProviderManager(Arrays.asList(provider)));
+            }*/
+            return tokenServices;
+
+        }
 
         /**
          * 声明安全约束，哪些允许访问，哪些不允许访问
@@ -342,89 +389,5 @@ public class OAuth2ServerConfig {
             oauthServer.realm("oauth2");
         }
 
-
-        //-------------------自定义 TokenGranter-------------------
-
-        @Bean
-        public TokenGranter tokenGranter(){
-            if(null == tokenGranter){
-                tokenGranter = new TokenGranter() {
-                    private CompositeTokenGranter delegate;
-
-                    @Override
-                    public OAuth2AccessToken grant(String grantType, TokenRequest tokenRequest) {
-                        if(delegate == null){
-                            delegate = new CompositeTokenGranter(getDefaultTokenGranters());
-                        }
-                        return delegate.grant(grantType,tokenRequest);
-                    }
-                };
-            }
-            return tokenGranter;
-        }
-
-
-        private AuthorizationServerTokenServices tokenServices() {
-            if (tokenServices != null) {
-                return tokenServices;
-            }
-            this.tokenServices = createDefaultTokenServices();
-            return tokenServices;
-        }
-
-
-        private AuthorizationServerTokenServices createDefaultTokenServices() {
-            TokenStore tokenStore = tokenStore();
-
-            DefaultTokenServices tokenServices = new DefaultTokenServices();
-            tokenServices.setTokenStore(tokenStore);
-            tokenServices.setSupportRefreshToken(true);
-            tokenServices.setReuseRefreshToken(true);
-            tokenServices.setClientDetailsService(clientDetailsService);
-            tokenServices.setTokenEnhancer(customTokenEnhancer());
-
-            //添加预身份验证
-            if (userDetailsService != null) {
-                PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
-                provider.setPreAuthenticatedUserDetailsService(new UserDetailsByNameServiceWrapper<>(userDetailsService));
-                tokenServices.setAuthenticationManager(new ProviderManager(Arrays.asList(provider)));
-            }
-            return tokenServices;
-        }
-
-
-        /**
-         * OAuth2RequestFactory的默认实现，它初始化参数映射中的字段，
-         * 验证授权类型(grant_type)和范围(scope)，并使用客户端的默认值填充范围(scope)（如果缺少这些值）。
-         */
-        private OAuth2RequestFactory requestFactory() {
-            return new DefaultOAuth2RequestFactory(clientDetailsService);
-        }
-
-
-        private List<TokenGranter> getDefaultTokenGranters() {
-            AuthorizationServerTokenServices tokenServices = tokenServices();
-            OAuth2RequestFactory requestFactory = requestFactory();
-
-            List<TokenGranter> tokenGranters = new ArrayList();
-            //授权码模式
-            tokenGranters.add(new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices, clientDetailsService, requestFactory));
-            //refresh模式
-            tokenGranters.add(new RefreshTokenGranter(tokenServices, clientDetailsService, requestFactory));
-            //简化模式
-            ImplicitTokenGranter implicit = new ImplicitTokenGranter(tokenServices, clientDetailsService, requestFactory);
-            tokenGranters.add(implicit);
-            //客户端模式
-            tokenGranters.add(new ClientCredentialsTokenGranter(tokenServices, clientDetailsService, requestFactory));
-
-            if (authenticationManager != null) {
-                //密码模式
-                tokenGranters.add(new ResourceOwnerPasswordTokenGranter(authenticationManager, tokenServices, clientDetailsService, requestFactory));
-                //短信验证码模式
-                tokenGranters.add(new SmsCodeTokenGranter(authenticationManager, tokenServices, clientDetailsService, requestFactory));
-            }
-
-            return tokenGranters;
-        }
     }
 }
