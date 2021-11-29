@@ -203,7 +203,7 @@ public class SwaggerConfiguration {
         //设置需要登录认证的路径
         List<SecurityContext> result = new ArrayList<>();
         result.add(SecurityContext.builder()
-            .securityReferences(defaultUserAuth())
+            .securityReferences(defaultAuth())
             .forPaths(PathSelectors.regex(builder.toString()))
             .build());
 
@@ -217,15 +217,6 @@ public class SwaggerConfiguration {
     }
 
     private List<SecurityReference> defaultAuth() {
-        List<SecurityReference> result = new ArrayList<>();
-        AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
-        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
-        authorizationScopes[0] = authorizationScope;
-        result.add(new SecurityReference(SecurityConstants.AUTH_HEADER_STRING, authorizationScopes));
-        return result;
-    }
-
-    private List<SecurityReference> defaultUserAuth() {
         List<SecurityReference> result = new ArrayList<>();
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
