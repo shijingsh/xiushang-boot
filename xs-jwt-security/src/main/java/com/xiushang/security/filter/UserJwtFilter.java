@@ -88,7 +88,7 @@ public class UserJwtFilter implements Filter {
             return;
         }
 
-        String headerToken = request.getHeader(SecurityConstants.USER_HEADER_STRING);
+        String headerToken = request.getHeader(SecurityConstants.AUTH_HEADER_STRING);
         if (headerToken == null || !headerToken.startsWith(SecurityConstants.TOKEN_PREFIX)) {
 
             authenticationFailureHandler.onAuthenticationFailure(request, response, new ValidateException("Token为空！"));

@@ -230,7 +230,7 @@ public class SwaggerConfiguration {
         AuthorizationScope authorizationScope = new AuthorizationScope("global", "accessEverything");
         AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
         authorizationScopes[0] = authorizationScope;
-        result.add(new SecurityReference(SecurityConstants.USER_HEADER_STRING, authorizationScopes));
+        result.add(new SecurityReference(SecurityConstants.AUTH_HEADER_STRING, authorizationScopes));
         return result;
     }
 
