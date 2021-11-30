@@ -35,6 +35,15 @@ http://andaily.com/spring-oauth-server/db_table_description.html
 - 第二次拿到tokenA+用户密码进行用户认证（类似验证码模式）获取tokenB （其中拿tokenA判断是否有会话信息，tokenB包含租户和用户信息）
 
 ###核心源码解读
+
+核心过滤器 OAuth2AuthenticationProcessingFilter（掌握）
+
+
+ResourceServerSecurityConfigurer（了解）
+
+OAuth2的身份管理器–OAuth2AuthenticationManager（掌握）
+OAuth2保护资源的预先认证过滤器。如果与OAuth2AuthenticationManager结合使用，则会从到来的请求之中提取一个OAuth2 token，之后使用OAuth2Authentication来填充Spring Security上下文。
+
 https://blog.csdn.net/weixin_42271016/article/details/104212326
 https://www.bianchengquan.com/article/566420.html
 
@@ -160,3 +169,27 @@ public class ProviderManager implements AuthenticationManager, MessageSourceAwar
  ...
 }
 ```
+
+
+###核心类
+
+https://blog.csdn.net/u013815546/article/details/77046453/
+
+- 核心过滤器 OAuth2AuthenticationProcessingFilter（掌握）
+
+
+- ResourceServerSecurityConfigurer（了解）
+
+- OAuth2的身份管理器–OAuth2AuthenticationManager（掌握）
+OAuth2保护资源的预先认证过滤器。如果与OAuth2AuthenticationManager结合使用，则会从到来的请求之中提取一个OAuth2 token，之后使用OAuth2Authentication来填充Spring Security上下文。
+OAuth2AuthenticationManager是密切与token认证相关的，而不是与获取token密切相关的。
+
+- TokenExtractor（了解）
+分离出请求中包含的token。
+#参考
+
+https://github.com/ChenXbFrank/springboot-security-auth2.git
+
+https://github.com/hxrui/youlai-mall.git
+
+https://gitee.com/yugu/demo-oauth2.git
