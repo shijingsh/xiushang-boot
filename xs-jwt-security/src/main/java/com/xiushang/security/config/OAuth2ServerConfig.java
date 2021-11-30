@@ -200,25 +200,6 @@ public class OAuth2ServerConfig {
         // public TokenStore redisTokenStore() {
         //     return new RedisTokenStore(redisConnectionFactory);
         // }
-        // @Bean
-        // public ApprovalStore approvalStore() {
-        //     TokenApprovalStore store = new TokenApprovalStore();
-        //     store.setTokenStore(tokenStore());
-        //     return store;
-        // }
-
-        // @Bean
-        // public DefaultTokenServices defaultTokenServices(){
-        //     DefaultTokenServices tokenServices = new DefaultTokenServices();
-        //     tokenServices.setTokenStore(redisTokenStore());
-        //     tokenServices.setSupportRefreshToken(true);
-        //     tokenServices.setClientDetailsService(clientDetails());
-        //     // token有效期自定义设置，默认12小时
-        //     tokenServices.setAccessTokenValiditySeconds(60 * 3);
-        //     //默认30天，这里修改
-        //     tokenServices.setRefreshTokenValiditySeconds(60 * 60);
-        //     return tokenServices;
-        // }
 
         /**
          * 数据库管理client，从dataSource配置的数据源读取客户端数据
@@ -323,20 +304,6 @@ public class OAuth2ServerConfig {
             ApprovalStore approvalStore = new JdbcApprovalStore(dataSource);
             endpoints.approvalStore(approvalStore);
 
-            //令牌库 生成令牌控制
-            //DefaultTokenServices tokenServices = new DefaultTokenServices();
-            //tokenServices.setTokenStore(tokenStore);
-            //tokenServices.setSupportRefreshToken(true);
-            //tokenServices.setClientDetailsService(new JdbcClientDetailsService(dataSource));
-            // tokenServices.setAccessTokenValiditySeconds(60 * 3);   //token有效期自定义设置，默认12小时
-            // tokenServices.setRefreshTokenValiditySeconds(60 * 60);  //默认30天，这里修改
-
-            //配置token增强
-            //endpoints.tokenEnhancer(tokenEnhancerChain);
-            //配置tokenServices
-            //endpoints.tokenServices(tokenServices);
-            //配置tokenGranter
-            //endpoints.tokenGranter(tokenGranter);
         }
 
 
@@ -353,6 +320,8 @@ public class OAuth2ServerConfig {
             tokenServices.setSupportRefreshToken(true);
             tokenServices.setClientDetailsService(clientDetailsService);
             tokenServices.setTokenEnhancer(tokenEnhancerChain);
+            // tokenServices.setAccessTokenValiditySeconds(60 * 3);   //token有效期自定义设置，默认12小时
+            // tokenServices.setRefreshTokenValiditySeconds(60 * 60);  //默认30天，这里修改
 
             // 多用户体系下，刷新token再次认证客户端ID和 UserDetailService 的映射Map
            /* Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();

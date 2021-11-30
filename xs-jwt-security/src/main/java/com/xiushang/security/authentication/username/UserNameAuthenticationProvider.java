@@ -2,7 +2,6 @@ package com.xiushang.security.authentication.username;
 
 import com.xiushang.common.utils.MD5;
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,11 +10,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 @Data
-public class SecurityAuthenticationProvider implements AuthenticationProvider {
+public class UserNameAuthenticationProvider implements AuthenticationProvider {
 
 
     @Qualifier("userDetailsServiceImpl")

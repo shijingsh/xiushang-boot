@@ -3,8 +3,7 @@ package com.xiushang.security.config;
 import com.xiushang.common.components.SmsService;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
 import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationProvider;
-import com.xiushang.security.authentication.openid.OpenIdAuthenticationConfig;
-import com.xiushang.security.authentication.username.SecurityAuthenticationProvider;
+import com.xiushang.security.authentication.username.UserNameAuthenticationProvider;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
 import com.xiushang.security.hadler.SecurityLogoutSuccessHandler;
@@ -15,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -110,8 +108,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * @return
      */
     @Bean
-    public SecurityAuthenticationProvider userNameAuthenticationProvider() {
-        SecurityAuthenticationProvider provider = new SecurityAuthenticationProvider();
+    public UserNameAuthenticationProvider userNameAuthenticationProvider() {
+        UserNameAuthenticationProvider provider = new UserNameAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
 
         return provider;
