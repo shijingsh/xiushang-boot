@@ -11,6 +11,7 @@ import org.hibernate.annotations.Type;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name="sys_user")
@@ -125,6 +126,12 @@ public class UserEntity extends ExpandEntity {
     @JsonIgnore
     private Boolean isInitRecommend = Boolean.FALSE;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name="sys_user_role",
+            joinColumns=@JoinColumn(name="user_id"),
+            inverseJoinColumns=@JoinColumn(name="role_id")
+    )
+    private List<RoleEntity> roles;
 
     /**
      * 短信验证码
@@ -342,5 +349,13 @@ public class UserEntity extends ExpandEntity {
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
+    }
+
+    public List<RoleEntity> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<RoleEntity> roles) {
+        this.roles = roles;
     }
 }
