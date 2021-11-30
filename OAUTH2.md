@@ -5,6 +5,10 @@ auth2登录 使用fiter 怎么生成swagger文档
 token 过期处理逻辑
 auth2 获取授权的账号
 
+### 方法权限
+
+@Secured({"ROLE_ADMIN"})
+
 ### oauth2 文章
 AuthorizationEndpoint  oauth/authorize路径处理器
 
@@ -34,6 +38,11 @@ http://andaily.com/spring-oauth-server/db_table_description.html
 - 第一次认证租户认证（手机短信验证码模式）生成会话信息返给tokenA给客户端
 - 第二次拿到tokenA+用户密码进行用户认证（类似验证码模式）获取tokenB （其中拿tokenA判断是否有会话信息，tokenB包含租户和用户信息）
 
+###登录相关
+AbstractUserDetailsAuthenticationProvider
+DaoAuthenticationProvider
+UsernamePasswordAuthenticationFilter
+
 ###核心源码解读
 
 核心过滤器 OAuth2AuthenticationProcessingFilter（掌握）
@@ -46,6 +55,7 @@ OAuth2保护资源的预先认证过滤器。如果与OAuth2AuthenticationManage
 
 https://blog.csdn.net/weixin_42271016/article/details/104212326
 https://www.bianchengquan.com/article/566420.html
+
 
 TokenEndpoint#postAccessToken(...) 主入口
 ```

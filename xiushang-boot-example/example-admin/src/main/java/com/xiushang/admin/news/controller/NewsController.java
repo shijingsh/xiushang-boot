@@ -11,6 +11,7 @@ import com.xiushang.news.service.NewsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +43,7 @@ public class NewsController {
         return CommonResult.success(newsEntity);
     }
 
+    @Secured({"ROLE_ADMIN"})
     @ApiVersion(2)
     @GetMapping("/{version}/get")
     @ResponseBody
