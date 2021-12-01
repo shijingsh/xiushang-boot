@@ -159,12 +159,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/*.html","/*.svg","/*.png","/*.jpg","/*.js","/*.css").permitAll()
                 .antMatchers("/v2/api-docs",
+                        "/authentication/require",
+                        "/oauthLogin",
+                        "/oauthGrant",
                         "/authentication/form",
                         "/authentication/mobile",
                         "/authentication/openid",
                         "/myLogout").permitAll()
                 .anyRequest()
-                .authenticated().withObjectPostProcessor(urlObjectPostProcessor())
+                .authenticated()
+                //.withObjectPostProcessor(urlObjectPostProcessor())
 
                 .and()
                 .exceptionHandling()
