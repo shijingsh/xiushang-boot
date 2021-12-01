@@ -20,6 +20,8 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -40,7 +42,15 @@ public class GrantController {
         view.setViewName("grant");
         view.addObject("clientId", authorizationRequest.getClientId());
         //PlatformDO platformDO = platformService.getById(Long.parseLong(authorizationRequest.getClientId()));
-        //view.addObject("clientName", platformDO.getNameCn());
+        view.addObject("clientName", "天和");
+
+        Map<String, String> scopes = (Map<String, String>) (model.containsKey("scopes") ? model.get("scopes") : request.getAttribute("scopes"));
+        List<String> scopeList = new ArrayList<>();
+        if (scopes != null) {
+            scopeList.addAll(scopes.keySet());
+        }
+        view.addObject("scopeList", scopeList);
+
         return view;
     }
 

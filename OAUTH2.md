@@ -208,3 +208,21 @@ https://github.com/ChenXbFrank/springboot-security-auth2.git
 https://github.com/hxrui/youlai-mall.git
 
 https://gitee.com/yugu/demo-oauth2.git
+
+
+
+### TEST urls
+add hosts
+127.0.0.1 www.xiushang-test.com
+
+登录页
+http://www.xiushang-test.com/oauthLogin
+授权
+http://www.xiushang-test.com/oauth/authorize?response_type=code&client_id=janche&redirect_uri=http://baidu.com&state=test&scope=all
+
+
+
+http://www.xiushang-test.com/oauth/token?client_id=janche&client_secret=123456&grant_type=authorization_code&code=Ke125e&redirect_uri=http://baidu.com
+
+
+0df94c50-e293-4674-b32a-b514e8edf297

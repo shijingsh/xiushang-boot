@@ -1,6 +1,6 @@
 # 端口
 server:
-  port: 8787
+  port: 80
   servlet:
     register-default-servlet: true
 
@@ -40,6 +40,11 @@ spring:
         dialect: org.hibernate.dialect.MySQL5InnoDBDialect
     hibernate:
       ddl-auto: update # Hibernate ddl auto (create, create-drop, validate, update)
+
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    cache: false
 
 knife4j:
   enable: true
@@ -111,25 +116,3 @@ oauth:
   path:
     url: /api/
 
-system:
-  #客户端配置
-  client:
-    clients[0]:
-      clientId: lvhaibao
-      clientSecret: 123456
-    clients[1]:
-      clientId: lhb
-      clientSecret: 123456
-    clients[2]:
-      clientId: app
-      clientSecret: app
-  social:
-    qq:
-      app-id: xxxx
-      app-secret: xxxx
-      providerId: callback.do
-
-    filterProcessesUrl: /qqLogin
-    weixin:
-      app-id: wx8a47a66e22296c62
-      app-secret: deb57af7ec1753a2668889e74b34b789
