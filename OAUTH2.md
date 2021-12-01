@@ -5,10 +5,6 @@ auth2登录 使用fiter 怎么生成swagger文档
 token 过期处理逻辑
 auth2 获取授权的账号
 
-### 方法权限
-
-@Secured({"ROLE_ADMIN"})
-
 ### oauth2 文章
 AuthorizationEndpoint  oauth/authorize路径处理器
 
@@ -42,6 +38,15 @@ http://andaily.com/spring-oauth-server/db_table_description.html
 AbstractUserDetailsAuthenticationProvider
 DaoAuthenticationProvider
 UsernamePasswordAuthenticationFilter
+
+
+#基于角色的权限控制
+首先在“ApplicationSecurityConfig”类中使用“@EnableGlobalMethodSecurity(prePostEnabled = true)”注解
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+
+@Secured({RoleConst.ROLE_CLIENT, RoleConst.ROLE_ADMIN})
+ @PreAuthorize("hasAnyRole('ROLE_USER')")
+@Secured({"ROLE_ADMIN"})
 
 ###核心源码解读
 

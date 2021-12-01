@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +35,10 @@ public class NewsController {
      * 获取
      * @return
      */
-    @ApiOperation(value = "获取公告详情")
+    @ApiOperation(value = "获取公告详情（普通用户才能用）")
     @ResponseBody
     @GetMapping("/{version}/get")
+    @PreAuthorize("hasAnyRole('ROLE_USER')")
     public CommonResult<NewsEntity> get(String id) {
         NewsEntity newsEntity = newsService.get(id);
 
@@ -47,7 +49,7 @@ public class NewsController {
     @ApiVersion(2)
     @GetMapping("/{version}/get")
     @ResponseBody
-    @ApiOperation(value = "获取公告详情V2")
+    @ApiOperation(value = "获取公告详情V2（管理员才能用）")
     public CommonResult<NewsEntity> getV2(String id) {
         NewsEntity newsEntity = newsService.get(id);
 
