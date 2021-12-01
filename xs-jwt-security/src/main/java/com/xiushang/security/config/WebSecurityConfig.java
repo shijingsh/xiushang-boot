@@ -1,5 +1,8 @@
 package com.xiushang.security.config;
 
+import com.xiushang.common.components.SmsService;
+import com.xiushang.config.JWTIgnoreUrlsConfig;
+import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationProvider;
 import com.xiushang.security.authentication.username.UserNameAuthenticationProvider;
 import com.xiushang.security.metadatasource.UrlFilterInvocationSecurityMetadataSource;
 import lombok.extern.slf4j.Slf4j;
@@ -23,17 +26,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    @Qualifier("securityAuthenticationFailureHandler")
-    private AuthenticationFailureHandler securityAuthenticationFailureHandler;
 
     @Autowired
     @Qualifier("securityAccessDeniedHandler")
@@ -55,6 +55,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     @Qualifier("userDetailsServiceImpl")
     private UserDetailsService userDetailsService;
+
+    @Autowired
+    private SmsService smsService;
+
+    @Autowired
+    private JWTIgnoreUrlsConfig ignoreUrlsConfig;
     /**
      * 访问静态资源
      */
@@ -76,7 +82,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(userNameAuthenticationProvider());
+        auth.authenticationProvider(userNameAuthenticationProvider())
+                .authenticationProvider(smsCodeAuthenticationProvider())
+        ;
     }
 
 
@@ -93,12 +101,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
+    /**
+     * 手机验证码认证授权提供者
+     *
+     * @return
+     */
+    @Bean
+    public SmsCodeAuthenticationProvider smsCodeAuthenticationProvider() {
+        SmsCodeAuthenticationProvider provider = new SmsCodeAuthenticationProvider();
+        provider.setMyUserDetailsService(userDetailsService);
+        provider.setSmsService(smsService);
+        return provider;
+    }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http                //禁用跨站伪造
-               .csrf().disable()
+
+        List<String> list = ignoreUrlsConfig.getUrls();
+        String[] AUTH_WHITELIST = list.toArray(new String[list.size()]);
+
+        http
             .authorizeRequests()
+                .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/*.html","/*.svg","/*.png","/*.jpg","/*.js","/*.css").permitAll()
                 .antMatchers("/v2/api-docs",
                         "/authentication/require",
@@ -107,22 +132,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/authentication/form",
                         "/authentication/mobile",
                         "/authentication/openid",
-                        "/authentication/myLogout").permitAll()
+                        "/authentication/logout").permitAll()
                 .anyRequest()
                 .authenticated()
-                //.withObjectPostProcessor(urlObjectPostProcessor())
+                .withObjectPostProcessor(urlObjectPostProcessor())
             .and()
                 .formLogin()
                 .loginPage("/authentication/require")
-                .failureUrl("/authentication/error")
                 .loginProcessingUrl("/authentication/form")
-              /*  .loginPage("/login")
-                .loginProcessingUrl("/login")*/
-                .usernameParameter("username")
-                .passwordParameter("password")
+                //.usernameParameter("username")
+                //.passwordParameter("password")
                 .permitAll()
-                //.failureHandler(securityAuthenticationFailureHandler)
-                //.successHandler(userLoginSuccessHandler)
+                //.failureHandler(new com.xiushang.security.hadler.SecurityLoginFailureHandler())
+                //.successHandler(new com.xiushang.security.hadler.SecurityLoginSuccessHandler())
             .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(securityAuthenticationEntryPoint)
@@ -131,7 +153,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout()
                 .deleteCookies("JSESSIONID")
                 .logoutUrl("/logout")
-                //.logoutSuccessHandler(securityLogoutSuccessHandler)
+                //.logoutSuccessHandler(new com.xiushang.security.hadler.SecurityLogoutSuccessHandler())
                 .permitAll()
             .and()
                 .csrf()

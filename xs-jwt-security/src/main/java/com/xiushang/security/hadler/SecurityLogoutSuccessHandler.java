@@ -18,19 +18,9 @@ public class SecurityLogoutSuccessHandler implements LogoutSuccessHandler {
 		request.getSession().invalidate();
 
 		// 记录登出日志
-		if (null != authentication) {
-			this.saveLog(request, authentication);
-		}
 		log.info("退出成功");
 
 	}
 
-	/**
-	 * 记录登出日志
-	 * @param request
-	 */
-	private void saveLog(HttpServletRequest request, Authentication authentication) {
-
-	}
 
 }
