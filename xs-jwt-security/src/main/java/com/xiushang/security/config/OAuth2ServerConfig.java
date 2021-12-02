@@ -1,6 +1,7 @@
 package com.xiushang.security.config;
 
 
+import com.xiushang.security.filter.CustomClientCredentialsTokenEndpointFilter;
 import com.xiushang.security.hadler.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -187,10 +188,19 @@ public class OAuth2ServerConfig {
          */
         @Override
         public void configure(AuthorizationServerSecurityConfigurer oauthServer) {
-            //允许表单认证
+            /*//允许表单认证
             oauthServer.allowFormAuthenticationForClients();
             oauthServer.passwordEncoder(passwordEncoder);
             // 对于CheckEndpoint控制器[框架自带的校验]的/oauth/check端点允许所有客户端发送器请求而不会被Spring-security拦截
+            oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
+            oauthServer.realm("oauth2");*/
+
+            //注意重写invalid_client错误返回时 不再需要配置allowFormAuthenticationForClients()。否则会被默认ClientCredentialsTokenEndpointFilter覆盖。
+            CustomClientCredentialsTokenEndpointFilter endpointFilter = new CustomClientCredentialsTokenEndpointFilter(oauthServer);
+            endpointFilter.afterPropertiesSet();
+            endpointFilter.setAuthenticationEntryPoint(new CustomAuthenticationEntryPoint());
+            // 客户端认证之前的过滤器
+            oauthServer.addTokenEndpointAuthenticationFilter(endpointFilter);
             oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
             oauthServer.realm("oauth2");
         }

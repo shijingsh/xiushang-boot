@@ -29,8 +29,8 @@ UsernamePasswordAuthenticationFilter
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 
 @Secured({RoleConst.ROLE_CLIENT, RoleConst.ROLE_ADMIN})
- @PreAuthorize("hasAnyRole('ROLE_USER')")
-@Secured({"ROLE_ADMIN"})
+@PreAuthorize("hasAnyRole('ROLE_USER')")
+
 
 ###核心源码解读
 
@@ -44,6 +44,7 @@ AuthorizationEndpoint  oauth/authorize路径处理器
 TokenEndpoint   /oauth/token
 
 ####核心过滤器
+- BasicAuthenticationFilter
 - AbstractAuthenticationProcessingFilter
 - 核心过滤器 OAuth2AuthenticationProcessingFilter（掌握）
 - ResourceServerSecurityConfigurer（了解）
