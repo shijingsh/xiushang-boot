@@ -5,26 +5,10 @@ auth2登录 使用fiter 怎么生成swagger文档
 token 过期处理逻辑
 auth2 获取授权的账号
 
-### oauth2 文章
-AuthorizationEndpoint  oauth/authorize路径处理器
-
-TokenEndpoint   /oauth/token
-
-https://blog.csdn.net/czh8487888/article/details/111578200  Spring Security Oauth2关于自定义登录的几种解决方案
-https://zhuanlan.zhihu.com/p/166420642  我扒了半天源码，终于找到了Oauth2自定义处理结果的最佳方案！
-
-https://www.cnblogs.com/javammc/p/14219006.html
-
-
-https://cloud.tencent.com/developer/article/1377637  自定义AuthorizationEndpoint
-
 ### oauth2 表结构
 找到了一篇《spring-security-oauth2的mysql数据表》，网址如下：
-
 https://blog.csdn.net/qq_27384769/article/details/79440449
-
 这里有相关表字段的详细说明：
-
 http://andaily.com/spring-oauth-server/db_table_description.html
 
 ###两层授权
@@ -50,16 +34,26 @@ UsernamePasswordAuthenticationFilter
 
 ###核心源码解读
 
-核心过滤器 OAuth2AuthenticationProcessingFilter（掌握）
+####登录相关
+AbstractUserDetailsAuthenticationProvider
+DaoAuthenticationProvider
+UsernamePasswordAuthenticationFilter
 
+####处理器
+AuthorizationEndpoint  oauth/authorize路径处理器
+TokenEndpoint   /oauth/token
 
-ResourceServerSecurityConfigurer（了解）
+####核心过滤器
 
-OAuth2的身份管理器–OAuth2AuthenticationManager（掌握）
+- 核心过滤器 OAuth2AuthenticationProcessingFilter（掌握）
+- ResourceServerSecurityConfigurer（了解）
+- OAuth2的身份管理器–OAuth2AuthenticationManager（掌握）
 OAuth2保护资源的预先认证过滤器。如果与OAuth2AuthenticationManager结合使用，则会从到来的请求之中提取一个OAuth2 token，之后使用OAuth2Authentication来填充Spring Security上下文。
+OAuth2AuthenticationManager是密切与token认证相关的，而不是与获取token密切相关的。
 
-https://blog.csdn.net/weixin_42271016/article/details/104212326
-https://www.bianchengquan.com/article/566420.html
+- TokenExtractor（了解）
+分离出请求中包含的token。
+
 
 
 TokenEndpoint#postAccessToken(...) 主入口
@@ -186,32 +180,14 @@ public class ProviderManager implements AuthenticationManager, MessageSourceAwar
 ```
 
 
-###核心类
-
-https://blog.csdn.net/u013815546/article/details/77046453/
-
-- 核心过滤器 OAuth2AuthenticationProcessingFilter（掌握）
-
-
-- ResourceServerSecurityConfigurer（了解）
-
-- OAuth2的身份管理器–OAuth2AuthenticationManager（掌握）
-OAuth2保护资源的预先认证过滤器。如果与OAuth2AuthenticationManager结合使用，则会从到来的请求之中提取一个OAuth2 token，之后使用OAuth2Authentication来填充Spring Security上下文。
-OAuth2AuthenticationManager是密切与token认证相关的，而不是与获取token密切相关的。
-
-- TokenExtractor（了解）
-分离出请求中包含的token。
-#参考
-
-https://github.com/ChenXbFrank/springboot-security-auth2.git
-
-https://github.com/hxrui/youlai-mall.git
-
-https://gitee.com/yugu/demo-oauth2.git
-
-
 
 ### TEST urls
+
+add client info in db
+```sql
+INSERT INTO `oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`) VALUES('janche','oauth2','$2a$10$4ZpXaJyS4/oLUCsIDz1kCO7T7g9LtVq8hD1E0PJQwVfvI48U.RF7.','all','authorization_code,refresh_token,password,client_credentials,implicit','http://baidu.com',NULL,'600','600',NULL,'false','2019-07-18 10:00:19');
+```
+
 add hosts
 127.0.0.1 www.xiushang-test.com
 
@@ -219,10 +195,36 @@ add hosts
 http://www.xiushang-test.com/oauthLogin
 授权码模式
 http://www.xiushang-test.com/oauth/authorize?response_type=code&client_id=janche&redirect_uri=http://baidu.com&state=test&scope=all
+密码模式
+http://www.xiushang-test.com/oauth/token?client_id=janche&client_secret=123456&grant_type=password&username=15921359796&password=123456
+客户端模式
+http://www.xiushang-test.com/oauth/token?client_id=janche&client_secret=123456&grant_type=client_credentials
+简化模式
+1、http://www.xiushang-test.com/oauthLogin 输入账号密码
+2、再次输入如下地址，获取token
+http://www.xiushang-test.com/oauth/authorize?response_type=token&client_id=janche&redirect_uri=http://baidu.com&scope=all 
+地址栏重定向如下
+https://www.baidu.com/#access_token=d145051d-0986-4687-b16c-08495697b551&token_type=bearer&expires_in=599
 
 
+刷新token
+http://www.xiushang-test.com/oauth/token?client_id=janche&client_secret=123456&grant_type=refresh_token&refresh_token=881bdc65-c48f-4a93-8558-d8d527366cc4
 
+获取token
 http://www.xiushang-test.com/oauth/token?client_id=janche&client_secret=123456&grant_type=authorization_code&code=Ke125e&redirect_uri=http://baidu.com
 
 
-0df94c50-e293-4674-b32a-b514e8edf297
+#参考
+
+https://github.com/ChenXbFrank/springboot-security-auth2.git
+https://github.com/hxrui/youlai-mall.git
+https://gitee.com/yugu/demo-oauth2.git
+
+https://blog.csdn.net/czh8487888/article/details/111578200  Spring Security Oauth2关于自定义登录的几种解决方案
+https://zhuanlan.zhihu.com/p/166420642  我扒了半天源码，终于找到了Oauth2自定义处理结果的最佳方案！
+https://www.cnblogs.com/javammc/p/14219006.html
+https://cloud.tencent.com/developer/article/1377637  自定义AuthorizationEndpoint
+
+https://blog.csdn.net/u013815546/article/details/77046453/
+https://blog.csdn.net/weixin_42271016/article/details/104212326
+https://www.bianchengquan.com/article/566420.html

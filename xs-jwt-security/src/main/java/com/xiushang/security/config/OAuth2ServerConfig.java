@@ -1,12 +1,15 @@
 package com.xiushang.security.config;
 
 
+import com.xiushang.security.hadler.ResourceAccessDeniedHandler;
+import com.xiushang.security.hadler.ResourceExceptionEntryPoint;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -44,6 +47,10 @@ public class OAuth2ServerConfig {
             // 如果关闭 stateless，则 accessToken 使用时的 session id 会被记录，后续请求不携带 accessToken 也可以正常响应
             // 如果 stateless 为 true 打开状态，则 每次请求都必须携带 accessToken 请求才行，否则将无法访问
             resources.resourceId(RESOURCE_ID).stateless(true);
+
+            //oauth/token 异常处理
+            resources.authenticationEntryPoint(new ResourceExceptionEntryPoint());
+            resources.accessDeniedHandler(new ResourceAccessDeniedHandler());
         }
 
         /**
@@ -163,10 +170,14 @@ public class OAuth2ServerConfig {
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 
             endpoints.tokenStore(tokenStore())
+                    .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)  //oauth/token 请求支持GET POST
                     .authenticationManager(authenticationManager)
                     .userDetailsService(userDetailsService)
                     .authorizationCodeServices(authorizationCodeServices)
-                    .setClientDetailsService(clientDetailsService);
+                    .setClientDetailsService(clientDetailsService)
+
+
+            ;
         }
 
 
