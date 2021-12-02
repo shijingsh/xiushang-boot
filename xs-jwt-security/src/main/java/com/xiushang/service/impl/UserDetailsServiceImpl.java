@@ -2,6 +2,7 @@ package com.xiushang.service.impl;
 
 import com.xiushang.entity.UserEntity;
 import com.xiushang.jpa.repository.UserDao;
+import com.xiushang.security.SecurityUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,7 +34,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         if(user == null){
             throw new UsernameNotFoundException(username + " 用户不存在");
         }
-        return new org.springframework.security.core.userdetails.User(user.getLoginName(), user.getPassword(), emptyList());
+        return new SecurityUser(user);
     }
 
     public UserDetails loadUserByUserId(String userId) throws UsernameNotFoundException {
@@ -42,6 +43,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(userId);
         }
         UserEntity user = optional.get();
-        return new org.springframework.security.core.userdetails.User(user.getLoginName(), user.getPassword(), emptyList());
+        return new SecurityUser(user);
     }
 }

@@ -4,6 +4,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializeFilter;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.alibaba.fastjson.support.config.FastJsonConfig;
+import com.xiushang.common.exception.ServiceException;
+import com.xiushang.common.utils.JsonUtils;
+import com.xiushang.framework.log.CommonResult;
+import org.json.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
@@ -18,6 +22,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.Type;
 import java.nio.charset.Charset;
+import java.util.HashMap;
+import java.util.Map;
 
 public class FastJsonMappingHttpMessageConverter extends AbstractHttpMessageConverter<Object>
         implements GenericHttpMessageConverter<Object> {
@@ -107,6 +113,13 @@ public class FastJsonMappingHttpMessageConverter extends AbstractHttpMessageConv
             HttpMessageNotWritableException {
 
         SerializeFilter filter = new FastJsonSimpleFilter(new String[]{"hibernateLazyInitializer"});
+
+        if(paramT instanceof Exception){
+            //报错信息，只输出message
+            Exception e = (Exception) paramT;
+            CommonResult<String> commonResult = CommonResult.error(1,e.getMessage());
+            paramT = commonResult;
+        }
 
         String jsonString = JSON.toJSONString(paramT,filter, SerializerFeature.DisableCircularReferenceDetect,
                 SerializerFeature.QuoteFieldNames,
