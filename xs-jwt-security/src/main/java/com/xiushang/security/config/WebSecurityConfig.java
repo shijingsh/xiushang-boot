@@ -4,7 +4,7 @@ import com.xiushang.common.components.SmsService;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
 import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationProvider;
 import com.xiushang.security.authentication.username.UserNameAuthenticationProvider;
-import com.xiushang.security.metadatasource.UrlFilterInvocationSecurityMetadataSource;
+import com.xiushang.security.filter.UrlFilterInvocationSecurityMetadataSource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -23,8 +23,6 @@ import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
@@ -34,14 +32,6 @@ import java.util.List;
 @EnableWebSecurity
 @Slf4j
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Autowired
-    @Qualifier("securityAccessDeniedHandler")
-    private AccessDeniedHandler securityAccessDeniedHandler;
-
-    @Autowired
-    @Qualifier("securityAuthenticationEntryPoint")
-    private AuthenticationEntryPoint securityAuthenticationEntryPoint;
 
     @Autowired
     @Qualifier("urlFilterInvocationSecurityMetadataSource")
@@ -145,10 +135,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 //.failureHandler(new com.xiushang.security.hadler.SecurityLoginFailureHandler())
                 //.successHandler(new com.xiushang.security.hadler.SecurityLoginSuccessHandler())
-            .and()
-                .exceptionHandling()
-                .authenticationEntryPoint(securityAuthenticationEntryPoint)
-                .accessDeniedHandler(securityAccessDeniedHandler)
+            //.and()
+            //    .exceptionHandling()
+            //    .authenticationEntryPoint(securityAuthenticationEntryPoint)
+            //    .accessDeniedHandler(securityAccessDeniedHandler)
             .and()
                 .logout()
                 .deleteCookies("JSESSIONID")

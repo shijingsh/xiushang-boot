@@ -217,7 +217,7 @@ add hosts
 
 登录页
 http://www.xiushang-test.com/oauthLogin
-授权
+授权码模式
 http://www.xiushang-test.com/oauth/authorize?response_type=code&client_id=janche&redirect_uri=http://baidu.com&state=test&scope=all
 
 

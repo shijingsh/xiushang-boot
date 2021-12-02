@@ -3,6 +3,7 @@ package com.xiushang.security.hadler;
 import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.framework.log.CommonResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
@@ -19,9 +20,14 @@ public class SecurityLoginFailureHandler implements AuthenticationFailureHandler
 		// 记录登录失败的日志
 
 		log.info("登录失败: "+ exception.getMessage());
-		// JSON 格式的返回
 
-		CommonResult<String> commonResult = CommonResult.error(exception.getMessage());
+		int code = 1;
+		String message = exception.getMessage();
+
+		response.setCharacterEncoding("utf-8");
+		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+
+		CommonResult<String> commonResult = CommonResult.error(code,message);
 		String resBody = JsonUtils.toJsonStr(commonResult);
 
 		PrintWriter printWriter = response.getWriter();
