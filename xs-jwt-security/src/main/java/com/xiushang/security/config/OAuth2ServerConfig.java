@@ -1,10 +1,7 @@
 package com.xiushang.security.config;
 
 
-import com.xiushang.security.hadler.ResourceAccessDeniedHandler;
-import com.xiushang.security.hadler.ResourceExceptionEntryPoint;
-import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
-import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
+import com.xiushang.security.hadler.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -27,6 +24,7 @@ import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
 import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
@@ -74,12 +72,14 @@ public class OAuth2ServerConfig {
                     // .access(" #oauth2.hasScope('select') or hasAnyRole('ROLE_超级管理员', 'ROLE_设备管理员')");
             //
             http
+                    .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler())
+                    //.authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
+                    //.accessDeniedHandler(new SecurityAccessDeniedHandler())
+                    .and()
                     .authorizeRequests()
                     .anyRequest()
                     .authenticated()
-                    .and().exceptionHandling()
-                    .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
-                    .accessDeniedHandler(new SecurityAccessDeniedHandler());
+            ;
         }
     }
 

@@ -5,6 +5,8 @@ import com.xiushang.config.JWTIgnoreUrlsConfig;
 import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationProvider;
 import com.xiushang.security.authentication.username.UserNameAuthenticationProvider;
 import com.xiushang.security.filter.UrlFilterInvocationSecurityMetadataSource;
+import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
+import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -133,12 +135,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.usernameParameter("username")
                 //.passwordParameter("password")
                 .permitAll()
-                //.failureHandler(new com.xiushang.security.hadler.SecurityLoginFailureHandler())
+                .failureHandler(new com.xiushang.security.hadler.SecurityLoginFailureHandler())
                 //.successHandler(new com.xiushang.security.hadler.SecurityLoginSuccessHandler())
-            //.and()
-            //    .exceptionHandling()
-            //    .authenticationEntryPoint(securityAuthenticationEntryPoint)
-            //    .accessDeniedHandler(securityAccessDeniedHandler)
+            .and()
+                .exceptionHandling()
+                .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
+                .accessDeniedHandler(new SecurityAccessDeniedHandler())
             .and()
                 .logout()
                 .deleteCookies("JSESSIONID")

@@ -44,7 +44,7 @@ AuthorizationEndpoint  oauth/authorize路径处理器
 TokenEndpoint   /oauth/token
 
 ####核心过滤器
-
+- AbstractAuthenticationProcessingFilter
 - 核心过滤器 OAuth2AuthenticationProcessingFilter（掌握）
 - ResourceServerSecurityConfigurer（了解）
 - OAuth2的身份管理器–OAuth2AuthenticationManager（掌握）
