@@ -1,4 +1,4 @@
-package com.xiushang.security.authentication.openid;
+package com.xiushang.security.authentication.social;
 
 import com.xiushang.entity.UserSocialEntity;
 import com.xiushang.jpa.repository.UserSocialDao;
@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class OpenIdAuthenticationProvider implements AuthenticationProvider {
+public class SocialAuthenticationProvider implements AuthenticationProvider {
 
     private UserDetailsServiceImpl userDetailsService;
 
@@ -24,40 +24,40 @@ public class OpenIdAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        //支持OpenIdAuthenticationToken来验证
-        return OpenIdAuthenticationToken.class.isAssignableFrom(authentication);
+        //支持SocialAuthenticationToken来验证
+        return SocialAuthenticationToken.class.isAssignableFrom(authentication);
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-        //这个authentication就是OpenIdAuthenticationToken
-        OpenIdAuthenticationToken authenticationToken = (OpenIdAuthenticationToken) authentication;
+        //这个authentication就是SocialAuthenticationToken
+        SocialAuthenticationToken authenticationToken = (SocialAuthenticationToken) authentication;
 
         //校验手机号
-        String providerUserId = (String) authenticationToken.getPrincipal();
-        String providerId = authenticationToken.getProviderId();
-        SocialTypeEnum socialType =SocialTypeEnum.SOCIAL_TYPE_OPEN_ID;
-        if(StringUtils.isNotBlank(providerId)){
-            socialType = SocialTypeEnum.valueOf(providerId);
+        String socialId = (String) authenticationToken.getPrincipal();
+        String socialType = authenticationToken.getSocialType();
+        SocialTypeEnum socialTypeEnum =SocialTypeEnum.SOCIAL_TYPE_OPEN_ID;
+        if(StringUtils.isNotBlank(socialType)){
+            socialTypeEnum = SocialTypeEnum.valueOf(socialType);
         }
-        UserSocialEntity userSocialEntity = userSocialDao.findBySocialTypeAndSocialId(socialType,providerUserId);
+        UserSocialEntity userSocialEntity = userSocialDao.findBySocialTypeAndSocialId(socialTypeEnum,socialId);
 
         if(userSocialEntity == null){
-            throw new InternalAuthenticationServiceException("无法获取用户信息");
+            throw new InternalAuthenticationServiceException("无法获取用户社交账号信息");
         }
 
         String userId = userSocialEntity.getUserId();
         UserDetails user = userDetailsService.loadUserByUserId(userId);
 
         if(user == null ){
-            throw new InternalAuthenticationServiceException("无法获取用户信息");
+            throw new InternalAuthenticationServiceException("无法获取用户社交账号信息");
         }
 
         List<GrantedAuthority> list = new ArrayList<>();
 
         //这时候已经认证成功了
-        OpenIdAuthenticationToken authenticationResult = new OpenIdAuthenticationToken(user, list);
+        SocialAuthenticationToken authenticationResult = new SocialAuthenticationToken(user, list);
         authenticationResult.setDetails(authenticationToken.getDetails());
 
         return authenticationResult;

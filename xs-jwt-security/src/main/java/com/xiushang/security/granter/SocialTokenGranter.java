@@ -1,6 +1,6 @@
 package com.xiushang.security.granter;
 
-import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationToken;
+import com.xiushang.security.authentication.social.SocialAuthenticationToken;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,16 +15,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * 手机验证码授权者
+ * 社交账号授权者
+ *
  */
-public class SmsCodeTokenGranter extends AbstractTokenGranter {
+public class SocialTokenGranter extends AbstractTokenGranter {
 
 
-    private static final String GRANT_TYPE = "sms_code";
+    private static final String GRANT_TYPE = "social_type";
     private final AuthenticationManager authenticationManager;
 
-    public SmsCodeTokenGranter(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
-                               OAuth2RequestFactory requestFactory, AuthenticationManager authenticationManager
+    public SocialTokenGranter(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
+                              OAuth2RequestFactory requestFactory, AuthenticationManager authenticationManager
     ) {
         super(tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
         this.authenticationManager = authenticationManager;
@@ -35,12 +36,13 @@ public class SmsCodeTokenGranter extends AbstractTokenGranter {
 
         Map<String, String> parameters = new LinkedHashMap(tokenRequest.getRequestParameters());
 
-        String mobile = parameters.get("mobile"); // 手机号
-        String code = parameters.get("code"); // 短信验证码
+        String socialType = parameters.get("socialType"); // 社交账号类型
+        String socialId = parameters.get("socialId"); // 社交账号ID
 
-        parameters.remove("code");
+        parameters.remove("socialType");
+        parameters.remove("socialId");
 
-        Authentication userAuth = new SmsCodeAuthenticationToken(mobile, code);
+        Authentication userAuth = new SocialAuthenticationToken(socialType, socialId);
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 
         try {
@@ -55,7 +57,7 @@ public class SmsCodeTokenGranter extends AbstractTokenGranter {
             OAuth2Request storedOAuth2Request = this.getRequestFactory().createOAuth2Request(client, tokenRequest);
             return new OAuth2Authentication(storedOAuth2Request, userAuth);
         } else {
-            throw new InvalidGrantException("Could not authenticate user: " + mobile);
+            throw new InvalidGrantException("Could not authenticate user socialType " + socialType+" socialId"+socialId);
         }
     }
 }

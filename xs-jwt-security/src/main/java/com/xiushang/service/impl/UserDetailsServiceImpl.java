@@ -1,8 +1,10 @@
 package com.xiushang.service.impl;
 
+import com.xiushang.common.user.service.UserService;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.jpa.repository.UserDao;
 import com.xiushang.security.SecurityUser;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,15 +20,11 @@ import static java.util.Collections.emptyList;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
+    @Autowired
     private UserDao userDao;
 
-    /**
-     * 通过构造器注入userDao
-     * @param userDao
-     */
-    public UserDetailsServiceImpl(UserDao userDao) {
-        this.userDao = userDao;
-    }
+    @Autowired
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -43,6 +41,15 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             throw new UsernameNotFoundException(userId);
         }
         UserEntity user = optional.get();
+        return new SecurityUser(user);
+    }
+
+    public UserDetails loadUserByOpenId(String openId) {
+        UserEntity user = userService.getUserByUnionId(openId);
+        if(user == null){
+           return null;
+        }
+
         return new SecurityUser(user);
     }
 }

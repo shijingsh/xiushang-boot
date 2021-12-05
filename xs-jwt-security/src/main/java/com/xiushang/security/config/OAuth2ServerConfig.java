@@ -1,12 +1,19 @@
 package com.xiushang.security.config;
 
 
+import com.xiushang.security.authentication.social.SocialAuthenticationToken;
 import com.xiushang.security.filter.CustomClientCredentialsTokenEndpointFilter;
+import com.xiushang.security.granter.CaptchaTokenGranter;
+import com.xiushang.security.granter.SmsCodeTokenGranter;
+import com.xiushang.security.granter.SocialTokenGranter;
+import com.xiushang.security.granter.WechatTokenGranter;
 import com.xiushang.security.hadler.*;
+import com.xiushang.security.token.CustomTokenExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -22,6 +29,8 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
+import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
@@ -30,6 +39,9 @@ import org.springframework.security.oauth2.provider.token.TokenStore;
 import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Configuration
@@ -41,6 +53,8 @@ public class OAuth2ServerConfig {
     @EnableResourceServer
     protected static class ResourceServerConfiguration extends ResourceServerConfigurerAdapter {
 
+        @Autowired
+        CustomTokenExtractor customTokenExtractor;
         @Override
         public void configure(ResourceServerSecurityConfigurer resources) {
             // 如果关闭 stateless，则 accessToken 使用时的 session id 会被记录，后续请求不携带 accessToken 也可以正常响应
@@ -50,6 +64,8 @@ public class OAuth2ServerConfig {
             //oauth/token 异常处理
             resources.authenticationEntryPoint(new ResourceExceptionEntryPoint());
             resources.accessDeniedHandler(new ResourceAccessDeniedHandler());
+            resources.tokenExtractor(customTokenExtractor);
+
         }
 
         /**
@@ -73,9 +89,9 @@ public class OAuth2ServerConfig {
                     // .access(" #oauth2.hasScope('select') or hasAnyRole('ROLE_超级管理员', 'ROLE_设备管理员')");
             //
             http
-                    .exceptionHandling().accessDeniedHandler(new OAuth2AccessDeniedHandler())
-                    //.authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
-                    //.accessDeniedHandler(new SecurityAccessDeniedHandler())
+                    .exceptionHandling()//.accessDeniedHandler(new OAuth2AccessDeniedHandler())
+                    .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
+                    .accessDeniedHandler(new SecurityAccessDeniedHandler())
                     .and()
                     .authorizeRequests()
                     .anyRequest()
@@ -105,6 +121,8 @@ public class OAuth2ServerConfig {
         // @Autowired
         // private RedisConnectionFactory redisConnectionFactory;
 
+        @Autowired
+        private StringRedisTemplate stringRedisTemplate;
         /**
          * ClientDetails实现
          *
@@ -142,19 +160,6 @@ public class OAuth2ServerConfig {
         //     return store;
         // }
 
-        // @Bean
-        // public DefaultTokenServices defaultTokenServices(){
-        //     DefaultTokenServices tokenServices = new DefaultTokenServices();
-        //     tokenServices.setTokenStore(redisTokenStore());
-        //     tokenServices.setSupportRefreshToken(true);
-        //     tokenServices.setClientDetailsService(clientDetails());
-        //     // token有效期自定义设置，默认12小时
-        //     tokenServices.setAccessTokenValiditySeconds(60 * 3);
-        //     //默认30天，这里修改
-        //     tokenServices.setRefreshTokenValiditySeconds(60 * 60);
-        //     return tokenServices;
-        // }
-
         @Override
         public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
             // 1. 数据库的方式
@@ -170,6 +175,28 @@ public class OAuth2ServerConfig {
         @Override
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 
+            // 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
+            List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
+            // 添加验证码授权模式授权者
+            granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                    endpoints.getOAuth2RequestFactory(), authenticationManager, stringRedisTemplate
+            ));
+            // 添加手机短信验证码授权模式的授权者
+            granterList.add(new SmsCodeTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                    endpoints.getOAuth2RequestFactory(), authenticationManager
+            ));
+            // 添加社交账号授权模式的授权者
+            granterList.add(new SocialTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                    endpoints.getOAuth2RequestFactory(), authenticationManager
+            ));
+            // 添加微信code授权模式的授权者
+            granterList.add(new WechatTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                    endpoints.getOAuth2RequestFactory(), authenticationManager
+            ));
+
+            CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
+
+
             endpoints.tokenStore(tokenStore())
                     .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)  //oauth/token 请求支持GET POST
                     .authenticationManager(authenticationManager)
@@ -179,6 +206,8 @@ public class OAuth2ServerConfig {
 
 
             ;
+            endpoints.tokenGranter(compositeTokenGranter);            //自定义授权方式
+
         }
 
 

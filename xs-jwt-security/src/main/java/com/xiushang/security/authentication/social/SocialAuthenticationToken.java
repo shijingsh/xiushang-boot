@@ -1,4 +1,4 @@
-package com.xiushang.security.authentication.openid;
+package com.xiushang.security.authentication.social;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -6,29 +6,29 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 
 
-public class OpenIdAuthenticationToken  extends AbstractAuthenticationToken {
+public class SocialAuthenticationToken extends AbstractAuthenticationToken {
 
     private static final long serialVersionUID = 420L;
 
     /**
-     * openid
+     * 社交账号ID
      */
     private final Object principal;
 
     /**
-     * 服务提供上ID
+     * 社交账号类型
      */
-    private String providerId;
+    private String socialType;
 
 
-    OpenIdAuthenticationToken(String openId, String providerId) {
+    public SocialAuthenticationToken( String socialType,String socialId) {
         super(null);
-        this.principal =openId;
-        this.providerId = providerId;
+        this.principal =socialId;
+        this.socialType = socialType;
         setAuthenticated(false);
     }
 
-    OpenIdAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
+    public SocialAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal =principal;
         super.setAuthenticated(true);
@@ -58,13 +58,11 @@ public class OpenIdAuthenticationToken  extends AbstractAuthenticationToken {
         }
     }
 
-    public String getProviderId() {
-        return providerId;
+    public String getSocialType() {
+        return socialType;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
+    public void setSocialType(String socialType) {
+        this.socialType = socialType;
     }
-
-
 }
