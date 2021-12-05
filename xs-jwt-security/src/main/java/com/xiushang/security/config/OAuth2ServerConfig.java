@@ -35,10 +35,7 @@ import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
-import org.springframework.security.oauth2.provider.token.TokenEnhancer;
-import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
-import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
@@ -232,11 +229,20 @@ public class OAuth2ServerConfig {
 
         /**
          *  JWT编码的令牌值和OAuth身份验证信息之间进行转换
+         *  自定义 authentication.getPrincipal() 方法返回 SecurityUser 对象
          * @return
          */
         @Bean
         public JwtAccessTokenConverter jwtAccessTokenConverter(){
+
+            DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
+            defaultUserAuthenticationConverter.setUserDetailsService(userDetailsService);
+
+            DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
+            defaultAccessTokenConverter.setUserTokenConverter(defaultUserAuthenticationConverter);
+
             JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+            jwtAccessTokenConverter.setAccessTokenConverter(defaultAccessTokenConverter); // IMPORTANT
             jwtAccessTokenConverter.setSigningKey(SecurityConstants.SIGNING_KEY);
             return jwtAccessTokenConverter;
         }
