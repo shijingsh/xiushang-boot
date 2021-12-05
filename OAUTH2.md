@@ -1,30 +1,30 @@
 ### todo list
 
-auth2账号登录 应该是存储在session 之中，解决集群问题 
-auth2登录 使用fiter 怎么生成swagger文档
-token 过期处理逻辑
-auth2 获取授权的账号
+- auth2账号登录 应该是存储在session 之中，解决集群问题 
+- auth2登录 使用fiter 怎么生成swagger文档
+- token 过期处理逻辑
+- auth2 获取授权的账号
 
 ### oauth2 表结构
-找到了一篇《spring-security-oauth2的mysql数据表》，网址如下：
+- 找到了一篇《spring-security-oauth2的mysql数据表》，网址如下：
 https://blog.csdn.net/qq_27384769/article/details/79440449
-这里有相关表字段的详细说明：
+- 这里有相关表字段的详细说明：
 http://andaily.com/spring-oauth-server/db_table_description.html
 
-###两层授权
+### 两层授权
 因为需要首先租户授权，再进行用户授权。
 因此分为两层授权，实现思路如下：
 
 - 第一次认证租户认证（手机短信验证码模式）生成会话信息返给tokenA给客户端
 - 第二次拿到tokenA+用户密码进行用户认证（类似验证码模式）获取tokenB （其中拿tokenA判断是否有会话信息，tokenB包含租户和用户信息）
 
-###登录相关
+### 登录相关
 AbstractUserDetailsAuthenticationProvider
 DaoAuthenticationProvider
 UsernamePasswordAuthenticationFilter
 
 
-#基于角色的权限控制
+# 基于角色的权限控制
 首先在“ApplicationSecurityConfig”类中使用“@EnableGlobalMethodSecurity(prePostEnabled = true)”注解
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 
@@ -32,18 +32,18 @@ UsernamePasswordAuthenticationFilter
 @PreAuthorize("hasAnyRole('ROLE_USER')")
 
 
-###核心源码解读
+### 核心源码解读
 
-####登录相关
-AbstractUserDetailsAuthenticationProvider
-DaoAuthenticationProvider
-UsernamePasswordAuthenticationFilter
+#### 登录相关
+- AbstractUserDetailsAuthenticationProvider
+- DaoAuthenticationProvider
+- UsernamePasswordAuthenticationFilter
 
-####处理器
+#### 处理器
 AuthorizationEndpoint  oauth/authorize路径处理器
 TokenEndpoint   /oauth/token
 
-####核心过滤器
+#### 核心过滤器
 - BasicAuthenticationFilter
 - AbstractAuthenticationProcessingFilter
 - 核心过滤器 OAuth2AuthenticationProcessingFilter（掌握）
@@ -244,7 +244,7 @@ http://www.xiushang-test.com/oauth/token?client_id=janche&client_secret=123456&g
 http://www.xiushang-test.com/oauth/token?client_id=janche&client_secret=123456&grant_type=authorization_code&code=Ke125e&redirect_uri=http://baidu.com
 
 
-#参考
+# 参考
 
 https://github.com/ChenXbFrank/springboot-security-auth2.git
 https://github.com/hxrui/youlai-mall.git
