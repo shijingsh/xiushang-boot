@@ -1,6 +1,7 @@
 package com.xiushang.security.authentication.mobile;
 
 import com.xiushang.common.components.SmsService;
+import com.xiushang.security.SecurityUser;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -37,12 +38,12 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         }
 
         //校验手机号
-        UserDetails user = myUserDetailsService.loadUserByUsername(mobile);
-        if (user == null) {
+        SecurityUser securityUser = (SecurityUser)  myUserDetailsService.loadUserByUsername(mobile);
+        if (securityUser == null) {
             throw new InternalAuthenticationServiceException("无法获取用户信息");
         }
 
-        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(user, authentication.getCredentials(), new HashSet<>());
+        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(securityUser, authentication.getCredentials(), securityUser.getAuthorities());
         result.setDetails(authentication.getDetails());
         return result;
     }

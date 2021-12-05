@@ -2,6 +2,7 @@ package com.xiushang.security.authentication.social;
 
 import com.xiushang.entity.UserSocialEntity;
 import com.xiushang.jpa.repository.UserSocialDao;
+import com.xiushang.security.SecurityUser;
 import com.xiushang.service.impl.UserDetailsServiceImpl;
 import com.xiushang.util.SocialTypeEnum;
 import org.apache.commons.lang3.StringUtils;
@@ -49,16 +50,15 @@ public class SocialAuthenticationProvider implements AuthenticationProvider {
         }
 
         String userId = userSocialEntity.getUserId();
-        UserDetails user = ((UserDetailsServiceImpl)userDetailsService).loadUserByUserId(userId);
+        SecurityUser securityUser = (SecurityUser)((UserDetailsServiceImpl)userDetailsService).loadUserByUserId(userId);
 
-        if(user == null ){
+        if(securityUser == null ){
             throw new InternalAuthenticationServiceException("无法获取用户社交账号信息");
         }
 
-        List<GrantedAuthority> list = new ArrayList<>();
 
         //这时候已经认证成功了
-        SocialAuthenticationToken authenticationResult = new SocialAuthenticationToken(user, list);
+        SocialAuthenticationToken authenticationResult = new SocialAuthenticationToken(securityUser, securityUser.getAuthorities());
         authenticationResult.setDetails(authenticationToken.getDetails());
 
         return authenticationResult;

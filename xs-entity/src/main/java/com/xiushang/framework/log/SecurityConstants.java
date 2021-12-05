@@ -8,5 +8,7 @@ public class SecurityConstants {
 
     public static final String TOKEN_PREFIX= "Bearer";
     public static final String AUTH_HEADER_STRING = "Authorization";
+
+    public static final String AUTH_USER_ID_PARAM = "USER_ID";
     public static final long EXPIRATION_TIME = 36000000;
 }

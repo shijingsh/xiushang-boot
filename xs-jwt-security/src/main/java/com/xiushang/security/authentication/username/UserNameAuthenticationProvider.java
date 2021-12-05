@@ -16,8 +16,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 public class UserNameAuthenticationProvider implements AuthenticationProvider {
 
 
-    @Qualifier("userDetailsServiceImpl")
-    @Autowired
     private UserDetailsService userDetailsService;
 
 	@Override
