@@ -38,7 +38,7 @@ public class CustomTokenExtractor implements TokenExtractor {
                 if (token == null) {
                     log.info("Token not found in cookies.  Not an OAuth2 request.");
                 } else {
-                    request.setAttribute(OAuth2AuthenticationDetails.ACCESS_TOKEN_TYPE, "Bearer");
+                    request.setAttribute(OAuth2AuthenticationDetails.ACCESS_TOKEN_TYPE, SecurityConstants.TOKEN_PREFIX);
                 }
             }
         }

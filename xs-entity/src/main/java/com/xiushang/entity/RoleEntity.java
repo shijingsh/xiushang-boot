@@ -7,8 +7,16 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="sys_user_role")
+@Table(name="sys_role")
 public class RoleEntity extends BaseEntity implements GrantedAuthority {
+
+    public RoleEntity() {
+    }
+
+    public RoleEntity(String code, String name) {
+        this.code = code;
+        this.name = name;
+    }
 
     /**角色名称 */
     @ApiModelProperty(notes = "角色CODE")

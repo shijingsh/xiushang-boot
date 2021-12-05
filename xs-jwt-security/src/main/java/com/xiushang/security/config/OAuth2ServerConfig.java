@@ -1,13 +1,14 @@
 package com.xiushang.security.config;
 
 
-import com.xiushang.security.authentication.social.SocialAuthenticationToken;
+import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.security.filter.CustomClientCredentialsTokenEndpointFilter;
 import com.xiushang.security.granter.CaptchaTokenGranter;
 import com.xiushang.security.granter.SmsCodeTokenGranter;
 import com.xiushang.security.granter.SocialTokenGranter;
 import com.xiushang.security.granter.WechatTokenGranter;
 import com.xiushang.security.hadler.*;
+import com.xiushang.security.token.CustomTokenEnhancer;
 import com.xiushang.security.token.CustomTokenExtractor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -34,9 +35,12 @@ import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
-import org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler;
+import org.springframework.security.oauth2.provider.token.DefaultTokenServices;
+import org.springframework.security.oauth2.provider.token.TokenEnhancer;
+import org.springframework.security.oauth2.provider.token.TokenEnhancerChain;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.security.oauth2.provider.token.store.JdbcTokenStore;
+import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
+import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
@@ -135,7 +139,9 @@ public class OAuth2ServerConfig {
 
         @Bean
         public TokenStore tokenStore() {
-            return new JdbcTokenStore(dataSource);
+            //return new JdbcTokenStore(dataSource);
+
+            return new JwtTokenStore(jwtAccessTokenConverter());
         }
 
         // @Bean
@@ -196,8 +202,20 @@ public class OAuth2ServerConfig {
 
             CompositeTokenGranter compositeTokenGranter = new CompositeTokenGranter(granterList);
 
+            //令牌增强器。将增强的token设置到增强链中
+            TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+            List<TokenEnhancer> tokenEnhancers = new ArrayList<>();
+            tokenEnhancers.add(customTokenEnhancer());
+            tokenEnhancers.add(jwtAccessTokenConverter());
+            tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
 
-            endpoints.tokenStore(tokenStore())
+            TokenStore tokenStore = tokenStore();
+
+            // 数据库管理授权信息
+            //ApprovalStore approvalStore = new JdbcApprovalStore(dataSource);
+            //endpoints.approvalStore(approvalStore);
+
+            endpoints.tokenStore(tokenStore)
                     .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)  //oauth/token 请求支持GET POST
                     .authenticationManager(authenticationManager)
                     .userDetailsService(userDetailsService)
@@ -207,9 +225,67 @@ public class OAuth2ServerConfig {
 
             ;
             endpoints.tokenGranter(compositeTokenGranter);            //自定义授权方式
-
+            endpoints.tokenServices(tokenServices(endpoints));
+            endpoints.accessTokenConverter(jwtAccessTokenConverter());
+            endpoints.tokenEnhancer(tokenEnhancerChain);
         }
 
+        /**
+         *  JWT编码的令牌值和OAuth身份验证信息之间进行转换
+         * @return
+         */
+        @Bean
+        public JwtAccessTokenConverter jwtAccessTokenConverter(){
+            JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
+            jwtAccessTokenConverter.setSigningKey(SecurityConstants.SIGNING_KEY);
+            return jwtAccessTokenConverter;
+        }
+
+        /**
+         * 令牌增强器
+         * @return
+         */
+        @Bean
+        public TokenEnhancer customTokenEnhancer() {
+            return new CustomTokenEnhancer();
+        }
+
+
+        public DefaultTokenServices tokenServices(AuthorizationServerEndpointsConfigurer endpoints) {
+            TokenEnhancerChain tokenEnhancerChain = new TokenEnhancerChain();
+            List<TokenEnhancer> tokenEnhancers = new ArrayList<>();
+            tokenEnhancers.add(customTokenEnhancer());
+            tokenEnhancers.add(jwtAccessTokenConverter());
+            tokenEnhancerChain.setTokenEnhancers(tokenEnhancers);
+
+            DefaultTokenServices tokenServices = new DefaultTokenServices();
+            tokenServices.setTokenStore(endpoints.getTokenStore());
+            tokenServices.setSupportRefreshToken(true);
+            tokenServices.setClientDetailsService(clientDetailsService);
+            tokenServices.setTokenEnhancer(tokenEnhancerChain);
+            // tokenServices.setAccessTokenValiditySeconds(60 * 3);   //token有效期自定义设置，默认12小时
+            // tokenServices.setRefreshTokenValiditySeconds(60 * 60);  //默认30天，这里修改
+
+            // 多用户体系下，刷新token再次认证客户端ID和 UserDetailService 的映射Map
+           /* Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();
+            clientUserDetailsServiceMap.put(SecurityConstants.ADMIN_CLIENT_ID, sysUserDetailsService); // 系统管理客户端
+            clientUserDetailsServiceMap.put(SecurityConstants.APP_CLIENT_ID, memberUserDetailsService); // Android、IOS、H5 移动客户端
+            clientUserDetailsServiceMap.put(SecurityConstants.WEAPP_CLIENT_ID, memberUserDetailsService); // 微信小程序客户端
+
+            // 刷新token模式下，重写预认证提供者替换其AuthenticationManager，可自定义根据客户端ID和认证方式区分用户体系获取认证用户信息
+            PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
+            provider.setPreAuthenticatedUserDetailsService(new PreAuthenticatedUserDetailsService<>(clientUserDetailsServiceMap));
+            tokenServices.setAuthenticationManager(new ProviderManager(Arrays.asList(provider)));
+
+            //添加预身份验证
+            if (userDetailsService != null) {
+                PreAuthenticatedAuthenticationProvider provider = new PreAuthenticatedAuthenticationProvider();
+                provider.setPreAuthenticatedUserDetailsService(new UserDetailsByNameServiceWrapper<>(userDetailsService));
+                tokenServices.setAuthenticationManager(new ProviderManager(Arrays.asList(provider)));
+            }*/
+            return tokenServices;
+
+        }
 
         /**
          * 声明安全约束，哪些允许访问，哪些不允许访问
