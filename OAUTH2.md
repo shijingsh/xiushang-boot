@@ -221,15 +221,15 @@ VALUES
 add hosts
 127.0.0.1 www.xiushang-test.com
 
-登录页
+#### 登录页
 http://www.xiushang-test.com/oauthLogin
-授权码模式
+#### 授权码模式
 http://www.xiushang-test.com/oauth/authorize?response_type=code&client_id=janche&redirect_uri=http://baidu.com&state=test&scope=all
-密码模式
+#### 密码模式
 http://www.xiushang-test.com/oauth/token?client_id=janche&client_secret=123456&grant_type=password&username=15921359796&password=123456
-客户端模式
+#### 客户端模式
 http://www.xiushang-test.com/oauth/token?client_id=janche&client_secret=123456&grant_type=client_credentials
-简化模式
+#### 简化模式
 1、http://www.xiushang-test.com/oauthLogin 输入账号密码
 2、再次输入如下地址，获取token
 http://www.xiushang-test.com/oauth/authorize?response_type=token&client_id=janche&redirect_uri=http://baidu.com&scope=all 
@@ -237,10 +237,10 @@ http://www.xiushang-test.com/oauth/authorize?response_type=token&client_id=janch
 https://www.baidu.com/#access_token=d145051d-0986-4687-b16c-08495697b551&token_type=bearer&expires_in=599
 
 
-刷新token
+#### 刷新token
 http://www.xiushang-test.com/oauth/token?client_id=janche&client_secret=123456&grant_type=refresh_token&refresh_token=881bdc65-c48f-4a93-8558-d8d527366cc4
 
-获取token
+#### 获取token
 http://www.xiushang-test.com/oauth/token?client_id=janche&client_secret=123456&grant_type=authorization_code&code=Ke125e&redirect_uri=http://baidu.com
 
 
