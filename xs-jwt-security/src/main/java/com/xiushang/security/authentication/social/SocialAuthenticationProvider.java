@@ -11,6 +11,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
 
 public class SocialAuthenticationProvider implements AuthenticationProvider {
 
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsService userDetailsService;
 
     private UserSocialDao userSocialDao;
 
@@ -48,7 +49,7 @@ public class SocialAuthenticationProvider implements AuthenticationProvider {
         }
 
         String userId = userSocialEntity.getUserId();
-        UserDetails user = userDetailsService.loadUserByUserId(userId);
+        UserDetails user = ((UserDetailsServiceImpl)userDetailsService).loadUserByUserId(userId);
 
         if(user == null ){
             throw new InternalAuthenticationServiceException("无法获取用户社交账号信息");
@@ -63,11 +64,11 @@ public class SocialAuthenticationProvider implements AuthenticationProvider {
         return authenticationResult;
     }
 
-    public UserDetailsServiceImpl getUserDetailsService() {
+    public UserDetailsService getUserDetailsService() {
         return userDetailsService;
     }
 
-    public void setUserDetailsService(UserDetailsServiceImpl userDetailsService) {
+    public void setUserDetailsService(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 

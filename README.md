@@ -180,7 +180,7 @@ public class RedisController {
 
 ### auth2 授权配置
 
-配置auth2 授权路径 （默认为： /api/oauth/）
+配置auth2 授权路径 （默认为： /api/）
 ```
 oauth:
   path:
@@ -189,9 +189,13 @@ oauth:
 
 ####  接口请求header 参数
 
-- Authorization：租户oauth2 授权token。请求受保护接口必填
-- AccessToken：  用户jwt登陆 token。   请求需用户登陆路径必填   
+- Authorization：请求受保护接口必填
 
+
+####  授权接入说明
+
+ [OAUTH2文档](./OAUTH2.md)
+ 
 #### OAuth2 数据库表
 https://github.com/spring-projects/spring-security-oauth/blob/main/spring-security-oauth2/src/test/resources/schema.sql
 

@@ -7,6 +7,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.HashSet;
 
@@ -17,7 +18,7 @@ import java.util.HashSet;
 @Data
 public class WechatAuthenticationProvider implements AuthenticationProvider {
 
-    private UserDetailsServiceImpl userDetailsService;
+    private UserDetailsService userDetailsService;
 
     /**
      * 微信认证
@@ -36,7 +37,7 @@ public class WechatAuthenticationProvider implements AuthenticationProvider {
         JSONObject jsonObject = new JSONObject();
         String unionId = jsonObject.getString("unionid");
         String openId = jsonObject.getString("openid");
-        UserDetails userDetails = userDetailsService.loadUserByOpenId(openId);
+        UserDetails userDetails = ((UserDetailsServiceImpl)userDetailsService).loadUserByOpenId(openId);
         if (userDetails == null) {
             // 微信用户不存在，注册成为新会员
             String sessionKey = "";

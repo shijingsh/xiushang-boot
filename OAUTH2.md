@@ -186,7 +186,36 @@ public class ProviderManager implements AuthenticationManager, MessageSourceAwar
 
 add client info in db
 ```sql
-INSERT INTO `oauth_client_details` (`client_id`, `resource_ids`, `client_secret`, `scope`, `authorized_grant_types`, `web_server_redirect_uri`, `authorities`, `access_token_validity`, `refresh_token_validity`, `additional_information`, `autoapprove`, `create_time`) VALUES('janche','oauth2','$2a$10$4ZpXaJyS4/oLUCsIDz1kCO7T7g9LtVq8hD1E0PJQwVfvI48U.RF7.','all','authorization_code,refresh_token,password,client_credentials,implicit','http://baidu.com',NULL,'600','600',NULL,'false','2019-07-18 10:00:19');
+INSERT INTO `oauth_client_details` (
+  `client_id`,
+  `resource_ids`,
+  `client_secret`,
+  `scope`,
+  `authorized_grant_types`,
+  `web_server_redirect_uri`,
+  `authorities`,
+  `access_token_validity`,
+  `refresh_token_validity`,
+  `additional_information`,
+  `autoapprove`,
+  `create_time`
+) 
+VALUES
+  (
+    'janche',
+    'oauth2',
+    '$2a$10$4ZpXaJyS4/oLUCsIDz1kCO7T7g9LtVq8hD1E0PJQwVfvI48U.RF7.',
+    'all',
+    'authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat',
+    'http://baidu.com',
+    NULL,
+    '600',
+    '600',
+    NULL,
+    'false',
+    '2019-07-18 10:00:19'
+  ) ;
+
 ```
 
 add hosts

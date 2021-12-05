@@ -5,6 +5,11 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.provider.client.ClientCredentialsTokenEndpointFilter;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
+/**
+ * 重写invalid_client错误信息格式
+ * 结合 CustomAuthenticationEntryPoint
+ * oauthServer.addTokenEndpointAuthenticationFilter(customClientCredentialsTokenEndpointFilter);
+ */
 public class CustomClientCredentialsTokenEndpointFilter extends ClientCredentialsTokenEndpointFilter {
     private final AuthorizationServerSecurityConfigurer configurer;
     private AuthenticationEntryPoint authenticationEntryPoint;

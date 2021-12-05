@@ -2,8 +2,11 @@ package com.xiushang.security.config;
 
 import com.xiushang.common.components.SmsService;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
+import com.xiushang.jpa.repository.UserSocialDao;
 import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationProvider;
+import com.xiushang.security.authentication.social.SocialAuthenticationProvider;
 import com.xiushang.security.authentication.username.UserNameAuthenticationProvider;
+import com.xiushang.security.authentication.wechat.WechatAuthenticationProvider;
 import com.xiushang.security.filter.UrlFilterInvocationSecurityMetadataSource;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
@@ -55,6 +58,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JWTIgnoreUrlsConfig ignoreUrlsConfig;
+    @Autowired
+    private UserSocialDao userSocialDao;
     /**
      * 访问静态资源
      */
@@ -74,10 +79,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/**");
     }
 
+    /**
+     * 添加自定义授权者
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(userNameAuthenticationProvider())
                 .authenticationProvider(smsCodeAuthenticationProvider())
+                .authenticationProvider(socialAuthenticationProvider())
+                .authenticationProvider(wechatAuthenticationProvider())
         ;
     }
 
@@ -90,6 +102,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public UserNameAuthenticationProvider userNameAuthenticationProvider() {
         UserNameAuthenticationProvider provider = new UserNameAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+
+        return provider;
+    }
+
+    /**
+     * 社交账号认证授权提供者
+     *
+     * @return
+     */
+    @Bean
+    public SocialAuthenticationProvider socialAuthenticationProvider() {
+        SocialAuthenticationProvider provider = new SocialAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setUserSocialDao(userSocialDao);
+        return provider;
+    }
+
+
+    /**
+     * 微信code认证授权提供者
+     *
+     * @return
+     */
+    @Bean
+    public WechatAuthenticationProvider wechatAuthenticationProvider() {
+        WechatAuthenticationProvider provider = new WechatAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
 
         return provider;
