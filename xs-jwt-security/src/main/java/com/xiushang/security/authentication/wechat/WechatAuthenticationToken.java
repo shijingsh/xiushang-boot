@@ -1,5 +1,6 @@
 package com.xiushang.security.authentication.wechat;
 
+import com.xiushang.security.authentication.BaseAuthenticationToken;
 import lombok.Getter;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
@@ -7,11 +8,8 @@ import org.springframework.util.Assert;
 
 import java.util.Collection;
 
-/**
- * @author <a href="mailto:xianrui0365@163.com">xianrui</a>
- * @date 2021/9/25
- */
-public class WechatAuthenticationToken extends AbstractAuthenticationToken {
+
+public class WechatAuthenticationToken extends BaseAuthenticationToken {
     private static final long serialVersionUID = 550L;
     private final Object principal;
     @Getter
@@ -23,8 +21,8 @@ public class WechatAuthenticationToken extends AbstractAuthenticationToken {
      *
      * @param principal
      */
-    public WechatAuthenticationToken(Object principal, String encryptedData,String iv) {
-        super(null);
+    public WechatAuthenticationToken(String clientId,Object principal, String encryptedData,String iv) {
+        super(null,clientId);
         this.principal = principal;
         this.encryptedData = encryptedData;
         this.iv=iv;
@@ -37,8 +35,8 @@ public class WechatAuthenticationToken extends AbstractAuthenticationToken {
      * @param principal
      * @param authorities
      */
-    public WechatAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
+    public WechatAuthenticationToken(String clientId,Object principal, Collection<? extends GrantedAuthority> authorities) {
+        super(authorities,clientId);
         this.principal = principal;
         super.setAuthenticated(true);
     }

@@ -1,12 +1,13 @@
 package com.xiushang.security.authentication.social;
 
+import com.xiushang.security.authentication.BaseAuthenticationToken;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
 
-public class SocialAuthenticationToken extends AbstractAuthenticationToken {
+public class SocialAuthenticationToken extends BaseAuthenticationToken {
 
     private static final long serialVersionUID = 420L;
 
@@ -20,16 +21,15 @@ public class SocialAuthenticationToken extends AbstractAuthenticationToken {
      */
     private String socialType;
 
-
-    public SocialAuthenticationToken( String socialType,String socialId) {
-        super(null);
+    public SocialAuthenticationToken(String clientId, String socialType,String socialId) {
+        super(null,clientId);
         this.principal =socialId;
         this.socialType = socialType;
         setAuthenticated(false);
     }
 
-    public SocialAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
+    public SocialAuthenticationToken(String clientId, Object principal, Collection<? extends GrantedAuthority> authorities) {
+        super(authorities,clientId);
         this.principal =principal;
         super.setAuthenticated(true);
     }
@@ -65,4 +65,5 @@ public class SocialAuthenticationToken extends AbstractAuthenticationToken {
     public void setSocialType(String socialType) {
         this.socialType = socialType;
     }
+
 }

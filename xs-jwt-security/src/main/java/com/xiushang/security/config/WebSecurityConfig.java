@@ -108,6 +108,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public UserNameAuthenticationProvider userNameAuthenticationProvider() {
         UserNameAuthenticationProvider provider = new UserNameAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
+        provider.setOauthClientDetailsDao(oauthClientDetailsDao);
 
         return provider;
     }
@@ -121,6 +122,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public SocialAuthenticationProvider socialAuthenticationProvider() {
         SocialAuthenticationProvider provider = new SocialAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
+        provider.setOauthClientDetailsDao(oauthClientDetailsDao);
         provider.setUserSocialDao(userSocialDao);
         return provider;
     }
@@ -148,6 +150,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public WechatAuthenticationProvider wechatAuthenticationProvider() {
         WechatAuthenticationProvider provider = new WechatAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
+        provider.setOauthClientDetailsDao(oauthClientDetailsDao);
 
         return provider;
     }
@@ -160,7 +163,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     public SmsCodeAuthenticationProvider smsCodeAuthenticationProvider() {
         SmsCodeAuthenticationProvider provider = new SmsCodeAuthenticationProvider();
-        provider.setMyUserDetailsService(userDetailsService);
+        provider.setUserDetailsService(userDetailsService);
+        provider.setOauthClientDetailsDao(oauthClientDetailsDao);
         provider.setSmsService(smsService);
         return provider;
     }

@@ -1,7 +1,6 @@
 package com.xiushang.security.granter;
 
 import com.xiushang.security.authentication.client.ClientAuthenticationToken;
-import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationToken;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AccountStatusException;
 import org.springframework.security.authentication.AuthenticationManager;

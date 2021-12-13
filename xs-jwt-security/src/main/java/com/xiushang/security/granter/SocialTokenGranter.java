@@ -38,11 +38,12 @@ public class SocialTokenGranter extends AbstractTokenGranter {
 
         String socialType = parameters.get("socialType"); // 社交账号类型
         String socialId = parameters.get("socialId"); // 社交账号ID
+        String clientId = parameters.get("client_id");
 
         parameters.remove("socialType");
         parameters.remove("socialId");
 
-        Authentication userAuth = new SocialAuthenticationToken(socialType, socialId);
+        Authentication userAuth = new SocialAuthenticationToken(clientId,socialType, socialId);
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 
         try {

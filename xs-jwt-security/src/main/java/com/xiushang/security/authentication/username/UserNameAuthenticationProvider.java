@@ -2,21 +2,18 @@ package com.xiushang.security.authentication.username;
 
 import com.xiushang.common.utils.MD5;
 import com.xiushang.security.SecurityUser;
+import com.xiushang.security.authentication.TenantProvider;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import java.util.Map;
+
 @Data
-public class UserNameAuthenticationProvider implements AuthenticationProvider {
-
-
-    private UserDetailsService userDetailsService;
+public class UserNameAuthenticationProvider  extends TenantProvider implements AuthenticationProvider {
 
 	@Override
 	public Authentication authenticate(Authentication authentication ) throws AuthenticationException {
@@ -27,7 +24,7 @@ public class UserNameAuthenticationProvider implements AuthenticationProvider {
         String inputPassword = (String) authentication.getCredentials();
 
         // [2] 使用用户名从数据库读取用户信息
-        SecurityUser securityUser = (SecurityUser) userDetailsService.loadUserByUsername(userName);
+        SecurityUser securityUser = (SecurityUser) getUserDetailsService().loadUserByUsername(userName);
 
         // 判断账号是否被禁用
         /*if (null != userDetails && userDetails.getStatus() == 0){
@@ -57,6 +54,11 @@ public class UserNameAuthenticationProvider implements AuthenticationProvider {
         if(!StringUtils.equals(MD5.GetMD5Code(inputPassword),encryptedPassword)){
             throw new BadCredentialsException(userName + " 输入账号或密码不正确");
         }
+
+        //设置租户信息
+        Map<String, String> map = (Map<String, String>)authentication.getDetails();
+        String clientId = map.get("client_id");
+        super.settingTenantId(securityUser, clientId);
 
         // [5] 成功登陆，把用户信息提交给 Spring Security
         // 把 userDetails 作为 principal 的好处是可以放自定义的 UserDetails，这样可以存储更多有用的信息，而不只是 username，

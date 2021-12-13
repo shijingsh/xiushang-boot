@@ -1,12 +1,13 @@
 package com.xiushang.security.authentication.client;
 
+import com.xiushang.security.authentication.BaseAuthenticationToken;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 
 
-public class ClientAuthenticationToken extends AbstractAuthenticationToken {
+public class ClientAuthenticationToken extends BaseAuthenticationToken {
 
     private static final long serialVersionUID = 420L;
 
@@ -17,13 +18,13 @@ public class ClientAuthenticationToken extends AbstractAuthenticationToken {
 
 
     public ClientAuthenticationToken( String clientId) {
-        super(null);
-        this.principal =clientId;
+        super(null,clientId);
+        this.principal = clientId;
         setAuthenticated(false);
     }
 
-    public ClientAuthenticationToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
+    public ClientAuthenticationToken(String clientId,Object principal, Collection<? extends GrantedAuthority> authorities) {
+        super(authorities,clientId);
         this.principal =principal;
         super.setAuthenticated(true);
     }

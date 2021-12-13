@@ -9,6 +9,11 @@ import java.util.Collection;
 
 public class SecurityUser extends UserEntity implements UserDetails{
 
+    /**
+     * 租户ID
+     */
+    private String tenantId;
+
     public SecurityUser (UserEntity user) {
         if(user != null) {
             BeanUtils.copyProperties(user, this);
@@ -43,5 +48,13 @@ public class SecurityUser extends UserEntity implements UserDetails{
     @Override
     public boolean isEnabled() {
         return !getDeleted();
+    }
+
+    public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
     }
 }

@@ -1,5 +1,6 @@
 package com.xiushang.security.authentication.mobile;
 
+import com.xiushang.security.authentication.BaseAuthenticationToken;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Assert;
@@ -10,21 +11,21 @@ import java.util.Collection;
  * 手机验证码登录
  *
  */
-public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
+public class SmsCodeAuthenticationToken extends BaseAuthenticationToken {
 
     private static final long serialVersionUID = 550L;
     private final Object principal;
     private Object credentials;
 
-    public SmsCodeAuthenticationToken(Object principal, Object credentials) {
-        super((Collection) null);
+    public SmsCodeAuthenticationToken(String clientId,Object principal, Object credentials) {
+        super((Collection) null,clientId);
         this.principal = principal;
         this.credentials = credentials;
         this.setAuthenticated(false);
     }
 
-    public SmsCodeAuthenticationToken(Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
-        super(authorities);
+    public SmsCodeAuthenticationToken(String clientId,Object principal, Object credentials, Collection<? extends GrantedAuthority> authorities) {
+        super(authorities,clientId);
         this.principal = principal;
         this.credentials = credentials;
         super.setAuthenticated(true);
@@ -47,4 +48,5 @@ public class SmsCodeAuthenticationToken extends AbstractAuthenticationToken {
         super.eraseCredentials();
         this.credentials = null;
     }
+
 }

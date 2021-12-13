@@ -2,24 +2,18 @@ package com.xiushang.security.authentication.mobile;
 
 import com.xiushang.common.components.SmsService;
 import com.xiushang.security.SecurityUser;
+import com.xiushang.security.authentication.TenantProvider;
 import lombok.Data;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-
-import java.util.HashSet;
 
 @Data
-public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
-
-    private UserDetailsService myUserDetailsService;
+public class SmsCodeAuthenticationProvider extends TenantProvider implements AuthenticationProvider {
 
     private SmsService smsService;
-
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -38,12 +32,16 @@ public class SmsCodeAuthenticationProvider implements AuthenticationProvider {
         }
 
         //校验手机号
-        SecurityUser securityUser = (SecurityUser)  myUserDetailsService.loadUserByUsername(mobile);
+        SecurityUser securityUser = (SecurityUser)  super.getUserDetailsService().loadUserByUsername(mobile);
         if (securityUser == null) {
             throw new InternalAuthenticationServiceException("无法获取用户信息");
         }
 
-        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(securityUser, authentication.getCredentials(), securityUser.getAuthorities());
+        //设置租户信息
+        super.settingTenantId(securityUser, authenticationToken);
+
+
+        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(authenticationToken.getClientId(),securityUser, authentication.getCredentials(), securityUser.getAuthorities());
         result.setDetails(authentication.getDetails());
         return result;
     }

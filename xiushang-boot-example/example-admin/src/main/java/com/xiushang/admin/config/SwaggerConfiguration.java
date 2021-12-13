@@ -170,8 +170,8 @@ public class SwaggerConfiguration {
         ApiKey apiKey = new ApiKey("Authorization", "Authorization", "Header");
         result.add(apiKey);
 
-        ApiKey accessKey = new ApiKey("AccessToken", "AccessToken", "Header");
-        result.add(accessKey);
+        /*ApiKey accessKey = new ApiKey("AccessToken", "AccessToken", "Header");
+        result.add(accessKey);*/
         return result;
     }
 
