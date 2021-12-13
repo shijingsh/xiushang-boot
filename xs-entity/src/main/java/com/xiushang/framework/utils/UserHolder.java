@@ -41,9 +41,9 @@ public class UserHolder {
     }
 
     /**
-     * 获得当前登录者的User instanceId
+     * 获得当前所在商户
      */
-    public static String getLoginUserTenantId() {
+    public static String getTenantId() {
         return  "";
     }
 

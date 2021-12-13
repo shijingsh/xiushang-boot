@@ -2,7 +2,9 @@ package com.xiushang.security.config;
 
 import com.xiushang.common.components.SmsService;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
+import com.xiushang.jpa.repository.OauthClientDetailsDao;
 import com.xiushang.jpa.repository.UserSocialDao;
+import com.xiushang.security.authentication.client.ClientAuthenticationProvider;
 import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationProvider;
 import com.xiushang.security.authentication.social.SocialAuthenticationProvider;
 import com.xiushang.security.authentication.username.UserNameAuthenticationProvider;
@@ -60,6 +62,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private JWTIgnoreUrlsConfig ignoreUrlsConfig;
     @Autowired
     private UserSocialDao userSocialDao;
+    @Autowired
+    private OauthClientDetailsDao oauthClientDetailsDao;
     /**
      * 访问静态资源
      */
@@ -90,6 +94,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticationProvider(smsCodeAuthenticationProvider())
                 .authenticationProvider(socialAuthenticationProvider())
                 .authenticationProvider(wechatAuthenticationProvider())
+                .authenticationProvider(clientAuthenticationProvider())
         ;
     }
 
@@ -120,6 +125,19 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
+
+    /**
+     * 客户端认证授权提供者
+     *
+     * @return
+     */
+    @Bean
+    public ClientAuthenticationProvider clientAuthenticationProvider() {
+        ClientAuthenticationProvider provider = new ClientAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setOauthClientDetailsDao(oauthClientDetailsDao);
+        return provider;
+    }
 
     /**
      * 微信code认证授权提供者

@@ -117,7 +117,7 @@ public class UploadServiceImpl implements UploadService {
     }
 
     public String getTargetFilePath(UploadBean uploadBean) {
-        String instanceId = UserHolder.getLoginUserTenantId();
+        String instanceId = UserHolder.getTenantId();
         String rootPath = "null";
         if (StringUtils.isNotBlank(instanceId)) {
             rootPath = instanceId;

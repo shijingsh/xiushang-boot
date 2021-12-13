@@ -3,10 +3,7 @@ package com.xiushang.security.config;
 
 import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.security.filter.CustomClientCredentialsTokenEndpointFilter;
-import com.xiushang.security.granter.CaptchaTokenGranter;
-import com.xiushang.security.granter.SmsCodeTokenGranter;
-import com.xiushang.security.granter.SocialTokenGranter;
-import com.xiushang.security.granter.WechatTokenGranter;
+import com.xiushang.security.granter.*;
 import com.xiushang.security.hadler.*;
 import com.xiushang.security.token.CustomTokenEnhancer;
 import com.xiushang.security.token.CustomTokenExtractor;
@@ -31,17 +28,21 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.CompositeTokenGranter;
+import org.springframework.security.oauth2.provider.OAuth2RequestFactory;
 import org.springframework.security.oauth2.provider.TokenGranter;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
 import org.springframework.security.oauth2.provider.code.AuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.code.AuthorizationCodeTokenGranter;
 import org.springframework.security.oauth2.provider.code.JdbcAuthorizationCodeServices;
+import org.springframework.security.oauth2.provider.implicit.ImplicitTokenGranter;
+import org.springframework.security.oauth2.provider.password.ResourceOwnerPasswordTokenGranter;
+import org.springframework.security.oauth2.provider.refresh.RefreshTokenGranter;
 import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import javax.sql.DataSource;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -171,6 +172,34 @@ public class OAuth2ServerConfig {
 
 
         /**
+         * 程序支持的授权类型
+         * 参考 AuthorizationServerEndpointsConfigurer 默认配置
+         * @return
+         */
+        private List<TokenGranter> getDefaultTokenGranters(AuthorizationServerEndpointsConfigurer endpoints) {
+            ClientDetailsService clientDetails = endpoints.getClientDetailsService();
+            AuthorizationServerTokenServices tokenServices = endpoints.getTokenServices();
+            OAuth2RequestFactory requestFactory = endpoints.getOAuth2RequestFactory();
+
+            List<TokenGranter> tokenGranters = new ArrayList<>();
+            // 添加授权码模式
+            tokenGranters.add(new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices, clientDetails,
+                    requestFactory));
+            // 添加刷新令牌的模式
+            tokenGranters.add(new RefreshTokenGranter(tokenServices, clientDetails, requestFactory));
+            // 添加隐式授权模式
+            ImplicitTokenGranter implicit = new ImplicitTokenGranter(tokenServices, clientDetails, requestFactory);
+            tokenGranters.add(implicit);
+            // 添加客户端模式 使用自定义客户端模式
+            //tokenGranters.add(new ClientCredentialsTokenGranter(tokenServices, clientDetails, requestFactory));
+            if (authenticationManager != null) {
+                // 添加密码模式
+                tokenGranters.add(new ResourceOwnerPasswordTokenGranter(authenticationManager, tokenServices,
+                        clientDetails, requestFactory));
+            }
+            return tokenGranters;
+        }
+        /**
          * 声明授权和token的端点以及token的服务的一些配置信息，
          * 比如采用什么存储方式、token的有效期等
          * @param endpoints
@@ -179,7 +208,12 @@ public class OAuth2ServerConfig {
         public void configure(AuthorizationServerEndpointsConfigurer endpoints) {
 
             // 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
-            List<TokenGranter> granterList = new ArrayList<>(Arrays.asList(endpoints.getTokenGranter()));
+            List<TokenGranter> granterList = getDefaultTokenGranters(endpoints);
+
+            // 添加自定义客户端模式授权者
+            granterList.add(new ClientTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                    endpoints.getOAuth2RequestFactory(), authenticationManager
+            ));
             // 添加验证码授权模式授权者
             granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
                     endpoints.getOAuth2RequestFactory(), authenticationManager, stringRedisTemplate
