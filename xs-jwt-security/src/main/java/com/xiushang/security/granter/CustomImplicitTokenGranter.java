@@ -17,6 +17,8 @@ import org.springframework.security.oauth2.provider.token.AuthorizationServerTok
 import org.springframework.util.Assert;
 
 /**
+ * 自定义隐式授权模式
+ *
  * @author Dave Syer
  *
  */

@@ -2,7 +2,6 @@ package com.xiushang.security.authentication.wechat;
 
 import com.xiushang.security.authentication.BaseAuthenticationToken;
 import lombok.Getter;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Assert;
 

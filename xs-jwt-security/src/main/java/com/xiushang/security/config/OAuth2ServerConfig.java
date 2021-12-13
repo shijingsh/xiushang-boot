@@ -2,6 +2,7 @@ package com.xiushang.security.config;
 
 
 import com.xiushang.framework.log.SecurityConstants;
+import com.xiushang.jpa.repository.OauthClientDetailsDao;
 import com.xiushang.security.filter.CustomClientCredentialsTokenEndpointFilter;
 import com.xiushang.security.granter.*;
 import com.xiushang.security.hadler.*;
@@ -126,6 +127,9 @@ public class OAuth2ServerConfig {
 
         @Autowired
         private StringRedisTemplate stringRedisTemplate;
+
+        @Autowired
+        private OauthClientDetailsDao oauthClientDetailsDao;
         /**
          * ClientDetails实现
          *
@@ -183,15 +187,15 @@ public class OAuth2ServerConfig {
             OAuth2RequestFactory requestFactory = endpoints.getOAuth2RequestFactory();
 
             List<TokenGranter> tokenGranters = new ArrayList<>();
-            // 添加授权码模式
-            tokenGranters.add(new AuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices, clientDetails,
-                    requestFactory));
+            // 添加自定义授权码模式 参考AuthorizationCodeTokenGranter
+            tokenGranters.add(new CustomAuthorizationCodeTokenGranter(tokenServices, authorizationCodeServices, clientDetails,
+                    requestFactory,userDetailsService,oauthClientDetailsDao));
             // 添加刷新令牌的模式
             tokenGranters.add(new RefreshTokenGranter(tokenServices, clientDetails, requestFactory));
-            // 添加隐式授权模式 ImplicitTokenGranter
+            // 添加自定义隐式授权模式 参考ImplicitTokenGranter
             CustomImplicitTokenGranter implicit = new CustomImplicitTokenGranter(tokenServices, clientDetails, requestFactory);
             tokenGranters.add(implicit);
-            // 添加客户端模式 使用自定义客户端模式  ClientCredentialsTokenGranter
+            // 添加客户端模式 使用自定义客户端模式 参考ClientCredentialsTokenGranter
             tokenGranters.add(new CustomClientCredentialsTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
                     endpoints.getOAuth2RequestFactory(), authenticationManager
             ));

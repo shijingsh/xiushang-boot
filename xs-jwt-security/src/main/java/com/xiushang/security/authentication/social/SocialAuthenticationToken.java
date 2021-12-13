@@ -1,7 +1,6 @@
 package com.xiushang.security.authentication.social;
 
 import com.xiushang.security.authentication.BaseAuthenticationToken;
-import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
