@@ -11,12 +11,9 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 
 public class SocialAuthenticationProvider extends TenantProvider implements AuthenticationProvider {
-
-    private UserDetailsService userDetailsService;
 
     private UserSocialDao userSocialDao;
 
@@ -46,7 +43,7 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         }
 
         String userId = userSocialEntity.getUserId();
-        SecurityUser securityUser = (SecurityUser)((UserDetailsServiceImpl)userDetailsService).loadUserByUserId(userId);
+        SecurityUser securityUser = (SecurityUser)((UserDetailsServiceImpl)getUserDetailsService()).loadUserByUserId(userId);
 
         if(securityUser == null ){
             throw new InternalAuthenticationServiceException("无法获取用户社交账号信息");
@@ -60,14 +57,6 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         authenticationResult.setDetails(authenticationToken.getDetails());
 
         return authenticationResult;
-    }
-
-    public UserDetailsService getUserDetailsService() {
-        return userDetailsService;
-    }
-
-    public void setUserDetailsService(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
     }
 
     public UserSocialDao getUserSocialDao() {

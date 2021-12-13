@@ -10,5 +10,7 @@ public class SecurityConstants {
     public static final String AUTH_HEADER_STRING = "Authorization";
 
     public static final String AUTH_USER_ID_PARAM = "USER_ID";
+    public static final String AUTH_TENANT_ID_PARAM = "tenantId";
+
     public static final long EXPIRATION_TIME = 36000000;
 }

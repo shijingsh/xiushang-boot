@@ -14,14 +14,14 @@ import org.springframework.security.oauth2.provider.token.AuthorizationServerTok
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class ClientTokenGranter extends AbstractTokenGranter {
+public class CustomClientCredentialsTokenGranter extends AbstractTokenGranter {
 
 
     private static final String GRANT_TYPE = "client_credentials";
     private final AuthenticationManager authenticationManager;
 
-    public ClientTokenGranter(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
-                              OAuth2RequestFactory requestFactory, AuthenticationManager authenticationManager
+    public CustomClientCredentialsTokenGranter(AuthorizationServerTokenServices tokenServices, ClientDetailsService clientDetailsService,
+                                               OAuth2RequestFactory requestFactory, AuthenticationManager authenticationManager
     ) {
         super(tokenServices, clientDetailsService, requestFactory, GRANT_TYPE);
         this.authenticationManager = authenticationManager;

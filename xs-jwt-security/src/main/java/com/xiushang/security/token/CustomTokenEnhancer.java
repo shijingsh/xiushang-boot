@@ -26,7 +26,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
 
         if(authentication.getPrincipal() instanceof SecurityUser){
             SecurityUser user = (SecurityUser) authentication.getPrincipal();
-            additionalInfo.put("tenantUserId",user.getId());
+            additionalInfo.put("tenantId",user.getTenantId());
         }
 
         additionalInfo.put("clientId",clientId);

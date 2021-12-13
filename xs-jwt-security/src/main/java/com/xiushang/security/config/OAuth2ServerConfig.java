@@ -7,6 +7,7 @@ import com.xiushang.security.granter.*;
 import com.xiushang.security.hadler.*;
 import com.xiushang.security.token.CustomTokenEnhancer;
 import com.xiushang.security.token.CustomTokenExtractor;
+import com.xiushang.security.token.CustomUserAuthenticationConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -187,11 +188,13 @@ public class OAuth2ServerConfig {
                     requestFactory));
             // 添加刷新令牌的模式
             tokenGranters.add(new RefreshTokenGranter(tokenServices, clientDetails, requestFactory));
-            // 添加隐式授权模式
-            ImplicitTokenGranter implicit = new ImplicitTokenGranter(tokenServices, clientDetails, requestFactory);
+            // 添加隐式授权模式 ImplicitTokenGranter
+            CustomImplicitTokenGranter implicit = new CustomImplicitTokenGranter(tokenServices, clientDetails, requestFactory);
             tokenGranters.add(implicit);
-            // 添加客户端模式 使用自定义客户端模式
-            //tokenGranters.add(new ClientCredentialsTokenGranter(tokenServices, clientDetails, requestFactory));
+            // 添加客户端模式 使用自定义客户端模式  ClientCredentialsTokenGranter
+            tokenGranters.add(new CustomClientCredentialsTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
+                    endpoints.getOAuth2RequestFactory(), authenticationManager
+            ));
             if (authenticationManager != null) {
                 // 添加密码模式
                 tokenGranters.add(new ResourceOwnerPasswordTokenGranter(authenticationManager, tokenServices,
@@ -210,10 +213,6 @@ public class OAuth2ServerConfig {
             // 获取原有默认授权模式(授权码模式、密码模式、客户端模式、简化模式)的授权者
             List<TokenGranter> granterList = getDefaultTokenGranters(endpoints);
 
-            // 添加自定义客户端模式授权者
-            granterList.add(new ClientTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
-                    endpoints.getOAuth2RequestFactory(), authenticationManager
-            ));
             // 添加验证码授权模式授权者
             granterList.add(new CaptchaTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
                     endpoints.getOAuth2RequestFactory(), authenticationManager, stringRedisTemplate
@@ -269,11 +268,12 @@ public class OAuth2ServerConfig {
         @Bean
         public JwtAccessTokenConverter jwtAccessTokenConverter(){
 
-            DefaultUserAuthenticationConverter defaultUserAuthenticationConverter = new DefaultUserAuthenticationConverter();
-            defaultUserAuthenticationConverter.setUserDetailsService(userDetailsService);
+            //自定义用户转换器
+            CustomUserAuthenticationConverter customUserAuthenticationConverter = new CustomUserAuthenticationConverter();
+            customUserAuthenticationConverter.setUserDetailsService(userDetailsService);
 
             DefaultAccessTokenConverter defaultAccessTokenConverter = new DefaultAccessTokenConverter();
-            defaultAccessTokenConverter.setUserTokenConverter(defaultUserAuthenticationConverter);
+            defaultAccessTokenConverter.setUserTokenConverter(customUserAuthenticationConverter);
 
             JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
             jwtAccessTokenConverter.setAccessTokenConverter(defaultAccessTokenConverter); // IMPORTANT

@@ -56,9 +56,14 @@ public class UserNameAuthenticationProvider  extends TenantProvider implements A
         }
 
         //设置租户信息
-        Map<String, String> map = (Map<String, String>)authentication.getDetails();
-        String clientId = map.get("client_id");
-        super.settingTenantId(securityUser, clientId);
+        if(authentication instanceof  Map){
+            Map<String, String> map = (Map<String, String>)authentication.getDetails();
+            String clientId = map.get("client_id");
+            super.settingTenantId(securityUser, clientId);
+        }else {
+            //设置租户为自己
+            //securityUser.setTenantId(securityUser.getId());
+        }
 
         // [5] 成功登陆，把用户信息提交给 Spring Security
         // 把 userDetails 作为 principal 的好处是可以放自定义的 UserDetails，这样可以存储更多有用的信息，而不只是 username，
