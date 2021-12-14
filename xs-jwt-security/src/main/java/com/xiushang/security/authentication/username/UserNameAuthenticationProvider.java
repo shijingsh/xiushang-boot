@@ -56,7 +56,7 @@ public class UserNameAuthenticationProvider  extends TenantProvider implements A
         }
 
         //设置租户信息
-        if(authentication instanceof  Map){
+        if(authentication.getDetails() instanceof  Map){
             Map<String, String> map = (Map<String, String>)authentication.getDetails();
             String clientId = map.get("client_id");
             super.settingTenantId(securityUser, clientId);
