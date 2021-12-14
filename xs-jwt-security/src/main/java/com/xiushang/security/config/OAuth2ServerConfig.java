@@ -193,7 +193,7 @@ public class OAuth2ServerConfig {
             // 添加刷新令牌的模式
             tokenGranters.add(new RefreshTokenGranter(tokenServices, clientDetails, requestFactory));
             // 添加自定义隐式授权模式 参考ImplicitTokenGranter
-            CustomImplicitTokenGranter implicit = new CustomImplicitTokenGranter(tokenServices, clientDetails, requestFactory);
+            CustomImplicitTokenGranter implicit = new CustomImplicitTokenGranter(tokenServices, clientDetails, requestFactory,userDetailsService,oauthClientDetailsDao);
             tokenGranters.add(implicit);
             // 添加客户端模式 使用自定义客户端模式 参考ClientCredentialsTokenGranter
             tokenGranters.add(new CustomClientCredentialsTokenGranter(endpoints.getTokenServices(), endpoints.getClientDetailsService(),
