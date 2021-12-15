@@ -63,7 +63,7 @@ public class UserController {
             if(StringUtils.isNotBlank(user.getEmail())){
                 userEntity.setEmail(user.getEmail());
             }
-            if(StringUtils.isNotBlank(user.getQq())){
+            /*if(StringUtils.isNotBlank(user.getQq())){
                 userEntity.setQq(user.getQq());
             }
             if(StringUtils.isNotBlank(user.getWeixin())){
@@ -74,7 +74,7 @@ public class UserController {
             }
             if(StringUtils.isNotBlank(user.getWeibo())){
                 userEntity.setWeibo(user.getWeibo());
-            }
+            }*/
             if(StringUtils.isNotBlank(user.getPosition())){
                 userEntity.setPosition(user.getPosition());
             }

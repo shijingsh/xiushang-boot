@@ -251,10 +251,13 @@ public class OAuth2ServerConfig {
 
             endpoints.tokenStore(tokenStore)
                     .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)  //oauth/token 请求支持GET POST
+                    .pathMapping("/oauth/token", "/oauth/login")
                     .authenticationManager(authenticationManager)
                     .userDetailsService(userDetailsService)
                     .authorizationCodeServices(authorizationCodeServices)
                     .setClientDetailsService(clientDetailsService)
+
+
 
 
             ;
@@ -307,8 +310,8 @@ public class OAuth2ServerConfig {
             tokenServices.setSupportRefreshToken(true);
             tokenServices.setClientDetailsService(clientDetailsService);
             tokenServices.setTokenEnhancer(tokenEnhancerChain);
-            // tokenServices.setAccessTokenValiditySeconds(60 * 3);   //token有效期自定义设置，默认12小时
-            // tokenServices.setRefreshTokenValiditySeconds(60 * 60);  //默认30天，这里修改
+            // tokenServices.setAccessTokenValiditySeconds(60 * 3);   ///令牌有效时间，单位秒，默认12小时
+            // tokenServices.setRefreshTokenValiditySeconds(60 * 60);  ///令牌有效时间，单位秒，默认30天，这里修改
 
             // 多用户体系下，刷新token再次认证客户端ID和 UserDetailService 的映射Map
            /* Map<String, UserDetailsService> clientUserDetailsServiceMap = new HashMap<>();

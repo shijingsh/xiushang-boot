@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
         query.from(qUserEntity);
 
         query.where(
-                qUserEntity.status.eq(StatusEnum.STATUS_VALID).and(qUserEntity.unionId.eq(unionId))
+                qUserEntity.status.eq(StatusEnum.STATUS_VALID)//.and(qUserEntity.unionId.eq(unionId))
         );
         List<UserEntity> users = query.fetch();
         if (users != null && users.size()>0) {
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
         query.from(qUserEntity);
 
         query.where(
-                qUserEntity.status.eq(StatusEnum.STATUS_VALID).and(qUserEntity.appleId.eq(appleId))
+                qUserEntity.status.eq(StatusEnum.STATUS_VALID)//.and(qUserEntity.appleId.eq(appleId))
         );
         List<UserEntity> users = query.fetch();
         if (users != null && users.size()>0) {
@@ -381,8 +381,8 @@ public class UserServiceImpl implements UserService {
         }else{
             userEntity.setLoginName(thirdUserVo.getMobile());
         }
-        userEntity.setAppleId(thirdUserVo.getAppleId());
-        userEntity.setUnionId(thirdUserVo.getUnionId());
+        //userEntity.setAppleId(thirdUserVo.getAppleId());
+        //userEntity.setUnionId(thirdUserVo.getUnionId());
         if(StringUtils.isNotBlank(thirdUserVo.getUserName())){
             userEntity.setName(thirdUserVo.getUserName());
         }else{
@@ -391,7 +391,7 @@ public class UserServiceImpl implements UserService {
 
         userEntity.setHeadPortrait(thirdUserVo.getUserAvatar());
         userEntity.setPassword(MD5.GetMD5Code(Constants.DEFAULT_PASSWORD));
-        userEntity.setAccessToken(thirdUserVo.getAccessToken());
+        //userEntity.setAccessToken(thirdUserVo.getAccessToken());
         if(StringUtils.isNotBlank(thirdUserVo.getMobile())){
             userEntity.setMobile(thirdUserVo.getMobile());
         }
@@ -412,7 +412,7 @@ public class UserServiceImpl implements UserService {
         if(StringUtils.isNotBlank(thirdUserVo.getLoginName())){
             userEntity.setLoginName(thirdUserVo.getLoginName());
         }
-
+/*
         if(StringUtils.isNotBlank(thirdUserVo.getAppleId())){
             userEntity.setAppleId(thirdUserVo.getAppleId());
         }
@@ -421,7 +421,7 @@ public class UserServiceImpl implements UserService {
         }
         if(StringUtils.isNotBlank(thirdUserVo.getOpenId())){
             userEntity.setOpenId(thirdUserVo.getOpenId());
-        }
+        }*/
         if(StringUtils.isNotBlank(thirdUserVo.getUserName())){
             userEntity.setName(thirdUserVo.getUserName());
         }
@@ -432,7 +432,7 @@ public class UserServiceImpl implements UserService {
             userEntity.setPassword(MD5.GetMD5Code(Constants.DEFAULT_PASSWORD));
         }
 
-        userEntity.setAccessToken(thirdUserVo.getAccessToken());
+        //userEntity.setAccessToken(thirdUserVo.getAccessToken());
         if(StringUtils.isNotBlank(thirdUserVo.getMobile())){
             userEntity.setMobile(thirdUserVo.getMobile());
         }

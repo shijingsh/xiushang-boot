@@ -18,7 +18,6 @@ import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.log.SecurityConstants;
-import com.xiushang.framework.model.AuthorizationVo;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import com.xiushang.framework.utils.StatusEnum;
 import com.xiushang.framework.utils.WebUtil;
@@ -96,8 +95,8 @@ public class LoginController {
         }
 
         if(user!=null){
-            user.setLastLoginPlatform(loginVo.getLastLoginPlatform());
-            user.setClientId(loginVo.getClientId());
+            user.setLastLoginPlatform(loginVo.getClientId());
+            //user.setClientId(loginVo.getClientId());
             userService.updateUserLastLoginDate(user);
         }
 
@@ -169,7 +168,6 @@ public class LoginController {
         }
         if(userEntity!=null){
             userEntity.setLastLoginPlatform(thirdUserVo.getLastLoginPlatform());
-            userEntity.setClientId(thirdUserVo.getClientId());
             userService.updateUserLastLoginDate(userEntity);
         }
 
@@ -307,7 +305,6 @@ public class LoginController {
                 }
                 if(userEntity!=null){
                     userEntity.setLastLoginPlatform(loginVo.getLastLoginPlatform());
-                    userEntity.setClientId(loginVo.getClientId());
                     userService.updateUserLastLoginDate(userEntity);
                 }
 
@@ -394,9 +391,9 @@ public class LoginController {
         if (StringUtils.isBlank(userEntity.getMobile())) {
             return CommonResult.error(100001, "手机号码不能为空。");
         }
-        if (StringUtils.isBlank(userEntity.getVerifyCode())) {
+        /*if (StringUtils.isBlank(userEntity.getVerifyCode())) {
             return CommonResult.error(100002, "验证码不能为空。");
-        }
+        }*/
         UserEntity user = userService.getUser(userEntity.getLoginName());
         if (user == null) {
             return CommonResult.error(100003, "用户尚未注册");
@@ -405,7 +402,7 @@ public class LoginController {
         if (userMobile != null) {
             return CommonResult.error(100003, "手机号码已被其他用户占用，请更换");
         }
-        String code = userEntity.getVerifyCode();
+        String code = "";//userEntity.getVerifyCode();
         if(smsService.validateCode(userEntity.getMobile(),code)){
             user.setMobile(userEntity.getMobile());
             if(StringUtils.isBlank(user.getLoginName())){
@@ -432,7 +429,7 @@ public class LoginController {
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.SIGNING_KEY) //采用什么算法是可以自己选择的，不一定非要采用HS512
                 .compact();
 
-        userEntity.setAuthorization(new AuthorizationVo(token, SecurityConstants.TOKEN_PREFIX));
+        //userEntity.setAuthorization(new AuthorizationVo(token, SecurityConstants.TOKEN_PREFIX));
 
         return userEntity;
     }
