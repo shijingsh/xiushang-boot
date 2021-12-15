@@ -1,6 +1,6 @@
 package com.xiushang.security.authentication;
 
-import com.xiushang.entity.OauthClientDetailsEntity;
+import com.xiushang.entity.oauth.OauthClientDetailsEntity;
 import com.xiushang.jpa.repository.OauthClientDetailsDao;
 import com.xiushang.security.SecurityUser;
 import com.xiushang.service.impl.UserDetailsServiceImpl;

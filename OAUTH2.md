@@ -39,7 +39,7 @@ TokenEndpoint   /oauth/token
 
 #### 核心过滤器
 - BasicAuthenticationFilter
-- AbstractAuthenticationProcessingFilter
+- AbstractAuthenticationProcessingFilter   过滤器验证path是否是/oauth/token 的认证的请求
 - 核心过滤器 OAuth2AuthenticationProcessingFilter（掌握）
 - ResourceServerSecurityConfigurer（了解）
 - OAuth2的身份管理器–OAuth2AuthenticationManager（掌握）

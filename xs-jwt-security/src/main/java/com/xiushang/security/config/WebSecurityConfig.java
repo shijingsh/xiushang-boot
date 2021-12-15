@@ -190,7 +190,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/authentication/logout").permitAll()
                 .anyRequest()
                 .authenticated()
-                .withObjectPostProcessor(urlObjectPostProcessor())
+                //.withObjectPostProcessor(urlObjectPostProcessor())
             .and()
                 .formLogin()
                 .loginPage("/authentication/require")

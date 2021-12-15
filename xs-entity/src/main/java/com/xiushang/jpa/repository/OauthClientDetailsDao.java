@@ -1,6 +1,6 @@
 package com.xiushang.jpa.repository;
 
-import com.xiushang.entity.OauthClientDetailsEntity;
+import com.xiushang.entity.oauth.OauthClientDetailsEntity;
 import org.springframework.stereotype.Repository;
 
 @Repository

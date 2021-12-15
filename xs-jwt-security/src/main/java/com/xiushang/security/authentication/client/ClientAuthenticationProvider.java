@@ -1,6 +1,6 @@
 package com.xiushang.security.authentication.client;
 
-import com.xiushang.entity.OauthClientDetailsEntity;
+import com.xiushang.entity.oauth.OauthClientDetailsEntity;
 import com.xiushang.security.SecurityUser;
 import com.xiushang.security.authentication.TenantProvider;
 import com.xiushang.service.impl.UserDetailsServiceImpl;

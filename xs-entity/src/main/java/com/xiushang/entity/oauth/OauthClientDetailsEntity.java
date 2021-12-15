@@ -1,5 +1,6 @@
-package com.xiushang.entity;
+package com.xiushang.entity.oauth;
 
+import com.xiushang.util.ClientTypeEnum;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -31,13 +32,18 @@ public class OauthClientDetailsEntity implements java.io.Serializable{
 
     private String clientId;
 
+    private String clientName;
+
     private String clientSecret;
 
-    private String scope;
+    @Enumerated(EnumType.STRING)
+    private ClientTypeEnum clientType = ClientTypeEnum.CLIENT_TYPE_WX_MINI_APP;
 
-    private String authorizedGrantTypes;
+    private String scope = "all";
 
-    private String webServerRedirectUri;
+    private String authorizedGrantTypes = "authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat";
+
+    private String webServerRedirectUri = "https://www.xiushangsh.com";
 
     private String authorities;
 
@@ -48,7 +54,7 @@ public class OauthClientDetailsEntity implements java.io.Serializable{
     @Column(length = 1000)
     private String additionalInformation;
 
-    private String autoapprove;
+    private String autoapprove = "false";
 
     private Date createTime;
 
@@ -146,6 +152,22 @@ public class OauthClientDetailsEntity implements java.io.Serializable{
 
     public void setAdditionalInformation(String additionalInformation) {
         this.additionalInformation = additionalInformation;
+    }
+
+    public String getClientName() {
+        return clientName;
+    }
+
+    public void setClientName(String clientName) {
+        this.clientName = clientName;
+    }
+
+    public ClientTypeEnum getClientType() {
+        return clientType;
+    }
+
+    public void setClientType(ClientTypeEnum clientType) {
+        this.clientType = clientType;
     }
 
     public String getAutoapprove() {

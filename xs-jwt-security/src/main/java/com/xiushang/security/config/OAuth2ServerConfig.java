@@ -251,7 +251,7 @@ public class OAuth2ServerConfig {
 
             endpoints.tokenStore(tokenStore)
                     .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)  //oauth/token 请求支持GET POST
-                    .pathMapping("/oauth/token", "/oauth/login")
+                    //.pathMapping("/oauth/token", "/oauth/login")  //自定义授权请求路径
                     .authenticationManager(authenticationManager)
                     .userDetailsService(userDetailsService)
                     .authorizationCodeServices(authorizationCodeServices)
