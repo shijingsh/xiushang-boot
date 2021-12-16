@@ -2,7 +2,7 @@ package com.xiushang.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.xiushang.framework.utils.StatusEnum;
+import com.xiushang.framework.utils.DeleteEnum;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
@@ -44,11 +44,7 @@ public class UserEntity extends ExpandEntity {
     /**职位 */
     @ApiModelProperty(notes = "职位")
     private String position;
-    /**
-     * 状态
-     */
-    @ApiModelProperty(notes = "状态 （0 无效  1 有效）")
-    private int status = StatusEnum.STATUS_VALID;
+
     /**
      * 最后登录时间
      */
@@ -114,14 +110,6 @@ public class UserEntity extends ExpandEntity {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
     }
 
     public String getEmail() {

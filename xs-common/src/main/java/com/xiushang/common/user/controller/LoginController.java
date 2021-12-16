@@ -19,7 +19,7 @@ import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.framework.sys.PropertyConfigurer;
-import com.xiushang.framework.utils.StatusEnum;
+import com.xiushang.framework.utils.DeleteEnum;
 import com.xiushang.framework.utils.WebUtil;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -84,9 +84,9 @@ public class LoginController {
             if(!user.getPassword().equals(MD5.GetMD5Code(loginVo.getPassword()))){
                 return CommonResult.error(100001, "用户名或密码错误！");
             }
-            if(user.getStatus()!= StatusEnum.STATUS_VALID){
+            /*if(user.getStatus()!= DeleteEnum.VALID){
                 return CommonResult.error(100001, "用户已冻结！");
-            }
+            }*/
 
             user = this.createToken(user);
         } catch (Exception e) {

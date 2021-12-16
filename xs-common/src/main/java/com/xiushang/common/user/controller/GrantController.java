@@ -34,6 +34,7 @@ public class GrantController {
     @Autowired
    private OauthClientDetailsService oauthClientDetailsService;
 
+
     private RequestCache requestCache = new HttpSessionRequestCache();
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 

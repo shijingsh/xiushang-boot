@@ -10,7 +10,7 @@ import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.Constants;
 import com.xiushang.framework.log.SecurityConstants;
-import com.xiushang.framework.utils.StatusEnum;
+import com.xiushang.framework.utils.DeleteEnum;
 import com.xiushang.framework.utils.UserHolder;
 import com.xiushang.jpa.repository.UserDao;
 import io.jsonwebtoken.Claims;
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
         QUserEntity qUserEntity = QUserEntity.userEntity;
         query.from(qUserEntity);
 
-        query.where(qUserEntity.status.eq(StatusEnum.STATUS_VALID).and(qUserEntity.loginName.eq(mobile).or(qUserEntity.mobile.eq(mobile))));
+        query.where(qUserEntity.deleted.eq(DeleteEnum.VALID).and(qUserEntity.loginName.eq(mobile).or(qUserEntity.mobile.eq(mobile))));
         List<UserEntity> users = query.fetch();
         if (users != null && users.size()>0) {
             return users.get(0);
@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
         query.from(qUserEntity);
 
         query.where(
-                qUserEntity.status.eq(StatusEnum.STATUS_VALID)//.and(qUserEntity.unionId.eq(unionId))
+                qUserEntity.deleted.eq(DeleteEnum.VALID)//.and(qUserEntity.unionId.eq(unionId))
         );
         List<UserEntity> users = query.fetch();
         if (users != null && users.size()>0) {
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
         query.from(qUserEntity);
 
         query.where(
-                qUserEntity.status.eq(StatusEnum.STATUS_VALID)//.and(qUserEntity.appleId.eq(appleId))
+                qUserEntity.deleted.eq(DeleteEnum.VALID)//.and(qUserEntity.appleId.eq(appleId))
         );
         List<UserEntity> users = query.fetch();
         if (users != null && users.size()>0) {
@@ -109,7 +109,7 @@ public class UserServiceImpl implements UserService {
         query.from(qUserEntity);
 
         query.where(
-                qUserEntity.loginName.eq(loginName).and(qUserEntity.status.eq(StatusEnum.STATUS_VALID)).and(qUserEntity.password.eq(password))
+                qUserEntity.loginName.eq(loginName).and(qUserEntity.deleted.eq(DeleteEnum.VALID)).and(qUserEntity.password.eq(password))
         );
         List<UserEntity> users = query.fetch();
 
@@ -141,7 +141,7 @@ public class UserServiceImpl implements UserService {
         JSONObject paramObject = (JSONObject)pageTableVO.getExtendData();
         UserEntity userEntity = JSONObject.toJavaObject(paramObject, UserEntity.class);
 
-        BooleanExpression ex = entity.status.eq(StatusEnum.STATUS_VALID);
+        BooleanExpression ex = entity.deleted.eq(DeleteEnum.VALID);
         if(userEntity!= null){
             if(StringUtils.isNotBlank(userEntity.getLoginName())){
                 ex = ex.and(entity.loginName.like("%" + userEntity.getLoginName() + "%"));
@@ -169,7 +169,7 @@ public class UserServiceImpl implements UserService {
         JSONObject paramObject = (JSONObject)pageTableVO.getExtendData();
         UserEntity userEntity = JSONObject.toJavaObject(paramObject,UserEntity.class);
 
-        BooleanExpression ex = entity.status.eq(StatusEnum.STATUS_VALID);
+        BooleanExpression ex = entity.deleted.eq(DeleteEnum.VALID);
         if(userEntity!= null){
             if(StringUtils.isNotBlank(userEntity.getLoginName())){
                 ex = ex.and(entity.loginName.like("%" + userEntity.getLoginName() + "%"));
@@ -218,7 +218,7 @@ public class UserServiceImpl implements UserService {
         JPAQuery query = new JPAQuery(entityManager);
         query.from(user)
                 .where(
-                        user.name.in(userNames).and(user.status.eq(StatusEnum.STATUS_VALID))
+                        user.name.in(userNames).and(user.deleted.eq(DeleteEnum.VALID))
                 );
         return query.fetch();
 
@@ -287,7 +287,7 @@ public class UserServiceImpl implements UserService {
         query.from(qUserEntity);
         if(StringUtils.isNotBlank(name)){
             query.where(
-                    qUserEntity.name.like("%" + name + "%").and(qUserEntity.status.eq(StatusEnum.STATUS_VALID))
+                    qUserEntity.name.like("%" + name + "%").and(qUserEntity.deleted.eq(DeleteEnum.VALID))
             );
         }
         return query.fetch();
@@ -299,7 +299,7 @@ public class UserServiceImpl implements UserService {
 
         query.from(qUserEntity);
         query.where(
-                qUserEntity.loginName.in(userNames).and(qUserEntity.status.eq(StatusEnum.STATUS_VALID))
+                qUserEntity.loginName.in(userNames).and(qUserEntity.deleted.eq(DeleteEnum.VALID))
         );
         return query.fetch();
     }

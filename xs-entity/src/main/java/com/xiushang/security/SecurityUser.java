@@ -47,7 +47,7 @@ public class SecurityUser extends UserEntity implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return !getDeleted();
+        return getDeleted()==0;
     }
 
     public String getTenantId() {

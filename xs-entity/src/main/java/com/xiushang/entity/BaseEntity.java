@@ -2,6 +2,8 @@ package com.xiushang.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.xiushang.framework.entity.model.EntityListener;
+import com.xiushang.framework.utils.DeleteEnum;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.collection.spi.PersistentCollection;
@@ -67,12 +69,8 @@ public abstract class BaseEntity implements java.io.Serializable{
     @Column(name = "updated_date")
     protected Date updatedDate;
 
-    /**
-     * 是否已删除
-     */
-    @Column(name = "is_deleted")
-    @JSONField(serialize = false, deserialize = false)
-    private Boolean isDeleted = false;
+    @ApiModelProperty(notes = "是否已删除 （0 未删除  1 已删除）")
+    private Integer deleted = DeleteEnum.VALID;
 
     public String getId() {
         return id;
@@ -123,15 +121,15 @@ public abstract class BaseEntity implements java.io.Serializable{
         this.updatedDate = updatedDate;
     }
 
-    public Boolean getDeleted() {
-        if(isDeleted==null){
-            return false;
+    public Integer getDeleted() {
+        if(deleted==null){
+            return 0;
         }
-        return isDeleted;
+        return deleted;
     }
 
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
+    public void setDeleted(Integer deleted) {
+        this.deleted = deleted;
     }
 
     @Override

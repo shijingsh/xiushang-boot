@@ -96,9 +96,6 @@ jwt:
       - /favicon.ico
       - /favicon.png
       - /captcha.jpg
-      - /api/user/login
-      - /api/user/logout
-      - /api/user/captcha
       - /authentication/**
       - /oauthLogin
       #- static
