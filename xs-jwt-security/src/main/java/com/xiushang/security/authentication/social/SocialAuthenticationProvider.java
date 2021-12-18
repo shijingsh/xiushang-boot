@@ -103,7 +103,15 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         this.userSocialDao = userSocialDao;
     }
 
-    private void saveSocialInfo(UserSocialEntity socialEntity,UserEntity userEntity,SocialLoginVo loginVo){
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    private void saveSocialInfo(UserSocialEntity socialEntity, UserEntity userEntity, SocialLoginVo loginVo){
 
         socialEntity.setUserId(userEntity.getId());
         socialEntity.setClientId(loginVo.getClientId());

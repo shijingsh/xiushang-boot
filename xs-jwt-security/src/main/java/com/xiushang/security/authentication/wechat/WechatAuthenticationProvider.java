@@ -193,4 +193,36 @@ public class WechatAuthenticationProvider extends TenantProvider implements Auth
         socialEntity.setGender(wxLoginVo.getGender());
         socialEntity.setNickName(wxLoginVo.getNickName());
     }
+
+    public SystemParamService getSystemParamService() {
+        return systemParamService;
+    }
+
+    public void setSystemParamService(SystemParamService systemParamService) {
+        this.systemParamService = systemParamService;
+    }
+
+    public ShopDao getShopDao() {
+        return shopDao;
+    }
+
+    public void setShopDao(ShopDao shopDao) {
+        this.shopDao = shopDao;
+    }
+
+    public UserSocialDao getUserSocialDao() {
+        return userSocialDao;
+    }
+
+    public void setUserSocialDao(UserSocialDao userSocialDao) {
+        this.userSocialDao = userSocialDao;
+    }
+
+    public UserService getUserService() {
+        return userService;
+    }
+
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
 }

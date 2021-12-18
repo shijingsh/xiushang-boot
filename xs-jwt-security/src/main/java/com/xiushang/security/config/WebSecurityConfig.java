@@ -1,8 +1,11 @@
 package com.xiushang.security.config;
 
 import com.xiushang.common.components.SmsService;
+import com.xiushang.common.user.service.SystemParamService;
+import com.xiushang.common.user.service.UserService;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
 import com.xiushang.jpa.repository.OauthClientDetailsDao;
+import com.xiushang.jpa.repository.ShopDao;
 import com.xiushang.jpa.repository.UserSocialDao;
 import com.xiushang.security.authentication.client.ClientAuthenticationProvider;
 import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationProvider;
@@ -57,6 +60,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private SmsService smsService;
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private JWTIgnoreUrlsConfig ignoreUrlsConfig;
@@ -64,6 +69,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserSocialDao userSocialDao;
     @Autowired
     private OauthClientDetailsDao oauthClientDetailsDao;
+    @Autowired
+    private SystemParamService systemParamService;
+    @Autowired
+    private ShopDao shopDao;
     /**
      * 访问静态资源
      */
@@ -124,6 +133,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(userDetailsService);
         provider.setOauthClientDetailsDao(oauthClientDetailsDao);
         provider.setUserSocialDao(userSocialDao);
+        provider.setUserService(userService);
         return provider;
     }
 
@@ -151,6 +161,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         WechatAuthenticationProvider provider = new WechatAuthenticationProvider();
         provider.setUserDetailsService(userDetailsService);
         provider.setOauthClientDetailsDao(oauthClientDetailsDao);
+        provider.setUserService(userService);
+        provider.setShopDao(shopDao);
+        provider.setSystemParamService(systemParamService);
 
         return provider;
     }
