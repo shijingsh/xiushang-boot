@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 
 @Api(tags = "用户管理")
-@ApiSort(value = 1)
+@ApiSort(value = 2)
 @Controller
 @RequestMapping(value = "/api/user",
         produces = "application/json; charset=UTF-8")

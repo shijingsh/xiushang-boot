@@ -2,6 +2,7 @@ package com.xiushang.admin.news.controller;
 
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.config.ApiVersion;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.entity.news.NewsEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 
@@ -62,10 +63,9 @@ public class NewsController {
     @ApiOperation(value = "删除公告")
     @ResponseBody
     @PostMapping("/{version}/delete")
-    public CommonResult<NewsEntity> delete(HttpServletRequest req) {
-        NewsEntity entity = WebUtil.getRequstBody(req,NewsEntity.class);
-        newsService.deleteNews(entity);
-        return CommonResult.success(entity);
+    public CommonResult<NewsEntity> delete(String id) {
+        newsService.delete(id);
+        return CommonResult.success();
     }
 
     /**
@@ -77,18 +77,23 @@ public class NewsController {
     @PostMapping("/{version}/post")
     public CommonResult<NewsEntity> post(@RequestBody NewsEntity entity) {
 
-        NewsEntity newsEntity = newsService.saveNews(entity);
-        return CommonResult.success(newsEntity);
+        UserEntity userEntity = userService.getCurrentUser();
+        if(userEntity!=null){
+            entity.setUserId(userEntity.getId());
+            NewsEntity newsEntity = newsService.saveNews(entity);
+            return CommonResult.success(newsEntity);
+        }
+
+        return CommonResult.success();
     }
     /**
      * 分页列表
-     * @param req   请求
      * @return          PageTableVO
      */
     @ApiOperation(value = "获取公告列表")
     @ResponseBody
     @PostMapping("/{version}/listPage")
-    public CommonResult<PageTableVO<NewsEntity>> listPage(HttpServletRequest req) {
+    public CommonResult<PageTableVO<NewsEntity>> listPage() {
 
         PageTableVO vo = newsService.findPageList();
 

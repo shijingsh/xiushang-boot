@@ -1,5 +1,6 @@
 package com.xiushang.common.user.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.framework.log.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -19,6 +20,7 @@ import java.security.Principal;
 import java.util.Map;
 
 @Api(tags = "认证中心")
+@ApiSort(value = 1)
 @RestController
 @RequestMapping(value = "/oauth",
         produces = "application/json; charset=UTF-8")

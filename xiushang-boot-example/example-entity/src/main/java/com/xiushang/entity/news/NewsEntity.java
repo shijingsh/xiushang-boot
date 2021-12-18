@@ -2,6 +2,8 @@ package com.xiushang.entity.news;
 
 
 import com.xiushang.entity.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,11 +21,13 @@ public class NewsEntity extends BaseEntity {
 
     @Lob
     @Basic(fetch = FetchType.EAGER)
+    @ApiModelProperty(notes = "公告内容",required = true)
     private String content;
 
     /**
      * 有效期
      */
+    @ApiModelProperty(notes = "有效期",required = true)
     private Date validDate;
 
     private Integer status = 1;

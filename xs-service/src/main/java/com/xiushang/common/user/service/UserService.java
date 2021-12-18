@@ -106,5 +106,5 @@ public interface UserService {
      */
     public List<UserEntity> getUsersByIds(List<String> userIds);
 
-    UserEntity getCurrentUser();
+    public UserEntity getCurrentUser();
 }
