@@ -1,7 +1,7 @@
 package com.xiushang.security.authentication.wechat;
 
+import com.xiushang.common.user.vo.WxLoginVo;
 import com.xiushang.security.authentication.BaseAuthenticationToken;
-import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.util.Assert;
 
@@ -11,20 +11,16 @@ import java.util.Collection;
 public class WechatAuthenticationToken extends BaseAuthenticationToken {
     private static final long serialVersionUID = 550L;
     private final Object principal;
-    @Getter
-    private String encryptedData;
-    @Getter
-    private String iv;
+
+    private WxLoginVo wxLoginVo;
     /**
-     * 账号校验之前的token构建
-     *
-     * @param principal
+     * 微信小程序登录
      */
-    public WechatAuthenticationToken(String clientId,Object principal, String encryptedData,String iv) {
-        super(null,clientId);
-        this.principal = principal;
-        this.encryptedData = encryptedData;
-        this.iv=iv;
+    public WechatAuthenticationToken(WxLoginVo wxLoginVo) {
+        super(null,wxLoginVo.getClientId());
+        this.principal = wxLoginVo.getCode();
+        this.wxLoginVo = wxLoginVo;
+
         setAuthenticated(false);
     }
 
@@ -57,5 +53,13 @@ public class WechatAuthenticationToken extends BaseAuthenticationToken {
 
     public void eraseCredentials() {
         super.eraseCredentials();
+    }
+
+    public WxLoginVo getWxLoginVo() {
+        return wxLoginVo;
+    }
+
+    public void setWxLoginVo(WxLoginVo wxLoginVo) {
+        this.wxLoginVo = wxLoginVo;
     }
 }

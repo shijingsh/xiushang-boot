@@ -187,8 +187,8 @@ public class LoginController {
         System.out.println("weixinLogin登录中：");
         System.out.println(JsonUtils.toJsonStr(loginVo));
         String code = loginVo.getCode();
-        String userToken = loginVo.getUserToken();
-        String shopId = loginVo.getShopId();
+        String userToken = "";//loginVo.getUserToken();
+        String shopId = "";// loginVo.getShopId();
         String nickName = loginVo.getNickName();
         String avatarUrl = loginVo.getAvatarUrl();
         String gender = loginVo.getGender();
@@ -304,7 +304,7 @@ public class LoginController {
                     return CommonResult.error(100000, e.getMessage());
                 }
                 if(userEntity!=null){
-                    userEntity.setLastLoginPlatform(loginVo.getLastLoginPlatform());
+                    //userEntity.setLastLoginPlatform(loginVo.getLastLoginPlatform());
                     userService.updateUserLastLoginDate(userEntity);
                 }
 

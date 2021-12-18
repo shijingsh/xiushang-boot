@@ -1,5 +1,6 @@
 package com.xiushang.security.granter;
 
+import com.xiushang.common.user.vo.WxLoginVo;
 import com.xiushang.security.authentication.wechat.WechatAuthenticationToken;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -31,16 +32,35 @@ public class WechatTokenGranter extends AbstractTokenGranter {
 
         Map<String, String> parameters = new LinkedHashMap(tokenRequest.getRequestParameters());
         String code = parameters.get("code");
+
+        String clientId = parameters.get("client_id");
+        String nickName = parameters.get("nickName");
+        String avatarUrl = parameters.get("avatarUrl");
+        String gender = parameters.get("gender");
+        String email = parameters.get("email");
         String encryptedData = parameters.get("encryptedData");
         String iv = parameters.get("iv");
-        String clientId = parameters.get("client_id");
+
+        WxLoginVo wxLoginVo = new WxLoginVo();
+        wxLoginVo.setCode(code);
+        wxLoginVo.setAvatarUrl(avatarUrl);
+        wxLoginVo.setClientId(clientId);
+        wxLoginVo.setNickName(nickName);
+        wxLoginVo.setGender(gender);
+        wxLoginVo.setEmail(email);
+        wxLoginVo.setIv(iv);
+        wxLoginVo.setEncryptedData(encryptedData);
 
         // 过河拆桥，移除后续无用参数
         parameters.remove("code");
         parameters.remove("encryptedData");
         parameters.remove("iv");
+        parameters.remove("nickName");
+        parameters.remove("avatarUrl");
+        parameters.remove("gender");
+        parameters.remove("email");
 
-        Authentication userAuth = new WechatAuthenticationToken(clientId,code, encryptedData,iv); // 未认证状态
+        Authentication userAuth = new WechatAuthenticationToken(wxLoginVo); // 未认证状态
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 
         try {

@@ -2,6 +2,8 @@ package com.xiushang.service.impl;
 
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.entity.UserEntity;
+import com.xiushang.entity.oauth.OauthClientDetailsEntity;
+import com.xiushang.jpa.repository.OauthClientDetailsDao;
 import com.xiushang.jpa.repository.UserDao;
 import com.xiushang.security.SecurityUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private OauthClientDetailsDao oauthClientDetailsDao;
 
     @Autowired
     private UserService userService;
@@ -44,10 +48,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         return new SecurityUser(user);
     }
 
-    public UserDetails loadUserByOpenId(String openId) {
-        UserEntity user = userService.getUserByUnionId(openId);
+
+    public UserDetails loadUserByClientId(String clientId) {
+        OauthClientDetailsEntity clientDetailsEntity = oauthClientDetailsDao.findByClientId(clientId);
+        UserEntity user = userService.getUserById(clientDetailsEntity.getUserId());
         if(user == null){
-           return null;
+            return null;
+        }
+
+        return new SecurityUser(user);
+    }
+
+
+    public UserDetails loadUserByMobile(String mobile) {
+        UserEntity user = userService.getUser(mobile);
+        if(user == null){
+            return null;
         }
 
         return new SecurityUser(user);

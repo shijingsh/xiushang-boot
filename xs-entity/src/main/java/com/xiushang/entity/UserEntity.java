@@ -52,6 +52,7 @@ public class UserEntity extends ExpandEntity {
     protected Date lastLoginDate;
     /**
      * 最后登录平台
+     * 客户端ID
      */
     @ApiModelProperty(notes = "最后登录平台")
     private String lastLoginPlatform;

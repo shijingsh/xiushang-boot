@@ -26,6 +26,12 @@ public class UserSocialEntity extends BaseEntity {
     private String userId;
 
     /**
+     * 用户ID
+     */
+    @ApiModelProperty(notes = "客户端ID")
+    @ApiParam("clientId")
+    private String clientId;
+    /**
      * 社交账号类型
      * socialType
      */
@@ -41,12 +47,29 @@ public class UserSocialEntity extends BaseEntity {
     @ApiParam("socialId")
     private String socialId;
 
+    @ApiModelProperty(notes = "昵称")
+    private String nickName;
+    @ApiModelProperty(notes = "头像")
+    private String avatarUrl;
+    @ApiModelProperty(notes = "性别")
+    private String gender;
+    @ApiModelProperty(notes = "email")
+    private String email;
+
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
     public SocialTypeEnum getSocialType() {
@@ -63,5 +86,37 @@ public class UserSocialEntity extends BaseEntity {
 
     public void setSocialId(String socialId) {
         this.socialId = socialId;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

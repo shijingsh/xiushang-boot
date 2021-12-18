@@ -2,7 +2,7 @@ package com.xiushang.common.user.vo;
 
 import io.swagger.annotations.ApiModelProperty;
 
-public class WxLoginVo implements java.io.Serializable{
+public class SocialLoginVo implements java.io.Serializable{
 
     @ApiModelProperty(notes = "clientId")
     private String clientId;
