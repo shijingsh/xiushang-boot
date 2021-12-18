@@ -14,11 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-import static java.util.Collections.emptyList;
 
-/**
- * @author zhaoxinguo on 2017/9/13.
- */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 

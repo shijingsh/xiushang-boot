@@ -1,6 +1,5 @@
 package com.xiushang.common.user.service;
 
-import com.xiushang.common.user.vo.ThirdUserVo;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 
@@ -40,11 +39,7 @@ public interface UserService {
      */
     UserEntity getUser(String loginName);
 
-    UserEntity getUserByMobile(String mobile);
 
-    UserEntity getUserByUnionId(String unionId);
-
-    UserEntity getUserByAppleId(String appleId);
     /**
      * 根据用户主键获取用户对象
      * @param id 用户ID
@@ -111,10 +106,4 @@ public interface UserService {
     public List<UserEntity> getUsersByIds(List<String> userIds);
 
     UserEntity getCurrentUser();
-
-    UserEntity getThirdUser(ThirdUserVo thirdUserVo);
-
-    UserEntity saveThirdUser(ThirdUserVo thirdUserVo);
-
-    UserEntity saveThirdUser(ThirdUserVo thirdUserVo, UserEntity userEntity);
 }

@@ -3,7 +3,6 @@ package com.xiushang.common.user.service;
 import com.alibaba.fastjson.JSONObject;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
-import com.xiushang.common.user.vo.ThirdUserVo;
 import com.xiushang.common.utils.MD5;
 import com.xiushang.entity.QUserEntity;
 import com.xiushang.entity.UserEntity;
@@ -61,40 +60,6 @@ public class UserServiceImpl implements UserService {
         query.from(qUserEntity);
 
         query.where(qUserEntity.deleted.eq(DeleteEnum.VALID).and(qUserEntity.loginName.eq(mobile).or(qUserEntity.mobile.eq(mobile))));
-        List<UserEntity> users = query.fetch();
-        if (users != null && users.size()>0) {
-            return users.get(0);
-        }
-        return null;
-    }
-
-
-    public UserEntity getUserByUnionId(String unionId) {
-
-        JPAQuery query = getQuery();
-        QUserEntity qUserEntity = QUserEntity.userEntity;
-        query.from(qUserEntity);
-
-        query.where(
-                qUserEntity.deleted.eq(DeleteEnum.VALID)//.and(qUserEntity.unionId.eq(unionId))
-        );
-        List<UserEntity> users = query.fetch();
-        if (users != null && users.size()>0) {
-            return users.get(0);
-        }
-        return null;
-    }
-
-
-    public UserEntity getUserByAppleId(String appleId) {
-
-        JPAQuery query = getQuery();
-        QUserEntity qUserEntity = QUserEntity.userEntity;
-        query.from(qUserEntity);
-
-        query.where(
-                qUserEntity.deleted.eq(DeleteEnum.VALID)//.and(qUserEntity.appleId.eq(appleId))
-        );
         List<UserEntity> users = query.fetch();
         if (users != null && users.size()>0) {
             return users.get(0);
@@ -355,93 +320,4 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    public UserEntity getThirdUser(ThirdUserVo thirdUserVo) {
-        UserEntity userEntity =  null;
-        if(StringUtils.isNotBlank(thirdUserVo.getUnionId())){
-            userEntity =  getUserByUnionId(thirdUserVo.getUnionId());
-        }
-        if(StringUtils.isNotBlank(thirdUserVo.getAppleId())){
-            userEntity =  getUserByAppleId(thirdUserVo.getAppleId());
-        }
-        /*if(userEntity==null && StringUtils.isNotBlank(thirdUserVo.getLoginName())){
-            userEntity =  getUser(thirdUserVo.getLoginName());
-        }*/
-
-        return userEntity;
-    }
-
-
-    @Transactional
-    public UserEntity saveThirdUser(ThirdUserVo thirdUserVo) {
-
-        //没有这创建帐户
-        UserEntity userEntity = new UserEntity();
-        if(StringUtils.isNotBlank(thirdUserVo.getLoginName())){
-            userEntity.setLoginName(thirdUserVo.getLoginName());
-        }else{
-            userEntity.setLoginName(thirdUserVo.getMobile());
-        }
-        //userEntity.setAppleId(thirdUserVo.getAppleId());
-        //userEntity.setUnionId(thirdUserVo.getUnionId());
-        if(StringUtils.isNotBlank(thirdUserVo.getUserName())){
-            userEntity.setName(thirdUserVo.getUserName());
-        }else{
-            userEntity.setName(thirdUserVo.getMobile());
-        }
-
-        userEntity.setHeadPortrait(thirdUserVo.getUserAvatar());
-        userEntity.setPassword(MD5.GetMD5Code(Constants.DEFAULT_PASSWORD));
-        //userEntity.setAccessToken(thirdUserVo.getAccessToken());
-        if(StringUtils.isNotBlank(thirdUserVo.getMobile())){
-            userEntity.setMobile(thirdUserVo.getMobile());
-        }
-        if(StringUtils.isNotBlank(thirdUserVo.getEmail())){
-            userEntity.setEmail(thirdUserVo.getEmail());
-        }
-
-
-        userDao.save(userEntity);
-
-        return userEntity;
-    }
-
-    @Transactional
-    public UserEntity saveThirdUser(ThirdUserVo thirdUserVo,UserEntity userEntity) {
-
-        //直接关联现有帐户
-        if(StringUtils.isNotBlank(thirdUserVo.getLoginName())){
-            userEntity.setLoginName(thirdUserVo.getLoginName());
-        }
-/*
-        if(StringUtils.isNotBlank(thirdUserVo.getAppleId())){
-            userEntity.setAppleId(thirdUserVo.getAppleId());
-        }
-        if(StringUtils.isNotBlank(thirdUserVo.getUnionId())){
-            userEntity.setUnionId(thirdUserVo.getUnionId());
-        }
-        if(StringUtils.isNotBlank(thirdUserVo.getOpenId())){
-            userEntity.setOpenId(thirdUserVo.getOpenId());
-        }*/
-        if(StringUtils.isNotBlank(thirdUserVo.getUserName())){
-            userEntity.setName(thirdUserVo.getUserName());
-        }
-        if(StringUtils.isNotBlank(thirdUserVo.getUserAvatar())){
-            userEntity.setHeadPortrait(thirdUserVo.getUserAvatar());
-        }
-        if(StringUtils.isBlank(userEntity.getPassword())){
-            userEntity.setPassword(MD5.GetMD5Code(Constants.DEFAULT_PASSWORD));
-        }
-
-        //userEntity.setAccessToken(thirdUserVo.getAccessToken());
-        if(StringUtils.isNotBlank(thirdUserVo.getMobile())){
-            userEntity.setMobile(thirdUserVo.getMobile());
-        }
-        if(StringUtils.isNotBlank(thirdUserVo.getEmail())){
-            userEntity.setEmail(thirdUserVo.getEmail());
-        }
-
-        userDao.save(userEntity);
-
-        return userEntity;
-    }
 }
