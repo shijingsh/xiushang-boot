@@ -15,18 +15,7 @@ public class UserVo implements java.io.Serializable {
     /**邮箱 */
     @ApiModelProperty(notes = "邮箱")
     private String email;
-    /**QQ */
-    @ApiModelProperty(notes = "QQ")
-    private String qq;
-    /**微信 */
-    @ApiModelProperty(notes = "微信")
-    private String weixin;
-    /**支付宝 */
-    @ApiModelProperty(notes = "支付宝")
-    private String alipay;
-    /**微博 */
-    @ApiModelProperty(notes = "微博")
-    private String weibo;
+
     /**职位 */
     @ApiModelProperty(notes = "职位")
     private String position;
@@ -69,38 +58,6 @@ public class UserVo implements java.io.Serializable {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getQq() {
-        return qq;
-    }
-
-    public void setQq(String qq) {
-        this.qq = qq;
-    }
-
-    public String getWeixin() {
-        return weixin;
-    }
-
-    public void setWeixin(String weixin) {
-        this.weixin = weixin;
-    }
-
-    public String getAlipay() {
-        return alipay;
-    }
-
-    public void setAlipay(String alipay) {
-        this.alipay = alipay;
-    }
-
-    public String getWeibo() {
-        return weibo;
-    }
-
-    public void setWeibo(String weibo) {
-        this.weibo = weibo;
     }
 
     public String getPosition() {

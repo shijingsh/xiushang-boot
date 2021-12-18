@@ -1,5 +1,6 @@
 package com.xiushang.common.user.service;
 
+import com.xiushang.common.user.vo.UserSearchVo;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 
@@ -79,10 +80,10 @@ public interface UserService {
     public void delete(String userId);
     /**
      * 分页查询用户登录帐号
-     * @param pageTableVO
+     * @param searchVo
      * @return
      */
-    public PageTableVO findPageList(PageTableVO pageTableVO);
+    public PageTableVO findPageList(UserSearchVo searchVo);
 
     /**
      * 根据用户id,初始化登录密码

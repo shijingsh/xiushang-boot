@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * 公告管理
  */
 @ApiVersion
-@Api(tags = {"常用接口","常用接口2"})
+@Api(tags = {"常用接口"})   //@Api(tags = {"常用接口","常用接口2"})
 @Controller
 @RequestMapping(value = "/api/news",
         produces = "application/json; charset=UTF-8")

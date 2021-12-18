@@ -1,9 +1,14 @@
 package com.xiushang.common.user.vo;
 
+import io.swagger.annotations.ApiModelProperty;
+
 public class ResetPwdVo  implements java.io.Serializable {
 
+    @ApiModelProperty(notes = "登录名")
     private String loginName;
+    @ApiModelProperty(notes = "密码")
     private String password;
+    @ApiModelProperty(notes = "验证码")
     private String code;
 
     public String getLoginName() {

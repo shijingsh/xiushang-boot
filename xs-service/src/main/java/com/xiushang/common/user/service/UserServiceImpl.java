@@ -3,6 +3,7 @@ package com.xiushang.common.user.service;
 import com.alibaba.fastjson.JSONObject;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
+import com.xiushang.common.user.vo.UserSearchVo;
 import com.xiushang.common.utils.MD5;
 import com.xiushang.entity.QUserEntity;
 import com.xiushang.entity.UserEntity;
@@ -100,18 +101,15 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = userDao.getOne(userId);
         userDao.delete(userEntity);
     }
-    public Long findCount(PageTableVO pageTableVO) {
+    public Long findCount(UserSearchVo searchVo) {
         QUserEntity entity = QUserEntity.userEntity;
 
-        JSONObject paramObject = (JSONObject)pageTableVO.getExtendData();
-        UserEntity userEntity = JSONObject.toJavaObject(paramObject, UserEntity.class);
-
         BooleanExpression ex = entity.deleted.eq(DeleteEnum.VALID);
-        if(userEntity!= null){
-            if(StringUtils.isNotBlank(userEntity.getLoginName())){
-                ex = ex.and(entity.loginName.like("%" + userEntity.getLoginName() + "%"));
-            }else if(StringUtils.isNotBlank(userEntity.getName())){
-                ex = ex.and(entity.name.like("%"+userEntity.getName()+"%"));
+        if(searchVo!= null){
+            if(StringUtils.isNotBlank(searchVo.getLoginName())){
+                ex = ex.and(entity.loginName.like("%" + searchVo.getLoginName() + "%"));
+            }else if(StringUtils.isNotBlank(searchVo.getName())){
+                ex = ex.and(entity.name.like("%"+searchVo.getName()+"%"));
             }
         }
 
@@ -124,22 +122,20 @@ public class UserServiceImpl implements UserService {
         return totalNum;
     }
 
-    public PageTableVO findPageList(PageTableVO pageTableVO) {
+    public PageTableVO findPageList(UserSearchVo searchVo) {
         QUserEntity entity = QUserEntity.userEntity;
-        Integer limit = pageTableVO.getPageSize();
-        Integer offset = pageTableVO.getOffset();
+        Integer limit = searchVo.getPageSize();
+        Integer offset = searchVo.getOffset();
         if(limit==null || limit <=0){
             limit = 15;
         }
-        JSONObject paramObject = (JSONObject)pageTableVO.getExtendData();
-        UserEntity userEntity = JSONObject.toJavaObject(paramObject,UserEntity.class);
 
         BooleanExpression ex = entity.deleted.eq(DeleteEnum.VALID);
-        if(userEntity!= null){
-            if(StringUtils.isNotBlank(userEntity.getLoginName())){
-                ex = ex.and(entity.loginName.like("%" + userEntity.getLoginName() + "%"));
-            }else if(StringUtils.isNotBlank(userEntity.getName())){
-                ex = ex.and(entity.name.like("%"+userEntity.getName()+"%"));
+        if(searchVo!= null){
+            if(StringUtils.isNotBlank(searchVo.getLoginName())){
+                ex = ex.and(entity.loginName.like("%" + searchVo.getLoginName() + "%"));
+            }else if(StringUtils.isNotBlank(searchVo.getName())){
+                ex = ex.and(entity.name.like("%"+searchVo.getName()+"%"));
             }
         }
 
@@ -149,12 +145,12 @@ public class UserServiceImpl implements UserService {
                         ex
                 ).offset(offset).limit(limit);
         List<UserEntity> list = query.fetch();
-        Long totalCount = findCount(pageTableVO);
+        Long totalCount = findCount(searchVo);
         PageTableVO vo = new PageTableVO();
         vo.setRowData(list);
         vo.setTotalCount(totalCount);
-        vo.setPageNo(pageTableVO.getPageNo());
-        vo.setPageSize(pageTableVO.getPageSize());
+        vo.setPageNo(searchVo.getPageNo());
+        vo.setPageSize(searchVo.getPageSize());
         return vo;
     }
 

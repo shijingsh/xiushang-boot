@@ -1,19 +1,15 @@
 package com.xiushang.common.user.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.components.SmsService;
 import com.xiushang.common.upload.service.UploadService;
 import com.xiushang.common.user.service.UserService;
-import com.xiushang.common.user.vo.ModifyPassVo;
-import com.xiushang.common.user.vo.ResetPwdVo;
-import com.xiushang.common.user.vo.UserHeadPortraitVo;
-import com.xiushang.common.user.vo.UserVo;
+import com.xiushang.common.user.vo.*;
 import com.xiushang.common.utils.MD5;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.CommonResult;
-import com.xiushang.framework.utils.WebUtil;
+import com.xiushang.framework.utils.DeleteEnum;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -57,18 +53,6 @@ public class UserController {
             if(StringUtils.isNotBlank(user.getEmail())){
                 userEntity.setEmail(user.getEmail());
             }
-            /*if(StringUtils.isNotBlank(user.getQq())){
-                userEntity.setQq(user.getQq());
-            }
-            if(StringUtils.isNotBlank(user.getWeixin())){
-                userEntity.setWeixin(user.getWeixin());
-            }
-            if(StringUtils.isNotBlank(user.getAlipay())){
-                userEntity.setAlipay(user.getAlipay());
-            }
-            if(StringUtils.isNotBlank(user.getWeibo())){
-                userEntity.setWeibo(user.getWeibo());
-            }*/
             if(StringUtils.isNotBlank(user.getPosition())){
                 userEntity.setPosition(user.getPosition());
             }
@@ -162,27 +146,13 @@ public class UserController {
      */
     @ResponseBody
     @PostMapping("/pageList")
-    public CommonResult getPageList() {
-        String jsonString = WebUtil.getJsonBody(req);
-        PageTableVO param = JSON.parseObject(jsonString, PageTableVO.class);
+    public CommonResult getPageList(@RequestBody UserSearchVo searchVo) {
 
-        PageTableVO vo = userService.findPageList(param);
+        PageTableVO vo = userService.findPageList(searchVo);
 
         return CommonResult.success(vo);
     }
 
-    /**
-     * 删除用户
-     * @return
-     */
-    /*@ResponseBody
-    @GetMapping("/delete")
-    public CommonResult delete(String id) {
-
-        userService.delete(id);
-
-        return CommonResult.success(null);
-    }*/
 
     @ApiOperation(value = "修改用户头像")
     @ResponseBody
@@ -229,13 +199,13 @@ public class UserController {
 
     @ApiOperation(value = "注销账号")
     @ResponseBody
-    @GetMapping("/userCancel")
+    @GetMapping("/cancel")
     public CommonResult userCancel() {
 
         UserEntity userEntity = userService.getCurrentUser();
         if(userEntity!=null){
 
-//            userEntity.setStatus(DeleteEnum.STATUS_INVALID);
+            userEntity.setDeleted(DeleteEnum.INVALID);
             userService.updateUser(userEntity);
         }else{
             return CommonResult.error("用户登录已失效，请重新登陆！");

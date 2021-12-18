@@ -29,8 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 @RequestMapping(value = "/api/user",
         produces = "application/json; charset=UTF-8")
 public class RegisterController {
-    @Autowired
-    private HttpServletRequest req;
+
     @Autowired
     private UserService userService;
     @Autowired

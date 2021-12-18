@@ -19,9 +19,9 @@ public abstract class ExpandEntity extends BaseEntity {
     private String cnStr4;
     private String cnStr5;
 
-    private int cnInt1;
-    private int cnInt2;
-    private int cnInt3;
+    private Integer cnInt1;
+    private Integer cnInt2;
+    private Integer cnInt3;
 
     private Double cnDb1;
     private Double cnDb2;
@@ -71,27 +71,27 @@ public abstract class ExpandEntity extends BaseEntity {
         this.cnStr5 = cnStr5;
     }
 
-    public int getCnInt1() {
+    public Integer getCnInt1() {
         return cnInt1;
     }
 
-    public void setCnInt1(int cnInt1) {
+    public void setCnInt1(Integer cnInt1) {
         this.cnInt1 = cnInt1;
     }
 
-    public int getCnInt2() {
+    public Integer getCnInt2() {
         return cnInt2;
     }
 
-    public void setCnInt2(int cnInt2) {
+    public void setCnInt2(Integer cnInt2) {
         this.cnInt2 = cnInt2;
     }
 
-    public int getCnInt3() {
+    public Integer getCnInt3() {
         return cnInt3;
     }
 
-    public void setCnInt3(int cnInt3) {
+    public void setCnInt3(Integer cnInt3) {
         this.cnInt3 = cnInt3;
     }
 
