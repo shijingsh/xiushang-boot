@@ -6,8 +6,10 @@ public class SocialLoginVo implements java.io.Serializable{
 
     @ApiModelProperty(notes = "clientId")
     private String clientId;
-    @ApiModelProperty(notes = "微信code")
-    private String code;
+    @ApiModelProperty(notes = "社交账号ID")
+    private String socialId;
+    @ApiModelProperty(notes = "社交账号Type")
+    private String socialType;
     @ApiModelProperty(notes = "昵称")
     private String nickName;
     @ApiModelProperty(notes = "头像")
@@ -16,13 +18,8 @@ public class SocialLoginVo implements java.io.Serializable{
     private String gender;
     @ApiModelProperty(notes = "email")
     private String email;
-    /**
-     * 加密手机号码
-     */
-    @ApiModelProperty(notes = "加密手机号码encryptedData")
-    private String encryptedData;
-    @ApiModelProperty(notes = "加密手机号码iv")
-    private String iv;
+    @ApiModelProperty(notes = "mobile")
+    private String mobile;
 
     public String getClientId() {
         return clientId;
@@ -32,12 +29,20 @@ public class SocialLoginVo implements java.io.Serializable{
         this.clientId = clientId;
     }
 
-    public String getCode() {
-        return code;
+    public String getSocialId() {
+        return socialId;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setSocialId(String socialId) {
+        this.socialId = socialId;
+    }
+
+    public String getSocialType() {
+        return socialType;
+    }
+
+    public void setSocialType(String socialType) {
+        this.socialType = socialType;
     }
 
     public String getNickName() {
@@ -72,19 +77,11 @@ public class SocialLoginVo implements java.io.Serializable{
         this.email = email;
     }
 
-    public String getEncryptedData() {
-        return encryptedData;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setEncryptedData(String encryptedData) {
-        this.encryptedData = encryptedData;
-    }
-
-    public String getIv() {
-        return iv;
-    }
-
-    public void setIv(String iv) {
-        this.iv = iv;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

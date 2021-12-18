@@ -1,5 +1,9 @@
 package com.xiushang.security.authentication.social;
 
+import com.xiushang.common.user.service.UserService;
+import com.xiushang.common.user.vo.SocialLoginVo;
+import com.xiushang.common.user.vo.WxLoginVo;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.entity.UserSocialEntity;
 import com.xiushang.jpa.repository.UserSocialDao;
 import com.xiushang.security.SecurityUser;
@@ -12,11 +16,13 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
+import java.util.Date;
+
 
 public class SocialAuthenticationProvider extends TenantProvider implements AuthenticationProvider {
 
     private UserSocialDao userSocialDao;
-
+    private UserService userService;
     @Override
     public boolean supports(Class<?> authentication) {
         //支持SocialAuthenticationToken来验证
@@ -29,9 +35,12 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         //这个authentication就是SocialAuthenticationToken
         SocialAuthenticationToken authenticationToken = (SocialAuthenticationToken) authentication;
 
-        //校验手机号
-        String socialId = (String) authenticationToken.getPrincipal();
-        String socialType = authenticationToken.getSocialType();
+        SocialLoginVo loginVo = authenticationToken.getSocialLoginVo();
+        String clientId = loginVo.getClientId();
+        SecurityUser securityUser = null;
+        //校验ID
+        String socialId = loginVo.getSocialId();
+        String socialType = loginVo.getSocialType();
         SocialTypeEnum socialTypeEnum =SocialTypeEnum.SOCIAL_TYPE_OPEN_ID;
         if(StringUtils.isNotBlank(socialType)){
             socialTypeEnum = SocialTypeEnum.valueOf(socialType);
@@ -39,11 +48,38 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         UserSocialEntity userSocialEntity = userSocialDao.findBySocialTypeAndSocialId(socialTypeEnum,socialId);
 
         if(userSocialEntity == null){
-            throw new InternalAuthenticationServiceException("无法获取用户社交账号信息");
-        }
 
-        String userId = userSocialEntity.getUserId();
-        SecurityUser securityUser = (SecurityUser)((UserDetailsServiceImpl)getUserDetailsService()).loadUserByUserId(userId);
+            //注册时，必须有手机号
+            if (StringUtils.isBlank(loginVo.getMobile())) {
+                throw new InternalAuthenticationServiceException("手机号码必填！");
+            }
+            //不存在用户，则注册
+            UserEntity userEntity = new UserEntity();
+            userEntity.setEmail(loginVo.getEmail());
+            userEntity.setHeadPortrait(loginVo.getAvatarUrl());
+            userEntity.setMobile(loginVo.getMobile());
+            userEntity.setLoginName(loginVo.getMobile());        //手机号码作为登录名，password为空
+            userEntity.setName(loginVo.getNickName());
+            userEntity.setLastLoginDate(new Date());
+            userEntity.setLastLoginPlatform(clientId);
+            userService.updateUser(userEntity);
+
+            securityUser = new SecurityUser(userEntity);
+
+            //生成社交账号信息
+            if(StringUtils.isNotBlank(loginVo.getSocialId())){
+                UserSocialEntity socialEntity = new UserSocialEntity();
+                socialEntity.setSocialId(loginVo.getSocialId());
+                socialEntity.setSocialType(socialTypeEnum);
+
+                saveSocialInfo(socialEntity,userEntity,loginVo);
+            }
+
+        }else {
+            securityUser =  (SecurityUser)((UserDetailsServiceImpl) getUserDetailsService()).loadUserByUserId(userSocialEntity.getUserId());
+            //更新社交账号资料
+            saveSocialInfo(userSocialEntity,securityUser,loginVo);;
+        }
 
         if(securityUser == null ){
             throw new InternalAuthenticationServiceException("无法获取用户社交账号信息");
@@ -65,5 +101,17 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
 
     public void setUserSocialDao(UserSocialDao userSocialDao) {
         this.userSocialDao = userSocialDao;
+    }
+
+    private void saveSocialInfo(UserSocialEntity socialEntity,UserEntity userEntity,SocialLoginVo loginVo){
+
+        socialEntity.setUserId(userEntity.getId());
+        socialEntity.setClientId(loginVo.getClientId());
+        socialEntity.setAvatarUrl(loginVo.getAvatarUrl());
+        socialEntity.setEmail(loginVo.getEmail());
+        socialEntity.setGender(loginVo.getGender());
+        socialEntity.setNickName(loginVo.getNickName());
+
+        userSocialDao.save(socialEntity);
     }
 }

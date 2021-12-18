@@ -1,5 +1,6 @@
 package com.xiushang.security.authentication.social;
 
+import com.xiushang.common.user.vo.SocialLoginVo;
 import com.xiushang.security.authentication.BaseAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
@@ -16,14 +17,14 @@ public class SocialAuthenticationToken extends BaseAuthenticationToken {
     private final Object principal;
 
     /**
-     * 社交账号类型
+     * 社交账号
      */
-    private String socialType;
+    private SocialLoginVo socialLoginVo;
 
-    public SocialAuthenticationToken(String clientId, String socialType,String socialId) {
-        super(null,clientId);
-        this.principal =socialId;
-        this.socialType = socialType;
+    public SocialAuthenticationToken(SocialLoginVo socialLoginVo) {
+        super(null,socialLoginVo.getClientId());
+        this.principal = socialLoginVo.getSocialId();
+        this.socialLoginVo = socialLoginVo;
         setAuthenticated(false);
     }
 
@@ -31,6 +32,14 @@ public class SocialAuthenticationToken extends BaseAuthenticationToken {
         super(authorities,clientId);
         this.principal =principal;
         super.setAuthenticated(true);
+    }
+
+    public SocialLoginVo getSocialLoginVo() {
+        return socialLoginVo;
+    }
+
+    public void setSocialLoginVo(SocialLoginVo socialLoginVo) {
+        this.socialLoginVo = socialLoginVo;
     }
 
     @Override
@@ -55,14 +64,6 @@ public class SocialAuthenticationToken extends BaseAuthenticationToken {
         } else {
             super.setAuthenticated(false);
         }
-    }
-
-    public String getSocialType() {
-        return socialType;
-    }
-
-    public void setSocialType(String socialType) {
-        this.socialType = socialType;
     }
 
 }

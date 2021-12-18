@@ -1,5 +1,7 @@
 package com.xiushang.security.granter;
 
+import com.xiushang.common.user.vo.SocialLoginVo;
+import com.xiushang.common.user.vo.WxLoginVo;
 import com.xiushang.security.authentication.social.SocialAuthenticationToken;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.authentication.AccountStatusException;
@@ -40,10 +42,29 @@ public class SocialTokenGranter extends AbstractTokenGranter {
         String socialId = parameters.get("socialId"); // 社交账号ID
         String clientId = parameters.get("client_id");
 
+        String nickName = parameters.get("nickName");
+        String avatarUrl = parameters.get("avatarUrl");
+        String gender = parameters.get("gender");
+        String email = parameters.get("email");
+
+
+        SocialLoginVo loginVo = new SocialLoginVo();
+        loginVo.setSocialId(socialId);
+        loginVo.setSocialType(socialType);
+        loginVo.setAvatarUrl(avatarUrl);
+        loginVo.setClientId(clientId);
+        loginVo.setNickName(nickName);
+        loginVo.setGender(gender);
+        loginVo.setEmail(email);
+
         parameters.remove("socialType");
         parameters.remove("socialId");
+        parameters.remove("nickName");
+        parameters.remove("avatarUrl");
+        parameters.remove("gender");
+        parameters.remove("email");
 
-        Authentication userAuth = new SocialAuthenticationToken(clientId,socialType, socialId);
+        Authentication userAuth = new SocialAuthenticationToken(loginVo);
         ((AbstractAuthenticationToken) userAuth).setDetails(parameters);
 
         try {
