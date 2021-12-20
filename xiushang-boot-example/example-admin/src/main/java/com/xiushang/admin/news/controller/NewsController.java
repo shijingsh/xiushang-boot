@@ -6,10 +6,9 @@ import com.xiushang.config.ApiVersion;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.entity.news.NewsEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
-
 import com.xiushang.framework.log.CommonResult;
-import com.xiushang.framework.utils.WebUtil;
 import com.xiushang.news.service.NewsService;
+import com.xiushang.vo.HelpSearchVo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +17,6 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 /**
@@ -95,9 +93,9 @@ public class NewsController {
     @ApiOperation(value = "获取公告列表")
     @ResponseBody
     @PostMapping("/{version}/listPage")
-    public CommonResult<PageTableVO<NewsEntity>> listPage() {
+    public CommonResult<PageTableVO<NewsEntity>> listPage(@RequestBody HelpSearchVo helpSearchVo) {
 
-        PageTableVO vo = newsService.findPageList();
+        PageTableVO vo = newsService.findPageList(helpSearchVo);
 
         return CommonResult.success(vo);
     }

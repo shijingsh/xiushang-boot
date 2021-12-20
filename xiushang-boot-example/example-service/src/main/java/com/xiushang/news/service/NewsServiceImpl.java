@@ -6,7 +6,6 @@ import com.xiushang.common.utils.BaseServiceImpl;
 import com.xiushang.entity.news.NewsEntity;
 import com.xiushang.entity.news.QNewsEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
-import com.xiushang.framework.utils.WebUtil;
 import com.xiushang.news.dao.NewsDao;
 import com.xiushang.vo.HelpSearchVo;
 import org.apache.commons.lang3.StringUtils;
@@ -14,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Calendar;
 
@@ -30,9 +30,7 @@ public class NewsServiceImpl extends BaseServiceImpl<NewsEntity> implements News
 
 
     @Transactional
-    public PageTableVO findPageList() {
-
-        HelpSearchVo helpSearchVo = WebUtil.getJsonBody(request, HelpSearchVo.class);
+    public PageTableVO findPageList(HelpSearchVo helpSearchVo) {
 
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_YEAR, -1);

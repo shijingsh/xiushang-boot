@@ -1,4 +1,4 @@
-package com.xiushang.common.utils;
+package com.xiushang.security.vo;
 
 import com.alibaba.fastjson.JSON;
 import com.xiushang.common.user.vo.PhoneDecryptInfo;

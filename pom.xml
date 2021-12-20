@@ -327,8 +327,9 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
+            <version>3.12.0</version>
         </dependency>
+        <!-- BeanUtils 等反射依赖-->
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
@@ -339,6 +340,13 @@
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
             <version>1.3.3</version>
+        </dependency>
+
+        <!-- 网络协议 ftp SMTP POP3 等 上传文件依赖-->
+        <dependency>
+            <groupId>commons-net</groupId>
+            <artifactId>commons-net</artifactId>
+            <version>1.4.1</version>
         </dependency>
 
         <!-- mysql 驱动-->
@@ -378,18 +386,8 @@
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
             <version>1.1.0</version>
         </dependency>
-        <!-- 网络协议 ftp SMTP POP3 等-->
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>1.4.1</version>
-        </dependency>
-        <!-- BouncyCastleProvider 解密微信手机号码 -->
-        <dependency>
-            <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk16</artifactId>
-            <version>1.46</version>
-        </dependency>
+
+
         <!--引入Knife4j-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
@@ -411,11 +409,11 @@
         </dependency>
 
         <!--参数校验-->
-        <dependency>
+        <!--<dependency>
             <groupId>jakarta.validation</groupId>
             <artifactId>jakarta.validation-api</artifactId>
             <version>3.0.0</version>
-        </dependency>
+        </dependency>-->
 
     </dependencies>
 </project>
