@@ -15,8 +15,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * 验证码授权模式授权者
- *
+ * 图形验证码授权模式授权者
  */
 public class CaptchaTokenGranter extends AbstractTokenGranter {
 

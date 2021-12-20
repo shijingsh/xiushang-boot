@@ -12,6 +12,7 @@ import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.entity.UserSocialEntity;
+import com.xiushang.entity.oauth.OauthClientDetailsEntity;
 import com.xiushang.entity.shop.ShopEntity;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import com.xiushang.jpa.repository.ShopDao;
@@ -52,7 +53,7 @@ public class WechatAuthenticationProvider extends TenantProvider implements Auth
         WechatAuthenticationToken authenticationToken = (WechatAuthenticationToken) authentication;
         WxLoginVo wxLoginVo = authenticationToken.getWxLoginVo();
         SecurityUser securityUser = null;
-        //校验手机号
+        //校验客户端
         String clientId = wxLoginVo.getClientId();
         SecurityUser tenantUser = (SecurityUser)((UserDetailsServiceImpl)getUserDetailsService()).loadUserByClientId(clientId);
         if (tenantUser == null) {
@@ -63,27 +64,14 @@ public class WechatAuthenticationProvider extends TenantProvider implements Auth
         if (shopEntity == null) {
             throw new InternalAuthenticationServiceException("客户端尚未开通商铺！");
         }
-        String shopId = shopEntity.getId();
+        //客户端信息
+        OauthClientDetailsEntity clientDetailsEntity = getOauthClientDetailsDao().findByClientId(clientId);
         String code = wxLoginVo.getCode();
 
-        String appid = null;
-        String secret = null;
-        if (StringUtils.isNotBlank(code)) {
-            if (StringUtils.isNotBlank(shopId)) {
-                SystemParamEntity param = systemParamService.findByName(shopId, shopId + "_weixin.appid");
-                if (param == null) {
-                    appid = PropertyConfigurer.getConfig("weixin.appid");
-                } else {
-                    appid = param.getParamValue();
-                }
-
-                SystemParamEntity paramSecret = systemParamService.findByName(shopId, shopId + "_weixin.secret");
-                if (paramSecret == null) {
-                    secret = PropertyConfigurer.getConfig("weixin.secret");
-                } else {
-                    secret = paramSecret.getParamValue();
-                }
-            }
+        String appid = clientDetailsEntity.getAppId();
+        String secret = clientDetailsEntity.getSecret();
+        if (StringUtils.isBlank(appid) || StringUtils.isBlank(secret)) {
+            throw new InternalAuthenticationServiceException("客户端尚未设置AppId和AppSecret！");
         }
         // 根据code 获取openid unionid
         String url = "https://api.weixin.qq.com/sns/jscode2session?appid="+appid+"&secret="+secret+"&js_code=" + code + "&grant_type=authorization_code";

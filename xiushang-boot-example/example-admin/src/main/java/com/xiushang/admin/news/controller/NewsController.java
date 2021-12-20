@@ -1,6 +1,7 @@
 package com.xiushang.admin.news.controller;
 
 import com.xiushang.common.user.service.UserService;
+import com.xiushang.common.utils.DateUtil;
 import com.xiushang.config.ApiVersion;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.entity.news.NewsEntity;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * 公告管理
@@ -98,6 +100,13 @@ public class NewsController {
         PageTableVO vo = newsService.findPageList();
 
         return CommonResult.success(vo);
+    }
+
+    public static void main(String args[]){
+        Date date = new Date();
+        date.setTime(1639977415504l);  //1639977415506l 1639977415504
+
+        System.out.println(DateUtil.convertDateToString(DateUtil.FORMATTER,date));
     }
 
 

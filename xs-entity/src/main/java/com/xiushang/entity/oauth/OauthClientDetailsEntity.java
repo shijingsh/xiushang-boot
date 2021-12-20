@@ -58,6 +58,15 @@ public class OauthClientDetailsEntity implements java.io.Serializable{
 
     private Date createTime;
 
+    /**
+     * 小程序APP_ID
+     */
+    private String appId;
+    /**
+     * 小程序APP_SECRET
+     */
+    private String secret;
+
     public String getId() {
         return id;
     }
@@ -184,5 +193,21 @@ public class OauthClientDetailsEntity implements java.io.Serializable{
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public void setAppId(String appId) {
+        this.appId = appId;
+    }
+
+    public String getSecret() {
+        return secret;
+    }
+
+    public void setSecret(String secret) {
+        this.secret = secret;
     }
 }

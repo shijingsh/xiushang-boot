@@ -39,6 +39,7 @@ public class SmsCodeTokenGranter extends AbstractTokenGranter {
         String code = parameters.get("code"); // 短信验证码
         String clientId = parameters.get("client_id");
 
+        parameters.remove("mobile");
         parameters.remove("code");
 
         Authentication userAuth = new SmsCodeAuthenticationToken(clientId,mobile, code);
