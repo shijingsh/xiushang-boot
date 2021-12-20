@@ -18,10 +18,6 @@
             <groupId>com.xiushang</groupId>
             <artifactId>example-service</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-        </dependency>
     </dependencies>
 
     <!--配置环境的profile-->

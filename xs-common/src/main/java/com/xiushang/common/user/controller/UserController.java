@@ -1,5 +1,6 @@
 package com.xiushang.common.user.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.components.SmsService;
 import com.xiushang.common.upload.service.UploadService;
@@ -177,6 +178,7 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "获取用户信息")
+    @ApiOperationSupport(order=1)
     @ResponseBody
     @GetMapping("/info")
     public CommonResult<UserEntity> info() {

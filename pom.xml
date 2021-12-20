@@ -293,17 +293,6 @@
             <version>${druid.version}</version>
         </dependency>
 
-        <!-- spring-security 和 jwt -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-security</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>${jjwt.version}</version>
-        </dependency>
 
         <!-- querydsl -->
         <dependency>

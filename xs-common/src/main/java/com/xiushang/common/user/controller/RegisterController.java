@@ -25,7 +25,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Api(tags = "用户管理")
 @Controller
-@ApiSort(value = 1)
+@ApiSort(value = 2)
 @RequestMapping(value = "/api/user",
         produces = "application/json; charset=UTF-8")
 public class RegisterController {

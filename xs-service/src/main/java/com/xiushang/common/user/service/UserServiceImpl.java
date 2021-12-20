@@ -13,8 +13,6 @@ import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.framework.utils.DeleteEnum;
 import com.xiushang.framework.utils.UserHolder;
 import com.xiushang.jpa.repository.UserDao;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -281,20 +279,6 @@ public class UserServiceImpl implements UserService {
     public UserEntity getCurrentUser() {
 
         String loginName = UserHolder.getLoginName();
-        if(StringUtils.isBlank(loginName) || "anonymousUser".equals(loginName)){
-            //获取token
-            String token = request.getHeader(SecurityConstants.AUTH_HEADER_STRING);
-            if(StringUtils.isNotBlank(token) && !StringUtils.equals(token,"null") && !StringUtils.equals(token,"NULL")){
-                Claims claims = Jwts.parser().setSigningKey(SecurityConstants.SIGNING_KEY).parseClaimsJws(token.replace(SecurityConstants.TOKEN_PREFIX, "")).getBody();
-                String user = claims.getSubject();
-                if (user != null) {
-                    String tmpLoginName = user.split("-")[0];
-                    if(StringUtils.isNotBlank(tmpLoginName) && !"anonymousUser".equals(tmpLoginName)){
-                        loginName = tmpLoginName;
-                    }
-                }
-            }
-        }
         //log.info("获取当前用户LoginName：{}。",loginName);
         UserEntity userEntity = null;
         if(StringUtils.isNotBlank(loginName)){
