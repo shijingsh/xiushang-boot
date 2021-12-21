@@ -55,19 +55,19 @@
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xiushang-boot</artifactId>
-            <version>1.3.1</version>
+            <version>1.4.1</version>
             <type>pom</type>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-entity</artifactId>
-            <version>1.3.1</version>
+            <version>1.4.1</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-common</artifactId>
-            <version>1.3.1</version>
+            <version>1.4.1</version>
             <type>jar</type>
         </dependency>
 
@@ -75,12 +75,12 @@
         <!--<dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>shijingsh-ai-core</artifactId>
-            <version>1.3.1</version>
+            <version>1.4.1</version>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>shijingsh-ai-rns</artifactId>
-            <version>1.3.1</version>
+            <version>1.4.1</version>
         </dependency>-->
 
         <!-- solr -->

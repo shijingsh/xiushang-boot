@@ -3,12 +3,12 @@
     <parent>
         <artifactId>xiushang-boot</artifactId>
         <groupId>com.github.shijingsh</groupId>
-        <version>1.3.1</version>
+        <version>1.4.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.shijingsh</groupId>
     <artifactId>xs-common</artifactId>
-    <version>1.3.1</version>
+    <version>1.4.1</version>
     <packaging>jar</packaging>
     <name>xs-common</name>
     <url>http://maven.apache.org</url>
@@ -21,13 +21,13 @@
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-service</artifactId>
-            <version>1.3.1</version>
+            <version>1.4.1</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-jwt-security</artifactId>
-            <version>1.3.1</version>
+            <version>1.4.1</version>
             <scope>compile</scope>
         </dependency>
 

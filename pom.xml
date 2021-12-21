@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.github.shijingsh</groupId>
     <artifactId>xiushang-boot</artifactId>
-    <version>1.3.1</version>
+    <version>1.4.1</version>
     <modules>
         <module>xiushang-boot-example</module>
         <module>xs-entity</module>
@@ -63,16 +63,13 @@
         <spring.version>5.1.6.RELEASE</spring.version>
         <hibernate.version>5.3.15.Final</hibernate.version>
         <poi.version>3.10-FINAL</poi.version>
-        <shiro.version>1.5.0</shiro.version>
         <querydsl.version>4.2.2</querydsl.version>
-        <logback.version>1.2.3</logback.version>
         <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
        <!-- <spring.boot.version>2.5.2</spring.boot.version>-->
-        <commons-pool2.version>2.5.0</commons-pool2.version>
+        <commons-pool2.version>2.10.0</commons-pool2.version>
         <druid.version>1.2.6</druid.version>
-        <jjwt.version>0.9.1</jjwt.version>
         <knife4j.version>2.0.8</knife4j.version>
-        <hutool.version>5.3.8</hutool.version>
+        <hutool.version>5.7.17</hutool.version>
     </properties>
     <build>
         <finalName>xiushang-boot</finalName>
@@ -218,12 +215,12 @@
 
     <dependencies>
 
-        <dependency>
+        <!--<dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <version>2.5</version>
             <scope>provided</scope>
-        </dependency>
+        </dependency>-->
 
         <!-- spring boot-->
         <dependency>
@@ -267,12 +264,6 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
             <version>${spring.boot.version}</version>
         </dependency>
-        <!-- boot-starter-log4j -->
-        <!--<dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j</artifactId>
-            <version>1.3.8.RELEASE</version>
-        </dependency>-->
 
         <!--Spring boot Redis-->
         <dependency>
@@ -333,20 +324,21 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.0</version>
+            <version>1.9.4</version>
         </dependency>
+
 
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
-            <version>1.3.3</version>
+            <version>1.4</version>
         </dependency>
 
         <!-- 网络协议 ftp SMTP POP3 等 上传文件依赖-->
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
-            <version>1.4.1</version>
+            <version>3.8.0</version>
         </dependency>
 
         <!-- mysql 驱动-->
@@ -360,7 +352,7 @@
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
-            <version>1.2.25</version>
+            <version>1.2.78</version>
         </dependency>
 
         <!--httpclient-->
@@ -392,13 +384,13 @@
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>2.0.8</version>
+            <version>${knife4j.version}</version>
         </dependency>
         <!--引入lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
-            <version>1.18.12</version>
+            <version>1.18.22</version>
         </dependency>
 
         <!--Hutool Java工具包-->
