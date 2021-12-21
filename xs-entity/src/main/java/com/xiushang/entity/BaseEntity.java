@@ -38,6 +38,7 @@ public abstract class BaseEntity implements java.io.Serializable{
     @GeneratedValue(generator = "system-uuid", strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     @Column(length = 32)
+    @ApiModelProperty(notes = "主键ID")
     protected String id;
 
 
@@ -51,7 +52,7 @@ public abstract class BaseEntity implements java.io.Serializable{
     /**
      * 创建实体对象的时间
      */
-    //@JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(notes = "创建时间")
     @Column(name = "created_date")
     protected Date createdDate;
 
