@@ -1,5 +1,6 @@
 package com.xiushang.framework.entity.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
@@ -12,14 +13,15 @@ public class PageTableVO<T> extends MgPageable {
 
 	private static final long serialVersionUID = -2332973656118325329L;
 
-	//private List<TableHeaderCellVO> columns = new ArrayList<>();
 	/**
 	 * 数据集合
 	 */
+	@ApiModelProperty(notes = "数据集合")
 	private List<T> rowData;
 	/**
 	 * 扩展信息
 	 */
+	@ApiModelProperty(notes = "扩展信息")
 	private Object extendData;
 
 	public PageTableVO() {
@@ -44,6 +46,19 @@ public class PageTableVO<T> extends MgPageable {
 			setPageSize(vo.getPageSize());
 		}
 	}
+
+	public PageTableVO(Page page,SearchPageVo vo) {
+		if(page!=null){
+			setRowData(page.getContent());
+			setTotalCount(page.getTotalElements());
+		}
+		if(vo!=null){
+			setPageNo(vo.getPageNo());
+			setPageSize(vo.getPageSize());
+		}
+	}
+
+
 	public List<T> getRowData() {
 		if(rowData==null){
 			rowData = new ArrayList<>();

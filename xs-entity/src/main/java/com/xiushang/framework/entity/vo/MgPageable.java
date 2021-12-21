@@ -1,5 +1,6 @@
 package com.xiushang.framework.entity.vo;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -16,20 +17,26 @@ public abstract class MgPageable implements Serializable {
     /**
      * 当前的页数
      */
+    @ApiModelProperty(notes = "当前的页数")
     private int pageNo = 1;
 
     /**
      * 当前每页所显示的行数。
      */
+    @ApiModelProperty(notes = "当前每页所显示的行数")
     private int pageSize = 15;
     /**
      * 总行数。
      */
+    @ApiModelProperty(notes = "总行数")
     private long totalCount = 0;
 
+    @ApiModelProperty(notes = "是否有更多")
     private Boolean hasMore = false;
 
+    @ApiModelProperty(hidden = true)
     private String sort;
+    @ApiModelProperty(hidden = true)
     private String dir;
 
     public int getPageNo() {
@@ -56,6 +63,7 @@ public abstract class MgPageable implements Serializable {
         this.totalCount = totalCount;
     }
 
+    @ApiModelProperty(hidden = true)
     public int getOffset() {
         int pageNo = getPageNo() - 1;
         if (pageNo < 0) {

@@ -11,6 +11,7 @@ import com.xiushang.vo.HelpSearchVo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -45,10 +46,8 @@ public class NewsServiceImpl extends BaseServiceImpl<NewsEntity> implements News
         if (StringUtils.isNotBlank(searchKey)) {
             ex = ex.and(entity.content.like("%" + searchKey + "%"));
         }
-        helpSearchVo.setSort("validDate");
-        helpSearchVo.setDir("asc");
 
-        Page<NewsEntity> page = findPageList(ex, helpSearchVo.createPageRequest());
+        Page<NewsEntity> page = findPageList(ex, helpSearchVo.createPageRequest( new Sort.Order(Sort.Direction.ASC,"validDate")));
         PageTableVO vo = new PageTableVO(page, helpSearchVo);
 
         return vo;

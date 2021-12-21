@@ -1,11 +1,11 @@
 package com.xiushang.vo;
 
-import com.xiushang.framework.entity.vo.MgPageable;
+import com.xiushang.framework.entity.vo.SearchPageVo;
 
 /**
  * Created by liukefu on 2018/9/7.
  */
-public class HelpSearchVo extends MgPageable implements java.io.Serializable {
+public class HelpSearchVo extends SearchPageVo implements java.io.Serializable {
 
     private String shopId;
     private String searchKey;

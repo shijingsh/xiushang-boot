@@ -88,6 +88,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/resources/**",
                 "/error",
                 "/*.html",
+                "/v2/api-docs",
                 "/webjars/**",
                 "/swagger-resources/**");
     }

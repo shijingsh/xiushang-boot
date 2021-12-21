@@ -3,7 +3,6 @@ package com.xiushang.entity.news;
 
 import com.xiushang.entity.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -14,6 +13,12 @@ import java.util.Date;
 @Entity
 @Table(name="app_news")
 public class NewsEntity extends BaseEntity {
+    /**
+     * 循环依赖测试
+     */
+    @ManyToOne
+    @JoinColumn(name = "parent_news_id")
+    private NewsEntity belongNews;
     /**
      * 所属店铺
      */
@@ -31,6 +36,14 @@ public class NewsEntity extends BaseEntity {
     private Date validDate;
 
     private Integer status = 1;
+
+    public NewsEntity getBelongNews() {
+        return belongNews;
+    }
+
+    public void setBelongNews(NewsEntity belongNews) {
+        this.belongNews = belongNews;
+    }
 
     public String getContent() {
         return content;
