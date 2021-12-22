@@ -64,11 +64,12 @@
         <hibernate.version>5.3.15.Final</hibernate.version>
         <poi.version>3.10-FINAL</poi.version>
         <querydsl.version>4.2.2</querydsl.version>
-        <spring.boot.version>2.3.1.RELEASE</spring.boot.version>
+        <spring.boot.version>2.4.0</spring.boot.version>
        <!-- <spring.boot.version>2.5.2</spring.boot.version>-->
         <commons-pool2.version>2.10.0</commons-pool2.version>
         <druid.version>1.2.6</druid.version>
-        <knife4j.version>2.0.8</knife4j.version>
+        <knife4j.version>3.0.3</knife4j.version>
+        <knife4j.annotations.version>1.5.22</knife4j.annotations.version>
         <hutool.version>5.7.17</hutool.version>
     </properties>
     <build>
@@ -380,11 +381,24 @@
         </dependency>
 
 
-        <!--引入Knife4j-->
+        <!-- knife4j 接口文档  -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>${knife4j.version}</version>
+            <exclusions>
+                <!-- 排除版本冲突的swagger-annotations -->
+                <exclusion>
+                    <artifactId>swagger-annotations</artifactId>
+                    <groupId>io.swagger</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- 重新引入指定版本的swagger-annotations -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>${knife4j.annotations.version}</version>
         </dependency>
         <!--引入lombok-->
         <dependency>

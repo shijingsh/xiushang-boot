@@ -15,7 +15,8 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
 
     private RequestMappingInfo.BuilderConfiguration config = new RequestMappingInfo.BuilderConfiguration();
 
-    private final static Pattern VERSION_PREFIX_PATTERN = Pattern.compile("\\{(.*?)\\}");
+    //Pattern.compile("\\{(.*?)\\}");  表达式与swagger 中v2/dosc接口冲突，因此此处写死{version}
+    private final static Pattern VERSION_PREFIX_PATTERN = Pattern.compile("\\{version\\}");
     @Override
     protected RequestMappingInfo createRequestMappingInfo(
             RequestMapping requestMapping, RequestCondition<?> customCondition) {
@@ -27,9 +28,11 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
         }*/
 
         String[] path = requestMapping.path();
+        boolean hasVersion = false;
         for (int i=0;i<path.length;i++){
             Matcher m = VERSION_PREFIX_PATTERN.matcher(path[i]);
             if(m.find()){
+                hasVersion = true;
                 //System.out.println("woo: " + m.group());
                 //System.out.println("ReplaceAll:" + m.replaceAll("v1"));
                 if(customCondition==null){
@@ -41,18 +44,21 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
                 }
             }
         }
+        if(hasVersion){
+            return RequestMappingInfo
+                    .paths(resolveEmbeddedValuesInPatterns(path))
+                    .methods(requestMapping.method())
+                    .params(requestMapping.params())
+                    .headers(requestMapping.headers())
+                    .consumes(requestMapping.consumes())
+                    .produces(requestMapping.produces())
+                    .mappingName(requestMapping.name())
+                    .customCondition(customCondition)
+                    .options(this.config)
+                    .build();
+        }
 
-        return RequestMappingInfo
-                .paths(resolveEmbeddedValuesInPatterns(path))
-                .methods(requestMapping.method())
-                .params(requestMapping.params())
-                .headers(requestMapping.headers())
-                .consumes(requestMapping.consumes())
-                .produces(requestMapping.produces())
-                .mappingName(requestMapping.name())
-                .customCondition(customCondition)
-                .options(this.config)
-                .build();
+        return super.createRequestMappingInfo(requestMapping,customCondition);
     }
 
 	@Override
@@ -87,6 +93,12 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
         // 处理匹配到的值
         while (matcher.find()) {
             System.out.println("woo: " + matcher.group());
+        }
+
+        String s = "$v1";
+         m = VERSION_PREFIX_PATTERN.matcher(s);
+        if(m.find()){
+            System.out.println("$v1: " + m.group());
         }
     }
 }

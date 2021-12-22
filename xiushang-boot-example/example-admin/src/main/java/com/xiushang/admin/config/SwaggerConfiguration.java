@@ -2,11 +2,12 @@
 package com.xiushang.admin.config;
 
 import com.fasterxml.classmate.TypeResolver;
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import com.google.common.collect.Lists;
 import com.xiushang.config.ApiVersion;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
-import com.xiushang.security.config.OAuth2UrlConfig;
 import com.xiushang.framework.log.SecurityConstants;
+import com.xiushang.security.config.OAuth2UrlConfig;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,14 +22,16 @@ import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 @Configuration
-@EnableSwagger2WebMvc
+@EnableSwagger2
+@EnableKnife4j
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
 
@@ -88,7 +91,7 @@ public class SwaggerConfiguration {
                 .apis(input -> {
                     ApiVersion apiVersion = input.getHandlerMethod().getMethodAnnotation(ApiVersion.class);
                     if(apiVersion!=null){
-                        System.out.println("读取到版本信息："+apiVersion.value());
+                        //System.out.println("读取到版本信息："+apiVersion.value());
                     }
                     if(apiVersion!=null && Arrays.asList(apiVersion.value()).contains(1)){
                         return true;
@@ -118,7 +121,7 @@ public class SwaggerConfiguration {
                     ApiVersion apiVersion = input.getHandlerMethod().getMethodAnnotation(ApiVersion.class);
 
                     if(apiVersion!=null){
-                       System.out.println("读取到版本信息："+apiVersion.value());
+                       //System.out.println("读取到版本信息："+apiVersion.value());
                     }
                     if(apiVersion!=null && Arrays.asList(apiVersion.value()).contains(2)){
                         return true;
@@ -163,16 +166,9 @@ public class SwaggerConfiguration {
                 .build();
     }
 
-    private List<ApiKey> securitySchemes() {
-        //设置请求头信息
-        List<ApiKey> result = new ArrayList<>();
-
-        ApiKey apiKey = new ApiKey("Authorization", "Authorization", "Header");
-        result.add(apiKey);
-
-        /*ApiKey accessKey = new ApiKey("AccessToken", "AccessToken", "Header");
-        result.add(accessKey);*/
-        return result;
+    private List<SecurityScheme> securitySchemes() {
+        ApiKey apiKey = new ApiKey("Authorization", "Authorization", io.swagger.v3.oas.models.security.SecurityScheme.In.HEADER.toString());
+        return Collections.singletonList(apiKey);
     }
 
     private List<SecurityContext> securityContexts() {
