@@ -15,7 +15,7 @@ public class CustomRequestMappingHandlerMapping extends RequestMappingHandlerMap
 
     private RequestMappingInfo.BuilderConfiguration config = new RequestMappingInfo.BuilderConfiguration();
 
-    //Pattern.compile("\\{(.*?)\\}");  表达式与swagger 中v2/dosc接口冲突，因此此处写死{version}
+    //Pattern.compile("\\{(.*?)\\}");  表达式与swagger 中/v2/api-docs接口冲突，因此此处写死{version}
     private final static Pattern VERSION_PREFIX_PATTERN = Pattern.compile("\\{version\\}");
     @Override
     protected RequestMappingInfo createRequestMappingInfo(

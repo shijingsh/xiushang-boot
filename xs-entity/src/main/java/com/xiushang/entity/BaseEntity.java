@@ -47,6 +47,7 @@ public abstract class BaseEntity implements java.io.Serializable{
      */
     @Column(name = "created_by_id",length = 32)
     @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(hidden = true)
     protected String createdById;
 
     /**
@@ -61,12 +62,14 @@ public abstract class BaseEntity implements java.io.Serializable{
      */
     @Column(name = "updated_by_id",length = 32)
     @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(hidden = true)
     protected String updatedById;
 
     /**
      * 最后修改实体对象的时间
      */
     @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(hidden = true)
     @Column(name = "updated_date")
     protected Date updatedDate;
 
