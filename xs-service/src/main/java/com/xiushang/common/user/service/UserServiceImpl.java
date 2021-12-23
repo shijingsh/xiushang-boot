@@ -7,11 +7,13 @@ import com.xiushang.common.user.vo.UserSearchVo;
 import com.xiushang.common.utils.MD5;
 import com.xiushang.entity.QUserEntity;
 import com.xiushang.entity.UserEntity;
+import com.xiushang.entity.shop.ShopEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.Constants;
 import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.framework.utils.DeleteEnum;
 import com.xiushang.framework.utils.UserHolder;
+import com.xiushang.jpa.repository.ShopDao;
 import com.xiushang.jpa.repository.UserDao;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -40,6 +42,8 @@ public class UserServiceImpl implements UserService {
     private EntityManager entityManager;
     @Autowired
     private UserDao userDao;
+    @Autowired
+    private ShopDao shopDao;
 
     public UserEntity getUser(String loginName) {
 
@@ -290,14 +294,17 @@ public class UserServiceImpl implements UserService {
            // log.info("getCurrentUser：没有当前用户信息。");
         }
 
-        /*String userId = request.getParameter("userId");
-        if(StringUtils.isNotBlank(userId)){
-            UserEntity tempUser = getUserById(userId);
-            if(tempUser != null){
-                return tempUser;
-            }
-        }*/
         return null;
+    }
+
+    public ShopEntity getCurrentShop() {
+
+        String tenantId = UserHolder.getTenantId();
+        UserEntity userEntity = getUserById(tenantId);
+
+        ShopEntity shopEntity = shopDao.findByOwnerUser(userEntity);
+
+        return shopEntity;
     }
 
 }

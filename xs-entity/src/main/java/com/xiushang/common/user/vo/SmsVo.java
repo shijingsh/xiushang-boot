@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 public class SmsVo  implements java.io.Serializable {
     @ApiModelProperty(notes = "店铺ID",required = true)
     private String shopId;
-    @ApiModelProperty(notes = "是否为系统短信")
+    @ApiModelProperty(notes = "是否为系统短信  0不是 1是")
     private int systemFlag = 0;
     @ApiModelProperty(notes = "接收短信手机号码",required = true)
     private String mobile ;

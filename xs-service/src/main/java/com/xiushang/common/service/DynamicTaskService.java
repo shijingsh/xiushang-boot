@@ -13,6 +13,7 @@ import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.entity.QSubscribeMsgAppointEntity;
 import com.xiushang.entity.SubscribeMsgAppointEntity;
 import com.xiushang.entity.UserEntity;
+import com.xiushang.entity.shop.ShopEntity;
 import com.xiushang.jpa.repository.SysSubscribeMsgAppointDao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,7 @@ public class DynamicTaskService   {
   @Transactional
   public Boolean appoint(SubscribeMsgAppointVo appointVo) {
     UserEntity userEntity = userService.getCurrentUser();
+    ShopEntity shopEntity = userService.getCurrentShop();
 
     List<SubscribeMsgAppointEntity> dbList = sysSubscribeMsgAppointDao.findBySubscribeObjectIdAndUserId(appointVo.getSubscribeObjectId(),userEntity.getId());
     if(dbList!=null && dbList.size()>0){
@@ -127,7 +129,7 @@ public class DynamicTaskService   {
 
         SubscribeMsgAppointEntity appointEntity =  new SubscribeMsgAppointEntity();
         appointEntity.setUserId(userEntity.getId());
-        appointEntity.setShopId(appointVo.getShopId());
+        appointEntity.setShopId(shopEntity.getId());
         appointEntity.setName(appointVo.getName());
         appointEntity.setOpenId(appointVo.getOpenId());
         appointEntity.setPullStatus(0);

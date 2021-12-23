@@ -2,6 +2,7 @@ package com.xiushang.common.user.service;
 
 import com.xiushang.common.user.vo.UserSearchVo;
 import com.xiushang.entity.UserEntity;
+import com.xiushang.entity.shop.ShopEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 
 import java.util.List;
@@ -107,4 +108,6 @@ public interface UserService {
     public List<UserEntity> getUsersByIds(List<String> userIds);
 
     public UserEntity getCurrentUser();
+
+    public ShopEntity getCurrentShop();
 }

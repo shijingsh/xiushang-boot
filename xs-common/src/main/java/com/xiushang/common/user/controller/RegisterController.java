@@ -1,5 +1,6 @@
 package com.xiushang.common.user.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.components.SmsService;
 import com.xiushang.common.user.service.UserService;
@@ -36,6 +37,7 @@ public class RegisterController {
     private SmsService smsService;
 
     @ApiOperation(value = "手机号码注册")
+    @ApiOperationSupport(order=2)
     @ResponseBody
     @PostMapping("/register")
     public CommonResult<UserEntity> register(@RequestBody RegisterVo registerVo) {

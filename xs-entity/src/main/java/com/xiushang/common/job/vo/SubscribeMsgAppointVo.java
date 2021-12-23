@@ -13,11 +13,6 @@ public class SubscribeMsgAppointVo implements java.io.Serializable{
     @ApiModelProperty(notes = "微信OpenId",required = true)
     private String openId;
 
-    /**
-     * 所属店铺
-     */
-    @ApiModelProperty(notes = "shopId",required = true)
-    private String shopId;
 
     /**
      * 订阅对象ID
@@ -51,14 +46,6 @@ public class SubscribeMsgAppointVo implements java.io.Serializable{
 
     public void setSubscribeObjectId(String subscribeObjectId) {
         this.subscribeObjectId = subscribeObjectId;
-    }
-
-    public String getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
     }
 
     public String getName() {
