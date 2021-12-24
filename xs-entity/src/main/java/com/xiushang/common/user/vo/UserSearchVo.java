@@ -1,9 +1,9 @@
 package com.xiushang.common.user.vo;
 
-import com.xiushang.framework.entity.vo.MgPageable;
+import com.xiushang.framework.entity.vo.SearchPageVo;
 import io.swagger.annotations.ApiModelProperty;
 
-public class UserSearchVo extends MgPageable implements java.io.Serializable {
+public class UserSearchVo extends SearchPageVo implements java.io.Serializable {
     @ApiModelProperty(notes = "用户名称")
     private  String name;
     @ApiModelProperty(notes = "登录名")

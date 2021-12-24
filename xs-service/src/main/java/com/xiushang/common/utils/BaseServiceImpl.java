@@ -7,8 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Optional;
 
 /**
@@ -19,12 +17,6 @@ import java.util.Optional;
 public abstract class BaseServiceImpl<T> {
     @Autowired
     private BaseDao<T> baseDao;
-
-    @Autowired
-    public HttpServletRequest request;
-
-    @Autowired
-    public HttpServletResponse response;
 
     @Autowired
     public UserService userService;
