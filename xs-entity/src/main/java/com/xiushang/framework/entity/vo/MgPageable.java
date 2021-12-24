@@ -53,14 +53,7 @@ public abstract class MgPageable implements Serializable {
         this.totalCount = totalCount;
     }
 
-    @ApiModelProperty(hidden = true)
-    public int getOffset() {
-        int pageNo = getPageNo() - 1;
-        if (pageNo < 0) {
-            pageNo = 0;
-        }
-        return pageNo * getPageSize();
-    }
+
 
     public Boolean getHasMore() {
         return getTotalCount()>(getPageSize()*getPageNo());

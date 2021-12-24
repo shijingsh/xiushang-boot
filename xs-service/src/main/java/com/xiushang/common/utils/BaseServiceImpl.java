@@ -1,6 +1,7 @@
 package com.xiushang.common.utils;
 
 import com.querydsl.core.types.Predicate;
+import com.xiushang.common.user.service.UserService;
 import com.xiushang.jpa.repository.BaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -18,11 +19,15 @@ import java.util.Optional;
 public abstract class BaseServiceImpl<T> {
     @Autowired
     private BaseDao<T> baseDao;
+
     @Autowired
     public HttpServletRequest request;
 
     @Autowired
     public HttpServletResponse response;
+
+    @Autowired
+    public UserService userService;
 
     public T save(T t){
        return baseDao.save(t);

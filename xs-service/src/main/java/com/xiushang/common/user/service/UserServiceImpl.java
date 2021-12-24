@@ -307,4 +307,16 @@ public class UserServiceImpl implements UserService {
         return shopEntity;
     }
 
+    public String getCurrentShopId() {
+
+        String tenantId = UserHolder.getTenantId();
+        UserEntity userEntity = getUserById(tenantId);
+
+        ShopEntity shopEntity = shopDao.findByOwnerUser(userEntity);
+        if(shopEntity!=null){
+            return shopEntity.getId();
+        }
+
+        return "";
+    }
 }

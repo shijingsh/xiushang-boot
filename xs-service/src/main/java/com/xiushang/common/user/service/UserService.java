@@ -110,4 +110,6 @@ public interface UserService {
     public UserEntity getCurrentUser();
 
     public ShopEntity getCurrentShop();
+
+    public String getCurrentShopId();
 }

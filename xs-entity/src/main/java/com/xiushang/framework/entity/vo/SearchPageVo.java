@@ -1,16 +1,15 @@
 package com.xiushang.framework.entity.vo;
 
 import io.swagger.annotations.ApiModelProperty;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.io.Serializable;
 
 /**
- * 分页查询抽象类
+ * 分页查询类
  */
-public abstract class SearchPageVo implements Serializable {
+public  class SearchPageVo implements Serializable {
 
     /**
      * 当前的页数
@@ -39,6 +38,15 @@ public abstract class SearchPageVo implements Serializable {
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+    }
+
+    @ApiModelProperty(hidden = true)
+    public int getOffset() {
+        int pageNo = getPageNo() - 1;
+        if (pageNo < 0) {
+            pageNo = 0;
+        }
+        return pageNo * getPageSize();
     }
 
     public PageRequest createPageRequest(Sort.Order... orders) {
