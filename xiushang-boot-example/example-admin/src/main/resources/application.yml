@@ -95,6 +95,7 @@ jwt:
       #- /druid/**
       - /favicon.ico
       - /favicon.png
+      - /test/**
       - /captcha.jpg
       - /authentication/**
       - /oauthLogin

@@ -201,6 +201,103 @@ https://github.com/spring-projects/spring-security-oauth/blob/main/spring-securi
 
 表结构说明：https://blog.csdn.net/qq_34997906/article/details/89609297
 
+
+### dubbo 微服务集成
+
+添加依赖
+```xml
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-dubbo</artifactId>
+            <version>1.4.1</version>
+            <type>jar</type>
+        </dependency>
+```
+
+#### dubbo 接口
+```java
+package com.xiushang.dubbo.service;
+
+import com.xiushang.framework.log.CommonResult;
+
+public interface OrderDubboService {
+    CommonResult<String> getHelloWord();
+}
+
+```
+
+#### dubbo 接口provider
+```java
+package com.xiushang.dubbo.service;
+
+
+import com.xiushang.framework.log.CommonResult;
+import org.apache.dubbo.config.annotation.DubboService;
+
+
+@DubboService()
+public class OrderDubboSericeImpl implements OrderDubboService {
+
+    @Override
+    public CommonResult<String> getHelloWord() {
+        return CommonResult.success("hello world");
+    }
+}
+
+```
+
+#### dubbo 接口使用
+
+```java
+package com.xiushang.dubbo.controller;
+
+import com.xiushang.dubbo.service.OrderDubboService;
+import com.xiushang.framework.log.CommonResult;
+import org.apache.dubbo.config.annotation.DubboReference;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+
+@RestController()
+@RequestMapping("/consumer")
+public class ConsumerController {
+    @DubboReference
+    OrderDubboService orderDubboService;
+
+    @GetMapping("getOrder")
+    public CommonResult<String> getOrder() {
+        return orderDubboService.getHelloWord();
+    }
+}
+
+```
+
+#### dubbo 配置相关
+```
+server:
+  port: 7000
+spring:
+  application:
+    name: order-consumer
+# dubbo 相关配置
+dubbo:
+  application:
+    # 应用名称
+    name: order-provider
+  scan:
+  # 接口实现者（服务实现）包
+   base-packages: com.xiushang.dubbo.service
+  # 注册中心信息
+  registry:
+    address: zookeeper://192.168.29.12:2181
+  protocol:
+    # 协议名称
+    name: dubbo
+    # 协议端口
+    port: 20880
+```
+    
 ### 约束
 
 

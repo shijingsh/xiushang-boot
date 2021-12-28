@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController()
-@RequestMapping("/consumer")
+@RequestMapping("/test")
 public class ConsumerController {
     @DubboReference
     OrderDubboService orderDubboService;
