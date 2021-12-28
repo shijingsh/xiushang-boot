@@ -1,4 +1,4 @@
-package com.xiushang.dubbo.controller;
+package com.xiushang.admin.controller;
 
 import com.xiushang.dubbo.service.OrderDubboService;
 import com.xiushang.framework.log.CommonResult;
