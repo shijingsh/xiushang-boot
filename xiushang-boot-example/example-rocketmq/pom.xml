@@ -14,7 +14,6 @@
     <packaging>jar</packaging>
 
     <dependencies>
-        <!-- spring boot 依赖 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
@@ -22,13 +21,14 @@
 
         <dependency>
             <groupId>com.xiushang</groupId>
-            <artifactId>xs-service</artifactId>
+            <artifactId>example-service</artifactId>
         </dependency>
 
-        <dependency>
+        <!--<dependency>
             <groupId>com.xiushang</groupId>
             <artifactId>xs-rocketmq</artifactId>
-        </dependency>
+            <version>1.4.1</version>
+        </dependency>-->
     </dependencies>
 
     <!--配置环境的profile-->

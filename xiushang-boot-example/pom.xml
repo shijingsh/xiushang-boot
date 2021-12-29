@@ -83,6 +83,12 @@
             <type>jar</type>
         </dependency>
 
+        <dependency>
+            <groupId>com.xiushang</groupId>
+            <artifactId>xs-rocketmq</artifactId>
+            <version>1.4.1</version>
+            <type>jar</type>
+        </dependency>
         <!-- shijingsh ai框架依赖 -->
         <!--<dependency>
             <groupId>com.github.shijingsh</groupId>

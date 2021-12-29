@@ -1,4 +1,4 @@
-package com.xiaour.spring.boot.rocketmq.producer;
+package com.xiushang.admin.rocketmq.producer;
 
 import org.apache.commons.lang3.time.StopWatch;
 import org.apache.rocketmq.client.exception.MQBrokerException;

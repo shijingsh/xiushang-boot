@@ -1,4 +1,4 @@
-package com.xiaour.spring.boot.rocketmq.consumer;
+package com.xiushang.admin.rocketmq.consumer;
 
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;

@@ -9,12 +9,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.net.InetAddress;
 
@@ -29,10 +26,10 @@ import java.net.InetAddress;
 @EntityScan("com.xiushang.entity") //用于扫描JPA实体类 @Entity
 @EnableScheduling
 @ServletComponentScan(basePackages = {"com.xiushang.filter"})
-public class OrderProviderApplication extends SpringBootServletInitializer {
+public class MqApplication extends SpringBootServletInitializer {
 
   public static void main(String[] args) throws Exception {
-    ConfigurableApplicationContext application = SpringApplication.run(OrderProviderApplication.class, args);
+    ConfigurableApplicationContext application = SpringApplication.run(MqApplication.class, args);
 
     Environment env = application.getEnvironment();
     log.info("\n----------------------------------------------------------\n\t" +
@@ -49,7 +46,7 @@ public class OrderProviderApplication extends SpringBootServletInitializer {
 
   @Override
   protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-    return builder.sources(OrderProviderApplication.class);
+    return builder.sources(MqApplication.class);
   }
 
 }
