@@ -14,17 +14,17 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- spring boot 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.xiushang</groupId>
             <artifactId>example-service</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-dubbo</artifactId>
-            <version>1.4.1</version>
-            <type>jar</type>
-        </dependency>
     </dependencies>
 
     <!--配置环境的profile-->

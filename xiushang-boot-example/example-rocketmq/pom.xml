@@ -8,15 +8,26 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>example-dubbo-consumer</artifactId>
+    <artifactId>example-rocketmq</artifactId>
     <name>${project.artifactId}</name>
     <description>后台管理模块</description>
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- spring boot 依赖 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.xiushang</groupId>
-            <artifactId>example-service</artifactId>
+            <artifactId>xs-service</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.xiushang</groupId>
+            <artifactId>xs-rocketmq</artifactId>
         </dependency>
     </dependencies>
 

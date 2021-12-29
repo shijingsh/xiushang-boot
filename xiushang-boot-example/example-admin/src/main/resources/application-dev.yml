@@ -51,22 +51,4 @@ file:
   path: /Users/ZKUI/data/files/ #linux
   #文件预览、下载的url, 末尾请勿加 /
   url: http://localhost:8080/files
-
-# dubbo 相关配置
-dubbo:
-  application:
-    # 应用名称
-    name: order-provider
-  scan:
-  # 接口实现者（服务实现）包
-   base-packages: com.xiushang.dubbo.service
-  # 注册中心信息
-  registry:
-    address: zookeeper://192.168.29.12:2181
-  protocol:
-    # 协议名称
-    name: dubbo
-    # 协议端口
-    port: 20880
-
 temppath: D:/data/images

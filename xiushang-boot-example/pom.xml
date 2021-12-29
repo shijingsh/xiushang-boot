@@ -18,6 +18,7 @@
 
         <module>example-dubbo-consumer</module>
         <module>example-dubbo-provider</module>
+        <module>example-rocketmq</module>
     </modules>
     <groupId>com.xiushang</groupId>
     <artifactId>xiushang-boot-example</artifactId>
@@ -70,6 +71,14 @@
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-common</artifactId>
+            <version>1.4.1</version>
+            <type>jar</type>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-dubbo</artifactId>
             <version>1.4.1</version>
             <type>jar</type>
         </dependency>

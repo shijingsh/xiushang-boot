@@ -18,6 +18,7 @@
         <module>xs-job</module>
         <module>xs-marketing</module>
         <module>xs-dubbo</module>
+        <module>xs-rocketmq</module>
     </modules>
     <packaging>pom</packaging>
     <name>xiushang-boot</name>
