@@ -53,35 +53,6 @@ knife4j:
     enableFooterCustom: true
     footerCustomContent: Apache License 2.0 | Copyright ©️ 2021 秀上
 
-#定时任务
-job:
-  order_complete:
-    cron: 0 0 0/1 * * ?
-#------------ sms ------------
-#短信模板和签名
-sms:
-  signName: xxxxxxxxxxxx
-  templateCode: xxxxxxxxxxxx
-  accessKeyId:  xxxxxxxxxxxx
-  accessKeySecret:  xxxxxxxxxxxx
-  templateCodeTip:  xxxxxxxxxxxx
-  templateCodeOrderTip: xxxxxxxxxxxx
-  templateCodeIntegralOrderTip: xxxxxxxxxxxx
-  templateCodeEnrollTip:  xxxxxxxxxxxx
-  adminCode:  xxxxxxxxxxxx
-
-#微信授权key
-weixin:
-  appid:  xxxxxxxxxxxx
-  secret: xxxxxxxxxxxx
-
-#ftp
-ftp:
-  port: 21
-  hostname: xxx:xxx:xxx:xxx
-  username: xxxxxxFtp
-  password: xxxxxxxxxxxx
-
 #jwt whitelist
 jwt:
   ignored:
@@ -110,8 +81,4 @@ jwt:
       - /**/*.apk
       - /**/*.txt
 
-#oauth path
-oauth:
-  path:
-    url: /api/
 

@@ -16,6 +16,8 @@ public class ConsumerController {
 
     @GetMapping("getOrder")
     public CommonResult<String> getOrder() {
-        return orderDubboService.getHelloWord();
+        String msg = orderDubboService.getHelloWord();
+
+        return CommonResult.success(msg);
     }
 }

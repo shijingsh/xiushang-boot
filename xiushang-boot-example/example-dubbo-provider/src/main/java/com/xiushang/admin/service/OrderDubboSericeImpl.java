@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class OrderDubboSericeImpl implements OrderDubboService, Serializable {
 
     @Override
-    public CommonResult<String> getHelloWord() {
-        return CommonResult.success("hello world");
+    public String getHelloWord() {
+        return "hello world";
     }
 }

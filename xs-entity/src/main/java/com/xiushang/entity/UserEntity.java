@@ -1,8 +1,6 @@
 package com.xiushang.entity;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.xiushang.framework.utils.DeleteEnum;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
@@ -74,7 +72,6 @@ public class UserEntity extends ExpandEntity {
     @Column(columnDefinition = "TINYINT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     @JSONField(serialize = false, deserialize = false)
-    @JsonIgnore
     private Boolean isInitRecommend = Boolean.FALSE;
 
     /**

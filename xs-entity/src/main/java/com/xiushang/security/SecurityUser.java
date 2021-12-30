@@ -14,7 +14,7 @@ public class SecurityUser extends UserEntity implements UserDetails{
      */
     private String tenantId;
 
-    public SecurityUser (UserEntity user) {
+    public SecurityUser(UserEntity user) {
         if(user != null) {
             BeanUtils.copyProperties(user, this);
         }

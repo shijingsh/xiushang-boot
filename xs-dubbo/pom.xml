@@ -41,11 +41,6 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-entity</artifactId>
-        </dependency>
-
     </dependencies>
 
 </project>
