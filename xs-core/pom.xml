@@ -3,12 +3,12 @@
     <parent>
         <artifactId>xiushang-boot</artifactId>
         <groupId>com.github.shijingsh</groupId>
-        <version>1.4.2</version>
+        <version>1.4.3</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.shijingsh</groupId>
     <artifactId>xs-core</artifactId>
-    <version>1.4.2</version>
+    <version>1.4.3</version>
     <packaging>jar</packaging>
     <name>xs-core</name>
     <url>http://maven.apache.org</url>

@@ -8,7 +8,7 @@
     </parent>
     <groupId>com.github.shijingsh</groupId>
     <artifactId>xiushang-boot</artifactId>
-    <version>1.4.2</version>
+    <version>1.4.3</version>
     <modules>
         <module>xiushang-boot-example</module>
         <module>xs-core</module>

@@ -23,7 +23,7 @@
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-dubbo</artifactId>
-            <version>1.4.2</version>
+            <version>1.4.3</version>
         </dependency>
     </dependencies>
 
