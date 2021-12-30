@@ -56,25 +56,25 @@ Select the library you need to install
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xiushang-boot</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
             <type>pom</type>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-entity</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-common</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-job</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
             <type>jar</type>
         </dependency>
 ```
@@ -209,7 +209,7 @@ https://github.com/spring-projects/spring-security-oauth/blob/main/spring-securi
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-dubbo</artifactId>
-            <version>1.4.1</version>
+            <version>1.4.2</version>
             <type>jar</type>
         </dependency>
 ```

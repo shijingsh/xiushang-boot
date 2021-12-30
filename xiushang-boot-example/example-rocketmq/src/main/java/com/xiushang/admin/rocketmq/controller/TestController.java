@@ -1,6 +1,6 @@
 package com.xiushang.admin.rocketmq.controller;
 
-import com.xiaour.spring.boot.rocketmq.producer.Producer;
+import com.xiushang.admin.rocketmq.producer.Producer;
 import org.apache.rocketmq.client.exception.MQBrokerException;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.remoting.exception.RemotingException;
