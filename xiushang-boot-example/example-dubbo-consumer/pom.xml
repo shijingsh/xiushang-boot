@@ -14,6 +14,11 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <version>RELEASE</version>
+        </dependency>
         <!--dubbo依赖-->
         <dependency>
             <groupId>com.github.shijingsh</groupId>

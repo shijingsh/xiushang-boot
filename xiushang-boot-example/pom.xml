@@ -31,11 +31,6 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-
-        <mysql.version>5.1.34</mysql.version>
-        <druid.version>1.2.6</druid.version>
-        <jjwt.version>0.9.1</jjwt.version>
-
     </properties>
 
     <dependencyManagement>
@@ -55,31 +50,6 @@
 
 
     <dependencies>
-        <!-- thymeleaf 支持 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-        <!-- xiushang框架依赖 -->
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xiushang-boot</artifactId>
-            <version>1.4.2</version>
-            <type>pom</type>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-entity</artifactId>
-            <version>1.4.2</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-common</artifactId>
-            <version>1.4.2</version>
-            <type>jar</type>
-        </dependency>
-
     </dependencies>
 
     <build>

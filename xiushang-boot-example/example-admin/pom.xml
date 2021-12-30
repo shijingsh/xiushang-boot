@@ -14,10 +14,24 @@
     <packaging>jar</packaging>
 
     <dependencies>
+        <!-- thymeleaf 支持 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+        <!-- example-service 基础服务 -->
         <dependency>
             <groupId>com.xiushang</groupId>
             <artifactId>example-service</artifactId>
         </dependency>
+        <!-- xs-common 公共接口 -->
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-common</artifactId>
+            <version>1.4.2</version>
+            <type>jar</type>
+        </dependency>
+
     </dependencies>
 
     <!--配置环境的profile-->

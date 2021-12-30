@@ -1,84 +1,22 @@
-# 端口
 server:
+  # 服务端口
   port: 8081
-  servlet:
-    register-default-servlet: true
-
 spring:
-  profiles:
-    active: @env.id@
-  mvc:
-    throw-exception-if-no-handler-found: true
-  web:
-    resources:
-      add-mappings: false
   application:
-    name: xiushang-admin
-  jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
-    time-zone: GMT+8
-  # 文件大小限制
-  servlet:
-    multipart:
-      max-file-size: 10MB
-      max-request-size: 100MB
-  # redis token信息
-  redis:
-    key:
-      prefix:
-        userToken: "user:token:"
-        passwordError: "user:password:error:"
-        permissionRefresh: "user:token:permissionRefresh:"
-      expire:
-        userToken: 604800 # 7天 7*24*3600
-        passwordError: 3600 # 一个小时
-        permissionRefresh: 604800 # 7天 7*24*3600
-    allowMultipleLogin: true # 允许多处登陆
-  jpa:
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
-    hibernate:
-      ddl-auto: update # Hibernate ddl auto (create, create-drop, validate, update)
-
-  thymeleaf:
-    prefix: classpath:/templates/
-    suffix: .html
-    cache: false
-
-knife4j:
-  enable: true
-  setting:
-    enableFooter: false
-    enableFooterCustom: true
-    footerCustomContent: Apache License 2.0 | Copyright ©️ 2021 秀上
-
-#jwt whitelist
-jwt:
-  ignored:
-    urls: #安全路径白名单
-      - /
-      - /doc.html
-      - /swagger-resources/**
-      - /v2/api-docs
-      - /v2/api-docs-ext
-      - /webjars/**
-      #- /druid/**
-      - /favicon.ico
-      - /favicon.png
-      - /test/**
-      - /captcha.jpg
-      - /authentication/**
-      - /oauthLogin
-      #- static
-      - /**/*.js
-      - /**/*.css
-      - /**/*.html
-      - /**/*.jpg
-      - /**/*.jpeg
-      - /**/*.png
-      - /**/favicon.ico
-      - /**/*.apk
-      - /**/*.txt
-
-
+    name: order-provider
+# dubbo 相关配置(dubbo 的配置不再以 Spring 开头)
+dubbo:
+  application:
+    # 应用名称
+    name: order-provider
+  scan:
+    # 接口实现者（服务实现）包
+    base-packages: com.xiushang.admin.service
+  # 注册中心信息
+  registry:
+    address: zookeeper://192.168.29.12:2181
+  protocol:
+    # 协议名称
+    name: dubbo
+    # 协议端口
+    port: 20880

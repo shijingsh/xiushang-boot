@@ -14,11 +14,19 @@
     <dependencies>
 
         <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-service</artifactId>
+            <version>1.4.2</version>
+            <type>jar</type>
+        </dependency>
+
+        <dependency>
             <groupId>com.xiushang</groupId>
             <artifactId>example-entity</artifactId>
             <version>1.0-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
+
     </dependencies>
 
     <build>
