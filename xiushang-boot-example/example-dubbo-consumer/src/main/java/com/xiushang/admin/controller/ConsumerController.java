@@ -1,5 +1,7 @@
 package com.xiushang.admin.controller;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.xiushang.dubbo.service.OrderDubboService;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +17,8 @@ public class ConsumerController {
 
     @GetMapping("getOrder")
     public String getOrder() {
-        String msg = orderDubboService.getHelloWord();
+        JSONObject object = orderDubboService.getHelloWord();
 
-        return msg;
+        return JSON.toJSONString(object);
     }
 }

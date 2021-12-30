@@ -1,6 +1,8 @@
 package com.xiushang.dubbo.service;
 
 
+import com.alibaba.fastjson.JSONObject;
+
 public interface OrderDubboService {
-    String getHelloWord();
+    JSONObject getHelloWord();
 }
