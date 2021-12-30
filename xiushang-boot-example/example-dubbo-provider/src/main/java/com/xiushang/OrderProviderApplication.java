@@ -18,13 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.net.InetAddress;
 
-/**
- * @author ZKUI created by 2021-04-02 下午4:54
- */
+
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
 @Slf4j
-//@ComponentScan({"com.xiushang","com.xiushang"})
-//@ComponentScan(basePackages = "com.xiushang") //用于扫描@Controller @Service
 @EnableJpaRepositories(basePackages = "com.xiushang") //用于扫描Dao @Repository
 @EntityScan("com.xiushang.entity") //用于扫描JPA实体类 @Entity
 @EnableScheduling
