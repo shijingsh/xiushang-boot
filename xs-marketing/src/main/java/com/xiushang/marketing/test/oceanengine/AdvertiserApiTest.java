@@ -1,6 +1,6 @@
 package com.xiushang.marketing.test.oceanengine;
 
-import com.xiushang.common.utils.JsonUtils;
+import com.alibaba.fastjson.JSON;
 import com.xiushang.marketing.oceanengine.api.AdvertiserApi;
 import com.xiushang.marketing.oceanengine.api.bean.advertiser.AdvertiserInfoResponse;
 import com.xiushang.marketing.test.config.OceanEngineTestConfig;
@@ -19,7 +19,7 @@ public class AdvertiserApiTest {
             List<String> fieldList = Arrays.asList("id", "name", "role", "status", "address", "reason", "license_url", "license_no", "license_province", "license_city", "company", "brand", "promotion_area", "promotion_center_province", "promotion_center_city", "industry", "create_time");
             AdvertiserInfoResponse response = AdvertiserApi.getInfo(OceanEngineTestConfig.ACCESS_TOKEN,advertiserIds,fieldList);
             System.out.println("=============================getInfo=============================");
-            System.out.println(JsonUtils.toJsonStr(response));
+            System.out.println(JSON.toJSONString(response));
 
 
         } catch (Exception e) {

@@ -81,6 +81,7 @@
         <dubbo.version>3.0.4</dubbo.version>
         <zookeeper.version>3.0.4</zookeeper.version>
         <lombok.version>1.18.22</lombok.version>
+        <tencent.marketing.version>1.1.29</tencent.marketing.version>
     </properties>
 
     <dependencyManagement>

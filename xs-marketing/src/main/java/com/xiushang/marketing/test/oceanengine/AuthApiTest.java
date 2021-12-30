@@ -1,6 +1,6 @@
 package com.xiushang.marketing.test.oceanengine;
 
-import com.xiushang.common.utils.JsonUtils;
+import com.alibaba.fastjson.JSON;
 import com.xiushang.marketing.oceanengine.api.AuthApi;
 import com.xiushang.marketing.oceanengine.api.bean.auth.AccessTokenResponse;
 import com.xiushang.marketing.oceanengine.api.bean.auth.AuthAdvertiserResponse;
@@ -27,7 +27,7 @@ public class AuthApiTest {
             /**/
             AuthAdvertiserResponse authAdvertiserResponse = AuthApi.listAuthAdvertiser(config,OceanEngineTestConfig.ACCESS_TOKEN);
             System.out.println("=============================authAdvertiserResponse=============================");
-            System.out.println(JsonUtils.toJsonStr(authAdvertiserResponse));
+            System.out.println(JSON.toJSONString(authAdvertiserResponse));
 
 
         } catch (Exception e) {
