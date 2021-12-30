@@ -206,7 +206,7 @@ public class RedisController {
 
 ### auth2 授权配置
 
-配置auth2 授权路径 （默认为： /api/）
+application.yml中配置oauth2 授权路径 （默认为： /api/）
 ```
 oauth:
   path:
