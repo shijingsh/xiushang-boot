@@ -194,7 +194,7 @@ oauth:
 
 ####  授权接入说明
 
- [OAUTH2文档](./OAUTH2.md)
+ [OAUTH2文档](xs-jwt-security/OAUTH2.md)
  
 #### OAuth2 数据库表
 https://github.com/spring-projects/spring-security-oauth/blob/main/spring-security-oauth2/src/test/resources/schema.sql
