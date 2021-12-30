@@ -21,6 +21,7 @@
         <module>xs-dubbo</module>
         <module>xs-rocketmq</module>
         <module>xs-solr</module>
+        <module>xs-pay</module>
     </modules>
     <packaging>pom</packaging>
     <name>xiushang-boot</name>
@@ -82,6 +83,8 @@
         <zookeeper.version>3.0.4</zookeeper.version>
         <lombok.version>1.18.22</lombok.version>
         <tencent.marketing.version>1.1.29</tencent.marketing.version>
+        <payproject.version>1.0.2</payproject.version>
+        <pay.version>2.14.3</pay.version>
     </properties>
 
     <dependencyManagement>

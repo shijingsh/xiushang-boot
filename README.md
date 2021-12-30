@@ -1,8 +1,8 @@
 ### 简介
  Xiushang boot .
-
- 基础库为API接口项目开发，完成API通用功能：用户模块、Api授权、短信、定时任务、上传文件、文档管理、微信相关接口。
- 主要技术栈：springboot jpa jwt job pay marketingApi knife4j Swagger2  
+ 使用springboot + dubbo +rocketMQ + jpa实现的轻量级微服务架构。
+ 为API接口项目开发，完成API通用功能：用户模块、Api授权、短信、定时任务、上传文件、文档管理、微信相关接口。
+ 主要技术栈：springboot dubbo rocketMQ jpa oauth2 solr job pay marketingApi knife4j Swagger2  
  
   demo：https://github.com/shijingsh/xiushang-boot/tree/master/xiushang-boot-example
   
