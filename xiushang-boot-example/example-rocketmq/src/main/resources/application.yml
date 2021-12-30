@@ -99,6 +99,7 @@ jwt:
       - /captcha.jpg
       - /authentication/**
       - /oauthLogin
+      - /push
       #- static
       - /**/*.js
       - /**/*.css
