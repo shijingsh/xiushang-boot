@@ -31,63 +31,22 @@
         <finalName>example-entity</finalName>
         <defaultGoal>compile</defaultGoal>
         <plugins>
-            <!-- query dsl 自动生成相应的查询类-->
-            <!--
-            为了提速，将QueryDSL自动生成Qxxx放在clean阶段。本来想放在post-clean，但
-            maven没有执行。因此目前放在clean阶段。顺序执行应为：
-            1、maven-clean-plugin：即把目录删了
-            2、apt-maven-plugin：在target/generated-sources/java下生成Qxxxx.java
-            如果后期发现执行顺序上有问题，则需要显示声明 maven-clean-plugin 在
-            apt-maven-plugin 之前即可。
-            -->
             <plugin>
                 <groupId>com.mysema.maven</groupId>
                 <artifactId>apt-maven-plugin</artifactId>
-                <version>1.1.2</version>
+                <version>1.1.3</version>
                 <executions>
                     <execution>
-                        <id>querydsl-process</id>
-                        <!--<phase>clean</phase>-->
-                        <phase>generate-sources</phase>
                         <goals>
                             <goal>process</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>
-                                target/generated-sources/java
-                            </outputDirectory>
-                            <processor>
-                                com.querydsl.apt.jpa.JPAAnnotationProcessor
-                            </processor>
-                            <!--<showWarnings>true</showWarnings>-->
-                            <logOnlyOnError>true</logOnlyOnError>
+                            <outputDirectory>target/generated-sources/java</outputDirectory>
+                            <processor>com.querydsl.apt.jpa.JPAAnnotationProcessor</processor>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
-
-            <!--用来添加多个source目录，解决引用Qxxxxx的烦人告警提示-->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>build-helper-maven-plugin</artifactId>
-                <version>1.7</version>
-                <executions>
-                    <execution>
-                        <id>add-source</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>add-source</goal>
-                        </goals>
-                        <configuration>
-                            <sources>
-                                <!--可以在这里添加多个source节点，来添加任意多个源文件夹-->
-                                <source>target/generated-sources/java</source>
-                            </sources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-deploy-plugin</artifactId>
