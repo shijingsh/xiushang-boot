@@ -62,9 +62,10 @@
     </distributionManagement>
 
     <properties>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <java.version>1.8</java.version>
+
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
@@ -85,6 +86,8 @@
         <tencent.marketing.version>1.1.29</tencent.marketing.version>
         <payproject.version>1.0.2</payproject.version>
         <pay.version>2.14.3</pay.version>
+        <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
+        <maven-compiler.version>3.8.1</maven-compiler.version>
     </properties>
 
     <dependencyManagement>

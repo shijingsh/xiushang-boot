@@ -3,12 +3,14 @@ package com.xiushang.admin.news.controller;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.utils.DateUtil;
 import com.xiushang.config.ApiVersion;
+import com.xiushang.dto.NewsDTO;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.entity.news.NewsEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.news.service.NewsService;
 import com.xiushang.vo.HelpSearchVo;
+import com.xiushang.vo.NewsMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ public class NewsController {
     private NewsService newsService;
     @Autowired
     private UserService userService;
+
     /**
      * 获取
      * @return
@@ -40,10 +43,15 @@ public class NewsController {
     @ResponseBody
     @GetMapping("/{version}/get")
     @PreAuthorize("hasAnyRole('ROLE_USER')")
-    public CommonResult<NewsEntity> get(String id) {
+    public CommonResult<NewsDTO> get(String id) {
         NewsEntity newsEntity = newsService.get(id);
 
-        return CommonResult.success(newsEntity);
+        /**
+         *  mapstruct 测试
+         */
+        NewsDTO newDTO = NewsMapper.INSTANCE.sourceToTarget(newsEntity);
+
+        return CommonResult.success(newDTO);
     }
 
     @Secured({"ROLE_ADMIN"})
@@ -96,6 +104,8 @@ public class NewsController {
     public CommonResult<PageTableVO<NewsEntity>> listPage(@RequestBody HelpSearchVo helpSearchVo) {
 
         PageTableVO vo = newsService.findPageList(helpSearchVo);
+
+        NewsMapper.INSTANCE.sourceToTarget(vo.getRowData());
 
         return CommonResult.success(vo);
     }
