@@ -16,14 +16,12 @@
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-core</artifactId>
-            <version>1.4.4</version>
-            <type>jar</type>
+            <version>${xiushang.version}</version>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-entity</artifactId>
-            <version>1.4.4</version>
-            <type>jar</type>
+            <version>${xiushang.version}</version>
         </dependency>
     </dependencies>
 

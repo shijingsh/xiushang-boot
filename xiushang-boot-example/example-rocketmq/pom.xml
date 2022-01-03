@@ -24,7 +24,7 @@
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-rocketmq</artifactId>
-            <version>1.4.4</version>
+            <version>${xiushang.version}</version>
         </dependency>
 
     </dependencies>
