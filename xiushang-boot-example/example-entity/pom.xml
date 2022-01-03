@@ -31,6 +31,7 @@
         <finalName>example-entity</finalName>
         <defaultGoal>compile</defaultGoal>
         <plugins>
+            <!-- query dsl 自动生成相应的查询类-->
             <plugin>
                 <groupId>com.mysema.maven</groupId>
                 <artifactId>apt-maven-plugin</artifactId>
