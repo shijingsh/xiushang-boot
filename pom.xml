@@ -22,6 +22,7 @@
         <module>xs-rocketmq</module>
         <module>xs-solr</module>
         <module>xs-pay</module>
+        <module>xs-mapstruct</module>
     </modules>
     <packaging>pom</packaging>
     <name>xiushang-boot</name>

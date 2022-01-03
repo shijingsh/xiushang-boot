@@ -47,16 +47,12 @@
             <artifactId>querydsl-apt</artifactId>
             <version>${querydsl.version}</version>
         </dependency>
-        <!-- mapstruct bean和vo对象转换-->
+
+        <!-- mapstruct -->
         <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct</artifactId>
-            <version>${org.mapstruct.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.mapstruct</groupId>
-            <artifactId>mapstruct-processor</artifactId>
-            <version>${org.mapstruct.version}</version>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-mapstruct</artifactId>
+            <version>1.4.4</version>
         </dependency>
 
     </dependencies>

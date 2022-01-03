@@ -3,7 +3,6 @@ package com.xiushang.framework.model;
 import org.mapstruct.InheritConfiguration;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.MapperConfig;
-import org.mapstruct.Mapping;
 
 import java.util.List;
 import java.util.stream.Stream;
