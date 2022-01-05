@@ -53,7 +53,7 @@ public class DownExcelUtil {
     }
 
     public static void downFromTempPath(String filePath, String fileName, HttpServletResponse response){
-        String path = PropertyConfigurer.getContextProperty("temppath")+filePath;
+        String path = PropertyConfigurer.getContextProperty("file.temppath")+filePath;
         File file = new File(path);
         InputStream fis = null;
         OutputStream os = null;

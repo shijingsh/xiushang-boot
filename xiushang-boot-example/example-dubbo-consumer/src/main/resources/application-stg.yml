@@ -1,2 +1,3 @@
-
-temppath: /data/images
+# 文件上传目录
+file:
+  temppath: /data/images

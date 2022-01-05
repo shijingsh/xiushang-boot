@@ -25,7 +25,7 @@ public class ThumbnailUtils {
         sb.append("mg").append(new Date().getTime()).append(Math.round(Math.random() * 1000000));
 
         String imgName = sb.toString() + ".png";
-        String rootPath = PropertyConfigurer.getContextProperty("temppath")+"";
+        String rootPath = PropertyConfigurer.getContextProperty("file.temppath")+"";
         String today = DateFormatUtils.format(new Date(), "yyyyMMdd");
         String imgPath = separator + today + separator;
 

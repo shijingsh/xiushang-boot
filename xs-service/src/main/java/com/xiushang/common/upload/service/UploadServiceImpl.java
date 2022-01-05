@@ -129,7 +129,7 @@ public class UploadServiceImpl implements UploadService {
             savePath = savePath + getDatePath();
         }
         uploadBean.setRelativePath(savePath);
-        savePath = PropertyConfigurer.getContextProperty("temppath") + savePath;
+        savePath = PropertyConfigurer.getContextProperty("file.temppath") + savePath;
 
 
         return savePath;
@@ -149,7 +149,7 @@ public class UploadServiceImpl implements UploadService {
         if(StringUtils.isNotBlank(path) || path.startsWith("http")){
             return false;
         }
-        String home = (String) PropertyConfigurer.getContextProperty("temppath");
+        String home = (String) PropertyConfigurer.getContextProperty("file.temppath");
         File file = new File(home + path);
         file.deleteOnExit();
         return true;
