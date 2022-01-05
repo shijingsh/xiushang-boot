@@ -8,6 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 import javax.persistence.*;
 import java.util.Date;
 
+/**
+ * 消息订阅
+ */
 @Entity
 @Table(name="sys_subscribe_msg_appoint")
 public class SubscribeMsgAppointEntity extends BaseEntity {

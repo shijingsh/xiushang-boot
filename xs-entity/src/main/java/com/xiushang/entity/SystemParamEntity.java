@@ -28,11 +28,6 @@ public class SystemParamEntity extends BaseEntity {
 	private String paramValue;
 
 	/**
-	 * 1 有效 0 无效
-	 * 有效状态标识
-	 */
-	private Integer status = 1;
-	/**
 	 * 参数说明
 	 */
 	@Lob
@@ -60,14 +55,6 @@ public class SystemParamEntity extends BaseEntity {
 
 	public void setParamValue(String paramValue) {
 		this.paramValue = paramValue;
-	}
-
-	public Integer getStatus() {
-		return status;
-	}
-
-	public void setStatus(Integer status) {
-		this.status = status;
 	}
 
 	public String getRemark() {
