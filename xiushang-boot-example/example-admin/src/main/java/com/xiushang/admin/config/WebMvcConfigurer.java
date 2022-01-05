@@ -17,9 +17,6 @@ import java.util.List;
 /**
  * spring mvc 配置
  *
- * @author ZKUI
- * @version V1.0
- * @date 2021年4月2日
  */
 @Configuration
 public class WebMvcConfigurer extends WebMvcConfigurationSupport {

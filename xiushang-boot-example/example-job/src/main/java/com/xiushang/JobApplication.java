@@ -10,11 +10,9 @@ import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
 @Slf4j
@@ -40,9 +38,4 @@ public class JobApplication extends SpringBootServletInitializer {
     //无端口方式启动
     return builder.sources(JobApplication.class).web(WebApplicationType.NONE);
   }
-/*
-  @Bean
-  public BCryptPasswordEncoder passwordEncoder(){
-    return new BCryptPasswordEncoder();
-  }*/
 }

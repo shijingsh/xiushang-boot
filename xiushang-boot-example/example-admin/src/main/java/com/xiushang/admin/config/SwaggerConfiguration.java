@@ -43,19 +43,8 @@ public class SwaggerConfiguration {
 
     @Bean
     public Docket defaultApi() {
-        List<AlternateTypeRule> alternateTypeRules= Lists.newArrayList();
-        TypeResolver typeResolver = new TypeResolver();
-        //这里添加忽略的实体，防止无限调用
-        //alternateTypeRules.add(new AlternateTypeRule(typeResolver.resolve(BIConversion.User.class),typeResolver.resolve(Object.class)));
-
-/*
-        ParameterBuilder tokenPar = new ParameterBuilder();
-        List<Parameter> pars = new ArrayList<>();
-        tokenPar.name("Authorization").description("jwtToken").modelRef(new ModelRef("string")).parameterType("header").required(false).build();
-        pars.add(tokenPar.build());*/
 
         return new Docket(DocumentationType.SWAGGER_2)
-                .alternateTypeRules(alternateTypeRules.toArray(new AlternateTypeRule[alternateTypeRules.size()]))
                 .apiInfo(groupApiInfo())
                 .groupName("1-全部接口")
                 .select()
