@@ -21,20 +21,20 @@
 
         <!-- 支付功能功能 -->
         <dependency>
-            <groupId>com.egzosn</groupId>
+            <groupId>com.github.shijingsh</groupId>
             <artifactId>pay-spring-boot-starter</artifactId>
             <version>${payproject.version}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.egzosn</groupId>
+            <groupId>com.github.shijingsh</groupId>
             <artifactId>pay-java-wx</artifactId>
             <version>${pay.version}</version>
         </dependency>
 
 
         <dependency>
-            <groupId>com.egzosn</groupId>
+            <groupId>com.github.shijingsh</groupId>
             <artifactId>pay-java-ali</artifactId>
             <version>${pay.version}</version>
         </dependency>
