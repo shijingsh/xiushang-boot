@@ -1,9 +1,7 @@
 
 package com.xiushang.admin.config;
 
-import com.fasterxml.classmate.TypeResolver;
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
-import com.google.common.collect.Lists;
 import com.xiushang.config.ApiVersion;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
 import com.xiushang.framework.log.SecurityConstants;
@@ -17,7 +15,6 @@ import springfox.bean.validators.configuration.BeanValidatorPluginsConfiguration
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
-import springfox.documentation.schema.AlternateTypeRule;
 import springfox.documentation.service.*;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
