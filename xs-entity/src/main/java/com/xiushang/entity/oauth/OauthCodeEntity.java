@@ -15,9 +15,8 @@ public class OauthCodeEntity implements java.io.Serializable{
      * 主键ID
      */
     @Id
-    @SequenceGenerator(name = "oauth_seq", sequenceName = "oauth_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "oauth_seq")
-    protected String id;
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    protected Integer id;
 
     /**
      * 授权code
@@ -28,11 +27,11 @@ public class OauthCodeEntity implements java.io.Serializable{
 
     private Date createTime;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
