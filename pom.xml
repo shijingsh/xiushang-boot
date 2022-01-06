@@ -78,7 +78,7 @@
        <!-- <spring.boot.version>2.5.2</spring.boot.version>-->
         <commons-pool2.version>2.10.0</commons-pool2.version>
         <druid.version>1.2.6</druid.version>
-        <knife4j.version>3.0.3</knife4j.version>
+        <knife4j.version>3.0.4</knife4j.version>
         <knife4j.annotations.version>1.5.22</knife4j.annotations.version>
         <hutool.version>5.7.17</hutool.version>
         <dubbo.version>3.0.4</dubbo.version>
@@ -288,7 +288,7 @@
 
         <!-- knife4j 接口文档  -->
         <dependency>
-            <groupId>com.github.xiaoymin</groupId>
+            <groupId>com.github.shijingsh</groupId>
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>${knife4j.version}</version>
             <exclusions>
