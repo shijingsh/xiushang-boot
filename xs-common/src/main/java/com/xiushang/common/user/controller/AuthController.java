@@ -5,19 +5,14 @@ import com.xiushang.common.user.vo.OAuthVo;
 import com.xiushang.framework.log.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -35,11 +30,14 @@ public class AuthController {
     @PostMapping("/token")
     public CommonResult<OAuth2AccessToken> postAccessToken(
             @ApiIgnore Principal principal,
-            OAuthVo oAuthVo
+            @RequestParam String  client_id,
+            @RequestParam String  client_secret,
+            @RequestBody OAuthVo oAuthVo
     ) throws HttpRequestMethodNotSupportedException {
 
         Map<String, String> parameters = new HashMap<>();
-
+        parameters.put("client_id",client_id);
+        parameters.put("client_secret",client_secret);
         try {
            parameters = objectToMap(oAuthVo);
         } catch (IllegalAccessException e) {
