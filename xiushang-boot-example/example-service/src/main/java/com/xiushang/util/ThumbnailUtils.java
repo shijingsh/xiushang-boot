@@ -2,8 +2,10 @@ package com.xiushang.util;
 
 import com.xiushang.framework.sys.PropertyConfigurer;
 import org.apache.commons.lang3.time.DateFormatUtils;
-import sun.misc.BASE64Decoder;
 
+
+import java.util.Base64;
+import java.util.Base64.Decoder;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
@@ -48,10 +50,10 @@ public class ThumbnailUtils {
         if (imgStr == null) {
             return false;
         }
-        BASE64Decoder decoder = new BASE64Decoder();
+        Decoder decoder = Base64.getDecoder();
         try {
             // Base64解码
-            byte[] b = decoder.decodeBuffer(imgStr);
+            byte[] b = decoder.decode(imgStr);
             for (int i = 0; i < b.length; ++i) {
                 if (b[i] < 0) {// 调整异常数据
                     b[i] += 256;
