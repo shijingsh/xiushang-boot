@@ -117,6 +117,7 @@ public class FastJsonMappingHttpMessageConverter extends AbstractHttpMessageConv
         }
 
         String jsonString = JSON.toJSONString(paramT,filter, SerializerFeature.DisableCircularReferenceDetect,
+                SerializerFeature.WriteDateUseDateFormat,
                 SerializerFeature.QuoteFieldNames,
                 SerializerFeature.WriteMapNullValue,
                 SerializerFeature.WriteNullStringAsEmpty,
