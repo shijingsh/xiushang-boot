@@ -8,7 +8,7 @@ import lombok.Data;
 @ApiModel
 public class OAuthVo implements java.io.Serializable{
 
-    @ApiModelProperty(notes = "授权模式（authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat）",position = 1)
+    @ApiModelProperty(notes = "授权模式（authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat）",position = 1,required=true)
     private String grant_type;
    /* @ApiModelProperty(notes = "Oauth2客户端ID",position = 2)
     private String client_id;
