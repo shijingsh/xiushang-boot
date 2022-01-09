@@ -112,4 +112,6 @@ public interface UserService {
     public ShopEntity getCurrentShop();
 
     public String getCurrentShopId();
+
+    public void registerUser(UserEntity userEntity);
 }

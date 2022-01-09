@@ -67,7 +67,8 @@ public class RegisterController {
                 userEntity.setName(registerVo.getName());
                 userEntity.setMobile(mobile);
                 userEntity.setPassword(MD5.GetMD5Code(registerVo.getPassword()));
-                userService.updateUser(userEntity);
+
+                userService.registerUser(userEntity);
 
                 return CommonResult.success(userEntity);
             }

@@ -12,9 +12,11 @@ import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.Constants;
 import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.framework.utils.DeleteEnum;
+import com.xiushang.framework.utils.OrderUtil;
 import com.xiushang.framework.utils.UserHolder;
 import com.xiushang.jpa.repository.ShopDao;
 import com.xiushang.jpa.repository.UserDao;
+import com.xiushang.shop.util.ShopStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -318,5 +320,27 @@ public class UserServiceImpl implements UserService {
         }
 
         return "";
+    }
+
+    @Transactional
+    public void registerUser(UserEntity userEntity) {
+
+        updateUser(userEntity);
+
+        ShopEntity shopEntity = shopDao.findByOwnerUser(userEntity);
+        if(shopEntity==null){
+            //创建默认店铺
+            shopEntity = new ShopEntity();
+            shopEntity.setName(userEntity.getName()+"的小店");
+            shopEntity.setContactsName(userEntity.getName());
+            shopEntity.setMobile(userEntity.getMobile());
+            shopEntity.setOwnerUser(userEntity);
+            shopEntity.setShopStatus(ShopStatusEnum.SHOP_BASE);
+
+            shopEntity.setCode(OrderUtil.genCode("SP"));
+
+            shopDao.save(shopEntity);
+        }
+
     }
 }

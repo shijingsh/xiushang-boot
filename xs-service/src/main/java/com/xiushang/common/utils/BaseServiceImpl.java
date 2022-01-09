@@ -2,6 +2,8 @@ package com.xiushang.common.utils;
 
 import com.querydsl.core.types.Predicate;
 import com.xiushang.common.user.service.UserService;
+import com.xiushang.entity.BaseEntity;
+import com.xiushang.framework.utils.DeleteEnum;
 import com.xiushang.jpa.repository.BaseDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,7 +40,14 @@ public abstract class BaseServiceImpl<T> {
     }
 
     public void delete(String id){
-         baseDao.deleteById(id);
+        T t = get(id);
+        if(t instanceof BaseEntity){
+            BaseEntity baseEntity = (BaseEntity) t;
+            baseEntity.setDeleted(DeleteEnum.INVALID);
+            baseDao.save(t);
+        }else {
+            baseDao.deleteById(id);
+        }
     }
 
     public void delete(T t){
