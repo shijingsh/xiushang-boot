@@ -24,7 +24,7 @@ public class ShopQualificationsEntity extends BaseEntity {
     private String realName;
     @Column(length = 50)
     @ApiModelProperty(notes = "身份证号码")
-    private String IdCard;
+    private String idCard;
     @Column(length = 50)
     @ApiModelProperty(notes = "营业执照号码")
     private String businessLicense;
@@ -61,11 +61,11 @@ public class ShopQualificationsEntity extends BaseEntity {
     }
 
     public String getIdCard() {
-        return IdCard;
+        return idCard;
     }
 
     public void setIdCard(String idCard) {
-        IdCard = idCard;
+        this.idCard = idCard;
     }
 
     public String getBusinessLicense() {
