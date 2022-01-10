@@ -132,15 +132,18 @@ public class ShopEntity extends BaseEntity {
      */
     @Lob
     @Basic(fetch = FetchType.EAGER)
+    @ApiModelProperty(notes = "店铺歇业公告")
     private String closeOption;
 
     //-----------------------------系统推荐--------------------------------------------
     /** 标识 */
     @Transient
+    @ApiModelProperty(notes = "标识",hidden = true)
     private int index;
 
     /** 评分得分 */
     @Transient
+    @ApiModelProperty(notes = "评分得分",hidden = true)
     private float score;
 
     public Integer getAccountType() {

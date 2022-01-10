@@ -34,6 +34,7 @@ public class UserEntity extends ExpandEntity {
     private String mobile;
     /**密码 */
     @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(notes = "密码",hidden = true)
     private String password;
     /**邮箱 */
     @ApiModelProperty(notes = "邮箱")
@@ -59,11 +60,13 @@ public class UserEntity extends ExpandEntity {
      * 纬度
      */
     @Column(name = "latitude",precision = 20,scale = 8)
+    @ApiModelProperty(notes = "latitude")
     private BigDecimal latitude;
     /**
      * 经度
      */
     @Column(name = "longitude",precision = 20,scale = 8)
+    @ApiModelProperty(notes = "longitude")
     private BigDecimal longitude;
 
     /**
@@ -72,6 +75,7 @@ public class UserEntity extends ExpandEntity {
     @Column(columnDefinition = "TINYINT")
     @Type(type = "org.hibernate.type.NumericBooleanType")
     @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(notes = "是否已为用户配置推荐",hidden = true)
     private Boolean isInitRecommend = Boolean.FALSE;
 
     /**
