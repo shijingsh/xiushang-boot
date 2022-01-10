@@ -19,34 +19,29 @@ public class SubscribeMsgAppointEntity extends BaseEntity {
      * shopId
      */
     @ApiModelProperty(notes = "shopId")
-    @ApiParam("shopId")
     private String shopId;
     /**
      * 标题
      */
     @ApiModelProperty(notes = "标题")
-    @ApiParam("标题")
     private String name;
 
     /**
      * 用户主键
      */
     @ApiModelProperty(notes = "用户主键")
-    @ApiParam("用户主键")
     private String userId;
 
     /**
      * 微信OpenId
      */
     @ApiModelProperty(notes = "微信OpenId")
-    @ApiParam("微信OpenId")
     private String openId;
 
     /**
      * 订阅对象ID
      */
     @ApiModelProperty(notes = "订阅对象ID")
-    @ApiParam("订阅对象ID")
     private String subscribeObjectId;
 
     /**
@@ -54,7 +49,6 @@ public class SubscribeMsgAppointEntity extends BaseEntity {
      * 0 未推送  1 已推送
      */
     @ApiModelProperty(notes = "推送状态")
-    @ApiParam("推送状态")
     private Integer pullStatus = 0;
 
     /**
@@ -64,37 +58,31 @@ public class SubscribeMsgAppointEntity extends BaseEntity {
      * 2 抽奖
      */
     @ApiModelProperty(notes = "订阅类型")
-    @ApiParam("订阅类型")
     private Integer type = 0;
     /**
      * 开始时间
      */
     @ApiModelProperty(notes = "开始日期")
-    @ApiParam("开始日期")
     private Date start;
     /**
      * 结束时间
      */
     @ApiModelProperty(notes = "结束日期")
-    @ApiParam("结束日期")
     private Date end;
 
     /**
      * 订阅消息模板ID
      */
     @ApiModelProperty(notes = "订阅消息模板ID")
-    @ApiParam("订阅消息模板ID")
     private String subscribeMsgTemplateId;
 
     /**
      * 消息跳转的页面
      */
     @ApiModelProperty(notes = "消息跳转的页面")
-    @ApiParam("消息跳转的页面")
     private String page;
 
     @ApiModelProperty(notes = "参数模板")
-    @ApiParam("参数模板")
     @Lob
     @Basic(fetch = FetchType.EAGER)
     private String paramJson;

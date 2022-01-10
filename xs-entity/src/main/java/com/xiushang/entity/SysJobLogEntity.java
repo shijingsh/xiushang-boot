@@ -1,9 +1,10 @@
 package com.xiushang.entity;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 定时任务日志
@@ -18,31 +19,37 @@ public class SysJobLogEntity extends BaseEntity implements Serializable {
     /**
      * 任务id
      */
+    @ApiModelProperty(notes = "任务ID")
     private String jobId;
 
     /**
      * spring bean名称
      */
+    @ApiModelProperty(notes = "任务处理类")
     private String beanName;
 
     /**
      * 参数
      */
+    @ApiModelProperty(notes = "参数")
     private String params;
 
     /**
      * 任务状态    0：成功    1：失败
      */
+    @ApiModelProperty(notes = "任务状态    0：成功    1：失败")
     private Integer status;
 
     /**
      * 失败信息
      */
+    @ApiModelProperty(notes = "失败信息")
     private String error;
 
     /**
      * 耗时(单位：毫秒)
      */
+    @ApiModelProperty(notes = "耗时(单位：毫秒)")
     private Integer times;
 
     public String getJobId() {

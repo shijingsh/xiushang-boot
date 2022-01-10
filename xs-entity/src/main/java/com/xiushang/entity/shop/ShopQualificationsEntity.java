@@ -1,7 +1,7 @@
 package com.xiushang.entity.shop;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.xiushang.entity.BaseEntity;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 
@@ -17,16 +17,22 @@ public class ShopQualificationsEntity extends BaseEntity {
      */
     @ManyToOne
     @JoinColumn(name = "shop_id")
-    @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(notes = "所属店铺")
     private ShopEntity belongShop;
     @Column(length = 50)
+    @ApiModelProperty(notes = "真实姓名")
     private String realName;
     @Column(length = 50)
+    @ApiModelProperty(notes = "身份证号码")
     private String IdCard;
     @Column(length = 50)
+    @ApiModelProperty(notes = "营业执照号码")
     private String businessLicense;
+    @ApiModelProperty(notes = "身份证正面图片")
     private String imageIdCard;
+    @ApiModelProperty(notes = "身份证反面图片")
     private String imageIdCardBack;
+    @ApiModelProperty(notes = "营业执照图片")
     private String imageLicense;
 
     /**
@@ -37,10 +43,6 @@ public class ShopQualificationsEntity extends BaseEntity {
     /**审核原因 */
     private String auditOption;
 
-    @Transient
-    private String shopId;
-    @Transient
-    private String type;
 
     public ShopEntity getBelongShop() {
         return belongShop;
@@ -114,19 +116,4 @@ public class ShopQualificationsEntity extends BaseEntity {
         this.auditOption = auditOption;
     }
 
-    public String getShopId() {
-        return shopId;
-    }
-
-    public void setShopId(String shopId) {
-        this.shopId = shopId;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

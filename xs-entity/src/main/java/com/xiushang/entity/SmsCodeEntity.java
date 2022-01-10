@@ -1,5 +1,7 @@
 package com.xiushang.entity;
 
+import io.swagger.annotations.ApiParam;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.util.Date;
@@ -15,30 +17,38 @@ public class SmsCodeEntity extends BaseEntity {
      * 系统短信
      * 0 系统  1 用户业务短信（可能收费）
      */
+
+    @ApiParam("是否系统短信 0 系统  1 用户业务短信")
     private int systemFlag = 0;
     /**
      * 所属店铺
      */
+    @ApiParam("所属店铺")
     private String shopId;
     /**
      * 接收号码
      */
+    @ApiParam("接收号码")
     private  String mobile;
     /**
      * 短信验证码
      */
+    @ApiParam("短信验证码")
     private  String smsCode;
     /**
      * 模板参数
      */
+    @ApiParam("模板参数")
     private String templateParam ;
     /**
      * 模板代码
      */
+    @ApiParam("模板代码")
     private String templateCode ;
     /**
      * 短信发送时间
      */
+    @ApiParam("短信发送时间")
     private  Date sendTime;
     //-------------返回内容-------------------
     private String requestId;

@@ -99,13 +99,6 @@ public class ShopEntity extends BaseEntity {
     private List<String> images = new ArrayList<>();
 
     /**
-     * 服务资质
-     */
-    @ApiModelProperty(notes = "服务资质")
-    @ManyToOne
-    @JoinColumn(name = "qualification")
-    private ShopQualificationsEntity shopQualifications;
-    /**
      * 店铺状态
      */
     @ApiModelProperty(notes = "店铺状态(SHOP_BASE 编辑中  SHOP_OPENED 营业中  SHOP_CLOSE 歇业中)")
@@ -159,14 +152,6 @@ public class ShopEntity extends BaseEntity {
 
     public void setAccountType(Integer accountType) {
         this.accountType = accountType;
-    }
-
-    public ShopQualificationsEntity getShopQualifications() {
-        return shopQualifications;
-    }
-
-    public void setShopQualifications(ShopQualificationsEntity shopQualifications) {
-        this.shopQualifications = shopQualifications;
     }
 
     public String getCompanyName() {

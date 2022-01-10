@@ -1,5 +1,7 @@
 package com.xiushang.entity;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
@@ -21,26 +23,31 @@ public class SysJobEntity extends BaseEntity implements Serializable {
     /**
      * spring bean名称
      */
+    @ApiModelProperty(notes = "任务处理类")
     private String beanName;
 
     /**
      * 参数
      */
+    @ApiModelProperty(notes = "参数")
     private String params;
 
     /**
      * cron表达式
      */
+    @ApiModelProperty(notes = "cron表达式")
     private String cronExpression;
 
     /**
      * 任务状态  0：正常  1：暂停
      */
+    @ApiModelProperty(notes = "任务状态    0：成功    1：失败")
     private Integer status;
 
     /**
      * 备注
      */
+    @ApiModelProperty(notes = "备注")
     private String remark;
 
     public String getBeanName() {

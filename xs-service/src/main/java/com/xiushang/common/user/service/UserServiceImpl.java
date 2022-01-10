@@ -8,6 +8,7 @@ import com.xiushang.common.utils.MD5;
 import com.xiushang.entity.QUserEntity;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.entity.shop.ShopEntity;
+import com.xiushang.entity.shop.ShopQualificationsEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.Constants;
 import com.xiushang.framework.log.SecurityConstants;
@@ -15,6 +16,7 @@ import com.xiushang.framework.utils.DeleteEnum;
 import com.xiushang.framework.utils.OrderUtil;
 import com.xiushang.framework.utils.UserHolder;
 import com.xiushang.jpa.repository.ShopDao;
+import com.xiushang.jpa.repository.ShopQualificationDao;
 import com.xiushang.jpa.repository.UserDao;
 import com.xiushang.shop.util.ShopStatusEnum;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +48,8 @@ public class UserServiceImpl implements UserService {
     private UserDao userDao;
     @Autowired
     private ShopDao shopDao;
+    @Autowired
+    private ShopQualificationDao qualificationDao;
 
     public UserEntity getUser(String loginName) {
 
@@ -329,6 +333,7 @@ public class UserServiceImpl implements UserService {
 
         ShopEntity shopEntity = shopDao.findByOwnerUser(userEntity);
         if(shopEntity==null){
+
             //创建默认店铺
             shopEntity = new ShopEntity();
             shopEntity.setName(userEntity.getName()+"的小店");
@@ -340,6 +345,12 @@ public class UserServiceImpl implements UserService {
             shopEntity.setCode(OrderUtil.genCode("SP"));
 
             shopDao.save(shopEntity);
+
+            //创建店铺资质
+            ShopQualificationsEntity qualificationsEntity = new ShopQualificationsEntity();
+            qualificationsEntity.setRealName(userEntity.getName());
+            qualificationsEntity.setBelongShop(shopEntity);
+            qualificationDao.save(qualificationsEntity);
         }
 
     }

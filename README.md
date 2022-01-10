@@ -212,9 +212,17 @@ oauth:
     url: /api/
 ```
 
-####  接口请求header 参数
+#### 接口请求header 参数
 
 - Authorization：请求受保护接口必填
+
+#### 基于角色的权限控制
+- 首先在“ApplicationSecurityConfig”类中使用“@EnableGlobalMethodSecurity(prePostEnabled = true)”注解
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+
+- 然后在权限控制的方法上添加角色权限
+@Secured({RoleConst.ROLE_CLIENT, RoleConst.ROLE_ADMIN})
+@PreAuthorize("hasAnyRole('ROLE_USER')")
 
 
 ####  授权接入说明
