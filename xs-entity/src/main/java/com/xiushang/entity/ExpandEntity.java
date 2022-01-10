@@ -1,5 +1,7 @@
 package com.xiushang.entity;
 
+import io.swagger.annotations.ApiModelProperty;
+
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.MappedSuperclass;
@@ -13,22 +15,35 @@ import java.util.Date;
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class ExpandEntity extends BaseEntity {
 
+    @ApiModelProperty(notes = "扩展字段")
     private String cnStr1;
+    @ApiModelProperty(notes = "扩展字段")
     private String cnStr2;
+    @ApiModelProperty(notes = "扩展字段")
     private String cnStr3;
+    @ApiModelProperty(notes = "扩展字段")
     private String cnStr4;
+    @ApiModelProperty(notes = "扩展字段")
     private String cnStr5;
 
+    @ApiModelProperty(notes = "扩展字段")
     private Integer cnInt1;
+    @ApiModelProperty(notes = "扩展字段")
     private Integer cnInt2;
+    @ApiModelProperty(notes = "扩展字段")
     private Integer cnInt3;
 
+    @ApiModelProperty(notes = "扩展字段")
     private Double cnDb1;
+    @ApiModelProperty(notes = "扩展字段")
     private Double cnDb2;
+    @ApiModelProperty(notes = "扩展字段")
     private Double cnDb3;
-
+    @ApiModelProperty(notes = "扩展字段")
     private Date cnDate1;
+    @ApiModelProperty(notes = "扩展字段")
     private Date cnDate2;
+    @ApiModelProperty(notes = "扩展字段")
     private Date cnDate3;
 
     public String getCnStr1() {
