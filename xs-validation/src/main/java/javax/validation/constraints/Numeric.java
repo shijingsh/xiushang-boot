@@ -16,10 +16,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Documented
 @Constraint(validatedBy = { NumericConstraintValidator.class })
 
-/**
- * @author huangchengkang
- * @date: 2019/12/11 10:40
- **/
 public @interface Numeric {
     /**
      * 是否必填 默认是必填的

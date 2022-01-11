@@ -4,14 +4,7 @@ import javax.validation.constraints.HeadTail;
 
 import java.util.regex.Pattern;
 
-/**
- * <p>
- * ConstraintValidator
- * </p>
- *
- * @author: kancy
- * @date: 2019/12/11 10:40
- **/
+
 public class HeadTailConstraintValidator extends CheckEmptyConstraintValidator<HeadTail, String> {
 
     /**

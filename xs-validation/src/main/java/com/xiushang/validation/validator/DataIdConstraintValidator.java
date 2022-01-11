@@ -4,14 +4,6 @@ import javax.validation.constraints.DataId;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-/**
- * <p>
- * ConstraintValidator
- * </p>
- *
- * @author: kancy
- * @date: 2019/12/11 10:40
- **/
 public class DataIdConstraintValidator extends CheckEmptyConstraintValidator<DataId, Object> {
     private static Logger log = LoggerFactory.getLogger(DataIdConstraintValidator.class);
 

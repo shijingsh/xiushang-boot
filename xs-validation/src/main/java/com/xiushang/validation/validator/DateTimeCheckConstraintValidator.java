@@ -4,14 +4,7 @@ import javax.validation.constraints.DateTimeCheck;
 
 import java.text.SimpleDateFormat;
 
-/**
- * <p>
- * ConstraintValidator
- * </p>
- *
- * @author: kancy
- * @date: 2019/12/11 10:40
- **/
+
 public class DateTimeCheckConstraintValidator extends CheckEmptyConstraintValidator<DateTimeCheck, String> {
 
     /**

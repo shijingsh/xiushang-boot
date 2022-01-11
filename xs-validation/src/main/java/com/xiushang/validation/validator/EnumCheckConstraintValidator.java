@@ -16,14 +16,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.*;
 
-/**
- * <p>
- * EnumCheckConstraintValidator
- * </p>
- *
- * @author: kancy
- * @date: 2019/12/11 10:40
- **/
+
 public class EnumCheckConstraintValidator extends CheckEmptyConstraintValidator<EnumCheck, Object> {
     private static Logger log = LoggerFactory.getLogger(EnumCheckConstraintValidator.class);
 

@@ -2,14 +2,6 @@ package com.xiushang.validation.validator;
 
 import javax.validation.constraints.YesOrNo;
 
-/**
- * <p>
- * ConstraintValidator
- * </p>
- *
- * @author: kancy
- * @date: 2019/12/11 10:40
- **/
 public class YesOrNoConstraintValidator extends CheckEmptyConstraintValidator<YesOrNo, Object> {
 
     /**

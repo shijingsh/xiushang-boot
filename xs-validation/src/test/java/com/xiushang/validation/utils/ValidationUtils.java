@@ -10,7 +10,6 @@ import java.util.Set;
 
 /**
  * 校验工具
- * @author kancy
  * https://blog.csdn.net/gaojp008/article/details/80583301
  */
 public class ValidationUtils {

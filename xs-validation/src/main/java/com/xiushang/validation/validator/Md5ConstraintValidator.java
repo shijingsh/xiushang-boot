@@ -4,14 +4,7 @@ import javax.validation.constraints.Md5;
 
 import java.util.regex.Pattern;
 
-/**
- * <p>
- * ConstraintValidator
- * </p>
- *
- * @author: kancy
- * @date: 2019/12/11 10:40
- **/
+
 public class Md5ConstraintValidator extends CheckEmptyConstraintValidator<Md5, String> {
 
     /**

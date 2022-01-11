@@ -6,15 +6,6 @@ import com.xiushang.validation.utils.ValidationUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-/**
- * <p>
- * BankCardTests
- * <p>
- *
- * @author: kancy
- * @date: 2020/4/20 11:18
- **/
-
 public class BankCardTests {
 
     @Test

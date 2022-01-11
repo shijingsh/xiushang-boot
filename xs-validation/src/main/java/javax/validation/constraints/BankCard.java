@@ -16,9 +16,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <p>
  * BankCard
  * <p>
- *
- * @author: kancy
- * @date: 2020/4/20 11:05
  **/
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)

@@ -4,14 +4,7 @@ import javax.validation.constraints.Regexp;
 
 import java.util.regex.Pattern;
 
-/**
- * <p>
- * RegexpConstraintValidator
- * <p>
- *
- * @author: kancy
- * @date: 2020/4/20 11:08
- **/
+
 
 public class RegexpConstraintValidator extends CheckEmptyConstraintValidator<Regexp, Object>{
     /**

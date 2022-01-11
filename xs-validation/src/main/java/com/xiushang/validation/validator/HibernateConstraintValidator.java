@@ -12,14 +12,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
-/**
- * <p>
- * ConstraintValidator
- * </p>
- *
- * @author: kancy
- * @date: 2019/12/11 10:40
- **/
 public abstract class HibernateConstraintValidator<A extends Annotation, T> implements ConstraintValidator<A, T> {
 
     private static Logger logger = LoggerFactory.getLogger(HibernateConstraintValidator.class);

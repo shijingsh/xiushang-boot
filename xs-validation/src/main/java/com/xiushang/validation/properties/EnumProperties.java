@@ -4,10 +4,6 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 import java.util.List;
 
-/**
- * @author kancy
- * @date 2019/12/18 0:54
- **/
 public class EnumProperties {
     /**
      * 是否启用

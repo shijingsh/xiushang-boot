@@ -4,14 +4,6 @@ import javax.validation.constraints.BankCard;
 
 import java.util.regex.Pattern;
 
-/**
- * <p>
- * BankCardConstraintValidator
- * <p>
- *
- * @author: kancy
- * @date: 2020/4/20 11:08
- **/
 
 public class BankCardConstraintValidator extends CheckEmptyConstraintValidator<BankCard, Object>{
     /**

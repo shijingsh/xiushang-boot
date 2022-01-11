@@ -2,15 +2,6 @@ package com.xiushang.validation.validator;
 
 import java.lang.annotation.Annotation;
 
-/**
- * <p>
- * CheckEmptyConstraintValidator
- * <p>
- *
- * @author: kancy
- * @date: 2020/4/20 10:21
- **/
-
 public abstract class CheckEmptyConstraintValidator<A extends Annotation, T> extends HibernateConstraintValidator<A, T> {
 
     @Override

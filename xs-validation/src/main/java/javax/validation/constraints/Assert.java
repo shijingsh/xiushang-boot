@@ -10,14 +10,6 @@ import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-/**
- * <p>
- * Assert
- * <p>
- *
- * @author kancy
- * @see 2020/9/4 11:19
- **/
 @Target({ FIELD, PARAMETER })
 @Retention(RUNTIME)
 @Documented

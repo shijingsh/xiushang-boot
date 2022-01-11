@@ -9,12 +9,6 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-/**
- * ValidConfig
- *
- * @author kancy
- * @date 2020/8/8 10:11
- */
 public class ValidationPlusAutoConfiguration {
 
     @Bean

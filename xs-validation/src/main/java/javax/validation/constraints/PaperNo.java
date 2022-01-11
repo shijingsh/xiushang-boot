@@ -15,8 +15,6 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
  * 身份证号码
- * @author: kancy
- * @date: 2019/12/11 10:40
  **/
 @Target({ METHOD, FIELD, ANNOTATION_TYPE, CONSTRUCTOR, PARAMETER })
 @Retention(RUNTIME)

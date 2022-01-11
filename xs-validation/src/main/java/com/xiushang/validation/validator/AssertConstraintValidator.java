@@ -27,12 +27,6 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Parameter;
 import java.util.*;
 
-/**
- * AssertConstraintValidator
- *
- * @author kancy
- * @date 2020/8/8 11:01
- */
 public class AssertConstraintValidator extends AbstractBeanFactoryAwareAdvisingPostProcessor
         implements MethodInterceptor, InitializingBean {
     private static final Logger log = LoggerFactory.getLogger(AssertConstraintValidator.class);

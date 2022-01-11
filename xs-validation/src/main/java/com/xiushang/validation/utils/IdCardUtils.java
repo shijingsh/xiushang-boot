@@ -7,10 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.regex.Pattern;
 
-/**
- * @author kancy
- * @date 2019/12/21 10:55
- **/
 public class IdCardUtils {
 
     private static final Logger logger = LoggerFactory.getLogger(IdCardUtils.class);
