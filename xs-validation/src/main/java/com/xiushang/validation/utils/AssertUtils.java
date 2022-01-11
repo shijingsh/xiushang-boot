@@ -10,17 +10,23 @@ public class AssertUtils {
         if(value instanceof  String){
             if (StringUtils.isNotBlank((String)value)) {
                 return true;
+            }else {
+                return false;
             }
         }
 
         if(value instanceof Map){
             if(value!=null && ((Map)value).size()>0){
                 return true;
+            }else {
+                return false;
             }
         }
         if(value instanceof List){
             if(value!=null && ((List)value).size()>0){
                 return true;
+            }else {
+                return false;
             }
         }
 
