@@ -1,17 +1,17 @@
 package com.xiushang.validation.validator;
 
 import com.xiushang.validation.utils.AssertUtils;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-public class ApiModelPropertyConstraintValidator implements ConstraintValidator<ApiModelProperty, Object> {
+public class ApiParamConstraintValidator implements ConstraintValidator<ApiParam, Object> {
 
     private String msg = null;
 
     @Override
-    public void initialize(ApiModelProperty constraintAnnotation) {
+    public void initialize(ApiParam constraintAnnotation) {
 
         String value = constraintAnnotation.value();
         this.msg = String.format("%s不能为空!", value);

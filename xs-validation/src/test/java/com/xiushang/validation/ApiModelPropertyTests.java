@@ -2,6 +2,7 @@ package com.xiushang.validation;
 
 import com.xiushang.validation.utils.ValidationUtils;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -19,11 +20,14 @@ public class ApiModelPropertyTests {
     }
 
     static class UserDTO{
-        @ApiModelProperty(notes = "用户名称",required = true)
+        @ApiModelProperty(value="用户名",notes = "用户名称",required = true)
         private String name;
 
-        @ApiModelProperty(notes = "用户名称",required = true)
+        @ApiModelProperty(value="年龄",notes = "用户名称",required = true)
         private String age;
+
+        @ApiModelProperty(message="生日不能为空！",notes = "生日",required = true)
+        private String birthDay;
 
         public String getName() {
             return name;
@@ -39,6 +43,14 @@ public class ApiModelPropertyTests {
 
         public void setAge(String age) {
             this.age = age;
+        }
+
+        public String getBirthDay() {
+            return birthDay;
+        }
+
+        public void setBirthDay(String birthDay) {
+            this.birthDay = birthDay;
         }
     }
 
