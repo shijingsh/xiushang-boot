@@ -31,7 +31,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <xiushang.version>1.4.4</xiushang.version>
+        <xiushang.version>1.5.0</xiushang.version>
     </properties>
 
     <dependencyManagement>

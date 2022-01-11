@@ -62,52 +62,52 @@ Select the library you need to install
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-core</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-entity</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-service</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-jwt-security</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-common</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-dubbo</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-rocketmq</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-marketing</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-solr</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-job</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
         </dependency>
 ```
 
@@ -186,6 +186,11 @@ public class SwaggerConfiguration {
 }
 ```
 
+### api validation check
+
+   [validation document](xs-validation/README.md)
+  
+  
 ### Use of redis
     
 
@@ -250,7 +255,7 @@ Add dependency
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-dubbo</artifactId>
-            <version>1.4.4</version>
+            <version>1.5.0</version>
             <type>jar</type>
         </dependency>
 ```
