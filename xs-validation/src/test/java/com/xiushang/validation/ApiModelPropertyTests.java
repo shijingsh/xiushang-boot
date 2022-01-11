@@ -2,7 +2,6 @@ package com.xiushang.validation;
 
 import com.xiushang.validation.utils.ValidationUtils;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import org.junit.Assert;
 import org.junit.Test;
 
