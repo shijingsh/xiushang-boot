@@ -23,6 +23,7 @@
         <module>xs-solr</module>
         <module>xs-pay</module>
         <module>xs-mapstruct</module>
+        <module>xs-validation</module>
     </modules>
     <packaging>pom</packaging>
     <name>xiushang-boot</name>

@@ -2,12 +2,13 @@ package com.xiushang.common.exception.handler;
 
 import com.xiushang.common.exception.ServiceException;
 import com.xiushang.framework.log.CommonResult;
-import com.xiushang.framework.log.Constants;
 import com.xiushang.framework.log.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.validation.ObjectError;
+import org.springframework.validation.BindException;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -76,16 +77,6 @@ public class GlobalExceptionHandler {
         return CommonResult.error( e.getMessage());
     }
 
-    /**
-     * 处理validation 框架异常
-     */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    CommonResult methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e) {
-        log.error("methodArgumentNotValidExceptionHandler bindingResult.allErrors():{},exception:{}", e.getBindingResult().getAllErrors(), e);
-        List<ObjectError> errors = e.getBindingResult().getAllErrors();
-        log.error("Exception,exception:{}", e, e);
-        return CommonResult.error( e.getMessage());
-    }
 
     @ExceptionHandler(BadCredentialsException.class)
     public CommonResult badCredentialsException(BadCredentialsException e){
@@ -100,6 +91,38 @@ public class GlobalExceptionHandler {
     {
         log.error("Exception,exception:{}", e, e);
         return CommonResult.error( e.getMessage());
+    }
+
+    @ExceptionHandler(value = BindException.class)
+    public CommonResult bindExceptionHandle(BindException exception) {
+        BindingResult result = exception.getBindingResult();
+
+        return getValidMessage(result);
+    }
+
+    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    public CommonResult methodArgumentNotValidExceptionHandle(MethodArgumentNotValidException exception) {
+
+        BindingResult result = exception.getBindingResult();
+
+        return getValidMessage(result);
+    }
+
+    private CommonResult getValidMessage(BindingResult result){
+        StringBuilder errorMsg = new StringBuilder();
+
+        List<FieldError> fieldErrors = result.getFieldErrors();
+        fieldErrors.forEach(error -> {
+            log.error("field: " + error.getField() + ", msg:" + error.getDefaultMessage());
+            String e = error.getDefaultMessage();
+            if(e.endsWith("!")){
+                errorMsg.append(error.getDefaultMessage());
+            }else {
+                errorMsg.append(error.getDefaultMessage()).append("!");
+            }
+        });
+
+        return CommonResult.error(errorMsg.toString());
     }
 
     private void printLog(HttpServletRequest request){
