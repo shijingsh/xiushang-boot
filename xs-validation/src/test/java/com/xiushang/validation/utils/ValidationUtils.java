@@ -16,7 +16,7 @@ public class ValidationUtils {
     /**
      * 开启快速结束模式 failFast (true)
      */
-    private static Validator validator = Validation.byProvider(HibernateValidator.class).configure().failFast(false).buildValidatorFactory().getValidator();
+    private static Validator validator = Validation.byProvider(HibernateValidator.class).configure().failFast(true).buildValidatorFactory().getValidator();
     /**
      * 校验对象
      *

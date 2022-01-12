@@ -5,12 +5,18 @@ import io.swagger.annotations.ApiModelProperty;
 import org.junit.Assert;
 import org.junit.Test;
 
+import javax.validation.constraints.PaperNo;
+
 public class ApiModelPropertyTests {
 
     @Test
     public void test01(){
 
         UserDTO userDTO = new UserDTO();
+        userDTO.setAge("1");
+        userDTO.setBirthDay("1");
+        //userDTO.setName("name");
+        userDTO.setIdCard("xxxxxx");
         // 验证错误
         ValidationUtils.ValidResult validResult = ValidationUtils.validateBean(userDTO);
         Assert.assertTrue(validResult.hasErrors());
@@ -27,6 +33,10 @@ public class ApiModelPropertyTests {
 
         @ApiModelProperty(message="生日不能为空！",notes = "生日",required = true)
         private String birthDay;
+
+        @ApiModelProperty(value = "身份证")
+        @PaperNo
+        private String idCard;
 
         public String getName() {
             return name;
@@ -50,6 +60,14 @@ public class ApiModelPropertyTests {
 
         public void setBirthDay(String birthDay) {
             this.birthDay = birthDay;
+        }
+
+        public String getIdCard() {
+            return idCard;
+        }
+
+        public void setIdCard(String idCard) {
+            this.idCard = idCard;
         }
     }
 

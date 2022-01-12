@@ -25,6 +25,13 @@
             <artifactId>xs-dubbo</artifactId>
             <version>${xiushang.version}</version>
         </dependency>
+
+        <!--引入lombok-->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+        </dependency>
     </dependencies>
 
     <!--配置环境的profile-->

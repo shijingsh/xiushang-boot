@@ -70,4 +70,24 @@ public class ValidateController {
 	@DecimalMin(value="100",message="decim最小值是100")
 	@NotNull(message = "身份证不能为空")
 	@Pattern(regexp="^(\\d{18,18}|\\d{15,15}|(\\d{17,17}[x|X]))$", message="身份证格式错误")
-     
+
+### 常见问题   
+  
+  配置failFast(true) 不起作用？
+  
+  WebMvcConfigurer 增加 getValidator 配置
+  
+  ```
+
+  @Configuration
+  public class WebMvcConfigurer extends WebMvcConfigurationSupport {
+  
+      ...
+  
+      @Override
+      protected org.springframework.validation.Validator getValidator() {
+          return ValidationConfiguration.getValidator();
+      }
+  }
+  
+```
