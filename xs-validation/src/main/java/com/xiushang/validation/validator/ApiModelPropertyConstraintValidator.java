@@ -2,6 +2,7 @@ package com.xiushang.validation.validator;
 
 import com.xiushang.validation.utils.AssertUtils;
 import io.swagger.annotations.ApiModelProperty;
+import org.apache.commons.lang3.StringUtils;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,8 +14,20 @@ public class ApiModelPropertyConstraintValidator implements ConstraintValidator<
     @Override
     public void initialize(ApiModelProperty constraintAnnotation) {
 
+        String message = constraintAnnotation.message();
         String value = constraintAnnotation.value();
-        this.msg = String.format("%s不能为空!", value);
+        if(StringUtils.isBlank(value)){
+            value = constraintAnnotation.name();
+        }
+        if(StringUtils.isBlank(value)){
+            value = constraintAnnotation.notes();
+        }
+        if(StringUtils.isNotBlank(message)){
+            this.msg = message;
+        }else{
+            this.msg = String.format("%s不能为空!", value);
+        }
+
     }
 
     @Override
