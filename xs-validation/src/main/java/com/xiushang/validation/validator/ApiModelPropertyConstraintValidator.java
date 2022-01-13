@@ -10,12 +10,14 @@ import javax.validation.ConstraintValidatorContext;
 public class ApiModelPropertyConstraintValidator implements ConstraintValidator<ApiModelProperty, Object> {
 
     private String msg = null;
+    private boolean required = false;
 
     @Override
     public void initialize(ApiModelProperty constraintAnnotation) {
 
         String message = constraintAnnotation.message();
         String value = constraintAnnotation.value();
+        required = constraintAnnotation.required();
         if(StringUtils.isBlank(value)){
             value = constraintAnnotation.name();
         }
@@ -37,6 +39,9 @@ public class ApiModelPropertyConstraintValidator implements ConstraintValidator<
             return true;
         }
 
+        if(!required){
+            return true;
+        }
 
         if (context.getDefaultConstraintMessageTemplate().isEmpty()) {
             context.disableDefaultConstraintViolation();
