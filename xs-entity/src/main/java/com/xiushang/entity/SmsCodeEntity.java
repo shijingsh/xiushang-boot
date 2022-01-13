@@ -1,5 +1,6 @@
 package com.xiushang.entity;
 
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 
 import javax.persistence.Entity;
@@ -8,7 +9,6 @@ import java.util.Date;
 
 /**
  * 短信记录表
- * Created by liukefu on 2017/6/24.
  */
 @Entity
 @Table(name="sys_sms_code")
@@ -18,42 +18,46 @@ public class SmsCodeEntity extends BaseEntity {
      * 0 系统  1 用户业务短信（可能收费）
      */
 
-    @ApiParam("是否系统短信 0 系统  1 用户业务短信")
+    @ApiModelProperty(notes = "是否系统短信 0 系统  1 用户业务短信")
     private int systemFlag = 0;
     /**
      * 所属店铺
      */
-    @ApiParam("所属店铺")
+    @ApiModelProperty(notes = "所属店铺")
     private String shopId;
     /**
      * 接收号码
      */
-    @ApiParam("接收号码")
+    @ApiModelProperty(notes = "接收号码")
     private  String mobile;
     /**
      * 短信验证码
      */
-    @ApiParam("短信验证码")
+    @ApiModelProperty(notes = "短信验证码")
     private  String smsCode;
     /**
      * 模板参数
      */
-    @ApiParam("模板参数")
+    @ApiModelProperty(notes = "模板参数")
     private String templateParam ;
     /**
      * 模板代码
      */
-    @ApiParam("模板代码")
+    @ApiModelProperty(notes = "模板代码")
     private String templateCode ;
     /**
      * 短信发送时间
      */
-    @ApiParam("短信发送时间")
+    @ApiModelProperty(notes = "短信发送时间")
     private  Date sendTime;
     //-------------返回内容-------------------
+    @ApiModelProperty(notes = "requestId")
     private String requestId;
+    @ApiModelProperty(notes = "bizId")
     private String bizId;
+    @ApiModelProperty(notes = "code")
     private String code;
+    @ApiModelProperty(notes = "message")
     private String message;
 
 

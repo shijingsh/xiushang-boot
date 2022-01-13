@@ -22,21 +22,18 @@ public class UserSocialEntity extends BaseEntity {
      * 用户ID
      */
     @ApiModelProperty(notes = "用户ID")
-    @ApiParam("userId")
     private String userId;
 
     /**
      * 用户ID
      */
     @ApiModelProperty(notes = "客户端ID")
-    @ApiParam("clientId")
     private String clientId;
     /**
      * 社交账号类型
      * socialType
      */
     @ApiModelProperty(notes = "socialType")
-    @ApiParam("socialType")
     @Enumerated(EnumType.STRING)
     private SocialTypeEnum socialType = SocialTypeEnum.SOCIAL_TYPE_OPEN_ID;
 
@@ -44,7 +41,6 @@ public class UserSocialEntity extends BaseEntity {
      * 社交账号类型socialType 对应的值
      */
     @ApiModelProperty(notes = "socialId")
-    @ApiParam("socialId")
     private String socialId;
 
     @ApiModelProperty(notes = "昵称")
