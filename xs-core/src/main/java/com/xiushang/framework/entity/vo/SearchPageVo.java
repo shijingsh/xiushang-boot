@@ -25,6 +25,9 @@ public  class SearchPageVo implements Serializable {
 
 
     public int getPageNo() {
+        if(pageNo<=0){
+            return 1;
+        }
         return pageNo;
     }
 
@@ -33,6 +36,9 @@ public  class SearchPageVo implements Serializable {
     }
 
     public int getPageSize() {
+        if(pageSize<=0){
+            return 15;
+        }
         return pageSize;
     }
 
