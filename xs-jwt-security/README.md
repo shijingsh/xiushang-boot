@@ -12,16 +12,10 @@ http://andaily.com/spring-oauth-server/db_table_description.html
 - 第一次认证租户认证（手机短信验证码模式）生成会话信息返给tokenA给客户端
 - 第二次拿到tokenA+用户密码进行用户认证（类似验证码模式）获取tokenB （其中拿tokenA判断是否有会话信息，tokenB包含租户和用户信息）
 
-### 登录相关
-- AbstractUserDetailsAuthenticationProvider
-- DaoAuthenticationProvider
-- UsernamePasswordAuthenticationFilter
-
 
 ### 基于角色的权限控制
-首先在“ApplicationSecurityConfig”类中使用“@EnableGlobalMethodSecurity(prePostEnabled = true)”注解
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 
+#### 权限控制注解
 -  @Secured({RoleConst.ROLE_CLIENT, RoleConst.ROLE_ADMIN})
 -  @PreAuthorize("hasAnyRole('ROLE_USER')")
 -  @RolesAllowed({"ROLE_ADMIN"})
