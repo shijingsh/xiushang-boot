@@ -1,6 +1,8 @@
 package com.xiushang.security.authentication.mobile;
 
 import com.xiushang.common.components.SmsService;
+import com.xiushang.security.SecurityRole;
+import com.xiushang.security.SecurityRoleVo;
 import com.xiushang.security.SecurityUser;
 import com.xiushang.security.authentication.TenantProvider;
 import lombok.Data;
@@ -9,6 +11,9 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 public class SmsCodeAuthenticationProvider extends TenantProvider implements AuthenticationProvider {
@@ -40,8 +45,12 @@ public class SmsCodeAuthenticationProvider extends TenantProvider implements Aut
         //设置租户信息
         super.settingTenantId(securityUser, authenticationToken);
 
+        //附加权限
+        List<SecurityRoleVo> list = new ArrayList<>();
+        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
+        list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
 
-        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(authenticationToken.getClientId(),securityUser, authentication.getCredentials(), securityUser.getAuthorities());
+        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(authenticationToken.getClientId(),securityUser, authentication.getCredentials(), securityUser.getAuthorities(list));
         result.setDetails(authentication.getDetails());
         return result;
     }

@@ -6,6 +6,8 @@ import com.xiushang.common.user.service.SystemParamService;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.PhoneDecryptInfo;
 import com.xiushang.common.user.vo.WxLoginVo;
+import com.xiushang.security.SecurityRole;
+import com.xiushang.security.SecurityRoleVo;
 import com.xiushang.security.vo.AESGetPhoneNumber;
 import com.xiushang.common.utils.HttpClientUtil;
 import com.xiushang.common.utils.JsonUtils;
@@ -26,7 +28,9 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 微信认证提供者
@@ -160,7 +164,12 @@ public class WechatAuthenticationProvider extends TenantProvider implements Auth
             throw new InternalAuthenticationServiceException("微信code无效或已过期！");
         }
 
-        WechatAuthenticationToken result = new WechatAuthenticationToken(authenticationToken.getClientId(),securityUser, securityUser.getAuthorities());
+        //附加权限
+        List<SecurityRoleVo> list = new ArrayList<>();
+        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
+        list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
+
+        WechatAuthenticationToken result = new WechatAuthenticationToken(authenticationToken.getClientId(),securityUser, securityUser.getAuthorities(list));
         result.setDetails(authentication.getDetails());
         return result;
     }

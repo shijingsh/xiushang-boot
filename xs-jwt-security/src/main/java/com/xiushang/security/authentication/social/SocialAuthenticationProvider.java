@@ -6,6 +6,8 @@ import com.xiushang.common.user.vo.WxLoginVo;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.entity.UserSocialEntity;
 import com.xiushang.jpa.repository.UserSocialDao;
+import com.xiushang.security.SecurityRole;
+import com.xiushang.security.SecurityRoleVo;
 import com.xiushang.security.SecurityUser;
 import com.xiushang.security.authentication.TenantProvider;
 import com.xiushang.service.impl.UserDetailsServiceImpl;
@@ -16,7 +18,9 @@ import org.springframework.security.authentication.InternalAuthenticationService
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 public class SocialAuthenticationProvider extends TenantProvider implements AuthenticationProvider {
@@ -88,8 +92,13 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         //设置租户信息
         super.settingTenantId(securityUser, authenticationToken);
 
+        //附加权限
+        List<SecurityRoleVo> list = new ArrayList<>();
+        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
+        list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
+
         //这时候已经认证成功了
-        SocialAuthenticationToken authenticationResult = new SocialAuthenticationToken(authenticationToken.getClientId(),securityUser, securityUser.getAuthorities());
+        SocialAuthenticationToken authenticationResult = new SocialAuthenticationToken(authenticationToken.getClientId(),securityUser, securityUser.getAuthorities(list));
         authenticationResult.setDetails(authenticationToken.getDetails());
 
         return authenticationResult;
