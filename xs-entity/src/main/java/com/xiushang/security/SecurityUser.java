@@ -6,8 +6,9 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
 
-public class SecurityUser extends UserEntity implements UserDetails{
+public class SecurityUser extends UserEntity implements UserDetails {
 
     /**
      * 租户ID
@@ -15,15 +16,27 @@ public class SecurityUser extends UserEntity implements UserDetails{
     private String tenantId;
 
     public SecurityUser(UserEntity user) {
-        if(user != null) {
+        if (user != null) {
             BeanUtils.copyProperties(user, this);
         }
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return getRoles();
+
+        List<SecurityRoleVo> list = SecurityRoleMapper.INSTANCE.sourceToTarget(getRoles());
+        return list;
     }
+
+    public Collection<? extends GrantedAuthority> getAuthorities(List<SecurityRoleVo> addList) {
+
+        List<SecurityRoleVo> list = SecurityRoleMapper.INSTANCE.sourceToTarget(getRoles());
+        if (addList != null && addList.size() > 0) {
+            list.addAll(addList);
+        }
+        return list;
+    }
+
 
     @Override
     public String getUsername() {
@@ -47,7 +60,7 @@ public class SecurityUser extends UserEntity implements UserDetails{
 
     @Override
     public boolean isEnabled() {
-        return getDeleted()==0;
+        return getDeleted() == 0;
     }
 
     public String getTenantId() {

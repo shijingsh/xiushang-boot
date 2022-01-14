@@ -15,7 +15,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,11 +38,10 @@ public class NewsController {
      * 获取
      * @return
      */
-    @ApiOperation(value = "获取公告详情（普通用户才能用）")
+    @ApiOperation(value = "获取公告详情（客户端授权就能访问）")
     @ResponseBody
     @GetMapping("/{version}/get")
-    //@PreAuthorize("hasAnyRole('ROLE_USER')")
-    @Secured({"ROLE_USER"})
+    @Secured({"ROLE_CLIENT"})
     public CommonResult<NewsDTO> get(String id) {
         NewsEntity newsEntity = newsService.get(id);
 
@@ -59,9 +57,20 @@ public class NewsController {
     @ApiVersion(2)
     @GetMapping("/{version}/get")
     @ResponseBody
-    @ApiOperation(value = "获取公告详情V2（管理员才能用）")
-    @Secured({"ROLE_ADMIN"})
+    @ApiOperation(value = "获取公告详情V2（用户授权才能访问）")
+    @Secured({"ROLE_USER"})
     public CommonResult<NewsEntity> getV2(String id) {
+        NewsEntity newsEntity = newsService.get(id);
+
+        return CommonResult.success(newsEntity);
+    }
+
+    @ApiVersion(3)
+    @GetMapping("/{version}/get")
+    @ResponseBody
+    @ApiOperation(value = "获取公告详情V3（管理员才能访问）")
+    @Secured({"ROLE_ADMIN"})
+    public CommonResult<NewsEntity> getV3(String id) {
         NewsEntity newsEntity = newsService.get(id);
 
         return CommonResult.success(newsEntity);
