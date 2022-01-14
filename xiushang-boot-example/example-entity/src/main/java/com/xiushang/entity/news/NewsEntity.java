@@ -24,6 +24,9 @@ public class NewsEntity extends BaseEntity {
      */
     private String  userId;
 
+    @ApiModelProperty(notes = "公告标题",required = true)
+    private String title;
+
     @Lob
     @Basic(fetch = FetchType.EAGER)
     @ApiModelProperty(notes = "公告内容",required = true)
@@ -43,6 +46,14 @@ public class NewsEntity extends BaseEntity {
 
     public void setBelongNews(NewsEntity belongNews) {
         this.belongNews = belongNews;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getContent() {

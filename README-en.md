@@ -237,7 +237,7 @@ oauth:
 
 ####  Authorized  description
 
- [OAUTH2](xs-jwt-security/OAUTH2.md)
+ [OAUTH2](xs-jwt-security/README.md)
  
 #### OAuth2 Database table
 

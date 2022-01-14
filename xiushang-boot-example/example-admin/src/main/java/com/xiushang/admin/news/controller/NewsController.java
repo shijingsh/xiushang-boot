@@ -42,7 +42,8 @@ public class NewsController {
     @ApiOperation(value = "获取公告详情（普通用户才能用）")
     @ResponseBody
     @GetMapping("/{version}/get")
-    @PreAuthorize("hasAnyRole('ROLE_USER')")
+    //@PreAuthorize("hasAnyRole('ROLE_USER')")
+    @Secured({"ROLE_USER"})
     public CommonResult<NewsDTO> get(String id) {
         NewsEntity newsEntity = newsService.get(id);
 
@@ -54,11 +55,12 @@ public class NewsController {
         return CommonResult.success(newDTO);
     }
 
-    @Secured({"ROLE_ADMIN"})
+
     @ApiVersion(2)
     @GetMapping("/{version}/get")
     @ResponseBody
     @ApiOperation(value = "获取公告详情V2（管理员才能用）")
+    @Secured({"ROLE_ADMIN"})
     public CommonResult<NewsEntity> getV2(String id) {
         NewsEntity newsEntity = newsService.get(id);
 
@@ -83,10 +85,11 @@ public class NewsController {
     @ApiOperation(value = "添加公告")
     @ResponseBody
     @PostMapping("/{version}/post")
-    public CommonResult<NewsEntity> post(@RequestBody NewsEntity entity) {
+    public CommonResult<NewsEntity> post(@RequestBody NewsDTO newsDTO) {
 
         UserEntity userEntity = userService.getCurrentUser();
         if(userEntity!=null){
+            NewsEntity entity = NewsMapper.INSTANCE.targetToSource(newsDTO);
             entity.setUserId(userEntity.getId());
             NewsEntity newsEntity = newsService.saveNews(entity);
             return CommonResult.success(newsEntity);

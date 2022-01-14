@@ -22,9 +22,22 @@ http://andaily.com/spring-oauth-server/db_table_description.html
 首先在“ApplicationSecurityConfig”类中使用“@EnableGlobalMethodSecurity(prePostEnabled = true)”注解
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 
-@Secured({RoleConst.ROLE_CLIENT, RoleConst.ROLE_ADMIN})
-@PreAuthorize("hasAnyRole('ROLE_USER')")
+-  @Secured({RoleConst.ROLE_CLIENT, RoleConst.ROLE_ADMIN})
+-  @PreAuthorize("hasAnyRole('ROLE_USER')")
+-  @RolesAllowed({"ROLE_ADMIN"})
 
+#### 区别
+-  @Secured(): secured_annotation使用时，需要如下配置Spring Security (无论是通过xml配置，还是在Spring boot下，直接注解配置，都需要指明secured-annotations)
+XML: <global-method-security secured-annotations="enabled"/> 
+Spring boot: @EnableGlobalMethodSecurity(securedEnabled = true)
+
+-  @RolesAllowed(): jsr250-annotations 使用时，需要如下配置Spring Security (无论是通过xml配置，还是在Spring boot下，直接注解配置，都需要指明jsr250-annotations)
+XML: <global-method-security jsr250-annotations="enabled"/> 
+Spring boot:  @EnableGlobalMethodSecurity(jsr250Enabled = true)
+
+-  @PreAuthorize(): pre-post-annotations 使用时，需要如下配置Spring Security (无论是通过xml配置，还是在Spring boot下，直接注解配置，都需要指明pre-post-annotations)
+XML: <global-method-security pre-post-annotations="enabled"/> 
+Spring boot: @EnableGlobalMethodSecurity(prePostEnabled = true)
 
 ### 核心源码解读
 

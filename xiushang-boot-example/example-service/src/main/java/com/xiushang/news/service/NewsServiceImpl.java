@@ -20,7 +20,6 @@ import java.util.Calendar;
 
 /**
  * 公告
- * Created by kf on 2016/11/7.
  */
 @Service
 public class NewsServiceImpl extends BaseServiceImpl<NewsEntity> implements NewsService {
