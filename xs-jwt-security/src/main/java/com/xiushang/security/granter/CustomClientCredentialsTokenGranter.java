@@ -32,7 +32,7 @@ public class CustomClientCredentialsTokenGranter extends AbstractTokenGranter {
 
         Map<String, String> parameters = new LinkedHashMap(tokenRequest.getRequestParameters());
 
-        String clientId = parameters.get("client_id"); // clientId
+        String clientId = tokenRequest.getClientId(); // clientId
 
         //parameters.remove("clientId");
 

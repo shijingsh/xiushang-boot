@@ -30,10 +30,11 @@ public class WechatTokenGranter extends AbstractTokenGranter {
     @Override
     protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest) {
 
+        String clientId = tokenRequest.getClientId();
+
         Map<String, String> parameters = new LinkedHashMap(tokenRequest.getRequestParameters());
         String code = parameters.get("code");
 
-        String clientId = parameters.get("client_id");
         String nickName = parameters.get("nickName");
         String avatarUrl = parameters.get("avatarUrl");
         String gender = parameters.get("gender");

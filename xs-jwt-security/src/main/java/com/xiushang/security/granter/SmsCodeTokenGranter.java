@@ -37,7 +37,7 @@ public class SmsCodeTokenGranter extends AbstractTokenGranter {
 
         String mobile = parameters.get("mobile"); // 手机号
         String code = parameters.get("code"); // 短信验证码
-        String clientId = parameters.get("client_id");
+        String clientId = tokenRequest.getClientId();
 
         parameters.remove("mobile");
         parameters.remove("code");

@@ -36,11 +36,11 @@ public class SocialTokenGranter extends AbstractTokenGranter {
     @Override
     protected OAuth2Authentication getOAuth2Authentication(ClientDetails client, TokenRequest tokenRequest) {
 
+        String clientId = tokenRequest.getClientId();
         Map<String, String> parameters = new LinkedHashMap(tokenRequest.getRequestParameters());
 
         String socialType = parameters.get("socialType"); // 社交账号类型
         String socialId = parameters.get("socialId"); // 社交账号ID
-        String clientId = parameters.get("client_id");
 
         String nickName = parameters.get("nickName");
         String avatarUrl = parameters.get("avatarUrl");
