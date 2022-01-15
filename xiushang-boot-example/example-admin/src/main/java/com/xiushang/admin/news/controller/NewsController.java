@@ -9,6 +9,7 @@ import com.xiushang.entity.news.NewsEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.news.service.NewsService;
+import com.xiushang.security.SecurityRole;
 import com.xiushang.vo.HelpSearchVo;
 import com.xiushang.vo.NewsMapper;
 import io.swagger.annotations.Api;
@@ -41,7 +42,7 @@ public class NewsController {
     @ApiOperation(value = "获取公告详情（客户端授权就能访问）")
     @ResponseBody
     @GetMapping("/{version}/get")
-    @Secured({"ROLE_CLIENT"})
+    @Secured({SecurityRole.ROLE_CLIENT})
     public CommonResult<NewsDTO> get(String id) {
         NewsEntity newsEntity = newsService.get(id);
 
@@ -58,7 +59,7 @@ public class NewsController {
     @GetMapping("/{version}/get")
     @ResponseBody
     @ApiOperation(value = "获取公告详情V2（用户授权才能访问）")
-    @Secured({"ROLE_USER"})
+    @Secured({SecurityRole.ROLE_USER})
     public CommonResult<NewsEntity> getV2(String id) {
         NewsEntity newsEntity = newsService.get(id);
 
