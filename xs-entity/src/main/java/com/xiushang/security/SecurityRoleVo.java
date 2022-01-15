@@ -13,6 +13,9 @@ public class SecurityRoleVo implements GrantedAuthority {
     @ApiModelProperty(notes = "角色名称")
     private String name;
 
+    public SecurityRoleVo() {
+    }
+
     public SecurityRoleVo(String code) {
         this.code = code;
     }

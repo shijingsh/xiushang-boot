@@ -165,11 +165,9 @@ public class WechatAuthenticationProvider extends TenantProvider implements Auth
         }
 
         //附加权限
-        List<SecurityRoleVo> list = new ArrayList<>();
-        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
-        list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
 
-        WechatAuthenticationToken result = new WechatAuthenticationToken(authenticationToken.getClientId(),securityUser, securityUser.getAuthorities(list));
+        WechatAuthenticationToken result = new WechatAuthenticationToken(authenticationToken.getClientId(),securityUser,
+                securityUser.getAuthorities(new SecurityRoleVo(SecurityRole.ROLE_USER)));
         result.setDetails(authentication.getDetails());
         return result;
     }

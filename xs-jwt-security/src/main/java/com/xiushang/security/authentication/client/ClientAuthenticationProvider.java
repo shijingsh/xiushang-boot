@@ -50,10 +50,10 @@ public class ClientAuthenticationProvider extends TenantProvider implements Auth
         securityUser.setTenantId(userId);
 
         //附加权限
-        List<SecurityRoleVo> list = new ArrayList<>();
-        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
+        //List<SecurityRoleVo> list = new ArrayList<>();
+        //list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
         //这时候已经认证成功了
-        ClientAuthenticationToken authenticationResult = new ClientAuthenticationToken(authenticationToken.getClientId(),securityUser, securityUser.getAuthorities(list));
+        ClientAuthenticationToken authenticationResult = new ClientAuthenticationToken(authenticationToken.getClientId(),securityUser, securityUser.getAuthorities());
         authenticationResult.setDetails(authenticationToken.getDetails());
 
         return authenticationResult;

@@ -93,12 +93,9 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         super.settingTenantId(securityUser, authenticationToken);
 
         //附加权限
-        List<SecurityRoleVo> list = new ArrayList<>();
-        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
-        list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
-
+        //SecurityRole.ROLE_USER
         //这时候已经认证成功了
-        SocialAuthenticationToken authenticationResult = new SocialAuthenticationToken(authenticationToken.getClientId(),securityUser, securityUser.getAuthorities(list));
+        SocialAuthenticationToken authenticationResult = new SocialAuthenticationToken(authenticationToken.getClientId(),securityUser, securityUser.getAuthorities(new SecurityRoleVo(SecurityRole.ROLE_USER)));
         authenticationResult.setDetails(authenticationToken.getDetails());
 
         return authenticationResult;

@@ -5,6 +5,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -25,14 +26,18 @@ public class SecurityUser extends UserEntity implements UserDetails {
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
         List<SecurityRoleVo> list = SecurityRoleMapper.INSTANCE.sourceToTarget(getRoles());
+
+        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
+
         return list;
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities(List<SecurityRoleVo> addList) {
+    public Collection<? extends GrantedAuthority> getAuthorities(SecurityRoleVo securityRoleVo) {
 
         List<SecurityRoleVo> list = SecurityRoleMapper.INSTANCE.sourceToTarget(getRoles());
-        if (addList != null && addList.size() > 0) {
-            list.addAll(addList);
+        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
+        if (securityRoleVo != null ) {
+            list.add(securityRoleVo);
         }
         return list;
     }

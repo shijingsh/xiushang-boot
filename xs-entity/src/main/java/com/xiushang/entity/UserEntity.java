@@ -7,6 +7,7 @@ import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -86,7 +87,7 @@ public class UserEntity extends ExpandEntity {
             joinColumns=@JoinColumn(name="user_id"),
             inverseJoinColumns=@JoinColumn(name="role_id")
     )
-    private List<RoleEntity> roles;
+    private List<RoleEntity> roles = new ArrayList<>();
 
 
     public UserEntity(){}

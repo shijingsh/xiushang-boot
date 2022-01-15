@@ -46,11 +46,8 @@ public class SmsCodeAuthenticationProvider extends TenantProvider implements Aut
         super.settingTenantId(securityUser, authenticationToken);
 
         //附加权限
-        List<SecurityRoleVo> list = new ArrayList<>();
-        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
-        list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
 
-        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(authenticationToken.getClientId(),securityUser, authentication.getCredentials(), securityUser.getAuthorities(list));
+        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(authenticationToken.getClientId(),securityUser, authentication.getCredentials(), securityUser.getAuthorities(new SecurityRoleVo(SecurityRole.ROLE_USER)));
         result.setDetails(authentication.getDetails());
         return result;
     }
