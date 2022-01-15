@@ -70,6 +70,7 @@ public class UserNameAuthenticationProvider  extends TenantProvider implements A
         }
 
         //附加权限
+        //SecurityRole.ROLE_USER
 
         // [5] 成功登陆，把用户信息提交给 Spring Security
         // 把 userDetails 作为 principal 的好处是可以放自定义的 UserDetails，这样可以存储更多有用的信息，而不只是 username，
