@@ -18,6 +18,7 @@ public class SecurityRoleVo implements GrantedAuthority {
 
     public SecurityRoleVo(String code) {
         this.code = code;
+        this.name = code;
     }
 
     public SecurityRoleVo(String code, String name) {

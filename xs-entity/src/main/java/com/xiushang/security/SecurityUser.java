@@ -1,5 +1,6 @@
 package com.xiushang.security;
 
+import com.xiushang.entity.RoleEntity;
 import com.xiushang.entity.UserEntity;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,20 +26,26 @@ public class SecurityUser extends UserEntity implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        List<SecurityRoleVo> list = SecurityRoleMapper.INSTANCE.sourceToTarget(getRoles());
-
-        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
-
-        return list;
+        return getDefault();
     }
 
     public Collection<? extends GrantedAuthority> getAuthorities(SecurityRoleVo securityRoleVo) {
 
-        List<SecurityRoleVo> list = SecurityRoleMapper.INSTANCE.sourceToTarget(getRoles());
-        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
+        List<SecurityRoleVo> list = getDefault();
         if (securityRoleVo != null ) {
             list.add(securityRoleVo);
         }
+        return list;
+    }
+
+    private List<SecurityRoleVo> getDefault(){
+        List<SecurityRoleVo> list = new ArrayList<>();
+        for (RoleEntity role : getRoles()){
+            SecurityRoleVo roleVo = new SecurityRoleVo(role.getCode(),role.getName());
+            list.add(roleVo);
+        }
+
+        list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT));
         return list;
     }
 
