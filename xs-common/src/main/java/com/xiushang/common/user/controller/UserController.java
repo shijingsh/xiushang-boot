@@ -91,7 +91,7 @@ public class UserController {
             return CommonResult.error(1, "请输入登录密码");
         }
 
-        if (isValidPassword(psw)) {
+        if (!isValidPassword(psw)) {
             return CommonResult.error(1, "密码为8-20位包含大小写字母和数字的组合！");
         }
 
@@ -127,7 +127,7 @@ public class UserController {
             return CommonResult.error(100000, "验证码不能为空。");
         }
 
-        if (isValidPassword(resetPwdVo.getPassword())) {
+        if (!isValidPassword(resetPwdVo.getPassword())) {
             return CommonResult.error(1, "密码为8-20位包含大小写字母和数字的组合！");
         }
 
@@ -191,7 +191,7 @@ public class UserController {
             return CommonResult.error(100000, "用户名,密码不能为空。");
         }
 
-        if (isValidPassword(registerVo.getPassword())) {
+        if (!isValidPassword(registerVo.getPassword())) {
             return CommonResult.error(1, "密码为8-20位包含大小写字母和数字的组合！");
         }
 

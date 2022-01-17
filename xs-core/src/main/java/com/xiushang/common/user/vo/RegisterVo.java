@@ -3,7 +3,7 @@ package com.xiushang.common.user.vo;
 import io.swagger.annotations.ApiModelProperty;
 
 public class RegisterVo implements java.io.Serializable {
-    @ApiModelProperty(notes = "用户名",required = true)
+    @ApiModelProperty(notes = "用户名(手机号码)",required = true)
     private String loginName;
     @ApiModelProperty(notes = "昵称",required = true)
     private String name;

@@ -40,13 +40,13 @@ public class AuthController {
     ) throws HttpRequestMethodNotSupportedException {
 
         Map<String, String> parameters = new HashMap<>();
-        parameters.put("client_id",client_id);
-        parameters.put("client_secret",client_secret);
         try {
            parameters = objectToMap(oAuthVo);
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
+        parameters.put("client_id",client_id);
+        parameters.put("client_secret",client_secret);
 
         OAuth2AccessToken accessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
         return CommonResult.success(accessToken);
