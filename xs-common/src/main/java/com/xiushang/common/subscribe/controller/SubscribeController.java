@@ -11,6 +11,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @Api(tags = "微信接口")
 @Controller
 @RequestMapping(value = "/api/wx/subscribe",
@@ -50,7 +52,7 @@ public class SubscribeController {
     @ApiOperation("订阅消息")
     @PostMapping("/appoint")
     @ResponseBody
-    public CommonResult<Boolean> appoint(@RequestBody SubscribeMsgAppointVo appointVo) {
+    public CommonResult<Boolean> appoint(@Valid @RequestBody SubscribeMsgAppointVo appointVo) {
         Boolean flag = dynamicTaskService.appoint(appointVo);
 
         return CommonResult.success(flag);
