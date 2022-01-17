@@ -19,6 +19,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Date;
 
 /**
@@ -97,7 +98,7 @@ public class NewsController {
     @ResponseBody
     @PostMapping("/{version}/post")
     @Secured({SecurityRole.ROLE_USER})
-    public CommonResult<NewsEntity> post(@RequestBody NewsDTO newsDTO) {
+    public CommonResult<NewsEntity> post(@Valid @RequestBody NewsDTO newsDTO) {
 
         UserEntity userEntity = userService.getCurrentUser();
         if(userEntity!=null){

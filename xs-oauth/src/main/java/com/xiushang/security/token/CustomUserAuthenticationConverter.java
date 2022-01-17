@@ -60,7 +60,7 @@ public class CustomUserAuthenticationConverter implements UserAuthenticationConv
             Collection<? extends GrantedAuthority> authorities = getAuthorities(map);
             if (userDetailsService != null) {
                 UserDetails user = userDetailsService.loadUserByUsername((String) map.get(USERNAME));
-                authorities = user.getAuthorities();
+                //authorities = user.getAuthorities();
                 //设置租户ID
                 if (map.containsKey(SecurityConstants.AUTH_TENANT_ID_PARAM) && user instanceof SecurityUser) {
                     String tenantId = (String)map.get(SecurityConstants.AUTH_TENANT_ID_PARAM);
