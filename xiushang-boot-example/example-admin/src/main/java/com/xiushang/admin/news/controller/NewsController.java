@@ -83,6 +83,7 @@ public class NewsController {
     @ApiOperation(value = "删除公告")
     @ResponseBody
     @PostMapping("/{version}/delete")
+    @Secured({SecurityRole.ROLE_USER})
     public CommonResult<NewsEntity> delete(String id) {
         newsService.delete(id);
         return CommonResult.success();
@@ -95,6 +96,7 @@ public class NewsController {
     @ApiOperation(value = "添加公告")
     @ResponseBody
     @PostMapping("/{version}/post")
+    @Secured({SecurityRole.ROLE_USER})
     public CommonResult<NewsEntity> post(@RequestBody NewsDTO newsDTO) {
 
         UserEntity userEntity = userService.getCurrentUser();
