@@ -18,6 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @Api(tags = "用户管理")
 @ApiSort(value = 2)
 @Controller
@@ -75,7 +79,7 @@ public class UserController {
     @ApiOperationSupport(order=6)
     @ResponseBody
     @PostMapping("/modifyPass")
-    public CommonResult<UserEntity> modifyPass(@RequestBody ModifyPassVo modifyPassVo) {
+    public CommonResult<UserEntity> modifyPass(@Valid @RequestBody ModifyPassVo modifyPassVo) {
 
         UserEntity userEntity = userService.getCurrentUser();
         if (userEntity==null) {
@@ -83,21 +87,22 @@ public class UserController {
         }
         String pswOld =  modifyPassVo.getOldPassword();
         String psw = modifyPassVo.getNewPassword();
-        String pswConfirm = modifyPassVo.getConfirmPassword();
         if (StringUtils.isBlank(psw)) {
             return CommonResult.error(1, "请输入登录密码");
         }
-        if (psw.length() < 6) {
-            return CommonResult.error(1, "密码长度不能少于6位！");
+
+        if (isValidPassword(psw)) {
+            return CommonResult.error(1, "密码为8-20位包含大小写字母和数字的组合！");
         }
+
 
         //String oldPassMd5 = MD5.GetMD5Code(pswOld);
         if (!StringUtils.equals(pswOld, userEntity.getPassword())) {
             return CommonResult.error(1, "原密码不正确，请重新输入");
         }
-        if (!StringUtils.equals(psw, pswConfirm)) {
-            return CommonResult.error(1, "两次密码输入不一致，请重新输入");
-        }
+        /*if (!StringUtils.equals(psw, pswConfirm)) {
+            //return CommonResult.error(1, "两次密码输入不一致，请重新输入");
+        }*/
         userEntity.setPassword(MD5.GetMD5Code(psw));
         try {
             userService.updateUser(userEntity);
@@ -113,13 +118,17 @@ public class UserController {
     @ApiOperationSupport(order=7)
     @ResponseBody
     @PostMapping("/resetPassword")
-    public CommonResult<UserEntity> resetPassword(@RequestBody ResetPwdVo resetPwdVo) {
+    public CommonResult<UserEntity> resetPassword(@Valid  @RequestBody ResetPwdVo resetPwdVo) {
 
         if (StringUtils.isBlank(resetPwdVo.getLoginName()) || StringUtils.isBlank(resetPwdVo.getPassword())) {
             return CommonResult.error(100000, "用户名,密码不能为空。");
         }
         if (StringUtils.isBlank(resetPwdVo.getCode())) {
             return CommonResult.error(100000, "验证码不能为空。");
+        }
+
+        if (isValidPassword(resetPwdVo.getPassword())) {
+            return CommonResult.error(1, "密码为8-20位包含大小写字母和数字的组合！");
         }
 
         UserEntity user = userService.getUser(resetPwdVo.getLoginName());
@@ -158,7 +167,7 @@ public class UserController {
     @ApiOperationSupport(order=5)
     @ResponseBody
     @PostMapping("/modifyHeadPortrait")
-    public CommonResult<UserEntity> modifyHeadPortrait(@RequestBody UserHeadPortraitVo userHeadPortraitVo) {
+    public CommonResult<UserEntity> modifyHeadPortrait(@Valid @RequestBody UserHeadPortraitVo userHeadPortraitVo) {
 
         UserEntity userEntity = userService.getCurrentUser();
 
@@ -172,6 +181,52 @@ public class UserController {
 
         return CommonResult.success(userEntity);
     }
+
+    @ApiOperation(value = "手机号码注册")
+    @ApiOperationSupport(order=2)
+    @ResponseBody
+    @PostMapping("/register")
+    public CommonResult<UserEntity> register(@Valid @RequestBody RegisterVo registerVo) {
+        if (StringUtils.isBlank(registerVo.getLoginName()) || StringUtils.isBlank(registerVo.getPassword())) {
+            return CommonResult.error(100000, "用户名,密码不能为空。");
+        }
+
+        if (isValidPassword(registerVo.getPassword())) {
+            return CommonResult.error(1, "密码为8-20位包含大小写字母和数字的组合！");
+        }
+
+        String code = registerVo.getVerifyCode();
+        if(StringUtils.isNotBlank(code)){
+            code = code.trim();
+        }
+        String mobile = registerVo.getLoginName();
+        if(smsService.validateCode(mobile,code)){
+            UserEntity user = userService.getUser(mobile);
+            if (user != null) {
+                //直接修改已经存在的账号;
+                user.setLoginName(registerVo.getLoginName());
+                user.setPassword(MD5.GetMD5Code(registerVo.getPassword()));
+                if(StringUtils.isNotBlank(registerVo.getName())){
+                    user.setName(registerVo.getName());
+                }
+                userService.updateUser(user);
+                return CommonResult.success(user);
+            }else{
+                UserEntity userEntity = new UserEntity();
+                userEntity.setLoginName(registerVo.getLoginName());
+                userEntity.setName(registerVo.getName());
+                userEntity.setMobile(mobile);
+                userEntity.setPassword(MD5.GetMD5Code(registerVo.getPassword()));
+
+                userService.registerUser(userEntity);
+
+                return CommonResult.success(userEntity);
+            }
+        }else{
+            return CommonResult.error(100000, "验证码输入错误");
+        }
+    }
+
 
     /**
      * 获取用户
@@ -214,5 +269,22 @@ public class UserController {
             return CommonResult.error("用户登录已失效，请重新登陆！");
         }
         return CommonResult.success();
+    }
+
+    private boolean isValidPassword(String password){
+        String pattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
+
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(password);
+        return  m.matches();
+    }
+
+    public static void main(String args[]){
+        String str = "abc12345";
+        String pattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
+
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(str);
+        System.out.println(m.matches());
     }
 }

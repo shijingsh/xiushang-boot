@@ -6,7 +6,7 @@ public class SmsCustomVo implements java.io.Serializable {
     @ApiModelProperty(notes = "接收短信手机号码",required = true)
     private String mobile ;
 
-    @ApiModelProperty(notes = "短信模板编号（需要联系秀上创建自定义短信模板）",required = true)
+    @ApiModelProperty(notes = "短信模板编号（需要联系秀上创建自定义短信模板）")
     private String templateCode ;
 
     public SmsCustomVo() {

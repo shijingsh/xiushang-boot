@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
 import java.util.Random;
 
 @Api(tags = "用户管理")
@@ -40,7 +41,7 @@ public class SmsCodeController {
 	@ApiOperationSupport(order=1)
 	@ResponseBody
     @GetMapping("/verifyCode")
-    public CommonResult verifyCode(@RequestBody SmsCustomVo smsCustomVo) {
+    public CommonResult verifyCode(@Valid @RequestBody SmsCustomVo smsCustomVo) {
 		ShopEntity shopEntity = userService.getCurrentShop();
 		if(shopEntity==null ) {
 			return CommonResult.error(100000, "商铺不存在！");

@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
@@ -44,7 +45,7 @@ public class UploadController{
     @ApiOperation(value = "上传文件")
     @ResponseBody
     @PostMapping("/upload")
-    public CommonResult<List<UploadBean>> upload(HttpServletRequest request, @ApiParam(value = "上传根路径 <br />（指定上传文件存放的文件夹）",required = true) String userPath) {
+    public CommonResult<List<UploadBean>> upload(HttpServletRequest request, @ApiParam(value = "上传根路径 <br />（指定上传文件存放的文件夹）") String userPath) {
 
         MultipartHttpServletRequest mulRequest = (MultipartHttpServletRequest) (request);
 
@@ -61,7 +62,7 @@ public class UploadController{
     @ApiOperation(value = "上传文件base64")
     @ResponseBody
     @PostMapping("/uploadBase64")
-    public CommonResult<List<UploadBean>> uploadBase64(@RequestBody UploadBase64 uploadBase64) {
+    public CommonResult<List<UploadBean>> uploadBase64(@Valid @RequestBody UploadBase64 uploadBase64) {
         List<UploadBean> list = uploadService.uploadBase64(uploadBase64);
 
         return CommonResult.success(list);

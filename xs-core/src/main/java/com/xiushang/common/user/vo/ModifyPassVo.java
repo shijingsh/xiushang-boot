@@ -4,12 +4,11 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class ModifyPassVo implements java.io.Serializable {
 
-    @ApiModelProperty(notes = "旧密码")
+    @ApiModelProperty(notes = "旧密码",required = true)
     private String oldPassword;
-    @ApiModelProperty(notes = "新密码")
+    @ApiModelProperty(notes = "新密码",required = true)
     private String newPassword;
-    @ApiModelProperty(notes = "确认新密码")
-    private String confirmPassword;
+
 
     public String getOldPassword() {
         return oldPassword;
@@ -27,11 +26,4 @@ public class ModifyPassVo implements java.io.Serializable {
         this.newPassword = newPassword;
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
 }

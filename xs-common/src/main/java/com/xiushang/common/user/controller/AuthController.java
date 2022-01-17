@@ -12,6 +12,7 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.validation.Valid;
 import java.lang.reflect.Field;
 import java.security.Principal;
 import java.util.HashMap;
@@ -32,7 +33,7 @@ public class AuthController {
             @ApiIgnore Principal principal,
             @RequestParam String  client_id,
             @RequestParam String  client_secret,
-            @RequestBody OAuthVo oAuthVo
+            @Valid @RequestBody OAuthVo oAuthVo
     ) throws HttpRequestMethodNotSupportedException {
 
         Map<String, String> parameters = new HashMap<>();

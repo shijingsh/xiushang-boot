@@ -9,7 +9,7 @@ public class UserHeadPortraitVo implements java.io.Serializable {
     /**
      * 头像
      */
-    @ApiModelProperty(notes = "头像")
+    @ApiModelProperty(notes = "头像",required = true)
     private String headPortrait;
 
 

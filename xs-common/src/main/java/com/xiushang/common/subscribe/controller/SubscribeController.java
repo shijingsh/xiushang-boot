@@ -8,12 +8,14 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @Api(tags = "微信接口")
 @Controller
 @RequestMapping(value = "/api/wx/subscribe",
         produces = "application/json; charset=UTF-8")
+@Validated
 public class SubscribeController {
 
     @Autowired
