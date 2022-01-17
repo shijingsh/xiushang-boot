@@ -15,10 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Random;
@@ -40,11 +37,11 @@ public class SmsCodeController {
 	@ApiOperation(value = "获取验证码")
 	@ApiOperationSupport(order=1)
 	@ResponseBody
-    @GetMapping("/verifyCode")
+    @PostMapping("/verifyCode")
     public CommonResult verifyCode(@Valid @RequestBody SmsCustomVo smsCustomVo) {
 		ShopEntity shopEntity = userService.getCurrentShop();
 		if(shopEntity==null ) {
-			return CommonResult.error(100000, "商铺不存在！");
+			return CommonResult.error(100000, "当前租户，尚未开通商铺！");
 		}
 		String mobile = smsCustomVo.getMobile();
     	if(StringUtils.isBlank(mobile)) {

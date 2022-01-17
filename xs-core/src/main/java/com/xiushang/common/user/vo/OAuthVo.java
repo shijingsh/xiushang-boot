@@ -10,10 +10,7 @@ public class OAuthVo implements java.io.Serializable{
 
     @ApiModelProperty(notes = "授权模式（authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat）",position = 1,required=true)
     private String grant_type;
-   /* @ApiModelProperty(notes = "Oauth2客户端ID",position = 2)
-    private String client_id;
-    @ApiModelProperty(notes = "Oauth2客户端秘钥",position = 3)
-    private String client_secret;*/
+
     @ApiModelProperty(notes = "刷新token（grant_type为refresh_token必填）",position = 4)
     private String refresh_token;
 

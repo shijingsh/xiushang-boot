@@ -5,9 +5,11 @@ import com.xiushang.common.user.vo.OAuthVo;
 import com.xiushang.framework.log.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -23,6 +25,7 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/oauth",
         produces = "application/json; charset=UTF-8")
+@Validated
 public class AuthController {
     @Autowired
     private TokenEndpoint tokenEndpoint;
@@ -31,8 +34,8 @@ public class AuthController {
     @PostMapping("/token")
     public CommonResult<OAuth2AccessToken> postAccessToken(
             @ApiIgnore Principal principal,
-            @RequestParam String  client_id,
-            @RequestParam String  client_secret,
+            @ApiParam(value = "client_id",required = true) @RequestParam String  client_id,
+            @ApiParam(value = "client_secret",required = true) @RequestParam String  client_secret,
             @Valid @RequestBody OAuthVo oAuthVo
     ) throws HttpRequestMethodNotSupportedException {
 
