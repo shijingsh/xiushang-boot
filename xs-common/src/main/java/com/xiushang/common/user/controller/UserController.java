@@ -11,10 +11,12 @@ import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.utils.DeleteEnum;
+import com.xiushang.security.SecurityRole;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +41,7 @@ public class UserController {
     @ApiOperationSupport(order=4)
     @ResponseBody
     @PostMapping("/modify")
+    @Secured(SecurityRole.ROLE_USER)
     public CommonResult<UserEntity> modify(@RequestBody UserVo user) {
 
         UserEntity userEntity = userService.getCurrentUser();
@@ -79,6 +82,7 @@ public class UserController {
     @ApiOperationSupport(order=6)
     @ResponseBody
     @PostMapping("/modifyPass")
+    @Secured(SecurityRole.ROLE_USER)
     public CommonResult<UserEntity> modifyPass(@Valid @RequestBody ModifyPassVo modifyPassVo) {
 
         UserEntity userEntity = userService.getCurrentUser();
@@ -96,8 +100,8 @@ public class UserController {
         }
 
 
-        //String oldPassMd5 = MD5.GetMD5Code(pswOld);
-        if (!StringUtils.equals(pswOld, userEntity.getPassword())) {
+        String oldPassMd5 = MD5.GetMD5Code(pswOld);
+        if (!StringUtils.equals(oldPassMd5, userEntity.getPassword())) {
             return CommonResult.error(1, "原密码不正确，请重新输入");
         }
         /*if (!StringUtils.equals(psw, pswConfirm)) {
@@ -167,6 +171,7 @@ public class UserController {
     @ApiOperationSupport(order=5)
     @ResponseBody
     @PostMapping("/modifyHeadPortrait")
+    @Secured(SecurityRole.ROLE_USER)
     public CommonResult<UserEntity> modifyHeadPortrait(@Valid @RequestBody UserHeadPortraitVo userHeadPortraitVo) {
 
         UserEntity userEntity = userService.getCurrentUser();
@@ -236,6 +241,7 @@ public class UserController {
     @ApiOperationSupport(order=3)
     @ResponseBody
     @GetMapping("/info")
+    @Secured(SecurityRole.ROLE_USER)
     public CommonResult<UserEntity> info() {
         UserEntity userEntity = userService.getCurrentUser();
 
@@ -258,6 +264,7 @@ public class UserController {
     @ApiOperationSupport(order=9)
     @ResponseBody
     @GetMapping("/cancel")
+    @Secured(SecurityRole.ROLE_USER)
     public CommonResult userCancel() {
 
         UserEntity userEntity = userService.getCurrentUser();

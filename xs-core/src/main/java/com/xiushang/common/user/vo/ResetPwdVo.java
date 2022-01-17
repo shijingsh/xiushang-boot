@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 
 public class ResetPwdVo  implements java.io.Serializable {
 
-    @ApiModelProperty(notes = "登录名",required = true)
+    @ApiModelProperty(notes = "登录名(手机号码)",required = true)
     private String loginName;
     @ApiModelProperty(notes = "密码",required = true)
     private String password;
