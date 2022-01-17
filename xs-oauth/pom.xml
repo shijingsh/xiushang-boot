@@ -60,7 +60,7 @@
 
     </dependencies>
     <build>
-        <finalName>xs-jwt-security</finalName>
+        <finalName>xs-oauth</finalName>
         <defaultGoal>compile</defaultGoal>
     </build>
 </project>

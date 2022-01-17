@@ -76,7 +76,7 @@ Select the library you need to install
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-jwt-security</artifactId>
+            <artifactId>xs-oauth</artifactId>
             <version>1.5.1</version>
         </dependency>
         <dependency>
@@ -237,7 +237,7 @@ oauth:
 
 ####  Authorized  description
 
- [OAUTH2](xs-jwt-security/README.md)
+ [OAUTH2](xs-oauth/README.md)
  
 #### OAuth2 Database table
 

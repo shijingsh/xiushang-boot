@@ -69,7 +69,7 @@ mvn install
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-jwt-security</artifactId>
+            <artifactId>xs-oauth</artifactId>
             <version>1.5.1</version>
         </dependency>
         <dependency>
@@ -231,7 +231,7 @@ oauth:
 
 ####  授权接入说明
 
- [OAUTH2文档](xs-jwt-security/README.md)
+ [OAUTH2文档](xs-oauth/README.md)
  
 #### OAuth2 数据库表
 https://github.com/spring-projects/spring-security-oauth/blob/main/spring-security-oauth2/src/test/resources/schema.sql

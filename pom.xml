@@ -238,7 +238,7 @@
             </dependency>
             <dependency>
                 <groupId>com.github.shijingsh</groupId>
-                <artifactId>xs-jwt-security</artifactId>
+                <artifactId>xs-oauth</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
