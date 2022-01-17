@@ -15,7 +15,7 @@
         <module>xs-entity</module>
         <module>xs-common</module>
         <module>xs-service</module>
-        <module>xs-jwt-security</module>
+        <module>xs-oauth</module>
         <module>xs-job</module>
         <module>xs-marketing</module>
         <module>xs-dubbo</module>
