@@ -2,6 +2,7 @@
 package com.xiushang.admin.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.config.ApiVersion;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
 import com.xiushang.framework.log.SecurityConstants;
@@ -61,7 +62,8 @@ public class SwaggerConfiguration {
                 .apiInfo(groupApiInfo())
                 .groupName("2-公共接口")
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.xiushang.common"))//controller路径
+                //.apis(RequestHandlerSelectors.basePackage("com.xiushang.common"))//controller路径
+                .apis(RequestHandlerSelectors.withMethodAnnotation(XiushangApi.class))
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(securitySchemes())
