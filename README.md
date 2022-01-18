@@ -382,5 +382,9 @@ dubbo:
     
     更新版本后可以使用v2、v3等、依次递加。
 
+四、布尔值变量类型
+
+    强制规定，布尔类型的数据，无论是boolean还是Boolean都不准使用isXXX来命名
+    
 ### 官网
 - www.xiushangsh.com

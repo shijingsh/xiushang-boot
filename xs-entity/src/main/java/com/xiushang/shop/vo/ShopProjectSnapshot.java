@@ -42,7 +42,7 @@ public class ShopProjectSnapshot implements java.io.Serializable {
     /**
      * 是否是店长推荐
      */
-    private Boolean isRecommend = Boolean.FALSE;
+    private Boolean recommend = Boolean.FALSE;
 
     /**
      * 默认图片
@@ -130,11 +130,11 @@ public class ShopProjectSnapshot implements java.io.Serializable {
     }
 
     public Boolean getRecommend() {
-        return isRecommend;
+        return recommend;
     }
 
     public void setRecommend(Boolean recommend) {
-        isRecommend = recommend;
+        recommend = recommend;
     }
 
     public String getDefaultPic() {

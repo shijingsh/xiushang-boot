@@ -21,7 +21,7 @@ public class CommonResult<T> implements java.io.Serializable{
 	@ApiModelProperty(value = "成功消息")
     private String successText;
 	@ApiModelProperty(value = "是否执行成功")
-    private boolean execResult = true;
+    private Boolean execResult = true;
 
     //返回对象
 	@ApiModelProperty(value = "响应数据对象", name = "data")
@@ -64,11 +64,12 @@ public class CommonResult<T> implements java.io.Serializable{
 		this.successText = successText;
 	}
 
-	public boolean isExecResult() {
+
+	public Boolean getExecResult() {
 		return execResult;
 	}
 
-	public void setExecResult(boolean execResult) {
+	public void setExecResult(Boolean execResult) {
 		this.execResult = execResult;
 	}
 
