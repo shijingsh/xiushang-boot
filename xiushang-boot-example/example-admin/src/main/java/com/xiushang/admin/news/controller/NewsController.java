@@ -71,7 +71,7 @@ public class NewsController {
     @GetMapping("/{version}/get")
     @ResponseBody
     @ApiOperation(value = "获取公告详情V3（管理员才能访问）")
-    @Secured({"ROLE_ADMIN"})
+    @Secured({SecurityRole.ROLE_ADMIN})
     public CommonResult<NewsEntity> getV3(String id) {
         NewsEntity newsEntity = newsService.get(id);
 
