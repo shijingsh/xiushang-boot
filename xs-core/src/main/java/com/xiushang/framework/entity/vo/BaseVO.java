@@ -1,11 +1,17 @@
 package com.xiushang.framework.entity.vo;
 
-public abstract class BaseVO<T> implements java.io.Serializable {
+import io.swagger.annotations.ApiModelProperty;
 
-    /**
-     * 获取实例
-     * @return 返回实体类
-     */
-    public abstract T buildEntity();
+public abstract class BaseVO implements java.io.Serializable {
 
+    @ApiModelProperty(notes = "主键ID")
+    private String id;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
