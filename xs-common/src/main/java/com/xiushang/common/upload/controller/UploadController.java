@@ -1,5 +1,6 @@
 package com.xiushang.common.upload.controller;
 
+import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.upload.service.UploadService;
 import com.xiushang.common.upload.vo.UploadBase64;
 import com.xiushang.common.upload.vo.UploadBean;
@@ -43,6 +44,7 @@ public class UploadController{
      * @return
      */
     @ApiOperation(value = "上传文件")
+    @XiushangApi
     @ResponseBody
     @PostMapping("/upload")
     public CommonResult<List<UploadBean>> upload(HttpServletRequest request, @ApiParam(value = "上传根路径 <br />（指定上传文件存放的文件夹）") String userPath) {
@@ -60,6 +62,7 @@ public class UploadController{
      * @return
      */
     @ApiOperation(value = "上传文件base64")
+    @XiushangApi
     @ResponseBody
     @PostMapping("/uploadBase64")
     public CommonResult<List<UploadBean>> uploadBase64(@Valid @RequestBody UploadBase64 uploadBase64) {
@@ -69,6 +72,7 @@ public class UploadController{
     }
 
     @ApiOperation(value = "上传大文件")
+    @XiushangApi
     @ResponseBody
     @PostMapping("/uploadBig")
     public CommonResult uploadBig(HttpServletRequest request,String userPath,String md5,

@@ -1,5 +1,6 @@
 package com.xiushang.common.subscribe.controller;
 
+import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.job.vo.SubscribeMsgAppointVo;
 import com.xiushang.common.service.DynamicTaskService;
 import com.xiushang.framework.log.CommonResult;
@@ -28,6 +29,7 @@ public class SubscribeController {
      * 1 已订阅
      */
     @ApiOperation(value = "查看是否已订阅消息")
+    @XiushangApi
     @ResponseBody
     @GetMapping("/getSubscribeStatus")
     public CommonResult<Integer> getSubscribeStatus(@ApiParam(value = "订阅对象id",required = true) String subscribeObjectId) {
@@ -41,6 +43,7 @@ public class SubscribeController {
      * @return
      */
     @ApiOperation(value = "取消订阅消息")
+    @XiushangApi
     @ResponseBody
     @GetMapping("/cancel")
     public CommonResult<String> cancel(@ApiParam(value = "订阅对象id",required = true) String subscribeObjectId) {
@@ -51,6 +54,7 @@ public class SubscribeController {
 
     @ApiOperation("订阅消息")
     @PostMapping("/appoint")
+    @XiushangApi
     @ResponseBody
     public CommonResult<Boolean> appoint(@Valid @RequestBody SubscribeMsgAppointVo appointVo) {
         Boolean flag = dynamicTaskService.appoint(appointVo);
