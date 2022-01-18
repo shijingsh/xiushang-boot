@@ -8,10 +8,14 @@ import lombok.Data;
 @ApiModel
 public class OAuthVo implements java.io.Serializable{
 
-    @ApiModelProperty(notes = "授权模式（authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat）",position = 1,required=true)
+    /**
+     * 授权模式
+     * ,implicit
+     */
+    @ApiModelProperty(notes = "授权模式（authorization_code,refresh_token,password,client_credentials,sms_code,captcha,social_type,wechat）",position = 1,required=true)
     private String grant_type;
 
-    @ApiModelProperty(notes = "刷新token（grant_type为refresh_token必填）",position = 4)
+    @ApiModelProperty(notes = "刷新token（grant_type为refresh_token必填）",position = 20)
     private String refresh_token;
 
     @ApiModelProperty(notes = "用户名（grant_type为password 必填）",position = 5)

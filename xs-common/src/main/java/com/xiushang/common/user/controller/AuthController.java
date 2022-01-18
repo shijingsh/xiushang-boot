@@ -31,7 +31,17 @@ public class AuthController {
     @Autowired
     private TokenEndpoint tokenEndpoint;
 
-    @ApiOperation(value = "OAuth2认证", notes = "租户以及用户登录入口")
+    @ApiOperation(value = "OAuth2认证中心", notes = "租户以及用户登录入口"
+            +"<p>客户端授权 grant_type=client_credentials,client_id,client_secret 必填 </p>"
+            +"<p>密码授权 grant_type=password,username,password 必填 </p>"
+            +"<p>图形验证码密码授权 grant_type=captcha,username,password  必填 </p>"
+            +"<p>授权码模式 grant_type=authorization_code,code,redirect_uri 必填 </p>"
+            +"<p>短信验证码授权 grant_type=sms_code,code,mobile 必填 </p>"
+            +"<p>社交账号授权 grant_type=social_type,socialId,socialType,nickName,avatarUrl,gender,email 必填 </p>"
+            +"<p>微信授权 grant_type=wechat,nickName,avatarUrl,gender,email,iv,encryptedData 必填 </p>"
+            +"<p>刷新token grant_type=refresh_token,refresh_token 必填 </p>"
+            +"<p><font color='red'>注意： client_id,client_secret 两个参数是通过URL方式传参，即GET方式传参，其他参数通过POST json传参。所有授权方式client_id,client_secret 都是必传的。</font> </p>"
+    )
     @XiushangApi
     @PostMapping("/token")
     public CommonResult<OAuth2AccessToken> postAccessToken(
