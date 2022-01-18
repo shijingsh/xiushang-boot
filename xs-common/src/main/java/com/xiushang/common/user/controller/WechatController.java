@@ -3,6 +3,7 @@ package com.xiushang.common.user.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.common.upload.service.UploadService;
 import com.xiushang.common.upload.vo.UploadBean;
@@ -87,6 +88,7 @@ public class WechatController {
     @ApiOperation("微信网页分享")
     @ResponseBody
     @GetMapping("/config")
+    @XiushangApi
     public CommonResult config() {
         String grant_type = req.getParameter("grant_type");
         String appid = req.getParameter("appid");
@@ -137,6 +139,7 @@ public class WechatController {
     @ApiOperation("微信小程序：获取当期页面的分享二维码")
     @ResponseBody
     @PostMapping("/miniQrCodeByPage")
+    @XiushangApi
     public CommonResult<String> miniQrCodeByPage(@RequestBody QrCodeVo qrCodeVo) {
 
         String appid = "";

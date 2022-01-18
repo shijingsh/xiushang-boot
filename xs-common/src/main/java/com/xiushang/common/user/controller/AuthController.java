@@ -1,6 +1,7 @@
 package com.xiushang.common.user.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.user.vo.OAuthVo;
 import com.xiushang.framework.log.CommonResult;
 import io.swagger.annotations.Api;
@@ -31,6 +32,7 @@ public class AuthController {
     private TokenEndpoint tokenEndpoint;
 
     @ApiOperation(value = "OAuth2认证", notes = "租户以及用户登录入口")
+    @XiushangApi
     @PostMapping("/token")
     public CommonResult<OAuth2AccessToken> postAccessToken(
             @ApiIgnore Principal principal,

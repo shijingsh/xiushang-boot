@@ -2,6 +2,7 @@ package com.xiushang.common.user.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.components.SmsService;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.SmsCustomVo;
@@ -35,6 +36,7 @@ public class SmsCodeController {
      * @return
      */
 	@ApiOperation(value = "获取验证码")
+	@XiushangApi
 	@ApiOperationSupport(order=1)
 	@ResponseBody
     @PostMapping("/verifyCode")

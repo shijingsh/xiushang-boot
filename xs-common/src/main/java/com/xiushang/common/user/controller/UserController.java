@@ -2,6 +2,7 @@ package com.xiushang.common.user.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.components.SmsService;
 import com.xiushang.common.upload.service.UploadService;
 import com.xiushang.common.user.service.UserService;
@@ -38,6 +39,7 @@ public class UserController {
     private SmsService smsService;
 
     @ApiOperation(value = "修改个人信息")
+    @XiushangApi
     @ApiOperationSupport(order=4)
     @ResponseBody
     @PostMapping("/modify")
@@ -79,6 +81,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "修改个人密码")
+    @XiushangApi
     @ApiOperationSupport(order=6)
     @ResponseBody
     @PostMapping("/modifyPass")
@@ -119,6 +122,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "重置密码（短信验证码方式）")
+    @XiushangApi
     @ApiOperationSupport(order=7)
     @ResponseBody
     @PostMapping("/resetPassword")
@@ -168,6 +172,7 @@ public class UserController {
 
 
     @ApiOperation(value = "修改用户头像")
+    @XiushangApi
     @ApiOperationSupport(order=5)
     @ResponseBody
     @PostMapping("/modifyHeadPortrait")
@@ -188,6 +193,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "手机号码注册")
+    @XiushangApi
     @ApiOperationSupport(order=2)
     @ResponseBody
     @PostMapping("/register")
@@ -238,6 +244,7 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "获取用户信息")
+    @XiushangApi
     @ApiOperationSupport(order=3)
     @ResponseBody
     @GetMapping("/info")
@@ -261,6 +268,7 @@ public class UserController {
     }
 
     @ApiOperation(value = "注销账号")
+    @XiushangApi
     @ApiOperationSupport(order=9)
     @ResponseBody
     @GetMapping("/cancel")
