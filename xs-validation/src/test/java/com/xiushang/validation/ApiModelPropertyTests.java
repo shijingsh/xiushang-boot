@@ -5,7 +5,8 @@ import io.swagger.annotations.ApiModelProperty;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.validation.constraints.PaperNo;
+import javax.validation.constraints.IdCard;
+
 
 public class ApiModelPropertyTests {
 
@@ -35,7 +36,7 @@ public class ApiModelPropertyTests {
         private String birthDay;
 
         @ApiModelProperty(value = "身份证")
-        @PaperNo
+        @IdCard
         private String idCard;
 
         public String getName() {

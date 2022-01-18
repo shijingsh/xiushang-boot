@@ -1,12 +1,13 @@
 package com.xiushang.validation;
 
-import javax.validation.constraints.PaperNo;
 
 import com.xiushang.validation.utils.ValidationUtils;
 import org.junit.Assert;
 import org.junit.Test;
 
-public class PaperNoTests {
+import javax.validation.constraints.IdCard;
+
+public class IdCardTests {
     @Test
     public void test01(){
         PaperNoDTO dto = new PaperNoDTO();
@@ -24,7 +25,7 @@ public class PaperNoTests {
 
     static class PaperNoDTO{
 
-        @PaperNo
+        @IdCard
         private String idNo;
 
         public void setIdNo(String idNo) {
