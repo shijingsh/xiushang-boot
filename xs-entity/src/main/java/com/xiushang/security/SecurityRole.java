@@ -13,4 +13,10 @@ public class SecurityRole implements java.io.Serializable {
      * 代表当前会话为：用户授权
      */
     public static  final String ROLE_USER = "ROLE_USER";
+
+    /**
+     * 系统预置角色
+     * 代表当前会话为：管理员
+     */
+    public static  final String ROLE_ADMIN = "ROLE_ADMIN";
 }
