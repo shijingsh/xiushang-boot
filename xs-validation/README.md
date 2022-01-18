@@ -46,7 +46,7 @@ public class ValidateController {
     @ApiOperation(value = "ApiParam必填校验")
     @GetMapping(value = "/apiParam")
     @ResponseBody
-    public CommonResult valApiParam(@ApiParam(value = "id",required = true) String id) {
+    public CommonResult valApiParam(@ApiParam(value = "id主键",required = true) String id) {
 
         return CommonResult.success();
     }
