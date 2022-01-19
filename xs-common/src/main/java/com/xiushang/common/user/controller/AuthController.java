@@ -41,6 +41,7 @@ public class AuthController {
             +"<p>微信授权 grant_type=wechat,nickName,avatarUrl,gender,email,iv,encryptedData 必填 </p>"
             +"<p>刷新token grant_type=refresh_token,refresh_token 必填 </p>"
             +"<p><font color='red'>注意： client_id,client_secret 两个参数是通过URL方式传参，即GET方式传参，其他参数通过POST json传参。所有授权方式client_id,client_secret 都是必传的。</font> </p>"
+            +"<p><font color='red'>租户授权方式，请使用client_credentials、authorization_code 其他授权方式均为用户授权。</font> </p>"
     )
     @XiushangApi
     @PostMapping("/token")
