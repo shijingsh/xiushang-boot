@@ -9,8 +9,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.collection.spi.PersistentCollection;
 import org.hibernate.proxy.HibernateProxy;
 import org.hibernate.proxy.LazyInitializer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -24,12 +22,9 @@ import java.util.Date;
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @EntityListeners(EntityListener.class)
-public abstract class BaseEntity implements java.io.Serializable{
+public abstract class BaseEntity implements java.io.Serializable {
 
-	private static final long serialVersionUID = -4932645577838935714L;
-
-	@Transient
-    protected Logger logger = LoggerFactory.getLogger(getClass());
+    private static final long serialVersionUID = -4932645577838935714L;
 
     /**
      * 主键ID
@@ -45,7 +40,7 @@ public abstract class BaseEntity implements java.io.Serializable{
     /**
      * 创建实体对象的操作员ID
      */
-    @Column(name = "created_by_id",length = 32)
+    @Column(name = "created_by_id", length = 32)
     @JSONField(serialize = false, deserialize = false)
     @ApiModelProperty(hidden = true)
     protected String createdById;
@@ -60,7 +55,7 @@ public abstract class BaseEntity implements java.io.Serializable{
     /**
      * 最后修改实体对象的操作员ID
      */
-    @Column(name = "updated_by_id",length = 32)
+    @Column(name = "updated_by_id", length = 32)
     @JSONField(serialize = false, deserialize = false)
     @ApiModelProperty(hidden = true)
     protected String updatedById;
@@ -68,11 +63,12 @@ public abstract class BaseEntity implements java.io.Serializable{
     /**
      * 最后修改实体对象的时间
      */
-    @JSONField(serialize = false, deserialize = false)
-    @ApiModelProperty(hidden = true)
-    @Column(name = "updated_date")
+    @Column(name = "修改时间")
     protected Date updatedDate;
 
+    /**
+     * 是否已删除 （0 未删除  1 已删除）
+     */
     @ApiModelProperty(notes = "是否已删除 （0 未删除  1 已删除）")
     private Integer deleted = DeleteEnum.VALID;
 
@@ -82,14 +78,11 @@ public abstract class BaseEntity implements java.io.Serializable{
 
     public void setId(String id) {
         if (StringUtils.isBlank(id)) {
-            logger.debug("{}'s id is \"{}\" and now change it to null.", this.getClass().getName(), id);
             this.id = null;
-        }
-        else {
+        } else {
             this.id = id;
         }
     }
-
 
     public String getCreatedById() {
         return createdById;
@@ -98,7 +91,6 @@ public abstract class BaseEntity implements java.io.Serializable{
     public void setCreatedById(String createdById) {
         this.createdById = createdById;
     }
-
 
     public Date getCreatedDate() {
         return createdDate;
@@ -116,7 +108,6 @@ public abstract class BaseEntity implements java.io.Serializable{
         this.updatedById = updatedById;
     }
 
-
     public Date getUpdatedDate() {
         return updatedDate;
     }
@@ -126,7 +117,7 @@ public abstract class BaseEntity implements java.io.Serializable{
     }
 
     public Integer getDeleted() {
-        if(deleted==null){
+        if (deleted == null) {
             return 0;
         }
         return deleted;
@@ -139,7 +130,7 @@ public abstract class BaseEntity implements java.io.Serializable{
     @Override
     public String toString() {
         return "Entity {" +
-                "id='" + id + '\'' + "}" ;
+                "id='" + id + '\'' + "}";
     }
 
     @Override
@@ -159,6 +150,11 @@ public abstract class BaseEntity implements java.io.Serializable{
         return getId() != null ? getId().hashCode() : 0;
     }
 
+    /**
+     * 判断对象是否是延迟加载的
+     * @param value
+     * @return
+     */
     protected boolean isLazy(Object value) {
         if (value instanceof HibernateProxy) {//hibernate代理对象
             LazyInitializer initializer = ((HibernateProxy) value).getHibernateLazyInitializer();
