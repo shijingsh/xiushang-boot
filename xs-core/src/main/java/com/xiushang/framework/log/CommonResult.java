@@ -30,9 +30,14 @@ public class CommonResult<T> implements java.io.Serializable{
     public CommonResult() {
     }
 
-    public CommonResult(int errorCode, String errorText, T data){
+    public CommonResult(int errorCode, String message, T data){
     	this.errorCode = errorCode;
-    	this.errorText = errorText;
+    	if(errorCode == SUCCESS){
+			this.successText = message;
+		}else {
+			this.errorText = message;
+		}
+
     	this.data = data;
     }
 
