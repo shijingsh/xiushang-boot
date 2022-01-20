@@ -41,7 +41,7 @@ public class SmsCodeController {
 	@ResponseBody
     @PostMapping("/verifyCode")
     public CommonResult verifyCode(@Valid @RequestBody SmsCustomVo smsCustomVo) {
-		ShopEntity shopEntity = userService.getCurrentShop();
+		ShopEntity shopEntity = userService.getCurrentTenantShop();
 		if(shopEntity==null ) {
 			return CommonResult.error(100000, "当前租户，尚未开通商铺！");
 		}

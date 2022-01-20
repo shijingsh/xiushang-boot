@@ -114,7 +114,7 @@ public class DynamicTaskService   {
   @Transactional
   public Boolean appoint(SubscribeMsgAppointVo appointVo) {
     UserEntity userEntity = userService.getCurrentUser();
-    ShopEntity shopEntity = userService.getCurrentShop();
+    ShopEntity shopEntity = userService.getCurrentTenantShop();
 
     List<SubscribeMsgAppointEntity> dbList = sysSubscribeMsgAppointDao.findBySubscribeObjectIdAndUserId(appointVo.getSubscribeObjectId(),userEntity.getId());
     if(dbList!=null && dbList.size()>0){
