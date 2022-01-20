@@ -35,6 +35,7 @@ public class TenantProvider {
             }
 
             securityUser.setTenantId(userId);
+            securityUser.setClientId(clientId);
 
             return userId;
         }

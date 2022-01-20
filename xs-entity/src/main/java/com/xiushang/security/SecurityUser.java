@@ -17,6 +17,11 @@ public class SecurityUser extends UserEntity implements UserDetails {
      */
     private String tenantId;
 
+    /**
+     * 客户端ID
+     */
+    private String clientId;
+
     public SecurityUser(UserEntity user) {
         if (user != null) {
             BeanUtils.copyProperties(user, this);
@@ -81,5 +86,13 @@ public class SecurityUser extends UserEntity implements UserDetails {
 
     public void setTenantId(String tenantId) {
         this.tenantId = tenantId;
+    }
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 }

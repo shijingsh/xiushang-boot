@@ -1,6 +1,5 @@
 package com.xiushang.common.user.service;
 
-import com.alibaba.fastjson.JSONObject;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.xiushang.common.user.vo.UserSearchVo;
@@ -11,7 +10,6 @@ import com.xiushang.entity.shop.ShopEntity;
 import com.xiushang.entity.shop.ShopQualificationsEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.Constants;
-import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.framework.utils.DeleteEnum;
 import com.xiushang.framework.utils.OrderUtil;
 import com.xiushang.framework.utils.UserHolder;
@@ -324,6 +322,12 @@ public class UserServiceImpl implements UserService {
         }
 
         return "";
+    }
+
+
+    public String getCurrentClientId() {
+
+        return UserHolder.getClientId();
     }
 
     @Transactional

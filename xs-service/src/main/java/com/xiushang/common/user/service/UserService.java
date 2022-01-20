@@ -113,5 +113,7 @@ public interface UserService {
 
     public String getCurrentShopId();
 
+    public String getCurrentClientId();
+
     public void registerUser(UserEntity userEntity);
 }

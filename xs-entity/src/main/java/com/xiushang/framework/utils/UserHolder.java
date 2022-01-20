@@ -52,6 +52,19 @@ public class UserHolder {
     }
 
     /**
+     * 获得当前客户端ID
+     */
+    public static String getClientId() {
+        // 获取用户认证信息对象。
+        SecurityUser user = get();
+        // 认证信息可能为空，因此需要进行判断。
+        if (Objects.nonNull(user)) {
+            return user.getClientId();
+        }
+        return null;
+    }
+
+    /**
      * 获得当前用户名
      */
     public static String getLoginName() {

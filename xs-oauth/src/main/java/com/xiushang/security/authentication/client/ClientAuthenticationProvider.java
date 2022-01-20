@@ -48,6 +48,7 @@ public class ClientAuthenticationProvider extends TenantProvider implements Auth
 
         //客户端的授权者即是租户
         securityUser.setTenantId(userId);
+        securityUser.setClientId(clientId);
 
         //附加权限
         //这时候已经认证成功了

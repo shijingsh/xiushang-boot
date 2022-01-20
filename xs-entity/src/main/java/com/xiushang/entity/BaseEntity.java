@@ -63,7 +63,8 @@ public abstract class BaseEntity implements java.io.Serializable {
     /**
      * 最后修改实体对象的时间
      */
-    @Column(name = "修改时间")
+    @Column(name = "updated_date")
+    @ApiModelProperty(notes = "修改时间")
     protected Date updatedDate;
 
     /**

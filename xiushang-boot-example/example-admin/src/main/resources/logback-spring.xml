@@ -43,6 +43,11 @@
     <springProfile name="dev">
         <!-- 打印sql -->
         <logger name="com.xiushang" level="DEBUG"/>
+
+        <!-- 打印sql -->
+        <logger name="org.hibernate.SQL" level="DEBUG"/>
+        <logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="trace" />
+
         <root level="${LOG_LEVEL}">
             <appender-ref ref="CONSOLE"/>
         </root>
