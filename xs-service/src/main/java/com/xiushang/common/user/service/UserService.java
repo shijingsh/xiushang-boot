@@ -56,7 +56,7 @@ public interface UserService {
     /**
      * 获取当前租户商铺ID
      */
-    public String getCurrentShopId();
+    public String getCurrentTenantShopId();
     /**
      * 获取当前客户端ID
      */

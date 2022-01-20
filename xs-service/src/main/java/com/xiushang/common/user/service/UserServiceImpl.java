@@ -199,7 +199,7 @@ public class UserServiceImpl implements UserService {
         return shopEntity;
     }
 
-    public String getCurrentShopId() {
+    public String getCurrentTenantShopId() {
 
         String tenantId = UserHolder.getTenantId();
         UserEntity userEntity = getUserById(tenantId);
