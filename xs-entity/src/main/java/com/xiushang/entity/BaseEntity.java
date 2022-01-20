@@ -40,7 +40,7 @@ public abstract class BaseEntity implements java.io.Serializable {
     /**
      * 创建实体对象的操作员ID
      */
-    @Column(name = "created_by_id", length = 32)
+    @Column(name = "created_by_id",updatable=false, length = 32)
     @JSONField(serialize = false, deserialize = false)
     @ApiModelProperty(hidden = true)
     protected String createdById;
@@ -49,7 +49,7 @@ public abstract class BaseEntity implements java.io.Serializable {
      * 创建实体对象的时间
      */
     @ApiModelProperty(notes = "创建时间")
-    @Column(name = "created_date")
+    @Column(name = "created_date",updatable=false)
     protected Date createdDate;
 
     /**
