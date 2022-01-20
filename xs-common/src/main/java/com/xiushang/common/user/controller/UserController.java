@@ -72,7 +72,7 @@ public class UserController {
             if(user.getLongitude() != null){
                 userEntity.setLatitude(user.getLongitude());
             }
-            userService.updateUser(userEntity);
+            userService.registerUser(userEntity);
         } catch (Exception e) {
             return CommonResult.error(10000, "修改用户信息出现异常");
         }
@@ -112,7 +112,7 @@ public class UserController {
         }*/
         userEntity.setPassword(MD5.GetMD5Code(psw));
         try {
-            userService.updateUser(userEntity);
+            userService.registerUser(userEntity);
         } catch (Exception e) {
             return CommonResult.error(10000, "修改密码失败！");
         }
@@ -149,7 +149,7 @@ public class UserController {
         String code = resetPwdVo.getCode().trim();
         if(smsService.validateCode(user.getMobile(),code)){
             user.setPassword(MD5.GetMD5Code(resetPwdVo.getPassword()));
-            userService.updateUser(user);
+            userService.registerUser(user);
         }else{
             return CommonResult.error(100000, "验证码输入错误");
         }
@@ -186,7 +186,7 @@ public class UserController {
                 uploadService.removeFile(userEntity.getHeadPortrait());
             }
             userEntity.setHeadPortrait(userHeadPortraitVo.getHeadPortrait());
-            userService.updateUser(userEntity);
+            userService.registerUser(userEntity);
         }
 
         return CommonResult.success(userEntity);
@@ -220,7 +220,7 @@ public class UserController {
                 if(StringUtils.isNotBlank(registerVo.getName())){
                     user.setName(registerVo.getName());
                 }
-                userService.updateUser(user);
+                userService.registerUser(user);
                 return CommonResult.success(user);
             }else{
                 UserEntity userEntity = new UserEntity();
@@ -279,7 +279,7 @@ public class UserController {
         if(userEntity!=null){
 
             userEntity.setDeleted(DeleteEnum.INVALID);
-            userService.updateUser(userEntity);
+            userService.registerUser(userEntity);
         }else{
             return CommonResult.error("用户登录已失效，请重新登陆！");
         }

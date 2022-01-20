@@ -133,7 +133,7 @@ public class WechatAuthenticationProvider extends TenantProvider implements Auth
                     userEntity.setName(wxLoginVo.getNickName());
                     userEntity.setLastLoginDate(new Date());
                     userEntity.setLastLoginPlatform(clientId);
-                    userService.updateUser(userEntity);
+                    userService.registerUser(userEntity);
 
                     securityUser = new SecurityUser(userEntity);
                 }
