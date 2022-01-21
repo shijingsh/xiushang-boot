@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 public class AssertUtils {
-    public static boolean notEmpty(Object value){
+    public static boolean notEmpty(Object value,boolean required){
+
+        if(!required){
+            return true;
+        }
         if(value instanceof  String){
             if (StringUtils.isNotBlank((String)value)) {
                 return true;

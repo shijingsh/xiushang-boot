@@ -35,11 +35,7 @@ public class ApiModelPropertyConstraintValidator implements ConstraintValidator<
     @Override
     public boolean isValid(Object value, ConstraintValidatorContext context) {
 
-        if(AssertUtils.notEmpty(value)){
-            return true;
-        }
-
-        if(!required){
+        if(AssertUtils.notEmpty(value,required)){
             return true;
         }
 
