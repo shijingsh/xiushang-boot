@@ -83,7 +83,7 @@ public class UserEntity extends ExpandEntity {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     @JSONField(serialize = false, deserialize = false)
     @ApiModelProperty(notes = "是否已为用户配置推荐",hidden = true)
-    private Boolean isInitRecommend = Boolean.FALSE;
+    private Boolean initRecommend = Boolean.FALSE;
 
     /**
      * 用户角色
@@ -172,11 +172,11 @@ public class UserEntity extends ExpandEntity {
     }
 
     public Boolean getInitRecommend() {
-        return isInitRecommend;
+        return initRecommend;
     }
 
     public void setInitRecommend(Boolean initRecommend) {
-        isInitRecommend = initRecommend;
+        this.initRecommend = initRecommend;
     }
 
     public String getMobile() {
