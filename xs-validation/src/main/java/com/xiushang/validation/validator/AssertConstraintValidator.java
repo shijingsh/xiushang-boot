@@ -60,6 +60,9 @@ public class AssertConstraintValidator extends AbstractBeanFactoryAwareAdvisingP
 
         for (int i = 0; i < arguments.length; i++) {
             Object argument = arguments[i];
+            if(argument == null){
+                continue;
+            }
             Class<?> argumentClass = argument.getClass();
 
             // 排除
