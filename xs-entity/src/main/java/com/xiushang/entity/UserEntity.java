@@ -16,8 +16,10 @@ import java.util.List;
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class UserEntity extends ExpandEntity {
 
-    /**账号登录名 */
-    @ApiModelProperty(notes = "账号登录名")
+    /**账号登录名（手机号码）  涉密数据不返回*/
+    @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(notes = "账号登录名（手机号码）",hidden = true)
+    @Column(updatable=false)
     private String loginName;
 
     /**姓名、昵称 */
@@ -30,10 +32,10 @@ public class UserEntity extends ExpandEntity {
     @Basic(fetch = FetchType.EAGER)
     private String headPortrait;
 
-    /**手机号 */
+    /**手机号 联系方式*/
     @ApiModelProperty(notes = "手机号")
     private String mobile;
-    /**密码 */
+    /**密码  涉密数据不返回*/
     @JSONField(serialize = false, deserialize = false)
     @ApiModelProperty(notes = "密码",hidden = true)
     private String password;
@@ -48,26 +50,30 @@ public class UserEntity extends ExpandEntity {
     /**
      * 最后登录时间
      */
-    @ApiModelProperty(notes = "最后登录时间")
+    @ApiModelProperty(notes = "最后登录时间",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     protected Date lastLoginDate;
     /**
      * 最后登录平台
      * 客户端ID
      */
-    @ApiModelProperty(notes = "最后登录平台")
+    @ApiModelProperty(notes = "最后登录平台",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private String lastLoginPlatform;
 
     /**
      * 纬度
      */
     @Column(name = "latitude",precision = 20,scale = 8)
-    @ApiModelProperty(notes = "latitude")
+    @ApiModelProperty(notes = "latitude",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private BigDecimal latitude;
     /**
      * 经度
      */
     @Column(name = "longitude",precision = 20,scale = 8)
-    @ApiModelProperty(notes = "longitude")
+    @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(notes = "longitude",hidden = true)
     private BigDecimal longitude;
 
     /**
@@ -87,6 +93,8 @@ public class UserEntity extends ExpandEntity {
             joinColumns=@JoinColumn(name="user_id"),
             inverseJoinColumns=@JoinColumn(name="role_id")
     )
+    @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(notes = "用户角色",hidden = true)
     private List<RoleEntity> roles = new ArrayList<>();
 
 
