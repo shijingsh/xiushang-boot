@@ -125,7 +125,11 @@ public abstract class BaseEntity implements java.io.Serializable {
     }
 
     public void setDeleted(Integer deleted) {
-        this.deleted = deleted;
+        if(deleted==null || deleted < 0 || deleted >1 ){
+            this.deleted = 0;
+        }else {
+            this.deleted = deleted;
+        }
     }
 
     @Override
