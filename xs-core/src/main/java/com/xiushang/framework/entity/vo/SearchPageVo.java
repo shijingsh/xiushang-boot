@@ -11,6 +11,8 @@ import java.io.Serializable;
  */
 public  class SearchPageVo implements Serializable {
 
+    @ApiModelProperty(value = "搜索关键字")
+    private String searchKey;
     /**
      * 当前的页数
      */
@@ -44,6 +46,14 @@ public  class SearchPageVo implements Serializable {
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public String getSearchKey() {
+        return searchKey;
+    }
+
+    public void setSearchKey(String searchKey) {
+        this.searchKey = searchKey;
     }
 
     @ApiModelProperty(hidden = true)
