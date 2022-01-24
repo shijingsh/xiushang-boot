@@ -10,7 +10,7 @@ import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.news.service.NewsService;
 import com.xiushang.security.SecurityRole;
-import com.xiushang.vo.HelpSearchVo;
+import com.xiushang.vo.NewsSearchVo;
 import com.xiushang.vo.NewsMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -117,7 +117,7 @@ public class NewsController {
     @ApiOperation(value = "获取公告列表")
     @ResponseBody
     @PostMapping("/{version}/listPage")
-    public CommonResult<PageTableVO<NewsEntity>> listPage(@RequestBody HelpSearchVo helpSearchVo) {
+    public CommonResult<PageTableVO<NewsEntity>> listPage(@RequestBody NewsSearchVo helpSearchVo) {
 
         PageTableVO vo = newsService.findPageList(helpSearchVo);
 
