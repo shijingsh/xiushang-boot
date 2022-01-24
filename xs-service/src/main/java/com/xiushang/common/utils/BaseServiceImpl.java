@@ -24,12 +24,36 @@ public abstract class BaseServiceImpl<T> {
     @Autowired
     public UserService userService;
 
-    public T save(T t){
-       return baseDao.save(t);
+    public void save(T t){
+        baseDao.save(t);
     }
 
-    public T saveAndFlush(T t){
-        return baseDao.saveAndFlush(t);
+    public T saveAndGet(T t){
+        T tSaved = baseDao.save(t);
+        if(t instanceof BaseEntity){
+            BaseEntity baseEntity = (BaseEntity) tSaved;
+            String id = baseEntity.getId();
+            return get(id);
+        }
+
+        return tSaved;
+    }
+
+    public void saveAndFlush(T t){
+         baseDao.saveAndFlush(t);
+    }
+
+
+    public T saveAndGetFlush(T t){
+
+        T tSaved = baseDao.saveAndFlush(t);
+        if(t instanceof BaseEntity){
+            BaseEntity baseEntity = (BaseEntity) tSaved;
+            String id = baseEntity.getId();
+            return get(id);
+        }
+
+        return tSaved;
     }
 
     public T get(String id){
