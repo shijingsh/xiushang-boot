@@ -39,6 +39,16 @@ public abstract class BaseServiceImpl<T> {
         return null;
     }
 
+    public T getFull(String id){
+        Optional<T> optional = baseDao.findById(id);
+        if(optional.isPresent()){
+            T t =  optional.get();
+            LazyLoadUtil.fullLoad(t);
+            return t;
+        }
+        return null;
+    }
+
     public void delete(String id){
         T t = get(id);
         if(t instanceof BaseEntity){
