@@ -41,18 +41,26 @@ public interface UserService {
      * 获取当前登陆用户
      */
     public UserEntity getCurrentUser();
+
     /**
-     * 获取当前租户商铺
+     * 获取当前登陆用户ID
      */
-    public ShopEntity getCurrentTenantShop();
+    public String getCurrentUserId();
     /**
      * 获取当前登陆用户商铺
      */
     public ShopEntity getCurrentUserShop();
+
     /**
      * 获取当前登陆用户商铺ID
      */
     public String getCurrentUserShopId();
+
+    /**
+     * 获取当前租户商铺
+     */
+    public ShopEntity getCurrentTenantShop();
+
     /**
      * 获取当前租户商铺ID
      */

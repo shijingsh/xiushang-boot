@@ -162,6 +162,39 @@ public class UserServiceImpl implements UserService {
         return new JPAQuery(entityManager);
     }
 
+
+    @Transactional
+    public void registerUser(UserEntity userEntity) {
+
+        userDao.save(userEntity);
+
+        ShopEntity shopEntity = shopDao.findByOwnerUser(userEntity);
+        if(shopEntity==null){
+
+            //创建默认店铺
+            shopEntity = new ShopEntity();
+            shopEntity.setName(userEntity.getName()+"的小店");
+            shopEntity.setContactsName(userEntity.getName());
+            shopEntity.setMobile(userEntity.getMobile());
+            shopEntity.setOwnerUser(userEntity);
+            shopEntity.setShopStatus(ShopStatusEnum.SHOP_BASE);
+
+            shopEntity.setCode(OrderUtil.genCode("SP"));
+
+            shopDao.save(shopEntity);
+
+            //创建店铺资质
+            ShopQualificationsEntity qualificationsEntity = new ShopQualificationsEntity();
+            qualificationsEntity.setRealName(userEntity.getName());
+            qualificationsEntity.setBelongShop(shopEntity);
+            qualificationDao.save(qualificationsEntity);
+        }
+
+    }
+
+
+    //-----------------------------------------------------获取当前会话信息-----------------------------------------------------
+
     public UserEntity getCurrentUser() {
 
         String loginName = UserHolder.getLoginName();
@@ -177,6 +210,15 @@ public class UserServiceImpl implements UserService {
         }
 
         return null;
+    }
+
+    public String getCurrentUserId() {
+        UserEntity userEntity = getCurrentUser();
+        if(userEntity != null){
+            return userEntity.getId();
+        }
+
+        return "";
     }
 
     public ShopEntity getCurrentTenantShop() {
@@ -227,32 +269,4 @@ public class UserServiceImpl implements UserService {
         return UserHolder.getClientId();
     }
 
-    @Transactional
-    public void registerUser(UserEntity userEntity) {
-
-        userDao.save(userEntity);
-
-        ShopEntity shopEntity = shopDao.findByOwnerUser(userEntity);
-        if(shopEntity==null){
-
-            //创建默认店铺
-            shopEntity = new ShopEntity();
-            shopEntity.setName(userEntity.getName()+"的小店");
-            shopEntity.setContactsName(userEntity.getName());
-            shopEntity.setMobile(userEntity.getMobile());
-            shopEntity.setOwnerUser(userEntity);
-            shopEntity.setShopStatus(ShopStatusEnum.SHOP_BASE);
-
-            shopEntity.setCode(OrderUtil.genCode("SP"));
-
-            shopDao.save(shopEntity);
-
-            //创建店铺资质
-            ShopQualificationsEntity qualificationsEntity = new ShopQualificationsEntity();
-            qualificationsEntity.setRealName(userEntity.getName());
-            qualificationsEntity.setBelongShop(shopEntity);
-            qualificationDao.save(qualificationsEntity);
-        }
-
-    }
 }
