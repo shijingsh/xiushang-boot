@@ -1,18 +1,13 @@
 package com.xiushang.framework.entity.vo;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
+@Data
 public class SearchVo extends SearchPageVo {
 
     @ApiModelProperty(value = "搜索关键字")
-    private String keyword;
+    private String searchKey;
 
-    public String getKeyword() {
-        return keyword;
-    }
-
-    public void setKeyword(String keyword) {
-        this.keyword = keyword;
-    }
 
 }
