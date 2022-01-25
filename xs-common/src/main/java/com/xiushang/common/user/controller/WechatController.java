@@ -217,7 +217,8 @@ public class WechatController {
             httpURLConnection.setDoOutput(true);            // 打开写入属性
             httpURLConnection.setDoInput(true);             // 打开读取属性
             httpURLConnection.setRequestMethod("POST");     // 提交方式
-            httpURLConnection.setRequestProperty("Content-Type", "application/x-javascript; charset=UTF-8");   // TODO 不得不说一下这个提交方式转换！！真的坑。。改了好长时间！！一定要记得加响应头
+            //  不得不说一下这个提交方式转换！！真的坑。。改了好长时间！！一定要记得加响应头
+            httpURLConnection.setRequestProperty("Content-Type", "application/x-javascript; charset=UTF-8");
             PrintWriter printWriter = new PrintWriter(httpURLConnection.getOutputStream()); // 获取URLConnection对象对应的输出流
             // 发送请求参数
             JSONObject paramJson = new JSONObject();
