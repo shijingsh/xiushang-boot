@@ -1,5 +1,6 @@
 package com.xiushang.common.upload.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.upload.service.UploadService;
 import com.xiushang.common.upload.vo.UploadBase64;
@@ -28,10 +29,10 @@ import java.util.Map;
 
 /**
  * 上传文件
- * @author liukefu
  */
 @Api(tags = "文件上传")
 @Controller
+@ApiSort(value = 4)
 @RequestMapping(value = "/api/public",
         produces = "application/json; charset=UTF-8")
 public class UploadController{

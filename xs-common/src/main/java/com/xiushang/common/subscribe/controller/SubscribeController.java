@@ -1,5 +1,6 @@
 package com.xiushang.common.subscribe.controller;
 
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.job.vo.SubscribeMsgAppointVo;
 import com.xiushang.common.service.DynamicTaskService;
@@ -16,6 +17,7 @@ import javax.validation.Valid;
 
 @Api(tags = "微信接口")
 @Controller
+@ApiSort(value = 3)
 @RequestMapping(value = "/api/wx/subscribe",
         produces = "application/json; charset=UTF-8")
 @Validated

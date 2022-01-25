@@ -3,6 +3,7 @@ package com.xiushang.common.user.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.common.upload.service.UploadService;
@@ -34,6 +35,7 @@ import java.util.UUID;
 
 @Api(tags = "微信接口")
 @Controller
+@ApiSort(value = 3)
 @RequestMapping(value = "/api/wx",
         produces = "application/json; charset=UTF-8")
 public class WechatController {
