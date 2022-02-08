@@ -10,6 +10,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.util.Optional;
 
 /**
@@ -23,6 +25,9 @@ public abstract class BaseServiceImpl<T> {
 
     @Autowired
     public UserService userService;
+
+    @PersistenceContext
+    public EntityManager entityManager;
 
     public void save(T t){
         baseDao.save(t);
