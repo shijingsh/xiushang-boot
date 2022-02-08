@@ -8,9 +8,7 @@ import javax.persistence.Table;
 
 
 /**
- * 系统参数设置
- * @author liukefu
- *
+ * 参数设置
  */
 @Entity
 @Table(name = "sys_param")
@@ -20,12 +18,7 @@ public class SystemParamEntity extends BaseEntity {
 
 	@ApiModelProperty(notes = "商铺ID")
 	private String shopId;
-	/**
-	 * 参数编号
-	 * shopId + _weixin.appid
-	 */
-	@ApiModelProperty(notes = "参数编号")
-	private String paramCode;
+
 	/**
 	 * 参数中文名称
 	 */
@@ -54,14 +47,6 @@ public class SystemParamEntity extends BaseEntity {
 
 	public void setShopId(String shopId) {
 		this.shopId = shopId;
-	}
-
-	public String getParamCode() {
-		return paramCode;
-	}
-
-	public void setParamCode(String paramCode) {
-		this.paramCode = paramCode;
 	}
 
 	public String getParamName() {

@@ -70,7 +70,8 @@ public abstract class BaseEntity implements java.io.Serializable {
     /**
      * 是否已删除 （0 未删除  1 已删除）
      */
-    @ApiModelProperty(notes = "是否已删除 （0 未删除  1 已删除）")
+    @ApiModelProperty(notes = "是否已删除 （0 未删除  1 已删除）",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private Integer deleted = DeleteEnum.VALID;
 
     public String getId() {
@@ -86,6 +87,9 @@ public abstract class BaseEntity implements java.io.Serializable {
     }
 
     public String getCreatedById() {
+        if(createdById==null){
+            return "";
+        }
         return createdById;
     }
 
@@ -102,6 +106,9 @@ public abstract class BaseEntity implements java.io.Serializable {
     }
 
     public String getUpdatedById() {
+        if(updatedById==null){
+            return "";
+        }
         return updatedById;
     }
 

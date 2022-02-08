@@ -1,10 +1,12 @@
 package com.xiushang.common.utils;
 
 import com.querydsl.core.types.Predicate;
+import com.xiushang.common.exception.ServiceException;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.entity.BaseEntity;
 import com.xiushang.framework.utils.DeleteEnum;
 import com.xiushang.jpa.repository.BaseDao;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -81,11 +83,22 @@ public abstract class BaseServiceImpl<T> {
     }
 
     public void delete(String id){
+        //删除权限验证
+        String userId = userService.getCurrentUserId();
+        if(StringUtils.isBlank(userId)){
+            throw new ServiceException("登陆超时，请重新登陆！");
+        }
         T t = get(id);
         if(t instanceof BaseEntity){
+
             BaseEntity baseEntity = (BaseEntity) t;
-            baseEntity.setDeleted(DeleteEnum.INVALID);
-            baseDao.save(t);
+            if(baseEntity.getCreatedById().equals(userId)){
+                baseEntity.setDeleted(DeleteEnum.INVALID);
+                baseDao.save(t);
+            }else {
+                throw new ServiceException("抱歉，只能删除自己添加的数据！");
+            }
+
         }else {
             baseDao.deleteById(id);
         }
