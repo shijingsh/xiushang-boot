@@ -104,7 +104,7 @@ public class ShopEntity extends BaseEntity {
      */
     @ApiModelProperty(notes = "商铺状态(SHOP_BASE 编辑中  SHOP_OPENED 营业中  SHOP_CLOSE 歇业中)")
     @Enumerated(EnumType.STRING)
-    private ShopStatusEnum shopStatus = ShopStatusEnum.SHOP_NONE;
+    private ShopStatusEnum shopStatus = ShopStatusEnum.SHOP_BASE;
     /**
      * 纬度
      */
@@ -124,8 +124,8 @@ public class ShopEntity extends BaseEntity {
     @ApiModelProperty(notes = "服务距离,默认全部，单位 km")
     private Integer serviceDistance;
 
-    /**tag */
-    @ApiModelProperty(notes = "tag")
+    /**标签 */
+    @ApiModelProperty(notes = "标签（多个逗号分隔）")
     private String tag;
 
     /**
