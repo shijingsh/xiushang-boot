@@ -62,7 +62,7 @@ public class ParamController {
     @Secured(SecurityRole.ROLE_USER)
     public CommonResult<SystemParamEntity> getOrSaveParam(@Valid @RequestBody SystemParamVo systemParamVo) {
 
-        SystemParamEntity entity = systemParamService.getOrSaveParam(systemParamVo.getParamName(),systemParamVo.getDefaultValue());
+        SystemParamEntity entity = systemParamService.getOrSaveParam(systemParamVo.getParamName(),systemParamVo.getDefaultValue(),systemParamVo.getRemark());
 
         return CommonResult.success(entity);
     }

@@ -70,8 +70,13 @@ public class SystemParamServiceImpl extends BaseServiceImpl<SystemParamEntity> i
             paramEntity.setParamName(paramName);
             paramEntity.setParamValue(defaultValue);
             paramEntity.setRemark(remark);
+
+            paramEntity = saveAndGet(paramEntity);
+
             return paramEntity;
         }
+
+
     }
 
     @Transactional
@@ -93,6 +98,9 @@ public class SystemParamServiceImpl extends BaseServiceImpl<SystemParamEntity> i
             paramEntity.setParamValue(paramVo.getParamValue());
             paramEntity.setRemark(paramVo.getRemark());
         }
-        return systemParamDao.save(paramEntity);
+
+        paramEntity = saveAndGet(paramEntity);
+
+        return paramEntity;
     }
 }
