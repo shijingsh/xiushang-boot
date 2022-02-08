@@ -171,7 +171,7 @@ public class UserServiceImpl implements UserService {
         ShopEntity shopEntity = shopDao.findByOwnerUser(userEntity);
         if(shopEntity==null){
 
-            //创建默认店铺
+            //创建默认商铺
             shopEntity = new ShopEntity();
             shopEntity.setName(userEntity.getName()+"的小店");
             shopEntity.setContactsName(userEntity.getName());
@@ -183,7 +183,7 @@ public class UserServiceImpl implements UserService {
 
             shopDao.save(shopEntity);
 
-            //创建店铺资质
+            //创建商铺资质
             ShopQualificationsEntity qualificationsEntity = new ShopQualificationsEntity();
             qualificationsEntity.setRealName(userEntity.getName());
             qualificationsEntity.setBelongShop(shopEntity);

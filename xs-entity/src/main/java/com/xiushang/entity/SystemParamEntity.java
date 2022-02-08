@@ -18,7 +18,7 @@ public class SystemParamEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 5452580056240686554L;
 
-	@ApiModelProperty(notes = "店铺ID")
+	@ApiModelProperty(notes = "商铺ID")
 	private String shopId;
 	/**
 	 * 参数编号

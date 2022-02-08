@@ -1,7 +1,7 @@
 package com.xiushang.shop.util;
 
 /**
- * 店铺状态
+ * 商铺状态
  * 开通账号 目前采用免审核
  */
 public enum ShopStatusEnum {

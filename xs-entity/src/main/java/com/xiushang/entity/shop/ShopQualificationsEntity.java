@@ -1,23 +1,24 @@
 package com.xiushang.entity.shop;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.xiushang.entity.BaseEntity;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 
 /**
- * 店铺资质
- * Created by liukefu on 2017/2/20.
+ * 商铺资质
  */
 @Entity
 @Table(name="app_shop_qualifications")
 public class ShopQualificationsEntity extends BaseEntity {
     /**
-     * 所属店铺
+     * 所属商铺
      */
     @ManyToOne
     @JoinColumn(name = "shop_id")
-    @ApiModelProperty(notes = "所属店铺")
+    @ApiModelProperty(notes = "所属商铺",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private ShopEntity belongShop;
     @Column(length = 50)
     @ApiModelProperty(notes = "真实姓名")

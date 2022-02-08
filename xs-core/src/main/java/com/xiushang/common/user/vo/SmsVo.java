@@ -3,7 +3,7 @@ package com.xiushang.common.user.vo;
 import io.swagger.annotations.ApiModelProperty;
 
 public class SmsVo  implements java.io.Serializable {
-    @ApiModelProperty(notes = "店铺ID",required = true)
+    @ApiModelProperty(notes = "商铺ID",required = true)
     private String shopId;
     @ApiModelProperty(notes = "是否为系统短信  0不是 1是")
     private int systemFlag = 0;

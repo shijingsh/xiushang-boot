@@ -20,7 +20,7 @@ public class NewsEntity extends BaseEntity {
     @JoinColumn(name = "parent_news_id")
     private NewsEntity belongNews;
     /**
-     * 所属店铺
+     * 所属商铺
      */
     private String  userId;
 

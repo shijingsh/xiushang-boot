@@ -1,5 +1,6 @@
 package com.xiushang.entity.shop;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.xiushang.entity.BaseEntity;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.shop.util.ShopStatusEnum;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 店铺
+ * 商铺
  */
 @Entity
 @Table(name="app_shop")
@@ -90,18 +91,18 @@ public class ShopEntity extends BaseEntity {
     private String h5Url;
 
     /**
-     * 店铺实景图
+     * 商铺实景图
      */
-    @ApiModelProperty(notes = "店铺实景图")
+    @ApiModelProperty(notes = "商铺实景图")
     @ElementCollection
     @CollectionTable(name="images_shop", joinColumns=@JoinColumn(name="shop_id"))
     @Column(name="images")
     private List<String> images = new ArrayList<>();
 
     /**
-     * 店铺状态
+     * 商铺状态
      */
-    @ApiModelProperty(notes = "店铺状态(SHOP_BASE 编辑中  SHOP_OPENED 营业中  SHOP_CLOSE 歇业中)")
+    @ApiModelProperty(notes = "商铺状态(SHOP_BASE 编辑中  SHOP_OPENED 营业中  SHOP_CLOSE 歇业中)")
     @Enumerated(EnumType.STRING)
     private ShopStatusEnum shopStatus = ShopStatusEnum.SHOP_NONE;
     /**
@@ -128,21 +129,23 @@ public class ShopEntity extends BaseEntity {
     private String tag;
 
     /**
-     * 店铺歇业公告
+     * 商铺歇业公告
      */
     @Lob
     @Basic(fetch = FetchType.EAGER)
-    @ApiModelProperty(notes = "店铺歇业公告")
+    @ApiModelProperty(notes = "商铺歇业公告")
     private String closeOption;
 
     //-----------------------------系统推荐--------------------------------------------
     /** 标识 */
     @Transient
+    @JSONField(serialize = false, deserialize = false)
     @ApiModelProperty(notes = "标识",hidden = true)
     private int index;
 
     /** 评分得分 */
     @Transient
+    @JSONField(serialize = false, deserialize = false)
     @ApiModelProperty(notes = "评分得分",hidden = true)
     private float score;
 

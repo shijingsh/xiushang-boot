@@ -99,7 +99,7 @@ public class SmsService {
 	public int sendSms(SmsVo smsVo) throws Exception {
 		String shopId = smsVo.getShopId();
 		if(StringUtils.isNotBlank(shopId)) {
-			//判断店铺短信开关 0 关闭  1 打开
+			//判断商铺短信开关 0 关闭  1 打开
 			SystemParamEntity param = paramService.findByName(shopId, shopId + "_sms.opened");
 			if (param != null) {
 				if("0".equals(param.getParamValue())){

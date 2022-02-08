@@ -3,7 +3,7 @@ package com.xiushang.common.user.vo;
 import io.swagger.annotations.ApiModelProperty;
 
 public class QrCodeVo implements java.io.Serializable{
-    @ApiModelProperty(value = "店铺ID")
+    @ApiModelProperty(value = "商铺ID")
     private String shopId;
 
     @ApiModelProperty(value = "分享地址")

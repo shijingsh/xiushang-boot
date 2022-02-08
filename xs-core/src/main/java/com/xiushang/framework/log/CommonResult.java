@@ -90,6 +90,20 @@ public class CommonResult<T> implements java.io.Serializable{
 	public static <T> CommonResult<T> success(T data) {
 		return new CommonResult<T>(SUCCESS, "成功", data);
 	}
+
+	/**
+	 * 成功返回结果
+	 */
+	public static <T> CommonResult<T> success(MethodResult<T> methodResult) {
+		if(!methodResult.getSuccess()){
+			int code = methodResult.getCode();
+			if(code==SUCCESS){
+				code = ERROR;
+			}
+			return CommonResult.error(code,methodResult.getMessage());
+		}
+		return new CommonResult<T>(SUCCESS, "成功", methodResult.getData());
+	}
 	/**
 	 * 失败返回结果
 	 */

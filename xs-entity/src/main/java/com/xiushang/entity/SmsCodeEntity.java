@@ -21,9 +21,9 @@ public class SmsCodeEntity extends BaseEntity {
     @ApiModelProperty(notes = "是否系统短信 0 系统  1 用户业务短信")
     private int systemFlag = 0;
     /**
-     * 所属店铺
+     * 所属商铺
      */
-    @ApiModelProperty(notes = "所属店铺")
+    @ApiModelProperty(notes = "所属商铺")
     private String shopId;
     /**
      * 接收号码
