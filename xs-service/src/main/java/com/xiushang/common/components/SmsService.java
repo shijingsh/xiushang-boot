@@ -100,7 +100,7 @@ public class SmsService {
 		String shopId = smsVo.getShopId();
 		if(StringUtils.isNotBlank(shopId)) {
 			//判断商铺短信开关 0 关闭  1 打开
-			SystemParamEntity param = paramService.findByName(shopId, shopId + "_sms.opened");
+			SystemParamEntity param = paramService.getOrSaveParam("短信开关","1","商铺短信开关 0 关闭  1 打开");
 			if (param != null) {
 				if("0".equals(param.getParamValue())){
 					log.info("shopId："+shopId+" 短信功能已关闭，未发送短信");

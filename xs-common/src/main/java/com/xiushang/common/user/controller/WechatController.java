@@ -5,12 +5,13 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.annotations.XiushangApi;
-import com.xiushang.entity.SystemParamEntity;
+import com.xiushang.common.service.OauthClientDetailsService;
 import com.xiushang.common.upload.service.UploadService;
 import com.xiushang.common.upload.vo.UploadBean;
-import com.xiushang.common.user.service.SystemParamService;
+import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.QrCodeVo;
 import com.xiushang.common.utils.HttpClientUtil;
+import com.xiushang.entity.oauth.OauthClientDetailsEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import io.swagger.annotations.Api;
@@ -44,9 +45,12 @@ public class WechatController {
     @Autowired
     private HttpServletRequest req;
     @Autowired
-    private SystemParamService systemParamService;
-    @Autowired
     private UploadService uploadService;
+
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private OauthClientDetailsService clientDetailsService;
 
     private  String getTicket(String access_token) {
 
@@ -144,25 +148,13 @@ public class WechatController {
     @XiushangApi
     public CommonResult<String> miniQrCodeByPage(@RequestBody QrCodeVo qrCodeVo) {
 
-        String appid = "";
-        String secret = "";
-        String shopId = qrCodeVo.getShopId();
         String grant_type = "client_credential";
-        if(StringUtils.isNotBlank(shopId)){
-            SystemParamEntity param = systemParamService.findByName(shopId,shopId+"_weixin.appid");
-            if(param==null){
-                appid = PropertyConfigurer.getConfig("weixin.appid");
-            }else{
-                appid = param.getParamValue();
-            }
 
-            SystemParamEntity paramSecret = systemParamService.findByName(shopId,shopId+"_weixin.secret");
-            if(paramSecret==null){
-                secret = PropertyConfigurer.getConfig("weixin.secret");
-            }else{
-                secret = paramSecret.getParamValue();
-            }
-        }
+        String clientId = userService.getCurrentClientId();
+        OauthClientDetailsEntity clientDetailsEntity = clientDetailsService.findByClientId(clientId);
+
+        String appid = clientDetailsEntity.getAppId();
+        String secret = clientDetailsEntity.getSecret();
 
         try{
 

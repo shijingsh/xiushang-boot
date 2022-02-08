@@ -5,10 +5,10 @@ import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.xiushang.common.user.service.SystemParamService;
+import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.entity.SubscribeMsgAppointEntity;
-import com.xiushang.entity.SystemParamEntity;
+import com.xiushang.entity.oauth.OauthClientDetailsEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import com.xiushang.jpa.repository.SysSubscribeMsgAppointDao;
@@ -31,7 +31,9 @@ public class SubscribeMsgService {
   private DynamicTaskService dynamicTaskService;
 
   @Autowired
-  private SystemParamService systemParamService;
+  private UserService userService;
+  @Autowired
+  private OauthClientDetailsService clientDetailsService;
   /**
    * 发送订阅消息
    * @return
@@ -96,24 +98,13 @@ public class SubscribeMsgService {
     try {
 
       String grant_type = "client_credential";
-      String appid = "";
-      String secret = "";
-      String shopId = subscribeMsgAppointEntity.getShopId();
-      if(StringUtils.isNotBlank(shopId)){
-        SystemParamEntity systemParam = systemParamService.findByName(shopId,shopId+"_weixin.appid");
-        if(systemParam==null){
-          appid = PropertyConfigurer.getConfig("weixin.appid");
-        }else{
-          appid = systemParam.getParamValue();
-        }
 
-        SystemParamEntity paramSecret = systemParamService.findByName(shopId,shopId+"_weixin.secret");
-        if(paramSecret==null){
-          secret = PropertyConfigurer.getConfig("weixin.secret");
-        }else{
-          secret = paramSecret.getParamValue();
-        }
-      }
+      String clientId = userService.getCurrentClientId();
+      OauthClientDetailsEntity clientDetailsEntity = clientDetailsService.findByClientId(clientId);
+
+      String appid = clientDetailsEntity.getAppId();
+      String secret = clientDetailsEntity.getSecret();
+
       String urlToken = "https://api.weixin.qq.com/cgi-bin/token?grant_type="+grant_type+"&appid="+appid+"&secret="+secret;
       String json = HttpUtil.get(urlToken);
       //获取AccessToken
