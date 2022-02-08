@@ -58,7 +58,7 @@ public class ParamController {
     @ApiOperation(value = "获取用户参数")
     @ApiOperationSupport(order=999)
     @ResponseBody
-    @GetMapping("/getOrSaveParam")
+    @PostMapping("/getOrSaveParam")
     @Secured(SecurityRole.ROLE_USER)
     public CommonResult<SystemParamEntity> getOrSaveParam(@Valid @RequestBody SystemParamVo systemParamVo) {
 
