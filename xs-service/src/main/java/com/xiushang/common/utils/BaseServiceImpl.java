@@ -4,6 +4,7 @@ import com.querydsl.core.types.Predicate;
 import com.xiushang.common.exception.ServiceException;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.entity.BaseEntity;
+import com.xiushang.entity.BaseUserEntity;
 import com.xiushang.framework.utils.DeleteEnum;
 import com.xiushang.jpa.repository.BaseDao;
 import org.apache.commons.lang3.StringUtils;
@@ -90,7 +91,7 @@ public abstract class BaseServiceImpl<T> {
         }
         T t = get(id);
         if(t instanceof BaseEntity){
-
+            //存在删除标志位的表，逻辑删除数据
             BaseEntity baseEntity = (BaseEntity) t;
             if(baseEntity.getCreatedById().equals(userId)){
                 baseEntity.setDeleted(DeleteEnum.INVALID);
@@ -98,14 +99,18 @@ public abstract class BaseServiceImpl<T> {
             }else {
                 throw new ServiceException("抱歉，只能删除自己添加的数据！");
             }
-
-        }else {
-            baseDao.deleteById(id);
+        }else if(t instanceof BaseUserEntity){
+            //没有删除标志位的表，直接删除数据
+            BaseUserEntity baseEntity = (BaseUserEntity) t;
+            if(baseEntity.getUserId().equals(userId)){
+                baseDao.deleteById(id);
+            }else {
+                throw new ServiceException("抱歉，只能删除自己添加的数据！");
+            }
+        } else {
+            // do nothing
+            throw new ServiceException("抱歉，不能删除该数据！");
         }
-    }
-
-    public void delete(T t){
-        baseDao.delete(t);
     }
 
     public Page<T> findPageList(Predicate predicate, Pageable pageable){

@@ -22,9 +22,7 @@ import java.util.Date;
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 @EntityListeners(EntityListener.class)
-public abstract class BaseEntity implements java.io.Serializable {
-
-    private static final long serialVersionUID = -4932645577838935714L;
+public abstract class BaseEntity extends BaseLazy {
 
     /**
      * 主键ID
@@ -160,30 +158,6 @@ public abstract class BaseEntity implements java.io.Serializable {
     @Override
     public int hashCode() {
         return getId() != null ? getId().hashCode() : 0;
-    }
-
-    /**
-     * 判断对象是否是延迟加载的
-     * @param value
-     * @return
-     */
-    protected boolean isLazy(Object value) {
-        if (value instanceof HibernateProxy) {//hibernate代理对象
-            LazyInitializer initializer = ((HibernateProxy) value).getHibernateLazyInitializer();
-            if (initializer.isUninitialized()) {
-                return true;
-            }
-        } else if (value instanceof PersistentCollection) {//实体关联集合一对多等
-            PersistentCollection collection = (PersistentCollection) value;
-            if (!collection.wasInitialized()) {
-                return true;
-            }
-            Object val = collection.getValue();
-            if (val == null) {
-                return true;
-            }
-        }
-        return false;
     }
 
 }

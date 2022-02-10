@@ -1,7 +1,8 @@
 package com.xiushang.entity.oauth;
 
+import com.xiushang.entity.BaseUserEntity;
 import com.xiushang.util.ClientTypeEnum;
-import org.hibernate.annotations.GenericGenerator;
+import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -11,77 +12,54 @@ import java.util.Date;
  */
 @Entity
 @Table(name="oauth_client_details")
-public class OauthClientDetailsEntity implements java.io.Serializable{
+public class OauthClientDetailsEntity extends BaseUserEntity {
 
-    /**
-     * 主键ID
-     */
-    @Id
-    @GeneratedValue(generator = "system-uuid", strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
-    @Column(length = 32)
-    protected String id;
-
-    /**
-     * 用户ID
-     */
-    @Column(length = 32)
-    private String userId;
-
+    @ApiModelProperty(notes = "资源id列表")
     private String resourceIds;
-
+    @ApiModelProperty(notes = "客户端ID")
     private String clientId;
-
+    @ApiModelProperty(notes = "客户端名称")
     private String clientName;
-
+    @ApiModelProperty(notes = "客户端密钥")
     private String clientSecret;
 
+    @ApiModelProperty(notes = "客户端类型 （CLIENT_TYPE_WX_MINI_APP，CLIENT_TYPE_APP，CLIENT_TYPE_APP，CLIENT_TYPE_WEB）")
     @Enumerated(EnumType.STRING)
     private ClientTypeEnum clientType = ClientTypeEnum.CLIENT_TYPE_WX_MINI_APP;
 
+    @ApiModelProperty(notes = "域scope 默认 all")
     private String scope = "all";
-
+    @ApiModelProperty(notes = "支持的授权方式 默认 authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat")
     private String authorizedGrantTypes = "authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat";
-
+    @ApiModelProperty(notes = "回调地址 默认 https://www.xiushangsh.com")
     private String webServerRedirectUri = "https://www.xiushangsh.com";
-
+    @ApiModelProperty(notes = "权限列表")
     private String authorities;
-
+    @ApiModelProperty(notes = "认证令牌时效")
     private Integer accessTokenValidity;
-
+    @ApiModelProperty(notes = "刷新令牌时效")
     private Integer refreshTokenValidity;
 
     @Column(length = 1000)
+    @ApiModelProperty(notes = "扩展信息")
     private String additionalInformation;
 
+    @ApiModelProperty(notes = "是否自动放行")
     private String autoapprove = "false";
 
+    @ApiModelProperty(notes = "创建时间")
     private Date createTime;
 
     /**
      * 小程序APP_ID
      */
+    @ApiModelProperty(notes = "appId")
     private String appId;
     /**
      * 小程序APP_SECRET
      */
+    @ApiModelProperty(notes = "appSecret")
     private String secret;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getResourceIds() {
         return resourceIds;
