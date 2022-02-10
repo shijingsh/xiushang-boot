@@ -6,6 +6,7 @@ import com.xiushang.common.user.service.UserService;
 import com.xiushang.entity.BaseEntity;
 import com.xiushang.entity.BaseUserEntity;
 import com.xiushang.framework.utils.DeleteEnum;
+import com.xiushang.framework.utils.UserHolder;
 import com.xiushang.jpa.repository.BaseDao;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,13 +33,13 @@ public abstract class BaseServiceImpl<T> {
     @PersistenceContext
     public EntityManager entityManager;
 
-    public void save(T t){
+    public void save(T t) {
         baseDao.save(t);
     }
 
-    public T saveAndGet(T t){
+    public T saveAndGet(T t) {
         T tSaved = baseDao.save(t);
-        if(t instanceof BaseEntity){
+        if (t instanceof BaseEntity) {
             BaseEntity baseEntity = (BaseEntity) tSaved;
             String id = baseEntity.getId();
             return get(id);
@@ -47,15 +48,15 @@ public abstract class BaseServiceImpl<T> {
         return tSaved;
     }
 
-    public void saveAndFlush(T t){
-         baseDao.saveAndFlush(t);
+    public void saveAndFlush(T t) {
+        baseDao.saveAndFlush(t);
     }
 
 
-    public T saveAndGetFlush(T t){
+    public T saveAndGetFlush(T t) {
 
         T tSaved = baseDao.saveAndFlush(t);
-        if(t instanceof BaseEntity){
+        if (t instanceof BaseEntity) {
             BaseEntity baseEntity = (BaseEntity) tSaved;
             String id = baseEntity.getId();
             return get(id);
@@ -64,47 +65,47 @@ public abstract class BaseServiceImpl<T> {
         return tSaved;
     }
 
-    public T get(String id){
+    public T get(String id) {
         Optional<T> optional = baseDao.findById(id);
-        if(optional.isPresent()){
+        if (optional.isPresent()) {
             return optional.get();
         }
         return null;
     }
 
     @Transactional(readOnly = true)
-    public T getFull(String id){
+    public T getFull(String id) {
         Optional<T> optional = baseDao.findById(id);
-        if(optional.isPresent()){
-            T t =  optional.get();
+        if (optional.isPresent()) {
+            T t = optional.get();
             LazyLoadUtil.fullLoad(t);
             return t;
         }
         return null;
     }
 
-    public void delete(String id){
+    public void delete(String id) {
         //删除权限验证
         String userId = userService.getCurrentUserId();
-        if(StringUtils.isBlank(userId)){
+        if (StringUtils.isBlank(userId)) {
             throw new ServiceException("登陆超时，请重新登陆！");
         }
         T t = get(id);
-        if(t instanceof BaseEntity){
+        if (t instanceof BaseEntity) {
             //存在删除标志位的表，逻辑删除数据
             BaseEntity baseEntity = (BaseEntity) t;
-            if(baseEntity.getCreatedById().equals(userId)){
+            if (UserHolder.isAdmin() || baseEntity.getCreatedById().equals(userId)) {
                 baseEntity.setDeleted(DeleteEnum.INVALID);
                 baseDao.save(t);
-            }else {
+            } else {
                 throw new ServiceException("抱歉，只能删除自己添加的数据！");
             }
-        }else if(t instanceof BaseUserEntity){
+        } else if (t instanceof BaseUserEntity) {
             //没有删除标志位的表，直接删除数据
             BaseUserEntity baseEntity = (BaseUserEntity) t;
-            if(baseEntity.getUserId().equals(userId)){
+            if (UserHolder.isAdmin() || baseEntity.getUserId().equals(userId)) {
                 baseDao.deleteById(id);
-            }else {
+            } else {
                 throw new ServiceException("抱歉，只能删除自己添加的数据！");
             }
         } else {
@@ -113,7 +114,7 @@ public abstract class BaseServiceImpl<T> {
         }
     }
 
-    public Page<T> findPageList(Predicate predicate, Pageable pageable){
+    public Page<T> findPageList(Predicate predicate, Pageable pageable) {
         return baseDao.findAll(predicate, pageable);
     }
 }

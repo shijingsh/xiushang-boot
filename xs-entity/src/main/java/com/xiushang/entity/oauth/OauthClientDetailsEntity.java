@@ -125,7 +125,11 @@ public class OauthClientDetailsEntity extends BaseUserEntity {
     }
 
     public void setAccessTokenValidity(Integer accessTokenValidity) {
-        this.accessTokenValidity = accessTokenValidity;
+        if(accessTokenValidity<=0){
+            this.accessTokenValidity = null;
+        }else {
+            this.accessTokenValidity = accessTokenValidity;
+        }
     }
 
     public Integer getRefreshTokenValidity() {
@@ -133,7 +137,11 @@ public class OauthClientDetailsEntity extends BaseUserEntity {
     }
 
     public void setRefreshTokenValidity(Integer refreshTokenValidity) {
-        this.refreshTokenValidity = refreshTokenValidity;
+        if(refreshTokenValidity<=0){
+            this.refreshTokenValidity = null;
+        }else {
+            this.refreshTokenValidity = refreshTokenValidity;
+        }
     }
 
     public String getAdditionalInformation() {

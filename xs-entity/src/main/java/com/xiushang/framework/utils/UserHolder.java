@@ -1,10 +1,13 @@
 package com.xiushang.framework.utils;
 
 import com.xiushang.entity.UserEntity;
+import com.xiushang.security.SecurityRole;
+import com.xiushang.security.SecurityRoleVo;
 import com.xiushang.security.SecurityUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -36,6 +39,24 @@ public class UserHolder {
             }
         }
         return null;
+    }
+
+    /**
+     * 获得当前登录者是否是管理员
+     */
+    public static Boolean isAdmin() {
+        // 获取用户认证信息对象。
+        SecurityUser user = get();
+        if (Objects.nonNull(user)) {
+            return false;
+        }
+        List<SecurityRoleVo> list = (List<SecurityRoleVo>) user.getAuthorities();
+        for (SecurityRoleVo roleVo:list){
+            if(roleVo.getCode() == SecurityRole.ROLE_ADMIN){
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

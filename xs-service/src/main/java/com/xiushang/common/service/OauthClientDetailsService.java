@@ -12,6 +12,7 @@ import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.entity.vo.SearchPageVo;
 import com.xiushang.framework.log.MethodResult;
 import com.xiushang.jpa.repository.OauthClientDetailsDao;
+import com.xiushang.util.ClientTypeEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,22 @@ public class OauthClientDetailsService extends BaseServiceImpl<OauthClientDetail
         }
 
         oauthClientDetailsEntity.setUserId(userId);
+        //设置默认值
+        if(oauthClientDetailsEntity.getClientType()==null){
+            oauthClientDetailsEntity.setClientType(ClientTypeEnum.CLIENT_TYPE_WX_MINI_APP);
+        }
+        if(StringUtils.isBlank(oauthClientDetailsEntity.getScope())){
+            oauthClientDetailsEntity.setScope("all");
+        }
+        if(StringUtils.isBlank(oauthClientDetailsEntity.getAuthorizedGrantTypes())){
+            oauthClientDetailsEntity.setAuthorizedGrantTypes("authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat");
+        }
+        if(StringUtils.isBlank(oauthClientDetailsEntity.getWebServerRedirectUri())){
+            oauthClientDetailsEntity.setWebServerRedirectUri("https://www.xiushangsh.com");
+        }
+        if(StringUtils.isBlank(oauthClientDetailsEntity.getAutoapprove())){
+            oauthClientDetailsEntity.setAutoapprove("false");
+        }
         oauthClientDetailsEntity = saveAndGet(oauthClientDetailsEntity);
 
         return MethodResult.success(oauthClientDetailsEntity);
