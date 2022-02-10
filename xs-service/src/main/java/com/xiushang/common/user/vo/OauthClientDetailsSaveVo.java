@@ -21,6 +21,8 @@ public class OauthClientDetailsSaveVo extends BaseVO {
     @ApiModelProperty(notes = "客户端名称", required = true)
     private String clientName;
 
+    @ApiModelProperty(notes = "客户端密钥 （新增客户端必填，修改时，为空则为不修改秘钥）")
+    private String clientSecret;
 
     @ApiModelProperty(notes = "客户端类型 （CLIENT_TYPE_WX_MINI_APP，CLIENT_TYPE_APP，CLIENT_TYPE_APP，CLIENT_TYPE_WEB）")
     private ClientTypeEnum clientType = ClientTypeEnum.CLIENT_TYPE_WX_MINI_APP;

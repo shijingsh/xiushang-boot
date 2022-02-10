@@ -3,7 +3,9 @@ package com.xiushang.common.user.controller;
 import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.annotations.XiushangApi;
+import com.xiushang.common.exception.ServiceException;
 import com.xiushang.common.service.OauthClientDetailsService;
+import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.OauthClientDetailsSaveVo;
 import com.xiushang.entity.oauth.OauthClientDetailsEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
@@ -34,7 +36,8 @@ import javax.validation.Valid;
 public class ClientController {
     @Autowired
     private OauthClientDetailsService clientDetailsService;
-
+    @Autowired
+    private UserService userService;
 
     /**
      * 保存客户端
@@ -65,6 +68,12 @@ public class ClientController {
     public CommonResult<OauthClientDetailsEntity> getClient(@ApiParam(value = "客户端clientId",required = true) String clientId) {
 
         OauthClientDetailsEntity entity = clientDetailsService.findByClientId(clientId);
+
+        String userId = userService.getCurrentUserId();
+        //判断权限
+        if(entity !=null && !entity.getUserId().equals(userId)){
+            return CommonResult.error("无权查看客户端信息！");
+        }
 
         return CommonResult.success(entity);
     }

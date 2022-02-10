@@ -1,5 +1,6 @@
 package com.xiushang.entity.oauth;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.xiushang.entity.BaseUserEntity;
 import com.xiushang.util.ClientTypeEnum;
 import io.swagger.annotations.ApiModelProperty;
@@ -20,7 +21,9 @@ public class OauthClientDetailsEntity extends BaseUserEntity {
     private String clientId;
     @ApiModelProperty(notes = "客户端名称")
     private String clientName;
-    @ApiModelProperty(notes = "客户端密钥")
+
+    @ApiModelProperty(notes = "客户端密钥",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private String clientSecret;
 
     @ApiModelProperty(notes = "客户端类型 （CLIENT_TYPE_WX_MINI_APP，CLIENT_TYPE_APP，CLIENT_TYPE_APP，CLIENT_TYPE_WEB）")

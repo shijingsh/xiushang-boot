@@ -2,10 +2,10 @@ package com.xiushang.common.service;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.xiushang.common.user.mapper.OauthClientDetailsSaveMapper;
-import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.OauthClientDetailsSaveVo;
 import com.xiushang.common.utils.BaseServiceImpl;
 import com.xiushang.common.utils.LazyLoadUtil;
+import com.xiushang.common.utils.ValidPassword;
 import com.xiushang.entity.oauth.OauthClientDetailsEntity;
 import com.xiushang.entity.oauth.QOauthClientDetailsEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
@@ -16,8 +16,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Service
@@ -26,11 +28,14 @@ public class OauthClientDetailsService extends BaseServiceImpl<OauthClientDetail
 
     @Autowired
     private OauthClientDetailsDao oauthClientDetailsDao;
+
     @Autowired
-    private UserService userService;
+    private PasswordEncoder passwordEncoder;
 
     public OauthClientDetailsEntity findByClientId(String clientId){
-        return  oauthClientDetailsDao.findByClientId(clientId);
+        OauthClientDetailsEntity clientDetailsEntity =  oauthClientDetailsDao.findByClientId(clientId);
+
+        return clientDetailsEntity;
     }
 
     public MethodResult<OauthClientDetailsEntity> saveClient(OauthClientDetailsSaveVo clientDetailsSaveVo) {
@@ -43,16 +48,27 @@ public class OauthClientDetailsService extends BaseServiceImpl<OauthClientDetail
             clientDetailsDb = get(clientDetailsSaveVo.getId());
             //修改客户端时，判断修改权限
             if(!clientDetailsDb.getUserId().equals(userId)){
-                return   MethodResult.error("无权修改客户端信息！");
+                return MethodResult.error("无权修改客户端信息！");
             }
             oauthClientDetailsEntity.setClientId(clientDetailsDb.getClientId());
             oauthClientDetailsEntity.setClientSecret(clientDetailsDb.getClientSecret());
             oauthClientDetailsEntity.setCreateTime(clientDetailsDb.getCreateTime());
         }else {
+
+            if(StringUtils.isBlank(clientDetailsSaveVo.getClientSecret())){
+                return MethodResult.error("客户端秘钥必填！");
+            }
+            if (!ValidPassword.isValidPassword(clientDetailsSaveVo.getClientSecret())) {
+                return MethodResult.error("客户端秘钥为8-20位包含大小写字母和数字的组合！");
+            }
             oauthClientDetailsEntity.setClientId(UUID.randomUUID().toString());
-            oauthClientDetailsEntity.setClientSecret(clientDetailsDb.getClientSecret());
-            oauthClientDetailsEntity.setCreateTime(clientDetailsDb.getCreateTime());
+            //设置客户端秘钥
+            if(StringUtils.isNotBlank(clientDetailsSaveVo.getClientSecret())){
+                oauthClientDetailsEntity.setClientSecret(passwordEncoder.encode(clientDetailsSaveVo.getClientSecret()));
+            }
+            oauthClientDetailsEntity.setCreateTime(new Date());
         }
+
         oauthClientDetailsEntity.setUserId(userId);
         oauthClientDetailsEntity = saveAndGet(oauthClientDetailsEntity);
 

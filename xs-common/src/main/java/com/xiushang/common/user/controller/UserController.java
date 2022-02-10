@@ -8,6 +8,7 @@ import com.xiushang.common.upload.service.UploadService;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.*;
 import com.xiushang.common.utils.MD5;
+import com.xiushang.common.utils.ValidPassword;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.CommonResult;
@@ -98,7 +99,7 @@ public class UserController {
             return CommonResult.error(1, "请输入登录密码");
         }
 
-        if (!isValidPassword(psw)) {
+        if (!ValidPassword.isValidPassword(psw)) {
             return CommonResult.error(1, "密码为8-20位包含大小写字母和数字的组合！");
         }
 
@@ -135,7 +136,7 @@ public class UserController {
             return CommonResult.error(100000, "验证码不能为空。");
         }
 
-        if (!isValidPassword(resetPwdVo.getPassword())) {
+        if (!ValidPassword.isValidPassword(resetPwdVo.getPassword())) {
             return CommonResult.error(1, "密码为8-20位包含大小写字母和数字的组合！");
         }
 
@@ -202,7 +203,7 @@ public class UserController {
             return CommonResult.error(100000, "用户名,密码不能为空。");
         }
 
-        if (!isValidPassword(registerVo.getPassword())) {
+        if (!ValidPassword.isValidPassword(registerVo.getPassword())) {
             return CommonResult.error(1, "密码为8-20位包含大小写字母和数字的组合！");
         }
 
@@ -284,14 +285,6 @@ public class UserController {
             return CommonResult.error("用户登录已失效，请重新登陆！");
         }
         return CommonResult.success();
-    }
-
-    private boolean isValidPassword(String password){
-        String pattern = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{8,20}$";
-
-        Pattern r = Pattern.compile(pattern);
-        Matcher m = r.matcher(password);
-        return  m.matches();
     }
 
     public static void main(String args[]){
