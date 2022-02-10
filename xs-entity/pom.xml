@@ -52,14 +52,12 @@
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-mapstruct</artifactId>
-            <version>1.5.2</version>
         </dependency>
 
         <!-- validation -->
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-validation</artifactId>
-            <version>1.5.2</version>
         </dependency>
 
     </dependencies>

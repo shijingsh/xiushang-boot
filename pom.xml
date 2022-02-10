@@ -267,7 +267,11 @@
                 <artifactId>xs-mapstruct</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>xs-validation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <!-- Apache Log4j2 远程代码执行漏洞 -->
             <dependency>
                 <groupId>org.apache.logging.log4j</groupId>

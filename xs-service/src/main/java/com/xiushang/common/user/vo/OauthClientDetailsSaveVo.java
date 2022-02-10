@@ -6,14 +6,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class OauthClientDetailsSaveVo extends BaseVO {
-
-    /**
-     * 主键ID
-     */
-    @ApiModelProperty(notes = "主键ID")
-    protected String id;
-
+public class OauthClientDetailsSaveVo extends BaseVO implements java.io.Serializable{
 
     @ApiModelProperty(notes = "资源id列表")
     private String resourceIds;

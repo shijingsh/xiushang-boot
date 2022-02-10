@@ -29,11 +29,6 @@
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-entity</artifactId>
         </dependency>
-        <!-- mapstruct -->
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-mapstruct</artifactId>
-        </dependency>
 
     </dependencies>
 
