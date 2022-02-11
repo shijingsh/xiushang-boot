@@ -62,7 +62,8 @@ public class OauthClientDetailsService extends BaseServiceImpl<OauthClientDetail
             if (!ValidPassword.isValidPassword(clientDetailsSaveVo.getClientSecret())) {
                 return MethodResult.error("客户端秘钥为8-20位包含大小写字母和数字的组合！");
             }
-            oauthClientDetailsEntity.setClientId(UUID.randomUUID().toString());
+            String clientId =  UUID.randomUUID().toString().replace("-", "");
+            oauthClientDetailsEntity.setClientId(clientId);
             //设置客户端秘钥
             if(StringUtils.isNotBlank(clientDetailsSaveVo.getClientSecret())){
                 oauthClientDetailsEntity.setClientSecret(passwordEncoder.encode(clientDetailsSaveVo.getClientSecret()));
