@@ -224,7 +224,7 @@ Configure oauth2 authorization path in application.yml (default: /api/)
 
 ```
 oauth:
-  client: #管理员客户端前缀
+  client: #Admin client prefix
     prex: xiushang
   path:
     url: /api/
