@@ -12,7 +12,7 @@ import java.util.Date;
  * 客户端
  */
 @Entity
-@Table(name="oauth_client_details")
+@Table(name = "oauth_client_details")
 public class OauthClientDetailsEntity extends BaseUserEntity {
 
     @ApiModelProperty(notes = "资源id列表")
@@ -22,7 +22,7 @@ public class OauthClientDetailsEntity extends BaseUserEntity {
     @ApiModelProperty(notes = "客户端名称")
     private String clientName;
 
-    @ApiModelProperty(notes = "客户端密钥",hidden = true)
+    @ApiModelProperty(notes = "客户端密钥", hidden = true)
     @JSONField(serialize = false, deserialize = false)
     private String clientSecret;
 
@@ -125,9 +125,9 @@ public class OauthClientDetailsEntity extends BaseUserEntity {
     }
 
     public void setAccessTokenValidity(Integer accessTokenValidity) {
-        if(accessTokenValidity<=0){
+        if (accessTokenValidity == null || accessTokenValidity <= 0) {
             this.accessTokenValidity = null;
-        }else {
+        } else {
             this.accessTokenValidity = accessTokenValidity;
         }
     }
@@ -137,9 +137,9 @@ public class OauthClientDetailsEntity extends BaseUserEntity {
     }
 
     public void setRefreshTokenValidity(Integer refreshTokenValidity) {
-        if(refreshTokenValidity<=0){
+        if (refreshTokenValidity == null || refreshTokenValidity <= 0) {
             this.refreshTokenValidity = null;
-        }else {
+        } else {
             this.refreshTokenValidity = refreshTokenValidity;
         }
     }

@@ -11,8 +11,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- *  提供会话中的一些主要常量，如登录者的用户ID、租户ID等.
- *
+ * 提供会话中的一些主要常量，如登录者的用户ID、租户ID等.
  */
 public class UserHolder {
 
@@ -22,6 +21,7 @@ public class UserHolder {
     public static UserEntity getUser() {
         return get();
     }
+
     /**
      * 获得当前登录者User
      */
@@ -32,7 +32,7 @@ public class UserHolder {
         if (Objects.nonNull(authentication)) {
             Object principal = authentication.getPrincipal();
 
-            if(principal instanceof SecurityUser){
+            if (principal instanceof SecurityUser) {
                 SecurityUser user = (SecurityUser) principal;
 
                 return user;
@@ -47,18 +47,36 @@ public class UserHolder {
     public static Boolean isClientAdmin() {
         // 获取用户认证信息对象。
         SecurityUser user = get();
-        if (Objects.nonNull(user)) {
+        if (Objects.isNull(user)) {
             return false;
         }
         List<SecurityRoleVo> list = (List<SecurityRoleVo>) user.getAuthorities();
-        for (SecurityRoleVo roleVo:list){
-            if(roleVo.getCode() == SecurityRole.ROLE_CLIENT_MANAGE){
+        for (SecurityRoleVo roleVo : list) {
+            if (SecurityRole.ROLE_CLIENT_MANAGE.equals(roleVo.getCode())) {
                 return true;
             }
         }
         return false;
     }
 
+
+    /**
+     * 判断是否为管理员用户
+     */
+    public static Boolean isAdminUser() {
+        // 获取用户认证信息对象。
+        SecurityUser user = get();
+        if (Objects.isNull(user)) {
+            return false;
+        }
+        List<SecurityRoleVo> list = (List<SecurityRoleVo>) user.getAuthorities();
+        for (SecurityRoleVo roleVo : list) {
+            if (SecurityRole.ROLE_ADMIN.equals(roleVo.getCode())) {
+                return true;
+            }
+        }
+        return false;
+    }
     /**
      * 获得当前租户ID
      */
@@ -91,7 +109,7 @@ public class UserHolder {
     public static String getUserId() {
         // 获取用户认证信息对象。
         SecurityUser user = get();
-        if(user != null){
+        if (user != null) {
             return user.getId();
         }
         return null;

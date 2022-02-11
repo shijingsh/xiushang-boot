@@ -18,7 +18,7 @@ public class SecurityRole implements java.io.Serializable {
      * 系统预置角色
      * 代表当前会话为：用户型管理员
      */
-    //public static  final String ROLE_ADMIN = "ROLE_ADMIN";
+    public static  final String ROLE_ADMIN = "ROLE_ADMIN";
 
     /**
      * 系统预置角色
@@ -26,7 +26,7 @@ public class SecurityRole implements java.io.Serializable {
      * 一部分接口，不开放，需要只能自己的客户端才能访问。
      *
      * #application.yml 中设置管理客户端前缀  oauth.client.prex 即以此字符开始的clientId 均为管理客户端
-     * #管理客户端ID一般是写死在表中的 命名方式如： xiushangApp xiushangWeiApp xiushangWeb
+     * #管理客户端ID一般是写死在表中的 命名方式如： xiushangApp xiushangWeiApp xiushangWeb 等。
      * oauth:
      *   client:
      *     prex: xiushang
