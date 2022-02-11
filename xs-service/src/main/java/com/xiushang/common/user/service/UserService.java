@@ -38,6 +38,11 @@ public interface UserService {
     public List<UserEntity> getUsersByIds(List<String> userIds);
 
     /**
+     * 保存注册用户
+     */
+    public void registerUser(UserEntity userEntity);
+
+    /**
      * 获取当前登陆用户
      */
     public UserEntity getCurrentUser();
@@ -47,14 +52,18 @@ public interface UserService {
      */
     public String getCurrentUserId();
     /**
-     * 获取当前登陆用户商铺
+     * 获取当前商铺
+     * 管理后台取当前商铺，即是当前登陆用户的商铺
+     * 租户客户端，取当前商铺，则为租户的商铺
      */
-    public ShopEntity getCurrentUserShop();
+    public ShopEntity getCurrentShop();
 
     /**
-     * 获取当前登陆用户商铺ID
+     * 获取当前商铺ID
+     * 管理后台取当前商铺，即是当前登陆用户的商铺
+     * 租户客户端，取当前商铺，则为租户的商铺
      */
-    public String getCurrentUserShopId();
+    public String getCurrentShopId();
 
     /**
      * 获取当前租户商铺
@@ -70,5 +79,4 @@ public interface UserService {
      */
     public String getCurrentClientId();
 
-    public void registerUser(UserEntity userEntity);
 }

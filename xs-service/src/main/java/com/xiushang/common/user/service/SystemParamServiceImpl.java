@@ -30,7 +30,7 @@ public class SystemParamServiceImpl extends BaseServiceImpl<SystemParamEntity> i
     @Transactional(readOnly=true)
     public PageTableVO findPageList(SearchPageVo param) {
 
-        String shopId = userService.getCurrentTenantShopId();
+        String shopId = userService.getCurrentShopId();
         QSystemParamEntity entity = QSystemParamEntity.systemParamEntity;
         BooleanExpression ex = entity.deleted.eq(DeleteEnum.VALID);
         if(StringUtils.isNotBlank(shopId)){
@@ -60,7 +60,7 @@ public class SystemParamServiceImpl extends BaseServiceImpl<SystemParamEntity> i
 
     @Transactional
     public SystemParamEntity getOrSaveParam(String paramName, String defaultValue,String remark) {
-        String shopId = userService.getCurrentUserShopId();
+        String shopId = userService.getCurrentShopId();
         List<SystemParamEntity> list = systemParamDao.findByShopIdAndParamName(shopId,paramName);
         if(list!=null && list.size()>0){
             return list.get(0);
@@ -81,7 +81,7 @@ public class SystemParamServiceImpl extends BaseServiceImpl<SystemParamEntity> i
 
     @Transactional
     public SystemParamEntity saveParam(SystemParamSaveVo paramVo) {
-        String shopId = userService.getCurrentUserShopId();
+        String shopId = userService.getCurrentShopId();
         List<SystemParamEntity> list = systemParamDao.findByShopIdAndParamName(shopId,paramVo.getParamName());
         SystemParamEntity paramEntity = null;
         if(list!=null && list.size()>0){

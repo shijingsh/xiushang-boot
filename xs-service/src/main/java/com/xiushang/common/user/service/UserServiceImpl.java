@@ -57,9 +57,9 @@ public class UserServiceImpl implements UserService {
         query.where(
                 qUserEntity.loginName.in(names).and(qUserEntity.deleted.eq(DeleteEnum.VALID))
         );
-        List<UserEntity> userEntityList= query.fetch();
+        List<UserEntity> userEntityList = query.fetch();
 
-        if(userEntityList!=null && userEntityList.size()>0){
+        if (userEntityList != null && userEntityList.size() > 0) {
             return userEntityList.get(0);
         }
         return null;
@@ -86,11 +86,11 @@ public class UserServiceImpl implements UserService {
         QUserEntity entity = QUserEntity.userEntity;
 
         BooleanExpression ex = entity.deleted.eq(DeleteEnum.VALID);
-        if(searchVo!= null){
-            if(StringUtils.isNotBlank(searchVo.getLoginName())){
+        if (searchVo != null) {
+            if (StringUtils.isNotBlank(searchVo.getLoginName())) {
                 ex = ex.and(entity.loginName.like("%" + searchVo.getLoginName() + "%"));
-            }else if(StringUtils.isNotBlank(searchVo.getName())){
-                ex = ex.and(entity.name.like("%"+searchVo.getName()+"%"));
+            } else if (StringUtils.isNotBlank(searchVo.getName())) {
+                ex = ex.and(entity.name.like("%" + searchVo.getName() + "%"));
             }
         }
 
@@ -107,16 +107,16 @@ public class UserServiceImpl implements UserService {
         QUserEntity entity = QUserEntity.userEntity;
         Integer limit = searchVo.getPageSize();
         Integer offset = searchVo.getOffset();
-        if(limit==null || limit <=0){
+        if (limit == null || limit <= 0) {
             limit = 15;
         }
 
         BooleanExpression ex = entity.deleted.eq(DeleteEnum.VALID);
-        if(searchVo!= null){
-            if(StringUtils.isNotBlank(searchVo.getLoginName())){
+        if (searchVo != null) {
+            if (StringUtils.isNotBlank(searchVo.getLoginName())) {
                 ex = ex.and(entity.loginName.like("%" + searchVo.getLoginName() + "%"));
-            }else if(StringUtils.isNotBlank(searchVo.getName())){
-                ex = ex.and(entity.name.like("%"+searchVo.getName()+"%"));
+            } else if (StringUtils.isNotBlank(searchVo.getName())) {
+                ex = ex.and(entity.name.like("%" + searchVo.getName() + "%"));
             }
         }
 
@@ -141,12 +141,12 @@ public class UserServiceImpl implements UserService {
             return null;
         }
 
-        Optional<UserEntity> userEntity= userDao.findById(id);
-        if(userEntity.isPresent()){
+        Optional<UserEntity> userEntity = userDao.findById(id);
+        if (userEntity.isPresent()) {
             return userEntity.get();
         }
         return null;
-     }
+    }
 
 
     public List<UserEntity> getUsersByIds(List<String> userIds) {
@@ -169,11 +169,11 @@ public class UserServiceImpl implements UserService {
         userDao.save(userEntity);
 
         ShopEntity shopEntity = shopDao.findByOwnerUser(userEntity);
-        if(shopEntity==null){
+        if (shopEntity == null) {
 
             //创建默认商铺
             shopEntity = new ShopEntity();
-            shopEntity.setName(userEntity.getName()+"的小店");
+            shopEntity.setName(userEntity.getName() + "的小店");
             shopEntity.setContactsName(userEntity.getName());
             shopEntity.setMobile(userEntity.getMobile());
             shopEntity.setOwnerUser(userEntity);
@@ -198,10 +198,10 @@ public class UserServiceImpl implements UserService {
     public UserEntity getCurrentUser() {
 
         UserEntity userEntity = UserHolder.getUser();
-        if(userEntity != null){
+        if (userEntity != null) {
             return userEntity;
-        }else {
-           // log.info("getCurrentUser：没有当前用户信息。");
+        } else {
+            // log.info("getCurrentUser：没有当前用户信息。");
         }
 
         return null;
@@ -209,8 +209,48 @@ public class UserServiceImpl implements UserService {
 
     public String getCurrentUserId() {
         UserEntity userEntity = getCurrentUser();
-        if(userEntity != null){
+        if (userEntity != null) {
             return userEntity.getId();
+        }
+
+        return "";
+    }
+
+    /**
+     * 获取当前商铺
+     * 管理后台取当前商铺，即是当前登陆用户的商铺
+     * 租户客户端，取当前商铺，则为租户的商铺
+     * @return
+     */
+    public ShopEntity getCurrentShop() {
+
+        ShopEntity shopEntity = null;
+        UserEntity userEntity;
+        if (UserHolder.isClientAdmin()) {
+            //后台管理客户端，返回当前用户商铺
+            userEntity = getCurrentUser();
+        } else {
+            //租户客户端，返回当前租户商铺
+            String tenantId = UserHolder.getTenantId();
+            userEntity = getUserById(tenantId);
+        }
+
+        if (userEntity != null) {
+            shopEntity = shopDao.findByOwnerUser(userEntity);
+        }
+        return shopEntity;
+    }
+
+    /**
+     * 获取当前商铺ID
+     * 管理后台取当前商铺，即是当前登陆用户的商铺
+     * 租户客户端，取当前商铺，则为租户的商铺
+     * @return
+     */
+    public String getCurrentShopId() {
+        ShopEntity shopEntity = getCurrentShop();
+        if (shopEntity != null) {
+            return shopEntity.getId();
         }
 
         return "";
@@ -226,32 +266,12 @@ public class UserServiceImpl implements UserService {
         return shopEntity;
     }
 
-
-    public ShopEntity getCurrentUserShop() {
-
-        UserEntity userEntity = getCurrentUser();
-
-        ShopEntity shopEntity = shopDao.findByOwnerUser(userEntity);
-
-        return shopEntity;
-    }
-
     public String getCurrentTenantShopId() {
 
         String tenantId = UserHolder.getTenantId();
         UserEntity userEntity = getUserById(tenantId);
 
         ShopEntity shopEntity = shopDao.findByOwnerUser(userEntity);
-        if(shopEntity!=null){
-            return shopEntity.getId();
-        }
-
-        return "";
-    }
-
-
-    public String getCurrentUserShopId() {
-        ShopEntity shopEntity = getCurrentUserShop();
         if(shopEntity!=null){
             return shopEntity.getId();
         }
