@@ -132,7 +132,7 @@ public class WechatAuthenticationProvider extends TenantProvider implements Auth
                     userEntity.setLoginName(mobile);        //手机号码作为登录名，password为空
                     userEntity.setName(wxLoginVo.getNickName());
                     userEntity.setLastLoginDate(new Date());
-                    userEntity.setLastLoginPlatform(clientId);
+                    userEntity.setLastLoginClient(clientId);
                     userService.registerUser(userEntity);
 
                     securityUser = new SecurityUser(userEntity);

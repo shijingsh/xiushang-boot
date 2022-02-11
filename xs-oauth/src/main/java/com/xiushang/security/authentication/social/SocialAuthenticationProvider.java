@@ -65,7 +65,7 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
             userEntity.setLoginName(loginVo.getMobile());        //手机号码作为登录名，password为空
             userEntity.setName(loginVo.getNickName());
             userEntity.setLastLoginDate(new Date());
-            userEntity.setLastLoginPlatform(clientId);
+            userEntity.setLastLoginClient(clientId);
             userService.registerUser(userEntity);
 
             securityUser = new SecurityUser(userEntity);

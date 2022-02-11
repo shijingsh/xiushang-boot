@@ -57,9 +57,9 @@ public class UserEntity extends ExpandEntity {
      * 最后登录平台
      * 客户端ID
      */
-    @ApiModelProperty(notes = "最后登录平台",hidden = true)
+    @ApiModelProperty(notes = "最后登录客户端",hidden = true)
     @JSONField(serialize = false, deserialize = false)
-    private String lastLoginPlatform;
+    private String lastLoginClient;
 
     /**
      * 纬度
@@ -139,12 +139,12 @@ public class UserEntity extends ExpandEntity {
         this.position = position;
     }
 
-    public String getLastLoginPlatform() {
-        return lastLoginPlatform;
+    public String getLastLoginClient() {
+        return lastLoginClient;
     }
 
-    public void setLastLoginPlatform(String lastLoginPlatform) {
-        this.lastLoginPlatform = lastLoginPlatform;
+    public void setLastLoginClient(String lastLoginClient) {
+        this.lastLoginClient = lastLoginClient;
     }
 
     public Date getLastLoginDate() {

@@ -32,10 +32,10 @@ public class OauthClientDetailsSaveVo extends BaseVO implements java.io.Serializ
     @ApiModelProperty(notes = "权限列表")
     private String authorities;
 
-    @ApiModelProperty(notes = "认证令牌时效")
+    @ApiModelProperty(notes = "认证令牌时效(单位秒默认7天 60 * 60 * 24 * 7)")
     private Integer accessTokenValidity;
 
-    @ApiModelProperty(notes = "刷新令牌时效")
+    @ApiModelProperty(notes = "刷新令牌时效(单位秒默认30天 60 * 60 * 24 * 30)")
     private Integer refreshTokenValidity;
 
     @ApiModelProperty(notes = "扩展信息")
