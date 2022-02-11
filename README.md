@@ -212,6 +212,8 @@ public class RedisController {
 application.yml中配置oauth2 授权路径 （默认为： /api/）
 ```
 oauth:
+  client: #管理员客户端前缀
+    prex: xiushang
   path:
     url: /api/
 ```
