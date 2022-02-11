@@ -94,7 +94,7 @@ public abstract class BaseServiceImpl<T> {
         if (t instanceof BaseEntity) {
             //存在删除标志位的表，逻辑删除数据
             BaseEntity baseEntity = (BaseEntity) t;
-            if (UserHolder.isAdmin() || baseEntity.getCreatedById().equals(userId)) {
+            if (UserHolder.isClientAdmin() || baseEntity.getCreatedById().equals(userId)) {
                 baseEntity.setDeleted(DeleteEnum.INVALID);
                 baseDao.save(t);
             } else {
@@ -103,7 +103,7 @@ public abstract class BaseServiceImpl<T> {
         } else if (t instanceof BaseUserEntity) {
             //没有删除标志位的表，直接删除数据
             BaseUserEntity baseEntity = (BaseUserEntity) t;
-            if (UserHolder.isAdmin() || baseEntity.getUserId().equals(userId)) {
+            if (UserHolder.isClientAdmin() || baseEntity.getUserId().equals(userId)) {
                 baseDao.deleteById(id);
             } else {
                 throw new ServiceException("抱歉，只能删除自己添加的数据！");

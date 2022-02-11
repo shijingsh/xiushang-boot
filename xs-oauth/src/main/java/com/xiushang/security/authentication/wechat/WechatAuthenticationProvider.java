@@ -164,11 +164,15 @@ public class WechatAuthenticationProvider extends TenantProvider implements Auth
             throw new InternalAuthenticationServiceException("微信code无效或已过期！");
         }
 
-        //附加权限
-        //SecurityRole.ROLE_USER
+        //设置附加权限
+        List<SecurityRoleVo> list = new ArrayList<>();
+        list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
+        if(super.isAdminClient(clientId)){
+            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_ADMIN));
+        }
 
         WechatAuthenticationToken result = new WechatAuthenticationToken(authenticationToken.getClientId(),securityUser,
-                securityUser.getAuthorities(new SecurityRoleVo(SecurityRole.ROLE_USER)));
+                securityUser.getAuthorities(list));
         result.setDetails(authentication.getDetails());
         return result;
     }

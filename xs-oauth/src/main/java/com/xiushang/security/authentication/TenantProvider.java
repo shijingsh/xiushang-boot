@@ -1,6 +1,7 @@
 package com.xiushang.security.authentication;
 
 import com.xiushang.entity.oauth.OauthClientDetailsEntity;
+import com.xiushang.framework.sys.PropertyConfigurer;
 import com.xiushang.jpa.repository.OauthClientDetailsDao;
 import com.xiushang.security.SecurityUser;
 import com.xiushang.service.impl.UserDetailsServiceImpl;
@@ -14,24 +15,18 @@ public class TenantProvider {
 
     private OauthClientDetailsDao oauthClientDetailsDao;
 
-    public String settingTenantId(SecurityUser securityUser, BaseAuthenticationToken authenticationToken){
-
-        String clientId = authenticationToken.getClientId();
-        return settingTenantId(securityUser,clientId);
-    }
-
     public String settingTenantId(SecurityUser securityUser, String clientId){
         if(StringUtils.isNotBlank(clientId)){
             OauthClientDetailsEntity detailsEntity = oauthClientDetailsDao.findByClientId(clientId);
             if(detailsEntity == null){
-                throw new InternalAuthenticationServiceException("无法获取租户账号信息");
+                throw new InternalAuthenticationServiceException("无法获取租户信息!");
             }
 
             String userId = detailsEntity.getUserId();
-            SecurityUser user = (SecurityUser)((UserDetailsServiceImpl)userDetailsService).loadUserByUserId(userId);
+            SecurityUser clientUser = (SecurityUser)((UserDetailsServiceImpl)userDetailsService).loadUserByUserId(userId);
 
-            if(user == null ){
-                throw new InternalAuthenticationServiceException("无法获取租户账号信息");
+            if(clientUser == null ){
+                throw new InternalAuthenticationServiceException("无法获取租户账号信息!");
             }
 
             securityUser.setTenantId(userId);
@@ -40,6 +35,20 @@ public class TenantProvider {
             return userId;
         }
         return "";
+    }
+
+    public boolean isAdminClient(String clientId){
+        if(StringUtils.isBlank(clientId)){
+            return false;
+        }
+        String prex = PropertyConfigurer.getConfig("oauth.client.prex");
+        if(StringUtils.isBlank(prex)){
+            prex = "";
+        }
+        if(clientId.startsWith(prex)){
+            return true;
+        }
+        return false;
     }
 
     public UserDetailsService getUserDetailsService() {

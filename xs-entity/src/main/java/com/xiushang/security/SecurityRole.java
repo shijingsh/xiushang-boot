@@ -16,7 +16,14 @@ public class SecurityRole implements java.io.Serializable {
 
     /**
      * 系统预置角色
-     * 代表当前会话为：管理员
+     * 代表当前会话为：用户型管理员
      */
     public static  final String ROLE_ADMIN = "ROLE_ADMIN";
+
+    /**
+     * 系统预置角色
+     * 代表当前会话为：客户端型管理员 （即表示为自己的后台系统客户端，其他表示租户的客户端）
+     * 一部分接口，不开放，需要只能自己的客户端才能访问。
+     */
+    public static  final String ROLE_CLIENT_ADMIN = "ROLE_CLIENT_ADMIN";
 }

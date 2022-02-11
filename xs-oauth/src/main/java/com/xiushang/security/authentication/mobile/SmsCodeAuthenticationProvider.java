@@ -25,6 +25,7 @@ public class SmsCodeAuthenticationProvider extends TenantProvider implements Aut
         SmsCodeAuthenticationToken authenticationToken = (SmsCodeAuthenticationToken) authentication;
         String mobile = (String) authenticationToken.getPrincipal();
         String code = (String) authenticationToken.getCredentials();
+        String clientId = authenticationToken.getClientId();
 
         if(StringUtils.isBlank(mobile)){
             throw new InternalAuthenticationServiceException("验证码不正确");
@@ -42,12 +43,19 @@ public class SmsCodeAuthenticationProvider extends TenantProvider implements Aut
             throw new InternalAuthenticationServiceException("无法获取用户信息");
         }
 
-        //设置租户信息
-        super.settingTenantId(securityUser, authenticationToken);
 
-        //附加权限
+        //设置租户信息
+        super.settingTenantId(securityUser, clientId);
+
+        //设置附加权限
+        List<SecurityRoleVo> list = new ArrayList<>();
+        list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
+        if(super.isAdminClient(clientId)){
+            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_ADMIN));
+        }
         //SecurityRole.ROLE_USER
-        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(authenticationToken.getClientId(),securityUser, authentication.getCredentials(), securityUser.getAuthorities(new SecurityRoleVo(SecurityRole.ROLE_USER)));
+        SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(authenticationToken.getClientId(),securityUser, authentication.getCredentials(),
+                securityUser.getAuthorities(list));
         result.setDetails(authentication.getDetails());
         return result;
     }

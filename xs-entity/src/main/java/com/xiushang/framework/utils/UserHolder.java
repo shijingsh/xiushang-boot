@@ -42,9 +42,9 @@ public class UserHolder {
     }
 
     /**
-     * 获得当前登录者是否是管理员
+     * 判断是否为后台系统客户端
      */
-    public static Boolean isAdmin() {
+    public static Boolean isClientAdmin() {
         // 获取用户认证信息对象。
         SecurityUser user = get();
         if (Objects.nonNull(user)) {
@@ -52,7 +52,7 @@ public class UserHolder {
         }
         List<SecurityRoleVo> list = (List<SecurityRoleVo>) user.getAuthorities();
         for (SecurityRoleVo roleVo:list){
-            if(roleVo.getCode() == SecurityRole.ROLE_ADMIN){
+            if(roleVo.getCode() == SecurityRole.ROLE_CLIENT_ADMIN){
                 return true;
             }
         }
@@ -86,13 +86,13 @@ public class UserHolder {
     }
 
     /**
-     * 获得当前用户名
+     * 获得当前用户ID
      */
-    public static String getLoginName() {
+    public static String getUserId() {
         // 获取用户认证信息对象。
         SecurityUser user = get();
         if(user != null){
-            return user.getLoginName();
+            return user.getId();
         }
         return null;
     }

@@ -34,11 +34,15 @@ public class SecurityUser extends UserEntity implements UserDetails {
         return getDefault();
     }
 
-    public Collection<? extends GrantedAuthority> getAuthorities(SecurityRoleVo securityRoleVo) {
+    public Collection<? extends GrantedAuthority> getAuthorities(List<SecurityRoleVo> addList ) {
 
         List<SecurityRoleVo> list = getDefault();
-        if (securityRoleVo != null ) {
-            list.add(securityRoleVo);
+        if (addList != null ) {
+            for (SecurityRoleVo securityRoleVo:addList){
+                if(securityRoleVo != null) {
+                    list.add(securityRoleVo);
+                }
+            }
         }
         return list;
     }

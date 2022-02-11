@@ -36,7 +36,7 @@ public class ClientAuthenticationProvider extends TenantProvider implements Auth
         OauthClientDetailsEntity detailsEntity = getOauthClientDetailsDao().findByClientId(clientId);
 
         if(detailsEntity == null){
-            throw new InternalAuthenticationServiceException("无法获取用户账号信息");
+            throw new InternalAuthenticationServiceException("无法获取用户信息");
         }
 
         String userId = detailsEntity.getUserId();
@@ -50,9 +50,14 @@ public class ClientAuthenticationProvider extends TenantProvider implements Auth
         securityUser.setTenantId(userId);
         securityUser.setClientId(clientId);
 
-        //附加权限
+        //设置附加权限
+        List<SecurityRoleVo> list = new ArrayList<>();
+        if(super.isAdminClient(clientId)){
+            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_ADMIN));
+        }
         //这时候已经认证成功了
-        ClientAuthenticationToken authenticationResult = new ClientAuthenticationToken(authenticationToken.getClientId(),securityUser, securityUser.getAuthorities());
+        ClientAuthenticationToken authenticationResult = new ClientAuthenticationToken(authenticationToken.getClientId(),securityUser
+                , securityUser.getAuthorities(list));
         authenticationResult.setDetails(authenticationToken.getDetails());
 
         return authenticationResult;

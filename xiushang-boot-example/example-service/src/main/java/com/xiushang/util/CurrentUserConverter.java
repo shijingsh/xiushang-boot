@@ -8,7 +8,7 @@ public class CurrentUserConverter extends ClassicConverter {
 
 	@Override
 	public String convert(ILoggingEvent event) {
-		return UserHolder.getTenantId()+":"+ UserHolder.getLoginName();
+		return UserHolder.getTenantId()+":"+ UserHolder.getUserId();
 	}
 
 }

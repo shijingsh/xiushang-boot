@@ -48,7 +48,7 @@ public class ClientController {
     @ApiOperationSupport(order=1)
     @ResponseBody
     @PostMapping("/post")
-    @Secured(SecurityRole.ROLE_ADMIN)
+    @Secured(SecurityRole.ROLE_CLIENT_ADMIN)
     public CommonResult<OauthClientDetailsEntity> post(@Valid @RequestBody OauthClientDetailsSaveVo clientDetailsSaveVo) {
 
         MethodResult<OauthClientDetailsEntity> methodResult = clientDetailsService.saveClient(clientDetailsSaveVo);

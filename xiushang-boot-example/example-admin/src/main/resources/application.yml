@@ -112,6 +112,8 @@ jwt:
 
 #oauth path
 oauth:
+  client: #管理员客户端前缀
+    prex: xiushang
   path:
     url: /api/
 
