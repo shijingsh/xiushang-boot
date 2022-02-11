@@ -53,7 +53,7 @@ public class ClientAuthenticationProvider extends TenantProvider implements Auth
         //设置附加权限
         List<SecurityRoleVo> list = new ArrayList<>();
         if(super.isAdminClient(clientId)){
-            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_ADMIN));
+            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_MANAGE));
         }
         //这时候已经认证成功了
         ClientAuthenticationToken authenticationResult = new ClientAuthenticationToken(authenticationToken.getClientId(),securityUser

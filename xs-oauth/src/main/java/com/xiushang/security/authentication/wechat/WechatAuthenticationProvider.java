@@ -168,7 +168,7 @@ public class WechatAuthenticationProvider extends TenantProvider implements Auth
         List<SecurityRoleVo> list = new ArrayList<>();
         list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
         if(super.isAdminClient(clientId)){
-            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_ADMIN));
+            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_MANAGE));
         }
 
         WechatAuthenticationToken result = new WechatAuthenticationToken(authenticationToken.getClientId(),securityUser,

@@ -74,7 +74,7 @@ public class UserNameAuthenticationProvider  extends TenantProvider implements A
         List<SecurityRoleVo> list = new ArrayList<>();
         list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
         if(super.isAdminClient(clientId)){
-            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_ADMIN));
+            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_MANAGE));
         }
 
         // [5] 成功登陆，把用户信息提交给 Spring Security

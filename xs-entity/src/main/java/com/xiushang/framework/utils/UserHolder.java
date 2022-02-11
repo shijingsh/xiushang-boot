@@ -52,7 +52,7 @@ public class UserHolder {
         }
         List<SecurityRoleVo> list = (List<SecurityRoleVo>) user.getAuthorities();
         for (SecurityRoleVo roleVo:list){
-            if(roleVo.getCode() == SecurityRole.ROLE_CLIENT_ADMIN){
+            if(roleVo.getCode() == SecurityRole.ROLE_CLIENT_MANAGE){
                 return true;
             }
         }

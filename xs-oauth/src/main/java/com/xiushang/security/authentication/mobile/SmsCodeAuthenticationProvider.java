@@ -51,7 +51,7 @@ public class SmsCodeAuthenticationProvider extends TenantProvider implements Aut
         List<SecurityRoleVo> list = new ArrayList<>();
         list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
         if(super.isAdminClient(clientId)){
-            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_ADMIN));
+            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_MANAGE));
         }
         //SecurityRole.ROLE_USER
         SmsCodeAuthenticationToken result = new SmsCodeAuthenticationToken(authenticationToken.getClientId(),securityUser, authentication.getCredentials(),

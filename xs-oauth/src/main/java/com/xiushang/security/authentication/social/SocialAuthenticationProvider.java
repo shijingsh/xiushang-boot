@@ -96,7 +96,7 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         List<SecurityRoleVo> list = new ArrayList<>();
         list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
         if(super.isAdminClient(clientId)){
-            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_ADMIN));
+            list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_MANAGE));
         }
         //这时候已经认证成功了
         SocialAuthenticationToken authenticationResult = new SocialAuthenticationToken(authenticationToken.getClientId(),securityUser
