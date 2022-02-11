@@ -21,15 +21,17 @@ public class CustomTokenEnhancer implements TokenEnhancer {
         String clientId = authentication.getOAuth2Request().getClientId();
 
         if(map.get(SecurityConstants.AUTH_USER_ID_PARAM)!=null){
-            additionalInfo.put("userId", map.get(SecurityConstants.AUTH_USER_ID_PARAM));
+            additionalInfo.put(SecurityConstants.AUTH_USER_ID_PARAM, map.get(SecurityConstants.AUTH_USER_ID_PARAM));
         }
 
         if(authentication.getPrincipal() instanceof SecurityUser){
             SecurityUser user = (SecurityUser) authentication.getPrincipal();
-            additionalInfo.put("tenantId",user.getTenantId());
+            additionalInfo.put(SecurityConstants.AUTH_TENANT_ID_PARAM,user.getTenantId());
+            additionalInfo.put(SecurityConstants.AUTH_CLIENT_ADMIN_PARAM,user.getClientAdmin());
+            additionalInfo.put(SecurityConstants.AUTH_USER_ADMIN_PARAM,user.getUserAdmin());
         }
 
-        additionalInfo.put("clientId",clientId);
+        additionalInfo.put(SecurityConstants.AUTH_CLIENT_ID_PARAM,clientId);
 
        // additionalInfo.put("company","bobo");
         // 注意添加的额外信息，最好不要和已有的json对象中的key重名，容易出现错误

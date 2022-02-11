@@ -21,6 +21,14 @@ public class SecurityUser extends UserEntity implements UserDetails {
      * 客户端ID
      */
     private String clientId;
+    /**
+     * 客户端管理员
+     */
+    private Boolean clientAdmin = false;
+    /**
+     * 管理员用户
+     */
+    private Boolean userAdmin = false;
 
     public SecurityUser(UserEntity user) {
         if (user != null) {
@@ -40,6 +48,9 @@ public class SecurityUser extends UserEntity implements UserDetails {
         if (addList != null ) {
             for (SecurityRoleVo securityRoleVo:addList){
                 if(securityRoleVo != null) {
+                    if(SecurityRole.ROLE_CLIENT_MANAGE.equals(securityRoleVo.getCode())){
+                        this.setClientAdmin(true);
+                    }
                     list.add(securityRoleVo);
                 }
             }
@@ -51,6 +62,9 @@ public class SecurityUser extends UserEntity implements UserDetails {
         List<SecurityRoleVo> list = new ArrayList<>();
         for (RoleEntity role : getRoles()){
             SecurityRoleVo roleVo = new SecurityRoleVo(role.getCode(),role.getName());
+            if(SecurityRole.ROLE_ADMIN.equals(roleVo.getCode())){
+                this.setUserAdmin(true);
+            }
             list.add(roleVo);
         }
 
@@ -98,5 +112,21 @@ public class SecurityUser extends UserEntity implements UserDetails {
 
     public void setClientId(String clientId) {
         this.clientId = clientId;
+    }
+
+    public Boolean getClientAdmin() {
+        return clientAdmin;
+    }
+
+    public void setClientAdmin(Boolean clientAdmin) {
+        this.clientAdmin = clientAdmin;
+    }
+
+    public Boolean getUserAdmin() {
+        return userAdmin;
+    }
+
+    public void setUserAdmin(Boolean userAdmin) {
+        this.userAdmin = userAdmin;
     }
 }

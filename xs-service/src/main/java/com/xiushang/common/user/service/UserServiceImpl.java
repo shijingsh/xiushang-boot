@@ -226,7 +226,7 @@ public class UserServiceImpl implements UserService {
 
         ShopEntity shopEntity = null;
         UserEntity userEntity;
-        if (UserHolder.isClientAdmin()) {
+        if (UserHolder.getClientAdmin()) {
             //后台管理客户端，返回当前用户商铺
             userEntity = getCurrentUser();
         } else {

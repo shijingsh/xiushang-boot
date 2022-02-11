@@ -65,8 +65,12 @@ public class CustomUserAuthenticationConverter implements UserAuthenticationConv
                 if (map.containsKey(SecurityConstants.AUTH_TENANT_ID_PARAM) && user instanceof SecurityUser) {
                     String tenantId = (String)map.get(SecurityConstants.AUTH_TENANT_ID_PARAM);
                     String clientId = (String)map.get(SecurityConstants.AUTH_CLIENT_ID_PARAM);
+                    Boolean clientAdmin = (Boolean)map.get(SecurityConstants.AUTH_CLIENT_ADMIN_PARAM);
+                    Boolean userAdmin = (Boolean)map.get(SecurityConstants.AUTH_USER_ADMIN_PARAM);
                     ((SecurityUser)user).setTenantId(tenantId);
                     ((SecurityUser)user).setClientId(clientId);
+                    ((SecurityUser)user).setClientAdmin(clientAdmin);
+                    ((SecurityUser)user).setUserAdmin(userAdmin);
                 }
                 principal = user;
             }

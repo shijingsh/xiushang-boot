@@ -44,38 +44,28 @@ public class UserHolder {
     /**
      * 判断是否为后台系统客户端
      */
-    public static Boolean isClientAdmin() {
+    public static Boolean getClientAdmin() {
         // 获取用户认证信息对象。
         SecurityUser user = get();
         if (Objects.isNull(user)) {
             return false;
         }
-        List<SecurityRoleVo> list = (List<SecurityRoleVo>) user.getAuthorities();
-        for (SecurityRoleVo roleVo : list) {
-            if (SecurityRole.ROLE_CLIENT_MANAGE.equals(roleVo.getCode())) {
-                return true;
-            }
-        }
-        return false;
+
+        return user.getClientAdmin();
     }
 
 
     /**
      * 判断是否为管理员用户
      */
-    public static Boolean isAdminUser() {
+    public static Boolean getUserAdmin() {
         // 获取用户认证信息对象。
         SecurityUser user = get();
         if (Objects.isNull(user)) {
             return false;
         }
-        List<SecurityRoleVo> list = (List<SecurityRoleVo>) user.getAuthorities();
-        for (SecurityRoleVo roleVo : list) {
-            if (SecurityRole.ROLE_ADMIN.equals(roleVo.getCode())) {
-                return true;
-            }
-        }
-        return false;
+
+        return user.getUserAdmin();
     }
     /**
      * 获得当前租户ID
