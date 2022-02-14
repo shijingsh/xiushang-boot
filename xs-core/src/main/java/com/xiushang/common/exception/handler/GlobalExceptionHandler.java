@@ -36,12 +36,14 @@ public class GlobalExceptionHandler {
         return CommonResult.error(e.getMessage());
     }
     /**
-     * 系统繁忙，请稍候再试"
+     * 处理所有不可知的异常
      */
-    @ExceptionHandler(Exception.class)
-    public CommonResult handleException(Exception e, HttpServletRequest request) {
+    @ExceptionHandler(RuntimeException.class)
+    public CommonResult handleException(RuntimeException e, HttpServletRequest request){
+        // 打印堆栈信息
         this.printLog(request);
         log.error("Exception,exception:{}", e, e);
+
         return CommonResult.error(e.getMessage());
     }
 
@@ -55,17 +57,6 @@ public class GlobalExceptionHandler {
         return CommonResult.error( e.getMessage());
     }
 
-
-    /**
-     * 没有权限 返回403视图
-     */
-    /*@ExceptionHandler(value = AuthorizationException.class)
-    public CommonResult errorPermission(AuthorizationException e) {
-        log.error("Exception,exception:{}", e, e);
-         e.printStackTrace();
-        return CommonResult.error( e.getMessage());
-
-    }*/
 
     /**
      * 处理 EntityNotFound
