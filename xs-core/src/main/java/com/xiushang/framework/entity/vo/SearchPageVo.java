@@ -12,18 +12,18 @@ import java.io.Serializable;
 public  class SearchPageVo implements Serializable {
 
     @ApiModelProperty(value = "搜索关键字")
-    private String searchKey;
+    protected String searchKey;
     /**
      * 当前的页数
      */
     @ApiModelProperty(notes = "当前的页数")
-    private int pageNo = 1;
+    protected int pageNo = 1;
 
     /**
      * 当前每页所显示的行数。
      */
     @ApiModelProperty(notes = "当前每页所显示的行数")
-    private int pageSize = 15;
+    protected int pageSize = 15;
 
 
     public int getPageNo() {

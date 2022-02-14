@@ -9,7 +9,7 @@ import java.io.Serializable;
 public class SearchVo implements Serializable {
 
     @ApiModelProperty(value = "搜索关键字")
-    private String searchKey;
+    protected String searchKey;
 
 
 }
