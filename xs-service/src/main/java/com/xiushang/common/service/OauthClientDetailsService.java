@@ -54,6 +54,9 @@ public class OauthClientDetailsService extends BaseServiceImpl<OauthClientDetail
             oauthClientDetailsEntity.setClientId(clientDetailsDb.getClientId());
             oauthClientDetailsEntity.setClientSecret(clientDetailsDb.getClientSecret());
             oauthClientDetailsEntity.setCreateTime(clientDetailsDb.getCreateTime());
+            oauthClientDetailsEntity.setScope(clientDetailsDb.getScope());
+            oauthClientDetailsEntity.setAutoapprove(clientDetailsDb.getAutoapprove());
+            oauthClientDetailsEntity.setAuthorizedGrantTypes(clientDetailsDb.getAuthorizedGrantTypes());
         }else {
 
             if(StringUtils.isBlank(clientDetailsSaveVo.getClientSecret())){
