@@ -82,9 +82,9 @@ public class OauthClientDetailsService extends BaseServiceImpl<OauthClientDetail
         if(StringUtils.isBlank(oauthClientDetailsEntity.getAuthorizedGrantTypes())){
             oauthClientDetailsEntity.setAuthorizedGrantTypes("authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat");
         }
-        if(StringUtils.isBlank(oauthClientDetailsEntity.getWebServerRedirectUri())){
-            oauthClientDetailsEntity.setWebServerRedirectUri("https://www.xiushangsh.com");
-        }
+        //if(StringUtils.isBlank(oauthClientDetailsEntity.getWebServerRedirectUri())){
+        //    oauthClientDetailsEntity.setWebServerRedirectUri("https://www.xiushangsh.com");
+        //}
         if(StringUtils.isBlank(oauthClientDetailsEntity.getAutoapprove())){
             oauthClientDetailsEntity.setAutoapprove("false");
         }

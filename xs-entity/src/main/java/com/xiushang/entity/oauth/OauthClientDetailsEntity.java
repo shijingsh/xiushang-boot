@@ -15,13 +15,14 @@ import java.util.Date;
 @Table(name = "oauth_client_details")
 public class OauthClientDetailsEntity extends BaseUserEntity {
 
-    @ApiModelProperty(notes = "资源id列表")
+    @ApiModelProperty(notes = "资源id列表",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private String resourceIds;
+
     @ApiModelProperty(notes = "客户端ID")
     private String clientId;
     @ApiModelProperty(notes = "客户端名称")
     private String clientName;
-
     @ApiModelProperty(notes = "客户端密钥", hidden = true)
     @JSONField(serialize = false, deserialize = false)
     private String clientSecret;
@@ -30,14 +31,21 @@ public class OauthClientDetailsEntity extends BaseUserEntity {
     @Enumerated(EnumType.STRING)
     private ClientTypeEnum clientType = ClientTypeEnum.CLIENT_TYPE_WX_MINI_APP;
 
-    @ApiModelProperty(notes = "域scope 默认 all")
+    @ApiModelProperty(notes = "域scope 默认 all", hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private String scope = "all";
-    @ApiModelProperty(notes = "支持的授权方式 默认 authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat")
+
+    @ApiModelProperty(notes = "支持的授权方式 默认 authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private String authorizedGrantTypes = "authorization_code,refresh_token,password,client_credentials,implicit,sms_code,captcha,social_type,wechat";
-    @ApiModelProperty(notes = "回调地址 默认 https://www.xiushangsh.com")
-    private String webServerRedirectUri = "https://www.xiushangsh.com";
-    @ApiModelProperty(notes = "权限列表")
+
+    @ApiModelProperty(notes = "回调地址")
+    private String webServerRedirectUri;
+
+    @ApiModelProperty(notes = "权限列表",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private String authorities;
+
     @ApiModelProperty(notes = "认证令牌时效(单位秒默认7天 60 * 60 * 24 * 7)")
     private Integer accessTokenValidity;
     @ApiModelProperty(notes = "刷新令牌时效(单位秒默认30天 60 * 60 * 24 * 30)")
@@ -47,7 +55,8 @@ public class OauthClientDetailsEntity extends BaseUserEntity {
     @ApiModelProperty(notes = "扩展信息")
     private String additionalInformation;
 
-    @ApiModelProperty(notes = "是否自动放行")
+    @ApiModelProperty(notes = "是否自动放行",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private String autoapprove = "false";
 
     @ApiModelProperty(notes = "创建时间")

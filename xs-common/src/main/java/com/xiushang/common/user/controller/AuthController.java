@@ -7,6 +7,7 @@ import com.xiushang.framework.log.CommonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
@@ -79,6 +80,9 @@ public class AuthController {
             field.setAccessible(true);
             String fieldName = field.getName();
             String value = (String)field.get(obj);
+            if(StringUtils.isNoneBlank(value)){
+                value = value.trim();
+            }
             map.put(fieldName, value);
         }
         return map;
