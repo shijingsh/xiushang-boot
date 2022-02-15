@@ -13,6 +13,7 @@ import com.xiushang.framework.log.CommonResult;
 import com.xiushang.security.SecurityRole;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
@@ -65,6 +66,20 @@ public class ParamController {
         SystemParamEntity entity = systemParamService.getOrSaveParam(systemParamVo.getParamName(),systemParamVo.getDefaultValue(),systemParamVo.getRemark());
 
         return CommonResult.success(entity);
+    }
+
+    /**
+     * 删除
+     * @return
+     */
+    @ApiOperation(value = "删除用户参数")
+    @ApiOperationSupport(order=999)
+    @ResponseBody
+    @GetMapping("/delete")
+    @Secured({SecurityRole.ROLE_USER})
+    public CommonResult<SystemParamEntity> delete(@ApiParam(value = "id主键",required = true) String id) {
+        systemParamService.delete(id);
+        return CommonResult.success();
     }
 
     /**

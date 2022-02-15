@@ -1,11 +1,12 @@
 package com.xiushang.common.user.service;
 
 import com.xiushang.common.user.vo.SystemParamSaveVo;
+import com.xiushang.common.utils.BaseService;
 import com.xiushang.entity.SystemParamEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.entity.vo.SearchPageVo;
 
-public interface SystemParamService {
+public interface SystemParamService extends BaseService<SystemParamEntity> {
 
     SystemParamEntity getOrSaveParam(String paramName);
 
