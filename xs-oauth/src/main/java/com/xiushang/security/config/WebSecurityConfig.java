@@ -202,7 +202,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/authentication/init").permitAll()
                 .anyRequest()
                 .authenticated()
-                //.withObjectPostProcessor(urlObjectPostProcessor())
+                //.withObjectPostProcessor(urlObjectPostProcessor())   /* 动态url权限 */
+                //.accessDecisionManager(accessDecisionManager())         /* url决策 */
             .and()
                 .formLogin()
                 .loginPage("/authentication/require")
@@ -210,12 +211,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.usernameParameter("username")
                 //.passwordParameter("password")
                 .permitAll()
-                .failureHandler(new com.xiushang.security.hadler.SecurityLoginFailureHandler())
-                //.successHandler(new com.xiushang.security.hadler.SecurityLoginSuccessHandler())
+                .failureHandler(new com.xiushang.security.hadler.SecurityLoginFailureHandler())      /* 登录失败后的处理 */
+                //.successHandler(new com.xiushang.security.hadler.SecurityLoginSuccessHandler())    /* 登录成功后的处理 */
             .and()
                 .exceptionHandling()
-                .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
-                .accessDeniedHandler(new SecurityAccessDeniedHandler())
+                .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())       /* 登录过期/未登录 处理 */
+                .accessDeniedHandler(new SecurityAccessDeniedHandler())                 /* 权限不足(没有赋予角色) 处理 */
             .and()
                 .logout()
                 .deleteCookies("JSESSIONID")

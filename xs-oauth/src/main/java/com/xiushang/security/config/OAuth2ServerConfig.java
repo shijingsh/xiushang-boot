@@ -94,8 +94,8 @@ public class OAuth2ServerConfig {
             //
             http
                     .exceptionHandling()//.accessDeniedHandler(new OAuth2AccessDeniedHandler())
-                    .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())
-                    .accessDeniedHandler(new SecurityAccessDeniedHandler())
+                    .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())   /* 登录过期/未登录 处理 */
+                    .accessDeniedHandler(new SecurityAccessDeniedHandler())             /* 权限不足(没有赋予角色) 处理 */
                     .and()
                     .authorizeRequests()
                     .anyRequest()
@@ -265,6 +265,8 @@ public class OAuth2ServerConfig {
             endpoints.tokenServices(tokenServices(endpoints));
             endpoints.accessTokenConverter(jwtAccessTokenConverter());
             endpoints.tokenEnhancer(tokenEnhancerChain);
+            //该字段设置设置refresh token是否重复使用,true:reuse;false:no reuse.默认为true
+            //endpoints.reuseRefreshTokens(false);
         }
 
         /**
@@ -285,6 +287,10 @@ public class OAuth2ServerConfig {
             JwtAccessTokenConverter jwtAccessTokenConverter = new JwtAccessTokenConverter();
             jwtAccessTokenConverter.setAccessTokenConverter(defaultAccessTokenConverter); // IMPORTANT
             jwtAccessTokenConverter.setSigningKey(SecurityConstants.SIGNING_KEY);
+
+            //oauth2.jks 放在resources文件夹下面即可  秘钥加密方式
+            //KeyPair keyPair = new KeyStoreKeyFactory(new ClassPathResource("oauth2.jks"), "oauth2".toCharArray()).getKeyPair("oauth2");
+            //jwtAccessTokenConverter.setKeyPair(keyPair);
             return jwtAccessTokenConverter;
         }
 
@@ -353,7 +359,8 @@ public class OAuth2ServerConfig {
             endpointFilter.setAuthenticationEntryPoint(new CustomAuthenticationEntryPoint());
             // 客户端认证之前的过滤器
             oauthServer.addTokenEndpointAuthenticationFilter(endpointFilter);
-            oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
+            oauthServer.tokenKeyAccess("permitAll()")       //允许所有人请求令牌
+                    .checkTokenAccess("isAuthenticated()"); //已验证的客户端才能请求check_token端点
             oauthServer.realm("oauth2");
         }
     }
