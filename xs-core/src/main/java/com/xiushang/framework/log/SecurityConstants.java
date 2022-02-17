@@ -8,6 +8,10 @@ public class SecurityConstants {
 
     public static final String TOKEN_PREFIX= "Bearer";
     public static final String AUTH_HEADER_STRING = "Authorization";
+    /**
+     * Basic认证前缀
+     */
+    public static final String AUTH_HEADER_BASIC_PREFIX = "Basic ";
 
     public static final String AUTH_USER_ID_PARAM = "userId";
     public static final String AUTH_TENANT_ID_PARAM = "tenantId";

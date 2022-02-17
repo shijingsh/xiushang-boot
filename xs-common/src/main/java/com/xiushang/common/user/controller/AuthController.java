@@ -1,24 +1,33 @@
 package com.xiushang.common.user.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.user.vo.OAuthVo;
 import com.xiushang.framework.log.CommonResult;
+import com.xiushang.framework.log.SecurityConstants;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.endpoint.TokenEndpoint;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
 
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +40,8 @@ import java.util.Map;
 public class AuthController {
     @Autowired
     private TokenEndpoint tokenEndpoint;
+    @Resource
+    private HttpServletRequest request;
 
     @ApiOperation(value = "OAuth2认证中心", notes = "租户以及用户登录入口"
             +"<p>客户端授权 grant_type=client_credentials,client_id,client_secret 必填 </p>"
@@ -48,8 +59,6 @@ public class AuthController {
     @PostMapping("/token")
     public CommonResult<OAuth2AccessToken> postAccessToken(
             @ApiIgnore Principal principal,
-            @ApiParam(value = "client_id",required = true) @RequestParam String  client_id,
-            @ApiParam(value = "client_secret",required = true) @RequestParam String  client_secret,
             @Valid @RequestBody OAuthVo oAuthVo
     ) throws HttpRequestMethodNotSupportedException {
 
@@ -59,8 +68,11 @@ public class AuthController {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        parameters.put("client_id",client_id);
-        parameters.put("client_secret",client_secret);
+
+        String clientId = AuthController.getOAuth2ClientId(request);
+        if(StringUtils.isBlank(clientId)){
+            CommonResult.error("clientId 不能为空！");
+        }
 
         OAuth2AccessToken accessToken = tokenEndpoint.postAccessToken(principal, parameters).getBody();
         return CommonResult.success(accessToken);
@@ -88,4 +100,16 @@ public class AuthController {
         return map;
     }
 
+    public static String getOAuth2ClientId(HttpServletRequest request) {
+
+        String clientId = null;
+        // 从请求头获取
+        String basic = request.getHeader(SecurityConstants.AUTH_HEADER_STRING);
+        if (StrUtil.isNotBlank(basic) && basic.startsWith(SecurityConstants.AUTH_HEADER_BASIC_PREFIX)) {
+            basic = basic.replace(SecurityConstants.AUTH_HEADER_BASIC_PREFIX, Strings.EMPTY);
+            String basicPlainText = new String(Base64.getDecoder().decode(basic.getBytes(StandardCharsets.UTF_8)), StandardCharsets.UTF_8);
+            clientId = basicPlainText.split(":")[0]; //client:secret
+        }
+        return clientId;
+    }
 }
