@@ -95,6 +95,6 @@ public class GrantController {
 
     @RequestMapping("/oauthLogin")
     public String login() {
-        return "/login.html";
+        return "login.html";
     }
 }
