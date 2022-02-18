@@ -196,6 +196,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         String httpsRoot = PropertyConfigurer.getConfig("oauth.client.root");
         String loginPage = "/authentication/require";
         if(StringUtils.isNotBlank(httpsRoot)){
+            //解决https下重定向的次数过多问题。
             loginPage = httpsRoot +loginPage;
         }
         http
