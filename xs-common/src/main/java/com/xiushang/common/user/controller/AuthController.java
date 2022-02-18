@@ -44,7 +44,10 @@ public class AuthController {
     private HttpServletRequest request;
 
     @ApiOperation(value = "OAuth2认证中心", notes = "租户以及用户登录入口"
-            +"<p>客户端授权 grant_type=client_credentials,client_id,client_secret 必填 </p>"
+            +"<p>Basic 认证token传参 headers: {\n" +
+            "\t\t\t'Authorization': 'Basic bWFsbC1hcHA6MTIzNDU2' " +
+            "\t\t} // 客户端信息Base64加密，格式：client_id:client_secret\n </p>"
+            +"<p>客户端授权 grant_type=client_credentials 必填 </p>"
             +"<p>密码授权 grant_type=password,username,password 必填 </p>"
             +"<p>图形验证码密码授权 grant_type=captcha,username,password  必填 </p>"
             +"<p>授权码模式 grant_type=authorization_code,code,redirect_uri 必填 </p>"
@@ -52,7 +55,7 @@ public class AuthController {
             +"<p>社交账号授权 grant_type=social_type,socialId,socialType,nickName,avatarUrl,gender,email 必填 </p>"
             +"<p>微信授权 grant_type=wechat,nickName,avatarUrl,gender,email,iv,encryptedData 必填 </p>"
             +"<p>刷新token grant_type=refresh_token,refresh_token 必填 </p>"
-            +"<p><font color='red'>注意： client_id,client_secret 两个参数是通过URL方式传参，即GET方式传参，其他参数通过POST json传参。所有授权方式client_id,client_secret 都是必传的。</font> </p>"
+            +"<p><font color='red'>注意： client_id,client_secret 两个参数是通过Basic 认证方式传参。所有授权方式base认证token 都是必传的。</font> </p>"
             +"<p><font color='red'>租户授权方式，请使用client_credentials、authorization_code 其他授权方式均为用户授权。</font> </p>"
     )
     @XiushangApi
