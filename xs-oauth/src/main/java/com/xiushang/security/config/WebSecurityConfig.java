@@ -4,6 +4,7 @@ import com.xiushang.common.components.SmsService;
 import com.xiushang.common.user.service.SystemParamService;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
+import com.xiushang.framework.sys.PropertyConfigurer;
 import com.xiushang.jpa.repository.OauthClientDetailsDao;
 import com.xiushang.jpa.repository.ShopDao;
 import com.xiushang.jpa.repository.UserSocialDao;
@@ -16,6 +17,7 @@ import com.xiushang.security.filter.UrlFilterInvocationSecurityMetadataSource;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -190,23 +192,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         List<String> list = ignoreUrlsConfig.getUrls();
         String[] AUTH_WHITELIST = list.toArray(new String[list.size()]);
 
+        //https 登录页配置
+        String httpsRoot = PropertyConfigurer.getConfig("oauth.client.root");
+        String loginPage = "/authentication/require";
+        if(StringUtils.isNotBlank(httpsRoot)){
+            loginPage = httpsRoot +loginPage;
+        }
         http
             .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
                 .antMatchers("/*.html","/*.svg","/*.png","/*.jpg","/*.js","/*.css").permitAll()
                 .antMatchers("/v2/api-docs",
+                        "/",
                         "/oauthLogin",
                         "/oauthGrant",
-                        "/authentication/require",
-                        "/authentication/form",
-                        "/authentication/init").permitAll()
+                        "/index**",
+                        "/login**",
+                        "/error**",
+                        "/authentication/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 //.withObjectPostProcessor(urlObjectPostProcessor())   /* 动态url权限 */
                 //.accessDecisionManager(accessDecisionManager())         /* url决策 */
             .and()
                 .formLogin()
-                .loginPage("/authentication/require")
+                .loginPage(loginPage)
                 .loginProcessingUrl("/authentication/form")
                 //.usernameParameter("username")
                 //.passwordParameter("password")
