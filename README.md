@@ -390,5 +390,3 @@ dubbo:
 
     强制规定，布尔类型的数据，无论是boolean还是Boolean都不准使用isXXX来命名
     
-### 官网
-- www.xiushangsh.com

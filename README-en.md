@@ -352,5 +352,3 @@ dubbo:
 ### constraint
 
 
-### domain
-- www.xiushangsh.com
