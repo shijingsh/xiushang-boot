@@ -13,6 +13,7 @@ import com.xiushang.security.authentication.mobile.SmsCodeAuthenticationProvider
 import com.xiushang.security.authentication.social.SocialAuthenticationProvider;
 import com.xiushang.security.authentication.username.UserNameAuthenticationProvider;
 import com.xiushang.security.authentication.wechat.WechatAuthenticationProvider;
+import com.xiushang.security.filter.CustomUsernamePasswordAuthenticationFilter;
 import com.xiushang.security.filter.UrlFilterInvocationSecurityMetadataSource;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
@@ -38,6 +39,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import java.util.List;
@@ -78,6 +80,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private ShopDao shopDao;
     @Autowired
     private SecurityLoginSuccessHandler loginSuccessHandler;
+
+    public static final String loginProcessUrl = "/authentication/login";
     /**
      * 访问静态资源
      */
@@ -202,6 +206,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             //解决https下重定向的次数过多问题。
             loginPage = httpsRoot +loginPage;
         }
+
         http
             .authorizeRequests()
                 .antMatchers(AUTH_WHITELIST).permitAll()
@@ -218,10 +223,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated()
                 //.withObjectPostProcessor(urlObjectPostProcessor())   /* 动态url权限 */
                 //.accessDecisionManager(accessDecisionManager())         /* url决策 */
+
             .and()
                 .formLogin()
                 .loginPage(loginPage)
-                .loginProcessingUrl("/authentication/form")
+                .loginProcessingUrl(loginProcessUrl)
                 //.usernameParameter("username")
                 //.passwordParameter("password")
                 .permitAll()
@@ -250,6 +256,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 // session过期跳转
                 .expiredUrl("/authentication/require")
                 .sessionRegistry(sessionRegistry());
+
+        // 用重写的Filter替换掉原有的UsernamePasswordAuthenticationFilter，支持json格式
+        http.addFilterAt(customAuthenticationFilter(),
+                UsernamePasswordAuthenticationFilter.class);
     }
 
     /**
@@ -290,5 +300,16 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
+    }
+
+    @Bean
+    public CustomUsernamePasswordAuthenticationFilter customAuthenticationFilter() throws Exception {
+        CustomUsernamePasswordAuthenticationFilter filter = new CustomUsernamePasswordAuthenticationFilter();
+        filter.setAuthenticationSuccessHandler(loginSuccessHandler);
+        filter.setAuthenticationFailureHandler(new com.xiushang.security.hadler.SecurityLoginFailureHandler());
+        filter.setFilterProcessesUrl(loginProcessUrl);
+        //这句很关键，重用WebSecurityConfigurerAdapter配置的AuthenticationManager，不然要自己组装AuthenticationManager
+        filter.setAuthenticationManager(authenticationManagerBean());
+        return filter;
     }
 }
