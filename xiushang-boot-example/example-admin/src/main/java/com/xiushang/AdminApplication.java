@@ -29,7 +29,7 @@ public class AdminApplication extends SpringBootServletInitializer {
     Environment env = application.getEnvironment();
     log.info("\n----------------------------------------------------------\n\t" +
             "Application '{}' is running! Access URLs:\n\t" +
-            "Login: \thttp://{}:{}/login\n\t" +
+            "Login: \thttp://{}:{}/oauthLogin\n\t" +
             "Doc: \thttp://{}:{}/doc.html\n" +
             "----------------------------------------------------------",
         env.getProperty("spring.application.name"),

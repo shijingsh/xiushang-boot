@@ -16,6 +16,7 @@ import com.xiushang.security.authentication.wechat.WechatAuthenticationProvider;
 import com.xiushang.security.filter.UrlFilterInvocationSecurityMetadataSource;
 import com.xiushang.security.hadler.SecurityAccessDeniedHandler;
 import com.xiushang.security.hadler.SecurityAuthenticationEntryPoint;
+import com.xiushang.security.hadler.SecurityLoginSuccessHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private SystemParamService systemParamService;
     @Autowired
     private ShopDao shopDao;
+    @Autowired
+    private SecurityLoginSuccessHandler loginSuccessHandler;
     /**
      * 访问静态资源
      */
@@ -223,7 +226,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.passwordParameter("password")
                 .permitAll()
                 .failureHandler(new com.xiushang.security.hadler.SecurityLoginFailureHandler())      /* 登录失败后的处理 */
-                .successHandler(new com.xiushang.security.hadler.SecurityLoginSuccessHandler())      /* 登录成功后的处理 */
+                .successHandler(loginSuccessHandler)      /* 登录成功后的处理 */
             .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())       /* 登录过期/未登录 处理 */
