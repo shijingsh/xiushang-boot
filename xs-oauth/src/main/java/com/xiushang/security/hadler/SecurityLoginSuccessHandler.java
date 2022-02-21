@@ -14,7 +14,7 @@ public class SecurityLoginSuccessHandler implements AuthenticationSuccessHandler
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-		// 记录登出日志
+		// 登录成功
 		log.info("登录成功");
 	}
 }

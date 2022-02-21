@@ -223,7 +223,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.passwordParameter("password")
                 .permitAll()
                 .failureHandler(new com.xiushang.security.hadler.SecurityLoginFailureHandler())      /* 登录失败后的处理 */
-                //.successHandler(new com.xiushang.security.hadler.SecurityLoginSuccessHandler())    /* 登录成功后的处理 */
+                .successHandler(new com.xiushang.security.hadler.SecurityLoginSuccessHandler())      /* 登录成功后的处理 */
             .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())       /* 登录过期/未登录 处理 */
