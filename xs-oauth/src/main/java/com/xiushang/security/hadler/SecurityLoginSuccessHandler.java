@@ -34,9 +34,6 @@ public class SecurityLoginSuccessHandler implements AuthenticationSuccessHandler
 	@Autowired
 	private AuthorizationServerTokenServices authorizationServerTokenServices;
 
-	@Autowired
-	private ObjectMapper objectMapper;
-
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 		// 登录成功
