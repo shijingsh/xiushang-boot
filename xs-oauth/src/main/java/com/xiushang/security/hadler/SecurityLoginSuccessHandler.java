@@ -1,12 +1,12 @@
 package com.xiushang.security.hadler;
 
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.framework.log.CommonResult;
-import com.xiushang.framework.sys.PropertyConfigurer;
+import com.xiushang.framework.log.SecurityConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -44,7 +44,12 @@ public class SecurityLoginSuccessHandler implements AuthenticationSuccessHandler
 		String type = request.getHeader("Accept");
 		if(!type.contains("text/html")){
 
-			String clientId = PropertyConfigurer.getConfig("oauth.client.prex");
+			// 从请求路径中获取
+			String clientId = request.getParameter(SecurityConstants.AUTH_CLIENT_ID_PARAM);
+			if (StrUtil.isBlank(clientId)) {
+				// 从请求头获取
+				clientId = request.getHeader(SecurityConstants.AUTH_CLIENT_ID_PARAM);
+			}
 
 			ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
 			if (null == clientDetails) {
@@ -69,6 +74,8 @@ public class SecurityLoginSuccessHandler implements AuthenticationSuccessHandler
 			printWriter.print(resBody);
 			printWriter.flush();
 			printWriter.close();
+		}else {
+			response.sendRedirect("/");
 		}
 	}
 }

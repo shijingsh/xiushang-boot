@@ -1,6 +1,7 @@
 package com.xiushang.security.authentication.username;
 
 import com.xiushang.common.utils.MD5;
+import com.xiushang.framework.sys.PropertyConfigurer;
 import com.xiushang.security.SecurityRole;
 import com.xiushang.security.SecurityRoleVo;
 import com.xiushang.security.SecurityUser;
@@ -67,7 +68,13 @@ public class UserNameAuthenticationProvider  extends TenantProvider implements A
             super.settingTenantId(securityUser, clientId);
         }else {
             //设置租户为自己
-            //securityUser.setTenantId(securityUser.getId());
+            String prex = PropertyConfigurer.getConfig("oauth.client.prex");
+            /**
+             * 默认为自己的Web管理后台客户端,如:xiushangWeb
+             * xiushangWeb，xiushangApp 等为系统默认创建的客户端
+             */
+            clientId = prex + "Web"; //默认为自己的Web管理后台客户端,如:xiushangWeb
+            super.settingTenantId(securityUser, clientId);
         }
 
         //设置附加权限
