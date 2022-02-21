@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.log.SecurityConstants;
+import com.xiushang.framework.sys.PropertyConfigurer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,15 @@ public class SecurityLoginSuccessHandler implements AuthenticationSuccessHandler
 			if (StrUtil.isBlank(clientId)) {
 				// 从请求头获取
 				clientId = request.getHeader(SecurityConstants.AUTH_CLIENT_ID_PARAM);
+			}
+			if (StrUtil.isBlank(clientId)) {
+				//设置租户为自己
+				String prex = PropertyConfigurer.getConfig("oauth.client.prex");
+				/**
+				 * 默认为自己的Web管理后台客户端,如:xiushangWeb
+				 * xiushangWeb，xiushangApp 等为系统默认创建的客户端
+				 */
+				clientId = prex + "Web"; //默认为自己的Web管理后台客户端,如:xiushangWeb
 			}
 
 			ClientDetails clientDetails = clientDetailsService.loadClientByClientId(clientId);
