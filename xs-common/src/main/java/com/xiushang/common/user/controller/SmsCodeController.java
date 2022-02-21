@@ -37,7 +37,7 @@ public class SmsCodeController {
      */
 	@ApiOperation(value = "获取验证码")
 	@XiushangApi
-	@ApiOperationSupport(order=1)
+	@ApiOperationSupport(order=10)
 	@ResponseBody
     @PostMapping("/verifyCode")
     public CommonResult verifyCode(@Valid @RequestBody SmsCustomVo smsCustomVo) {

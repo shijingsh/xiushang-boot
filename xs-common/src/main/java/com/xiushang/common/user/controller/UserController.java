@@ -41,7 +41,7 @@ public class UserController {
 
     @ApiOperation(value = "修改个人信息")
     @XiushangApi
-    @ApiOperationSupport(order=4)
+    @ApiOperationSupport(order=14)
     @ResponseBody
     @PostMapping("/modify")
     @Secured(SecurityRole.ROLE_USER)
@@ -83,7 +83,7 @@ public class UserController {
 
     @ApiOperation(value = "修改个人密码")
     @XiushangApi
-    @ApiOperationSupport(order=6)
+    @ApiOperationSupport(order=16)
     @ResponseBody
     @PostMapping("/modifyPass")
     @Secured(SecurityRole.ROLE_USER)
@@ -124,7 +124,7 @@ public class UserController {
 
     @ApiOperation(value = "重置密码（短信验证码方式）")
     @XiushangApi
-    @ApiOperationSupport(order=7)
+    @ApiOperationSupport(order=17)
     @ResponseBody
     @PostMapping("/resetPassword")
     public CommonResult<UserEntity> resetPassword(@Valid  @RequestBody ResetPwdVo resetPwdVo) {
@@ -174,7 +174,7 @@ public class UserController {
 
     @ApiOperation(value = "修改用户头像")
     @XiushangApi
-    @ApiOperationSupport(order=5)
+    @ApiOperationSupport(order=15)
     @ResponseBody
     @PostMapping("/modifyHeadPortrait")
     @Secured(SecurityRole.ROLE_USER)
@@ -195,7 +195,7 @@ public class UserController {
 
     @ApiOperation(value = "手机号码注册")
     @XiushangApi
-    @ApiOperationSupport(order=2)
+    @ApiOperationSupport(order=12)
     @ResponseBody
     @PostMapping("/register")
     public CommonResult<UserEntity> register(@Valid @RequestBody RegisterVo registerVo) {
@@ -246,7 +246,7 @@ public class UserController {
      */
     @ApiOperation(value = "获取用户信息")
     @XiushangApi
-    @ApiOperationSupport(order=3)
+    @ApiOperationSupport(order=13)
     @ResponseBody
     @GetMapping("/info")
     @Secured(SecurityRole.ROLE_USER)
@@ -270,7 +270,7 @@ public class UserController {
 
     @ApiOperation(value = "注销账号")
     @XiushangApi
-    @ApiOperationSupport(order=9)
+    @ApiOperationSupport(order=19)
     @ResponseBody
     @GetMapping("/cancel")
     @Secured(SecurityRole.ROLE_USER)
