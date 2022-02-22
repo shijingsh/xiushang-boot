@@ -68,8 +68,7 @@ public abstract class BaseEntity extends BaseLazy {
     /**
      * 是否已删除 （0 未删除  1 已删除）
      */
-    @ApiModelProperty(notes = "是否已删除 （0 未删除  1 已删除）",hidden = true)
-    @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(notes = "是否已删除 （0 未删除  1 已删除）")
     private Integer deleted = DeleteEnum.VALID;
 
     public String getId() {
