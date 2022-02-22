@@ -1,13 +1,9 @@
 package com.xiushang.framework.utils;
 
-import com.xiushang.entity.UserEntity;
-import com.xiushang.security.SecurityRole;
-import com.xiushang.security.SecurityRoleVo;
 import com.xiushang.security.SecurityUser;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -18,14 +14,7 @@ public class UserHolder {
     /**
      * 获得当前登录者User
      */
-    public static UserEntity getUser() {
-        return get();
-    }
-
-    /**
-     * 获得当前登录者User
-     */
-    private static SecurityUser get() {
+    public static SecurityUser get() {
         // 获取用户认证信息对象。
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // 认证信息可能为空，因此需要进行判断。

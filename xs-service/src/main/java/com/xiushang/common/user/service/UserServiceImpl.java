@@ -14,11 +14,13 @@ import com.xiushang.framework.utils.UserHolder;
 import com.xiushang.jpa.repository.ShopDao;
 import com.xiushang.jpa.repository.ShopQualificationDao;
 import com.xiushang.jpa.repository.UserDao;
+import com.xiushang.security.SecurityUser;
 import com.xiushang.shop.util.ShopStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -197,8 +199,10 @@ public class UserServiceImpl implements UserService {
 
     public UserEntity getCurrentUser() {
 
-        UserEntity userEntity = UserHolder.getUser();
-        if (userEntity != null) {
+        SecurityUser securityUser = UserHolder.get();
+        if (securityUser != null) {
+            UserEntity userEntity = new UserEntity();
+            BeanUtils.copyProperties(securityUser, userEntity);
             return userEntity;
         } else {
             // log.info("getCurrentUser：没有当前用户信息。");
