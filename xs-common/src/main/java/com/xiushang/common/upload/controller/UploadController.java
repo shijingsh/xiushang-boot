@@ -33,7 +33,7 @@ import java.util.Map;
 @Api(tags = "文件上传")
 @Controller
 @ApiSort(value = 4)
-@RequestMapping(value = "/api/public",
+@RequestMapping(value = "/api",
         produces = "application/json; charset=UTF-8")
 public class UploadController{
     @Autowired
