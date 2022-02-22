@@ -75,6 +75,7 @@ public class UserController {
             }
             userService.registerUser(userEntity);
         } catch (Exception e) {
+            e.printStackTrace();
             return CommonResult.error(10000, "修改用户信息出现异常");
         }
 
@@ -262,11 +263,56 @@ public class UserController {
      */
     @ResponseBody
     @GetMapping("/get")
+    @Secured(SecurityRole.ROLE_CLIENT_MANAGE)
     public CommonResult<UserEntity> get(String id) {
         UserEntity userEntity = userService.getUserById(id);
 
         return CommonResult.success(userEntity);
     }
+
+    /**
+     * 管理员添加、修改用户信息
+     * @return
+     */
+    @ResponseBody
+    @PostMapping("/modifyByAdmin")
+    @Secured(SecurityRole.ROLE_CLIENT_MANAGE)
+    public CommonResult<UserEntity> modifyByAdmin(@RequestBody UserAdminVo user) {
+
+        UserEntity userEntity = null;
+        if(StringUtils.isNotBlank(user.getId())){
+            userEntity = userService.getUserById(user.getId());
+        }
+        if(userEntity==null){
+            userEntity = userService.getUser(user.getMobile());
+        }
+        if (userEntity == null) {
+            userEntity = new UserEntity();
+            userEntity.setLoginName(user.getMobile());
+            userEntity.setName(user.getName());
+            userEntity.setMobile(user.getMobile());
+            userEntity.setPassword(MD5.GetMD5Code(user.getPassword()));
+        }
+        try {
+            if(StringUtils.isNotBlank(user.getName())){
+                userEntity.setName(user.getName());
+            }
+            if(StringUtils.isNotBlank(user.getMobile())){
+                userEntity.setMobile(user.getMobile());
+            }
+            if(StringUtils.isNotBlank(user.getEmail())){
+                userEntity.setEmail(user.getEmail());
+            }
+
+            userService.registerUser(userEntity);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return CommonResult.error(10000, "修改用户信息出现异常");
+        }
+
+        return CommonResult.success(userEntity);
+    }
+
 
     @ApiOperation(value = "注销账号")
     @XiushangApi
