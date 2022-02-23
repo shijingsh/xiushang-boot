@@ -84,7 +84,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     public static final String loginProcessUrl = "/authentication/login";
 
-    public static final String loginPageUrl = "/authentication/require";
+    public static final String loginPageUrl = "/oauthLogin";
 
     public static final String[] defaultWhiteList = {"/","/v2/api-docs","/*.html","/*.svg","/*.png","/*.jpg","/*.bmp","/*.js","/*.css",
             "/oauthLogin","/oauthGrant",
@@ -313,8 +313,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private String getLoginPage(){
         //https 登录页配置
         String httpsRoot = PropertyConfigurer.getConfig("oauth.client.root");
+        String loginPageProperty = PropertyConfigurer.getConfig("oauth.client.login");
         String loginPage = loginPageUrl;
-        if(StringUtils.isNotBlank(httpsRoot)){
+        if(StringUtils.isNotBlank(loginPageProperty)){
+            loginPage = loginPageProperty;
+        }
+        if(StringUtils.isNotBlank(httpsRoot) && !loginPage.startsWith("https")){
             //解决https下重定向的次数过多问题。
             loginPage = httpsRoot +loginPage;
         }
