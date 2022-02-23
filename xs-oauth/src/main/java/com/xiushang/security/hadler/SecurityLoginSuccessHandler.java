@@ -1,13 +1,13 @@
 package com.xiushang.security.hadler;
 
 import cn.hutool.core.util.StrUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.log.SecurityConstants;
 import com.xiushang.framework.sys.PropertyConfigurer;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.MapUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
@@ -82,7 +82,14 @@ public class SecurityLoginSuccessHandler implements AuthenticationSuccessHandler
 			printWriter.flush();
 			printWriter.close();
 		}else {
-			response.sendRedirect("/");
+			//重定向到https
+			String httpsRoot = PropertyConfigurer.getConfig("oauth.client.root");
+			if(StringUtils.isNotBlank(httpsRoot)){
+				response.sendRedirect(httpsRoot+"/");
+			}else {
+				response.sendRedirect("/");
+			}
+
 		}
 	}
 }
