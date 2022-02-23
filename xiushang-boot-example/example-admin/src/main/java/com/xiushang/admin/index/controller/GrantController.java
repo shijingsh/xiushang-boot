@@ -1,4 +1,4 @@
-package com.xiushang.common.user.controller;
+package com.xiushang.admin.index.controller;
 
 import com.xiushang.common.service.OauthClientDetailsService;
 import com.xiushang.entity.oauth.OauthClientDetailsEntity;
@@ -95,6 +95,6 @@ public class GrantController {
 
     @RequestMapping("/oauthLogin")
     public String login() {
-        return "login.html";
+        return "login";
     }
 }

@@ -253,11 +253,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .sessionManagement()
                 // 无效session跳转
-                .invalidSessionUrl("/authentication/require")
+                .invalidSessionUrl(loginPage)
                 // 同账号最大允许登录数
                 .maximumSessions(1)
                 // session过期跳转
-                .expiredUrl("/authentication/require")
+                .expiredUrl(loginPage)
                 .sessionRegistry(sessionRegistry());
 
         // 用重写的Filter替换掉原有的UsernamePasswordAuthenticationFilter，支持json格式
