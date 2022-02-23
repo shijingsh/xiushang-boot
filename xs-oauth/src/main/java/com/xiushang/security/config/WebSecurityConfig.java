@@ -42,6 +42,7 @@ import org.springframework.security.web.access.intercept.FilterSecurityIntercept
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Configuration
@@ -82,24 +83,35 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private SecurityLoginSuccessHandler loginSuccessHandler;
 
     public static final String loginProcessUrl = "/authentication/login";
+
+    public static final String loginPageUrl = "/authentication/require";
+
+    public static final String[] defaultWhiteList = {"/","/v2/api-docs","/*.html","/*.svg","/*.png","/*.jpg","/*.bmp","/*.js","/*.css",
+            "/oauthLogin","/oauthGrant",
+            "/index**","/login**",  "/error**",
+            "/register","/verifyCode","/captcha",
+            "/authentication/**"
+    };
+
+    public static final String[] staticWhiteList = {"/css/**",
+            "/js/**",
+            "/images/**",
+            "/fonts/**",
+            "/favicon.ico",
+            "/static/**",
+            "/resources/**",
+            "/error",
+            "/*.html",
+            "/v2/api-docs",
+            "/webjars/**",
+            "/swagger-resources/**"
+    };
     /**
      * 访问静态资源
      */
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers(
-    "/css/**",
-                "/js/**",
-                "/images/**",
-                "/fonts/**",
-                "/favicon.ico",
-                "/static/**",
-                "/resources/**",
-                "/error",
-                "/*.html",
-                "/v2/api-docs",
-                "/webjars/**",
-                "/swagger-resources/**");
+        web.ignoring().antMatchers(staticWhiteList);
     }
 
     /**
@@ -195,33 +207,15 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        List<String> list = ignoreUrlsConfig.getUrls();
-        String[] AUTH_WHITELIST = list.toArray(new String[list.size()]);
+        //免登陆URL
+        String[] authWhiteList = getWhiteList();
 
         //https 登录页配置
-        String httpsRoot = PropertyConfigurer.getConfig("oauth.client.root");
-        String loginPage = "/authentication/require";
-        if(StringUtils.isNotBlank(httpsRoot)){
-            //解决https下重定向的次数过多问题。
-            loginPage = httpsRoot +loginPage;
-        }
+        String loginPage = getLoginPage();
 
         http
             .authorizeRequests()
-                .antMatchers(AUTH_WHITELIST).permitAll()
-                .antMatchers("/*.html","/*.svg","/*.png","/*.jpg","/*.js","/*.css").permitAll()
-                .antMatchers("/v2/api-docs",
-                        "/",
-                        "/oauthLogin",
-                        "/oauthGrant",
-                        "/index**",
-                        "/login**",
-                        "/register",
-                        "/verifyCode",
-                        "/captcha",
-                        "/error**",
-                        "/authentication/**").permitAll()
+                .antMatchers(authWhiteList).permitAll()
                 .anyRequest()
                 .authenticated()
                 //.withObjectPostProcessor(urlObjectPostProcessor())   /* 动态url权限 */
@@ -314,5 +308,31 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         //这句很关键，重用WebSecurityConfigurerAdapter配置的AuthenticationManager，不然要自己组装AuthenticationManager
         filter.setAuthenticationManager(authenticationManagerBean());
         return filter;
+    }
+
+    private String getLoginPage(){
+        //https 登录页配置
+        String httpsRoot = PropertyConfigurer.getConfig("oauth.client.root");
+        String loginPage = loginPageUrl;
+        if(StringUtils.isNotBlank(httpsRoot)){
+            //解决https下重定向的次数过多问题。
+            loginPage = httpsRoot +loginPage;
+        }
+
+        return loginPage;
+    }
+
+    private String[] getWhiteList(){
+        List<String> list = ignoreUrlsConfig.getUrls();
+        if(list==null){
+            list = new ArrayList<>();
+        }
+
+        for (String url:defaultWhiteList){
+            list.add(url);
+        }
+        String[] authWhiteList = list.toArray(new String[list.size()]);
+
+        return  authWhiteList;
     }
 }
