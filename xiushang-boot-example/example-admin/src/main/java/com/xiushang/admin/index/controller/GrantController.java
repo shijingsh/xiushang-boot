@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+/**
+ * 自定义授权页和登录页
+ */
 @Slf4j
 @Controller
 @SessionAttributes("authorizationRequest")
