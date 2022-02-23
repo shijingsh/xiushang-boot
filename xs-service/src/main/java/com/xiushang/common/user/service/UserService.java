@@ -43,24 +43,24 @@ public interface UserService {
     public void registerUser(UserEntity userEntity);
 
     /**
-     * 获取当前登陆用户
+     * 获取当前登录用户
      */
     public UserEntity getCurrentUser();
 
     /**
-     * 获取当前登陆用户ID
+     * 获取当前登录用户ID
      */
     public String getCurrentUserId();
     /**
      * 获取当前商铺
-     * 管理后台取当前商铺，即是当前登陆用户的商铺
+     * 管理后台取当前商铺，即是当前登录用户的商铺
      * 租户客户端，取当前商铺，则为租户的商铺
      */
     public ShopEntity getCurrentShop();
 
     /**
      * 获取当前商铺ID
-     * 管理后台取当前商铺，即是当前登陆用户的商铺
+     * 管理后台取当前商铺，即是当前登录用户的商铺
      * 租户客户端，取当前商铺，则为租户的商铺
      */
     public String getCurrentShopId();

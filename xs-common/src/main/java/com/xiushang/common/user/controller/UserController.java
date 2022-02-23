@@ -281,7 +281,7 @@ public class UserController {
             userEntity.setDeleted(DeleteEnum.INVALID);
             userService.registerUser(userEntity);
         }else{
-            return CommonResult.error("用户登录已失效，请重新登陆！");
+            return CommonResult.error("用户登录已失效，请重新登录！");
         }
         return CommonResult.success();
     }

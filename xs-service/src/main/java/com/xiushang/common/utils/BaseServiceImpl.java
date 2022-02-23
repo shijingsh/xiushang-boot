@@ -86,7 +86,7 @@ public abstract class BaseServiceImpl<T> {
         //删除权限验证
         String userId = userService.getCurrentUserId();
         if (StringUtils.isBlank(userId)) {
-            throw new ServiceException("登陆超时，请重新登陆！");
+            throw new ServiceException("登录超时，请重新登录！");
         }
         T t = get(id);
         if (t instanceof BaseEntity) {

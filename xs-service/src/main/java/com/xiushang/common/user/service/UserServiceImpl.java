@@ -222,7 +222,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 获取当前商铺
-     * 管理后台取当前商铺，即是当前登陆用户的商铺
+     * 管理后台取当前商铺，即是当前登录用户的商铺
      * 租户客户端，取当前商铺，则为租户的商铺
      * @return
      */
@@ -247,7 +247,7 @@ public class UserServiceImpl implements UserService {
 
     /**
      * 获取当前商铺ID
-     * 管理后台取当前商铺，即是当前登陆用户的商铺
+     * 管理后台取当前商铺，即是当前登录用户的商铺
      * 租户客户端，取当前商铺，则为租户的商铺
      * @return
      */

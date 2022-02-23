@@ -207,7 +207,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        //免登陆URL
+        //免登录URL
         String[] authWhiteList = getWhiteList();
 
         //https 登录页配置

@@ -162,7 +162,7 @@ public class SwaggerConfiguration {
     private List<SecurityContext> securityContexts() {
 
         List<String> list = Arrays.asList("/oauth/token","/login","/logout","/captcha","/verifyCode","/register","/common","/public");
-        //jwt 免登陆的URL
+        //jwt 免登录的URL
         List<String> urls = ignoreUrlsConfig.getUrls();
         urls.addAll(list);
         StringBuilder builder = new StringBuilder();

@@ -84,7 +84,7 @@ public class UserNameAuthenticationProvider  extends TenantProvider implements A
             list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_MANAGE));
         }
 
-        // [5] 成功登陆，把用户信息提交给 Spring Security
+        // [5] 成功登录，把用户信息提交给 Spring Security
         // 把 userDetails 作为 principal 的好处是可以放自定义的 UserDetails，这样可以存储更多有用的信息，而不只是 username，
         // 默认只有 username，这里的密码使用数据库中保存的密码，而不是用户输入的明文密码，否则就暴露了密码的明文
         return new UsernamePasswordAuthenticationToken(securityUser, securityUser.getPassword(),

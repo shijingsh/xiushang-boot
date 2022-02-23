@@ -23,7 +23,7 @@ public class OAuthVo implements java.io.Serializable{
     @ApiModelProperty(notes = "用户密码（grant_type为password 必填）",position = 6)
     private String password;
 
-    @ApiModelProperty(notes = "授权code、验证码、微信登陆code",position = 7)
+    @ApiModelProperty(notes = "授权code、验证码、微信登录code",position = 7)
     private String code;
     @ApiModelProperty(notes = "手机号码（grant_type为sms_code必填）",position = 8)
     private String mobile;
