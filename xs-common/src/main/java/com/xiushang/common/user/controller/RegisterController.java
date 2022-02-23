@@ -5,8 +5,12 @@ import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.components.SmsService;
 import com.xiushang.common.user.service.UserService;
+import com.xiushang.common.user.vo.RegisterVo;
 import com.xiushang.common.user.vo.SmsCustomVo;
 import com.xiushang.common.user.vo.SmsVo;
+import com.xiushang.common.utils.MD5;
+import com.xiushang.common.utils.ValidPassword;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.entity.shop.ShopEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.sys.PropertyConfigurer;
@@ -16,7 +20,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
 import java.util.Random;
@@ -24,9 +31,7 @@ import java.util.Random;
 @Api(tags = "用户管理")
 @ApiSort(value = 2)
 @Controller
-@RequestMapping(value = "/api/user",
-		produces = "application/json; charset=UTF-8")
-public class SmsCodeController {
+public class RegisterController {
 	@Autowired
 	private SmsService smsService;
 	@Autowired
@@ -41,10 +46,10 @@ public class SmsCodeController {
 	@ResponseBody
     @PostMapping("/verifyCode")
     public CommonResult verifyCode(@Valid @RequestBody SmsCustomVo smsCustomVo) {
-		ShopEntity shopEntity = userService.getCurrentTenantShop();
-		if(shopEntity==null ) {
-			return CommonResult.error(100000, "当前租户，尚未开通商铺！");
-		}
+		//ShopEntity shopEntity = userService.getCurrentTenantShop();
+		//if(shopEntity==null ) {
+		//	return CommonResult.error(100000, "当前租户，尚未开通商铺！");
+		//}
 		String mobile = smsCustomVo.getMobile();
     	if(StringUtils.isBlank(mobile)) {
 			return CommonResult.error(100000, "请输入手机号码");
@@ -64,7 +69,7 @@ public class SmsCodeController {
 			}
 
 			SmsVo smsVo = new SmsVo();
-			smsVo.setShopId(shopEntity.getId());
+			//smsVo.setShopId(shopEntity.getId());
 			smsVo.setMobile(mobile);
 			smsVo.setTemplateCode(templateCode);
 			smsVo.setTemplateParam(templateParam);
@@ -97,6 +102,54 @@ public class SmsCodeController {
 		}
 		return buf.toString();
 	}
+
+
+	@ApiOperation(value = "手机号码注册")
+	@XiushangApi
+	@ApiOperationSupport(order=12)
+	@ResponseBody
+	@PostMapping("/register")
+	public CommonResult<UserEntity> register(@Valid @RequestBody RegisterVo registerVo) {
+		if (StringUtils.isBlank(registerVo.getLoginName()) || StringUtils.isBlank(registerVo.getPassword())) {
+			return CommonResult.error(100000, "用户名,密码不能为空。");
+		}
+
+		if (!ValidPassword.isValidPassword(registerVo.getPassword())) {
+			return CommonResult.error(1, "密码为8-20位包含大小写字母和数字的组合！");
+		}
+
+		String code = registerVo.getVerifyCode();
+		if(StringUtils.isNotBlank(code)){
+			code = code.trim();
+		}
+		String mobile = registerVo.getLoginName();
+		if(smsService.validateCode(mobile,code)){
+			UserEntity user = userService.getUser(mobile);
+			if (user != null) {
+				//直接修改已经存在的账号;
+				user.setLoginName(registerVo.getLoginName());
+				user.setPassword(MD5.GetMD5Code(registerVo.getPassword()));
+				if(StringUtils.isNotBlank(registerVo.getName())){
+					user.setName(registerVo.getName());
+				}
+				userService.registerUser(user);
+				return CommonResult.success(user);
+			}else{
+				UserEntity userEntity = new UserEntity();
+				userEntity.setLoginName(registerVo.getLoginName());
+				userEntity.setName(registerVo.getName());
+				userEntity.setMobile(mobile);
+				userEntity.setPassword(MD5.GetMD5Code(registerVo.getPassword()));
+
+				userService.registerUser(userEntity);
+
+				return CommonResult.success(userEntity);
+			}
+		}else{
+			return CommonResult.error(100000, "验证码输入错误");
+		}
+	}
+
 
 
 }

@@ -194,53 +194,6 @@ public class UserController {
         return CommonResult.success(userEntity);
     }
 
-    @ApiOperation(value = "手机号码注册")
-    @XiushangApi
-    @ApiOperationSupport(order=12)
-    @ResponseBody
-    @PostMapping("/register")
-    public CommonResult<UserEntity> register(@Valid @RequestBody RegisterVo registerVo) {
-        if (StringUtils.isBlank(registerVo.getLoginName()) || StringUtils.isBlank(registerVo.getPassword())) {
-            return CommonResult.error(100000, "用户名,密码不能为空。");
-        }
-
-        if (!ValidPassword.isValidPassword(registerVo.getPassword())) {
-            return CommonResult.error(1, "密码为8-20位包含大小写字母和数字的组合！");
-        }
-
-        String code = registerVo.getVerifyCode();
-        if(StringUtils.isNotBlank(code)){
-            code = code.trim();
-        }
-        String mobile = registerVo.getLoginName();
-        if(smsService.validateCode(mobile,code)){
-            UserEntity user = userService.getUser(mobile);
-            if (user != null) {
-                //直接修改已经存在的账号;
-                user.setLoginName(registerVo.getLoginName());
-                user.setPassword(MD5.GetMD5Code(registerVo.getPassword()));
-                if(StringUtils.isNotBlank(registerVo.getName())){
-                    user.setName(registerVo.getName());
-                }
-                userService.registerUser(user);
-                return CommonResult.success(user);
-            }else{
-                UserEntity userEntity = new UserEntity();
-                userEntity.setLoginName(registerVo.getLoginName());
-                userEntity.setName(registerVo.getName());
-                userEntity.setMobile(mobile);
-                userEntity.setPassword(MD5.GetMD5Code(registerVo.getPassword()));
-
-                userService.registerUser(userEntity);
-
-                return CommonResult.success(userEntity);
-            }
-        }else{
-            return CommonResult.error(100000, "验证码输入错误");
-        }
-    }
-
-
     /**
      * 获取用户
      * @return

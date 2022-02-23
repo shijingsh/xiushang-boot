@@ -217,6 +217,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/oauthGrant",
                         "/index**",
                         "/login**",
+                        "/register",
+                        "/verifyCode",
+                        "/captcha",
                         "/error**",
                         "/authentication/**").permitAll()
                 .anyRequest()
