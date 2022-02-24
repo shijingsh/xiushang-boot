@@ -223,13 +223,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             .and()
                 .formLogin()
-                .loginPage(loginPage)
-                .loginProcessingUrl(loginProcessUrl)
+                .loginPage(loginPage)                                               /* loginPage 设置，如果是集群方式部署，需要配置session共享，否则会无限重定向。 */
+                .loginProcessingUrl(loginProcessUrl)                                /* 登录处理URL */
                 //.usernameParameter("username")
                 //.passwordParameter("password")
                 .permitAll()
                 .failureHandler(new com.xiushang.security.hadler.SecurityLoginFailureHandler())      /* 登录失败后的处理 */
-                .successHandler(loginSuccessHandler)      /* 登录成功后的处理 */
+                .successHandler(loginSuccessHandler)                                                 /* 登录成功后的处理 */
             .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(new SecurityAuthenticationEntryPoint())       /* 登录过期/未登录 处理 */
