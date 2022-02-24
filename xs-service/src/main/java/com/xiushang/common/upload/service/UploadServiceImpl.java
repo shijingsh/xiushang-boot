@@ -120,7 +120,7 @@ public class UploadServiceImpl implements UploadService {
         String instanceId = UserHolder.getTenantId();
         String rootPath = "null";
         if (StringUtils.isNotBlank(instanceId)) {
-            rootPath = instanceId;
+            rootPath = rootPath + separator +  instanceId;
         }
         String savePath = separator + rootPath + separator;
         if (StringUtils.isNotBlank(uploadBean.getUserPath())) {
