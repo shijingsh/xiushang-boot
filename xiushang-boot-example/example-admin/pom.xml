@@ -31,6 +31,12 @@
             <version>${xiushang.version}</version>
         </dependency>
 
+        <!-- session 共享 -->
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+
     </dependencies>
 
     <!--配置环境的profile-->

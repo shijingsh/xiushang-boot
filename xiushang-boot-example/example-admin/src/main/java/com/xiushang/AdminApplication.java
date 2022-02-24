@@ -12,6 +12,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 import java.net.InetAddress;
 
@@ -21,6 +22,7 @@ import java.net.InetAddress;
 @EntityScan("com.xiushang.entity") //用于扫描JPA实体类 @Entity
 @EnableScheduling
 @ServletComponentScan(basePackages = {"com.xiushang.filter"})
+@EnableRedisHttpSession
 public class AdminApplication extends SpringBootServletInitializer {
 
   public static void main(String[] args) throws Exception {
