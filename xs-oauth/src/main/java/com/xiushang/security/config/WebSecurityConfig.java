@@ -311,16 +311,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private String getLoginPage(){
-        //https 登录页配置
-        String httpsRoot = PropertyConfigurer.getConfig("oauth.client.root");
-        String loginPageProperty = PropertyConfigurer.getConfig("oauth.client.login");
+        //读取自定义登录页配置
+        String loginPageProperty = PropertyConfigurer.getConfig("oauth.client.login.page");
         String loginPage = loginPageUrl;
         if(StringUtils.isNotBlank(loginPageProperty)){
             loginPage = loginPageProperty;
-        }
-        if(StringUtils.isNotBlank(httpsRoot) && !loginPage.startsWith("https")){
-            //解决https下重定向的次数过多问题。
-            loginPage = httpsRoot +loginPage;
         }
 
         return loginPage;

@@ -82,14 +82,8 @@ public class SecurityLoginSuccessHandler implements AuthenticationSuccessHandler
 			printWriter.flush();
 			printWriter.close();
 		}else {
-			//重定向到https
-			String httpsRoot = PropertyConfigurer.getConfig("oauth.client.root");
-			if(StringUtils.isNotBlank(httpsRoot)){
-				response.sendRedirect(httpsRoot+"/");
-			}else {
-				response.sendRedirect("/");
-			}
-
+			//重定向到首页
+			response.sendRedirect("/");
 		}
 	}
 }
