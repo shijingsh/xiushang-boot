@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import moment from 'moment';
 import { parse } from 'url'; // mock tableListDataSource
 

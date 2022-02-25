@@ -5,7 +5,7 @@ import { request } from 'umi';
 /** 获取当前的用户 GET /api/currentUser */
 
 export async function currentUser(options) {
-  return request('/proxy/api/user/info', {
+  return request('/api/currentUser', {
     method: 'GET',
     ...(options || {}),
   });
@@ -13,7 +13,7 @@ export async function currentUser(options) {
 /** 退出登录接口 POST /api/login/outLogin */
 
 export async function outLogin(options) {
-  return request('/proxy/api/login/outLogin', {
+  return request('/api/login/outLogin', {
     method: 'POST',
     ...(options || {}),
   });
@@ -21,16 +21,12 @@ export async function outLogin(options) {
 /** 登录接口 POST /api/login/account */
 
 export async function login(body, options) {
-  var param = {
-    username:body.username,
-    password:body.password
-  }
-  return request('/proxy/authentication/login', {
+  return request('/api/login/account', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    data: param,
+    data: body,
     ...(options || {}),
   });
 }

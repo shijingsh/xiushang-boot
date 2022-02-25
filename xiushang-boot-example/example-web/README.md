@@ -28,12 +28,6 @@ Scripts provided in `package.json`. It's safe to modify or add additional script
 npm start
 ```
 
-disabled mock
-
-```bash
-npm  start:dev
-```
-
 ### Build project
 
 ```bash

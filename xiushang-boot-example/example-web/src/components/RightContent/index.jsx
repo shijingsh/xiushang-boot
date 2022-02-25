@@ -5,7 +5,6 @@ import { useModel, SelectLang } from 'umi';
 import Avatar from './AvatarDropdown';
 import HeaderSearch from '../HeaderSearch';
 import styles from './index.less';
-import NoticeIconView from '../NoticeIcon';
 
 const GlobalHeaderRight = () => {
   const { initialState } = useModel('@@initialState');
@@ -56,8 +55,7 @@ const GlobalHeaderRight = () => {
       >
         <QuestionCircleOutlined />
       </span>
-      <NoticeIconView />
-      <Avatar menu />
+      <Avatar />
       <SelectLang className={styles.action} />
     </Space>
   );

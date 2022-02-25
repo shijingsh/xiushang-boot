@@ -12,7 +12,7 @@ const CodePreview = ({ children }) => (
   </pre>
 );
 
-export default () => {
+const Welcome = () => {
   const intl = useIntl();
   return (
     <PageContainer>
@@ -61,3 +61,5 @@ export default () => {
     </PageContainer>
   );
 };
+
+export default Welcome;

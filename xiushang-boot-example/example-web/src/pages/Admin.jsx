@@ -3,7 +3,8 @@ import { HeartTwoTone, SmileTwoTone } from '@ant-design/icons';
 import { Card, Typography, Alert } from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { useIntl } from 'umi';
-export default () => {
+
+const Admin = () => {
   const intl = useIntl();
   return (
     <PageHeaderWrapper
@@ -50,3 +51,5 @@ export default () => {
     </PageHeaderWrapper>
   );
 };
+
+export default Admin;
