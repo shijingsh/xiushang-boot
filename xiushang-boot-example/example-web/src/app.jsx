@@ -16,9 +16,10 @@ export const initialStateConfig = {
  * */
 
 export async function getInitialState() {
-  const fetchUserInfo = async () => {
+  const fetchUserInfo = async (options) => {
     try {
-      const msg = await queryCurrentUser();
+      const msg = await queryCurrentUser(options);
+
       return msg.data;
     } catch (error) {
       history.push(loginPath);

@@ -33,7 +33,11 @@ const Login = () => {
   const intl = useIntl();
 
   const fetchUserInfo = async () => {
-    const userInfo = await initialState?.fetchUserInfo?.();
+    let options = {}
+    options.headers = {
+      Authorization: `${localStorage.getItem('token')}`,
+    };
+    const userInfo = await initialState?.fetchUserInfo?.(options);
 
     if (userInfo) {
       await setInitialState((s) => ({ ...s, currentUser: userInfo }));
@@ -44,13 +48,16 @@ const Login = () => {
     try {
       // 登录
       const msg = await login({ ...values, type });
-
-      if (msg.status === 'ok') {
+      console.log(msg)
+      if (msg.errorCode === 0) {
         const defaultLoginSuccessMessage = intl.formatMessage({
           id: 'pages.login.success',
           defaultMessage: '登录成功！',
         });
         message.success(defaultLoginSuccessMessage);
+
+        localStorage.setItem('token', msg.data.tokenType + msg.data.value);
+
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
 
