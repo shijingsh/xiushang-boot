@@ -1,7 +1,6 @@
 const Settings = {
   navTheme: 'light',
-  // 拂晓蓝
-  primaryColor: '#1890ff',
+  primaryColor: '#1890ff',// 拂晓蓝
   layout: 'mix',
   contentWidth: 'Fluid',
   fixedHeader: false,
@@ -9,7 +8,7 @@ const Settings = {
   colorWeak: false,
   title: 'Ant Design Pro',
   pwa: false,
-  logo: 'https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg',
+  logo: 'https://www.xiushangsh.com/null/common/logo/logo.svg',
   iconfontUrl: '',
 };
 export default Settings;
