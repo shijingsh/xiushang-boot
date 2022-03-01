@@ -14,6 +14,7 @@ import Footer from '@/components/Footer';
 import { login } from '@/services/ant-design-pro/api';
 import { getFakeCaptcha } from '@/services/ant-design-pro/login';
 import styles from './index.less';
+import token from '@/utils/token';
 
 const LoginMessage = ({ content }) => (
   <Alert
@@ -35,7 +36,7 @@ const Login = () => {
   const fetchUserInfo = async () => {
     let options = {}
     options.headers = {
-      Authorization: `${localStorage.getItem('token')}`,
+      Authorization: token.get(),
     };
     const userInfo = await initialState?.fetchUserInfo?.(options);
 
@@ -56,7 +57,7 @@ const Login = () => {
         });
         message.success(defaultLoginSuccessMessage);
 
-        localStorage.setItem('token', msg.data.tokenType + msg.data.value);
+        token.save(msg.data.tokenType + msg.data.value);
 
         await fetchUserInfo();
         /** 此方法会跳转到 redirect 参数所在的位置 */
