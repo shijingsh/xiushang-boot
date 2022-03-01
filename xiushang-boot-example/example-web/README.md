@@ -1,3 +1,18 @@
+
+### 修改本地代理配置
+ 
+  修改 src/utils/CommonUtils.js 
+  开发模式 baseUrl="/proxy",配置接口走代理。
+  发布模式 baseUrl = ''; 
+```
+
+//export const baseUrl = ''; //stg
+export const baseUrl = '/proxy';//dev
+
+yarn run build
+```
+
+
 # Ant Design Pro
 
 This project is initialized with [Ant Design Pro](https://pro.ant.design). Follow is the quick guide for how to use.
