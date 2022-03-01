@@ -1,8 +1,11 @@
 export default {
   get() {
-    return window.sessionStorage.getItem('xiushang-TOKEN');
+    return localStorage.getItem('xiushang-TOKEN');
   },
   save(token) {
-    window.sessionStorage.setItem('xiushang-TOKEN', token);
+    localStorage.setItem('xiushang-TOKEN', token);
+  },
+  delete() {
+    localStorage.removeItem('xiushang-TOKEN');
   },
 };
