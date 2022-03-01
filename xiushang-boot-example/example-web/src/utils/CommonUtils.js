@@ -1,8 +1,8 @@
 import token from '@/utils/token';
 import { request } from 'umi';
 
-export const baseUrl = ''; //stg
-//export const baseUrl = '/proxy'; //dev
+//export const baseUrl = ''; //stg
+export const baseUrl = '/proxy'; //dev
 
 
 export function listData(data) {
