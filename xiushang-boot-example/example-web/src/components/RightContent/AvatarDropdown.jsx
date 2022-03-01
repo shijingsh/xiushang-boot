@@ -89,7 +89,7 @@ const AvatarDropdown = ({ menu }) => {
         <Icon type="user" />
         <FormattedMessage id="menu.account.center" defaultMessage="基本信息" />
       </Menu.Item>
-      <Menu.Item key="resetPassword">
+      <Menu.Item key="passwd">
         <Icon type="lock" />
         <FormattedMessage
           id="menu.userInfo.resetPassword"

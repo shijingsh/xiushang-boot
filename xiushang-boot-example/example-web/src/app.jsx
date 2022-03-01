@@ -164,7 +164,7 @@ const responseInterceptor = async (response, options) => {
         message: "请求发生错误",
       });
     }
-
+    return;
   }
   return response;
 };
@@ -217,11 +217,23 @@ const errorHandler = (error) => {
 
 export const request = {
   timeout: 1000,
-  errorConfig: {},
+  //自定义端口规范
+  errorConfig: {
+    adaptor: res => {
+      return {
+        success: res.errorCode ==0,
+        data:res.data,
+        errorCode:res.errorCode,
+        errorMessage: res.errorText,
+      };
+    },
+  },
   middlewares: [],
   // 异常处理
   errorHandler,
+  //请求拦截器
   requestInterceptors: [requestInterceptor],
+  //响应拦截器
   responseInterceptors: [responseInterceptor],
 };
 

@@ -15,9 +15,9 @@ import styles from './style.less';
 import React from "react";
 
 const BasicForm = () => {
-  const { run } = useRequest(modifyPass, {
-    manual: true,
-    onSuccess: (info) => {
+  const { run, data: passData,errorCode:errorCode, } = useRequest(modifyPass, {
+    manual: true,//需要手动触发
+    onSuccess: (result) => {
       message.success('密码修改成功！');
     },
   });

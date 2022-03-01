@@ -75,6 +75,7 @@ export default [
       },
       {
         name: 'passwd',
+        hideInMenu: true,
         icon: 'smile',
         path: '/account/passwd',
         component: './account/passwd',

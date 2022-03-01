@@ -45,7 +45,7 @@ const SecurityView = () => {
   ];
 
   const toModifyPass = () => {
-    history.push("/");
+    history.push("/account/passwd");
   };
 
   const data = getData();
