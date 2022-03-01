@@ -141,7 +141,7 @@ const responseInterceptor = async (response, options) => {
   console.log("=====================================");
   const data = await response.clone().json();
   console.log(data);
-  if (data.errorCode != undefined && data.errorCode !== 0) {
+  if (data.errorCode !== undefined && data.errorCode !== 0) {
     // 界面报错处理
     if (data.errorCode === 401 || data.errorCode === 403) {
       notification.error({
