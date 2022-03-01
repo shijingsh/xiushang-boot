@@ -6,7 +6,7 @@ const Settings = {
   fixedHeader: false,
   fixSiderbar: true,
   colorWeak: false,
-  title: 'Ant Design Pro',
+  title: '秀上-智慧数据运营平台',
   pwa: false,
   logo: 'https://www.xiushangsh.com/null/common/logo/logo.svg',
   iconfontUrl: '',
