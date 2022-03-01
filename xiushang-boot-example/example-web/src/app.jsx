@@ -22,9 +22,9 @@ export const initialStateConfig = {
  * */
 
 export async function getInitialState() {
-  const fetchUserInfo = async (options) => {
+  const fetchUserInfo = async () => {
     try {
-      const msg = await queryCurrentUser(options);
+      const msg = await queryCurrentUser();
 
       return msg.data;
     } catch (error) {

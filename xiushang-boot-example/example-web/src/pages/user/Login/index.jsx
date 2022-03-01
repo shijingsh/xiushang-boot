@@ -34,12 +34,8 @@ const Login = () => {
   const intl = useIntl();
 
   const fetchUserInfo = async () => {
-    let options = {}
-    options.headers = {
-      Authorization: token.get(),
-    };
-    const userInfo = await initialState?.fetchUserInfo?.(options);
 
+    const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
       await setInitialState((s) => ({ ...s, currentUser: userInfo }));
     }
