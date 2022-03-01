@@ -13,7 +13,9 @@ import com.xiushang.entity.UserEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.utils.DeleteEnum;
+import com.xiushang.framework.utils.UserHolder;
 import com.xiushang.security.SecurityRole;
+import com.xiushang.security.SecurityUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
@@ -205,9 +207,10 @@ public class UserController {
     @GetMapping("/info")
     @Secured(SecurityRole.ROLE_USER)
     public CommonResult<UserEntity> info() {
-        UserEntity userEntity = userService.getCurrentUser();
 
-        return CommonResult.success(userEntity);
+        SecurityUser securityUser = UserHolder.get();
+
+        return CommonResult.success(securityUser);
     }
 
     /**

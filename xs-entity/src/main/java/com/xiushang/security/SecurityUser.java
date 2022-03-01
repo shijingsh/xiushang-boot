@@ -1,7 +1,9 @@
 package com.xiushang.security;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.xiushang.entity.RoleEntity;
 import com.xiushang.entity.UserEntity;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,19 +17,25 @@ public class SecurityUser extends UserEntity implements UserDetails {
     /**
      * 租户ID
      */
+    @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(notes = "租户ID",hidden = true)
     private String tenantId;
 
     /**
      * 客户端ID
      */
+    @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(notes = "客户端ID",hidden = true)
     private String clientId;
     /**
      * 客户端管理员
      */
+    @ApiModelProperty(notes = "客户端管理员")
     private Boolean clientAdmin = false;
     /**
      * 管理员用户
      */
+    @ApiModelProperty(notes = "管理员用户")
     private Boolean userAdmin = false;
 
     public SecurityUser(UserEntity user) {
