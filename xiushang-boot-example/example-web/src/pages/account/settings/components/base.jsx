@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import { UploadOutlined } from '@ant-design/icons';
 import { Button, Input, Upload, message } from 'antd';
 import ProForm, {
@@ -9,9 +9,11 @@ import ProForm, {
   ProFormTextArea,
 } from '@ant-design/pro-form';
 import { useRequest } from 'umi';
-import { queryCurrent } from '../service';
+import { queryCurrent ,modifyHeadPortrait,modifyUser} from '../service';
 import { queryProvince, queryCity } from '../service';
 import styles from './BaseView.less';
+import * as CommonUtils from '@/utils/CommonUtils';
+
 
 const validatorPhone = (rule, value, callback) => {
   if (!value[0]) {
@@ -25,13 +27,13 @@ const validatorPhone = (rule, value, callback) => {
   callback();
 }; // 头像组件 方便以后独立，增加裁剪之类的功能
 
-const AvatarView = ({ avatar }) => (
+const AvatarView = ({ avatar,handleChange }) => (
   <>
     <div className={styles.avatar_title}>头像</div>
     <div className={styles.avatar}>
       <img src={avatar} alt="avatar" />
     </div>
-    <Upload showUploadList={false}>
+    <Upload showUploadList={false}   {...CommonUtils.getUploadProps()}    onChange={handleChange}>
       <div className={styles.button_view}>
         <Button>
           <UploadOutlined />
@@ -43,26 +45,47 @@ const AvatarView = ({ avatar }) => (
 );
 
 const BaseView = () => {
+  const [state, setState] = useState({
+    num: 0
+  });
+
+  // 直接更新数据
+  const doing = () => {
+    setState({
+      num: state+1
+    })
+    console.log(state); // { num: 0 } 数据未更新
+  }
+
+  useEffect(() => {
+    console.log(state); // { num: 1 } 数据已更新
+  }, [state])
+
   const { data: currentUser, loading } = useRequest(() => {
     return queryCurrent();
   });
 
   const getAvatarURL = () => {
     if (currentUser) {
-      if (currentUser.avatar) {
-        return currentUser.avatar;
+      if (currentUser.headPortrait) {
+        return CommonUtils.getImageUrl(currentUser.headPortrait);
       }
 
-      const url = 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png';
+      const url = 'https://www.xiushangsh.com/app_images/common/img_head_default.png';
       return url;
     }
 
     return '';
   };
 
-  const handleFinish = async () => {
+  const handleFinish = async (values) => {
+    //console.log(values)
     message.success('更新基本信息成功');
+
+    await modifyUser(values);
+    doing();
   };
+
 
   return (
     <div className={styles.baseView}>
@@ -82,9 +105,20 @@ const BaseView = () => {
                   children: '更新基本信息',
                 },
               }}
-              initialValues={{ ...currentUser, phone: currentUser?.phone.split('-') }}
+              initialValues={{ ...currentUser }}
               hideRequiredMark
             >
+              <ProFormText
+                width="md"
+                name="name"
+                label="昵称"
+                rules={[
+                  {
+                    required: true,
+                    message: '请输入您的昵称!',
+                  },
+                ]}
+              />
               <ProFormText
                 width="md"
                 name="email"
@@ -98,16 +132,16 @@ const BaseView = () => {
               />
               <ProFormText
                 width="md"
-                name="name"
-                label="昵称"
+                name="mobile"
+                label="手机"
                 rules={[
                   {
                     required: true,
-                    message: '请输入您的昵称!',
+                    message: '请输入您的手机!',
                   },
                 ]}
               />
-              <ProFormTextArea
+{/*              <ProFormTextArea
                 name="profile"
                 label="个人简介"
                 rules={[
@@ -223,11 +257,28 @@ const BaseView = () => {
               >
                 <Input className={styles.area_code} />
                 <Input className={styles.phone_number} />
-              </ProFormFieldSet>
+              </ProFormFieldSet>*/}
             </ProForm>
           </div>
           <div className={styles.right}>
-            <AvatarView avatar={getAvatarURL()} />
+            <AvatarView avatar={getAvatarURL()} handleChange={(info)=>{
+              //console.log("================")
+              //console.log(info)
+              if (info.file.status === 'uploading') {
+                return;
+              }
+              if (info.file.status === 'done') {
+                let response = info.file.response;
+                CommonUtils.getUploadResponse(response,function (fullUrl,url) {
+                  currentUser.headPortrait = url;
+                   modifyHeadPortrait(url).then(r => {
+                     doing();
+                   });
+
+                })
+              }
+
+            }} />
           </div>
         </>
       )}

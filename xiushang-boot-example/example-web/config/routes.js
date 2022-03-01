@@ -53,7 +53,7 @@ export default [
     icon: 'user',
     path: '/account',
     routes: [
-      {
+/*      {
         path: '/account',
         redirect: '/account/center',
       },
@@ -62,6 +62,10 @@ export default [
         icon: 'smile',
         path: '/account/center',
         component: './account/center',
+      },*/
+      {
+        path: '/account',
+        redirect: '/account/settings',
       },
       {
         name: 'settings',

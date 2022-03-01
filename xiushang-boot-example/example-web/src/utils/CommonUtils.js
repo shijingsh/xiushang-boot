@@ -1,5 +1,6 @@
 import token from '@/utils/token';
 import { request } from 'umi';
+import {notification} from 'antd';
 
 //export const baseUrl = ''; //stg
 export const baseUrl = '/proxy'; //dev
@@ -60,19 +61,24 @@ export function getUploadProps() {
 }
 
 export function getUploadResponse(res, callback) {
+
   const data = res.data;
   if (res.execResult) {
     if (data && data.length) {
       let url = data[0].relativePath;
       // 将图片插入到编辑器中
       if (callback) {
-        callback(getImageUrl(url));
+        callback(getImageUrl(url),url);
       }
     } else {
-      message.error('上传失败！');
+      notification.error({
+        message: '上传失败！',
+      });
     }
   } else {
-    message.error(res.errorText);
+    notification.error({
+      message: res.errorText,
+    });
   }
 }
 
@@ -86,7 +92,9 @@ export function uploadFile(formData, index, callback) {
       getUploadResponse(res, callback);
     })
     .catch(err => {
-      message.error(((err.response || {}).data || {}).message || '保存数据异常！');
+      notification.error({
+        message: '上传发生异常！',
+      });
     });
 }
 

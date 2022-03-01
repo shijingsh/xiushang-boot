@@ -85,7 +85,7 @@ const AvatarDropdown = ({ menu }) => {
       )}
       {menu && <Menu.Divider />}
 
-      <Menu.Item key="userInfo">
+      <Menu.Item key="settings">
         <Icon type="user" />
         <FormattedMessage id="menu.account.center" defaultMessage="基本信息" />
       </Menu.Item>
