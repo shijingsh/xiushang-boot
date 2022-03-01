@@ -73,6 +73,12 @@ export default [
         path: '/account/settings',
         component: './account/settings',
       },
+      {
+        name: 'passwd',
+        icon: 'smile',
+        path: '/account/passwd',
+        component: './account/passwd',
+      },
     ],
   },
   {

@@ -61,7 +61,7 @@ const BaseView = () => {
     console.log(state); // { num: 1 } 数据已更新
   }, [state])
 
-  const { data: currentUser, loading } = useRequest(() => {
+  const { run,data: currentUser, loading } = useRequest(() => {
     return queryCurrent();
   });
 
@@ -83,7 +83,7 @@ const BaseView = () => {
     message.success('更新基本信息成功');
 
     await modifyUser(values);
-    doing();
+    run();
   };
 
 
@@ -270,9 +270,9 @@ const BaseView = () => {
               if (info.file.status === 'done') {
                 let response = info.file.response;
                 CommonUtils.getUploadResponse(response,function (fullUrl,url) {
-                  currentUser.headPortrait = url;
+                   //currentUser.headPortrait = url;
                    modifyHeadPortrait(url).then(r => {
-                     doing();
+                     run();
                    });
 
                 })
