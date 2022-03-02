@@ -6,30 +6,42 @@ import {notification} from 'antd';
 export const baseUrl = '/proxy'; //dev
 
 
-export function listData(data) {
-  let list = {
-    list: [],
-    pagination: {
-      total: 0,
-      pageSize: 10,
-      current: 1,
-    },
-  };
-  if (data.rowData && data.rowData.length) {
-    list.list = data.rowData;
+export function listData(res) {
+  let list =  {
+    "data": [],
+    "total": 0,
+    "success": true,
+    "pageSize": "10",
+    "current": 1
   }
-  if (data.result == null && data.length) {
-    list.list = data;
+
+  if (res.data.rowData && res.data.rowData.length) {
+    //list.data = res.data.rowData;
+    list.data.push(    {
+      "key": 16,
+      "disabled": false,
+      "href": "https://ant.design",
+      "avatar": "https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png",
+      "name": "TradeCode 16",
+      "owner": "曲丽丽",
+      "desc": "这是一段描述",
+      "callNo": 942,
+      "status": 1,
+      "updatedAt": "2022-03-01",
+      "createdAt": "2022-03-01",
+      "progress": 93
+    })
   }
-  if (data.totalCount) {
-    list.pagination.total = data.totalCount;
+  if (res.data.totalCount) {
+    list.total = res.data.totalCount;
   }
-  if (data.pageSize) {
-    list.pagination.pageSize = data.pageSize;
+  if (res.data.pageSize) {
+    list.pageSize = res.data.pageSize;
   }
-  if (data.pageNo) {
-    list.pagination.current = data.pageNo;
+  if (res.data.pageNo) {
+    list.current = res.data.pageNo;
   }
+  console.log(list)
   return list;
 }
 

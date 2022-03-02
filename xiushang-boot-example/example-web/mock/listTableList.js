@@ -172,6 +172,6 @@ function postRule(req, res, u, b) {
 }
 
 export default {
-  'GET /api/rule': getRule,
-  'POST /api/rule': postRule,
+  'GET /proxy/api/rule': getRule,
+  'POST /proxy/api/rule': postRule,
 };

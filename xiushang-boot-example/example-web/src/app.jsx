@@ -220,6 +220,12 @@ export const request = {
   //自定义端口规范
   errorConfig: {
     adaptor: res => {
+      if(res.data  instanceof Array){
+        return res
+      }
+      if(res.data.rowData){
+        return CommonUtils.listData(res);
+      }
       return {
         success: res.errorCode ==0,
         data:res.data,

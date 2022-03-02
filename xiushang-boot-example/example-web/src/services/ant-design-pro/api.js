@@ -42,6 +42,24 @@ export async function getNotices(options) {
     ...(options || {}),
   });
 }
+
+/** 获取公告列表 */
+export async function listNotice(params, options) {
+  let param = {
+    "pageNo": 0,
+    "pageSize": 0,
+    "searchKey": "",
+    "shopId": ""
+  }
+  return request('/api/news/v1/listPage', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: param,
+    ...(options || {}),
+  });
+}
 /** 获取规则列表 GET /api/rule */
 
 export async function rule(params, options) {
