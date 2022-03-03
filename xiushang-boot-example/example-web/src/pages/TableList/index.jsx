@@ -8,6 +8,7 @@ import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import UpdateForm from './components/UpdateForm';
 import { rule, addRule, updateRule, removeRule,listNotice } from '@/services/ant-design-pro/api';
+import moment from "moment";
 /**
  * @en-US Add node
  * @zh-CN 添加节点
@@ -102,13 +103,8 @@ const TableList = () => {
   const intl = useIntl();
   const columns = [
     {
-      title: (
-        <FormattedMessage
-          id="pages.searchTable.updateForm.ruleName.nameLabel"
-          defaultMessage="Rule name"
-        />
-      ),
-      dataIndex: 'name',
+      title: "公告名称",
+      dataIndex: 'title',
       tip: 'The rule name is the unique key',
       render: (dom, entity) => {
         return (
@@ -124,72 +120,30 @@ const TableList = () => {
       },
     },
     {
-      title: <FormattedMessage id="pages.searchTable.titleDesc" defaultMessage="Description" />,
-      dataIndex: 'desc',
+      title: "公告内容",
+      dataIndex: 'content',
       valueType: 'textarea',
     },
-    {
-      title: (
-        <FormattedMessage
-          id="pages.searchTable.titleCallNo"
-          defaultMessage="Number of service calls"
-        />
-      ),
-      dataIndex: 'callNo',
-      sorter: true,
-      hideInForm: true,
-      renderText: (val) =>
-        `${val}${intl.formatMessage({
-          id: 'pages.searchTable.tenThousand',
-          defaultMessage: ' 万 ',
-        })}`,
-    },
+
     {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
       dataIndex: 'status',
       hideInForm: true,
       valueEnum: {
         0: {
-          text: (
-            <FormattedMessage
-              id="pages.searchTable.nameStatus.default"
-              defaultMessage="Shut down"
-            />
-          ),
+          text: "无效",
           status: 'Default',
         },
         1: {
-          text: (
-            <FormattedMessage id="pages.searchTable.nameStatus.running" defaultMessage="Running" />
-          ),
+          text: "有效",
           status: 'Processing',
-        },
-        2: {
-          text: (
-            <FormattedMessage id="pages.searchTable.nameStatus.online" defaultMessage="Online" />
-          ),
-          status: 'Success',
-        },
-        3: {
-          text: (
-            <FormattedMessage
-              id="pages.searchTable.nameStatus.abnormal"
-              defaultMessage="Abnormal"
-            />
-          ),
-          status: 'Error',
-        },
+        }
       },
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.searchTable.titleUpdatedAt"
-          defaultMessage="Last scheduled time"
-        />
-      ),
+      title: "有效期",
       sorter: true,
-      dataIndex: 'updatedAt',
+      dataIndex: 'validDate',
       valueType: 'dateTime',
       renderFormItem: (item, { defaultRender, ...rest }, form) => {
         const status = form.getFieldValue('status');
@@ -259,7 +213,29 @@ const TableList = () => {
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
           </Button>,
         ]}
-        request={rule} // rule  listNotice
+        request={listNotice} // rule  listNotice
+/*        request={() => {
+          return Promise.resolve({
+            data: [{
+              key: 0,
+              disabled: 0,
+              href: 'https://ant.design',
+              avatar: [
+                'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
+                'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
+              ][0],
+              name: `TradeCode `,
+              owner: '曲丽丽',
+              desc: '这是一段描述',
+              callNo: Math.floor(Math.random() * 1000),
+              status: Math.floor(Math.random() * 10) % 4,
+              updatedAt: moment().format('YYYY-MM-DD'),
+              createdAt: moment().format('YYYY-MM-DD'),
+              progress: Math.ceil(Math.random() * 100),
+            }],
+            success: true,
+          });
+        }}*/
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -382,15 +358,15 @@ const TableList = () => {
         }}
         closable={false}
       >
-        {currentRow?.name && (
+        {currentRow?.title && (
           <ProDescriptions
             column={2}
-            title={currentRow?.name}
+            title={currentRow?.title}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
-              id: currentRow?.name,
+              id: currentRow?.title,
             }}
             columns={columns}
           />
