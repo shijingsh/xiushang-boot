@@ -102,6 +102,17 @@ const Login = () => {
             <AlipayCircleOutlined key="AlipayCircleOutlined" className={styles.icon} />,
             <TaobaoCircleOutlined key="TaobaoCircleOutlined" className={styles.icon} />,
             <WeiboCircleOutlined key="WeiboCircleOutlined" className={styles.icon} />,
+            <a
+              key="register"
+              style={{
+                float: 'right',
+              }}
+              onClick={()=>{
+                history.push("/user/register");
+              }}
+            >
+              注册账户
+            </a>
           ]}
           onFinish={async (values) => {
             await handleSubmit(values);
