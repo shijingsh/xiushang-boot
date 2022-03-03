@@ -221,7 +221,7 @@ export const request = {
   //自定义端口规范
   errorConfig: {
     adaptor: res => {
-      if(res.data.rowData){
+      if(res.data && res.data.rowData){
         return CommonUtils.listData(res);
       }
       return {

@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Form, Button, Col, Input, Popover, Progress, Row, Select, message } from 'antd';
 import { Link, useRequest, history } from 'umi';
-import { fakeRegister } from './service';
+import { fakeRegister,getVerifyCode } from './service';
 import styles from './style.less';
+import { request } from 'umi';
+import {login} from "@/services/ant-design-pro/api";
+
 const FormItem = Form.Item;
 const { Option } = Select;
 const InputGroup = Input.Group;
@@ -45,6 +48,11 @@ const Register = () => {
   );
 
   const onGetCaptcha = () => {
+    const mobile = form.getFieldValue('mobile');
+    if (!mobile) {
+      message.error('请输入手机号码！');
+      return;
+    }
     let counts = 59;
     setCount(counts);
     interval = window.setInterval(() => {
@@ -55,6 +63,22 @@ const Register = () => {
         clearInterval(interval);
       }
     }, 1000);
+
+    sendCode(mobile);
+  };
+
+
+  const sendCode = async(mobile) => {
+
+    var param = {
+      mobile: mobile,
+    };
+    const res = await getVerifyCode(param);
+    if (res.errorCode === 0) {
+      message.success('验证码发送成功！');
+    }else {
+      message.error(res.errorText);
+    }
   };
 
   const getPasswordStatus = () => {
@@ -73,15 +97,17 @@ const Register = () => {
 
   const { loading: submitting, run: register } = useRequest(fakeRegister, {
     manual: true,
-    onSuccess: (data, params) => {
-      if (data.status === 'ok') {
+    formatResult:(res) => {
+      return  res;
+    },
+    onSuccess: (res, params) => {
+      if (res.errorCode === 0) {
         message.success('注册成功！');
         history.push({
-          pathname: '/user/register-result',
-          state: {
-            account: params.email,
-          },
+          pathname: '/user/login'
         });
+      }else {
+        message.error(res.errorText);
       }
     },
   });
