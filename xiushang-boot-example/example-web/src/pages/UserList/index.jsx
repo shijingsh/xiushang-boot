@@ -12,15 +12,15 @@ const handleRemove = async (selectedRows) => {
   if (!selectedRows) return true;
 
   try {
-    await removeRule({
+    /*await removeRule({
       key: selectedRows.map((row) => row.key),
-    });
+    });*/
     hide();
-    message.success('Deleted successfully and will refresh soon');
+    message.success('删除成功！');
     return true;
   } catch (error) {
     hide();
-    message.error('Delete failed, please try again');
+    message.error('删除失败！');
     return false;
   }
 };
@@ -43,14 +43,7 @@ const handleStatus = async (obj) => {
 
 
 const UserList = () => {
-  /**
-   *  新建窗口的弹窗
-   */
-  const [createModalVisible, handleModalVisible] = useState(false);
-  /**
-   分布更新窗口的弹窗
-   */
-  const [updateModalVisible, handleUpdateModalVisible] = useState(false);
+
   const [showDetail, setShowDetail] = useState(false);
   const actionRef = useRef();
   const [currentRow, setCurrentRow] = useState();
