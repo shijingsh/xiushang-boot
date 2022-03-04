@@ -60,6 +60,12 @@ export default [
         component: './UserList',
       },
       {
+        path: '/admin/user-edit',
+        name: 'user-edit',
+        icon: 'smile',
+        component: './UserList/Edit',
+      },
+      {
         component: './404',
       },
     ],

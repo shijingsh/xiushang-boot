@@ -5,6 +5,7 @@ export default {
   'menu.admin': '系统管理',
   'menu.admin.index': '系统管理',
   'menu.admin.user-list': '用户管理',
+  'menu.admin.user-edit': '编辑用户',
   'menu.login': '登录',
   'menu.register': '注册',
   'menu.register-result': '注册结果',
