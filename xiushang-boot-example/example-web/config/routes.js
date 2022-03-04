@@ -29,29 +29,40 @@ export default [
     icon: 'smile',
     component: './Welcome',
   },
-  {
-    path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
-    component: './Admin',
-    routes: [
-      {
-        path: '/admin/sub-page',
-        name: 'sub-page',
-        icon: 'smile',
-        component: './Welcome',
-      },
-      {
-        component: './404',
-      },
-    ],
-  },
+
   {
     name: 'list.table-list',
     icon: 'table',
     path: '/list',
     component: './TableList',
+  },
+  {
+    path: '/admin',
+    name: 'admin',
+    icon: 'crown',
+    access: 'canAdmin',
+    routes: [
+      {
+        path: '/admin',
+        redirect: '/admin/user-list',
+      },
+      {
+        path: '/admin/index',
+        name: 'index',
+        icon: 'smile',
+        hideInMenu: true,
+        component: './Admin',
+      },
+      {
+        path: '/admin/user-list',
+        name: 'user-list',
+        icon: 'smile',
+        component: './UserList',
+      },
+      {
+        component: './404',
+      },
+    ],
   },
   {
     name: 'account',

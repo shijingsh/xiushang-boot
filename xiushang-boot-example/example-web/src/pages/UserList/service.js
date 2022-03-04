@@ -1,0 +1,20 @@
+import { request } from 'umi';
+
+
+/** 获取用户列表 */
+export async function queryUserList(params, options) {
+  let param = {
+    "pageNo": 0,
+    "pageSize": 0,
+    "searchKey": "",
+    "shopId": ""
+  }
+  return request('/api/user/pageList', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: param,
+    ...(options || {}),
+  });
+}

@@ -50,8 +50,7 @@ public class UserEntity extends ExpandEntity {
     /**
      * 最后登录时间
      */
-    @ApiModelProperty(notes = "最后登录时间",hidden = true)
-    @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(notes = "最后登录时间")
     protected Date lastLoginDate;
     /**
      * 最后登录平台
