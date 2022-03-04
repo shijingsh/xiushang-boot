@@ -4,7 +4,8 @@ import React, { useState, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { queryUserList } from './service';
+import { queryUserList,enableOrDisable } from './service';
+import ProDescriptions from "@ant-design/pro-descriptions";
 
 const handleRemove = async (selectedRows) => {
   const hide = message.loading('正在删除');
@@ -23,6 +24,23 @@ const handleRemove = async (selectedRows) => {
     return false;
   }
 };
+
+const handleStatus = async (obj) => {
+  const hide = message.loading('正在修改');
+  if (!obj) return true;
+
+  try {
+    await enableOrDisable(obj.id);
+    hide();
+    message.success('操作成功！');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('操作失败！');
+    return false;
+  }
+};
+
 
 const UserList = () => {
   /**
@@ -95,12 +113,15 @@ const UserList = () => {
       render: (_, record) => [
         <a
           key="config"
-          onClick={() => {
-            handleUpdateModalVisible(true);
-            setCurrentRow(record);
+          onClick={async () => {
+            await handleStatus(record);
+            actionRef.current?.reloadAndRest?.();
           }}
         >
-          修改
+          {
+            record.deleted==0?"禁用":"启用"
+          }
+
         </a>,
       ],
     },
@@ -109,7 +130,7 @@ const UserList = () => {
     <PageContainer>
       <ProTable
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         search={{
           labelWidth: 120,
         }}
@@ -168,6 +189,29 @@ const UserList = () => {
         </FooterToolbar>
       )}
 
+      <Drawer
+        width={600}
+        visible={showDetail}
+        onClose={() => {
+          setCurrentRow(undefined);
+          setShowDetail(false);
+        }}
+        closable={false}
+      >
+        {currentRow?.name && (
+          <ProDescriptions
+            column={2}
+            title={currentRow?.name}
+            request={async () => ({
+              data: currentRow || {},
+            })}
+            params={{
+              id: currentRow?.name,
+            }}
+            columns={columns}
+          />
+        )}
+      </Drawer>
     </PageContainer>
   );
 };

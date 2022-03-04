@@ -18,6 +18,7 @@ import com.xiushang.security.SecurityRole;
 import com.xiushang.security.SecurityUser;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
@@ -167,11 +168,35 @@ public class UserController {
      */
     @ResponseBody
     @PostMapping("/pageList")
+    @Secured(SecurityRole.ROLE_ADMIN)
     public CommonResult getPageList(@RequestBody UserSearchVo searchVo) {
 
         PageTableVO vo = userService.findPageList(searchVo);
 
         return CommonResult.success(vo);
+    }
+
+
+    /**
+     * 启用用户  、禁用用户
+     *
+     * @return
+     */
+    @ResponseBody
+    @GetMapping("/enableOrDisable")
+    @Secured(SecurityRole.ROLE_ADMIN)
+    public CommonResult enableUser(@ApiParam(value = "id", required = true) @RequestParam String id) {
+
+        UserEntity userEntity = userService.getUserById(id);
+        if(userEntity.getDeleted()==DeleteEnum.VALID){
+            userEntity.setDeleted(DeleteEnum.INVALID);
+        }else {
+            userEntity.setDeleted(DeleteEnum.VALID);
+        }
+
+        userService.registerUser(userEntity);
+
+        return CommonResult.success();
     }
 
 

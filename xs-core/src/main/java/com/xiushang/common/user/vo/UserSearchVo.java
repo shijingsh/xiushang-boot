@@ -1,27 +1,17 @@
 package com.xiushang.common.user.vo;
 
-import com.xiushang.framework.entity.vo.SearchPageVo;
+import com.xiushang.framework.entity.vo.BaseSearchPageVo;
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
 
-public class UserSearchVo extends SearchPageVo implements java.io.Serializable {
+@Data
+public class UserSearchVo extends BaseSearchPageVo implements java.io.Serializable {
     @ApiModelProperty(notes = "用户名称")
     private  String name;
     @ApiModelProperty(notes = "登录名")
     private  String loginName;
+    @ApiModelProperty(notes = "手机号")
+    private String mobile;
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getLoginName() {
-        return loginName;
-    }
-
-    public void setLoginName(String loginName) {
-        this.loginName = loginName;
-    }
 }

@@ -18,3 +18,15 @@ export async function queryUserList(params, options) {
     ...(options || {}),
   });
 }
+
+
+export async function enableOrDisable(id, options) {
+
+  return request('/api/user/enableOrDisable?id='+id, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    ...(options || {}),
+  });
+}
