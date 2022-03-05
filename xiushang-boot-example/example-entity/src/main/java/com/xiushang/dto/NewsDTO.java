@@ -1,12 +1,13 @@
 package com.xiushang.dto;
 
+import com.xiushang.framework.entity.vo.BaseVO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.util.Date;
 
 @Data
-public class NewsDTO implements java.io.Serializable{
+public class NewsDTO extends BaseVO {
 
     @ApiModelProperty(notes = "公告标题",required = true)
     private String title;

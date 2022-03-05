@@ -83,7 +83,7 @@ public class NewsController {
      */
     @ApiOperation(value = "删除公告")
     @ResponseBody
-    @PostMapping("/{version}/delete")
+    @GetMapping("/{version}/delete")
     @Secured({SecurityRole.ROLE_USER})
     public CommonResult<NewsEntity> delete(String id) {
         newsService.delete(id);

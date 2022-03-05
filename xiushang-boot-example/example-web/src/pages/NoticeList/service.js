@@ -4,16 +4,15 @@
 import { request } from 'umi';
 import * as CommonUtils from "@/utils/CommonUtils";
 
-/** 此处后端没有提供注释 GET /api/notices */
-export async function getNotices(options) {
-  return request('/api/notices', {
+/** 获取公告 */
+export async function queryNotices(id) {
+  return request('/api/news/v1/get?id='+id, {
     method: 'GET',
-    ...(options || {}),
   });
 }
 
 /** 获取公告列表 */
-export async function listNotice(params, options) {
+export async function queryNoticeList(params, options) {
   params  = CommonUtils.getPageParam(params);
   params.searchKey = params.title;
   return request('/api/news/v1/listPage', {
@@ -26,27 +25,19 @@ export async function listNotice(params, options) {
   });
 }
 
-/** 新建规则 PUT /api/rule */
 
-export async function updateRule(options) {
-  return request('/api/rule', {
-    method: 'PUT',
-    ...(options || {}),
-  });
-}
-
-/** 新建规则 POST /api/rule */
-export async function addRule(options) {
-  return request('/api/rule', {
+/** 保存 */
+export async function saveNotice(params,options) {
+  return request('/api/news/v1/post', {
     method: 'POST',
+    data: params,
     ...(options || {}),
   });
 }
 
-/** 删除规则 DELETE /api/rule */
-export async function removeRule(options) {
-  return request('/api/rule', {
-    method: 'DELETE',
-    ...(options || {}),
+/** 删除 */
+export async function removeNotice(id) {
+  return request('/api/news/v1/delete?id='+id, {
+    method: 'GET',
   });
 }

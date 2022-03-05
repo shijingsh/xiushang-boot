@@ -6,6 +6,7 @@ import com.xiushang.common.utils.BaseServiceImpl;
 import com.xiushang.entity.news.NewsEntity;
 import com.xiushang.entity.news.QNewsEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
+import com.xiushang.framework.utils.DeleteEnum;
 import com.xiushang.news.dao.NewsDao;
 import com.xiushang.vo.NewsSearchVo;
 import org.apache.commons.lang3.StringUtils;
@@ -38,7 +39,7 @@ public class NewsServiceImpl extends BaseServiceImpl<NewsEntity> implements News
         c.set(Calendar.SECOND, 59);
         //有效的公告
         QNewsEntity entity = QNewsEntity.newsEntity;
-        BooleanExpression ex = entity.status.eq(1).and(entity.validDate.after(c.getTime()));
+        BooleanExpression ex = entity.deleted.eq(DeleteEnum.VALID).and(entity.validDate.after(c.getTime()));
 
         String searchKey = helpSearchVo.getSearchKey();
         if (StringUtils.isNotBlank(searchKey)) {

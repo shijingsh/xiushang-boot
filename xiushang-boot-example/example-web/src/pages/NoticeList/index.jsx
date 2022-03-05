@@ -4,101 +4,69 @@ import React, {useRef, useState} from 'react';
 import {FormattedMessage, useIntl} from 'umi';
 import {FooterToolbar, PageContainer} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import {ModalForm, ProFormText, ProFormTextArea} from '@ant-design/pro-form';
+import {ModalForm, ProFormDateTimePicker, ProFormText, ProFormTextArea} from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import UpdateForm from './components/UpdateForm';
-import {addRule, listNotice, removeRule, updateRule} from './service';
+import {saveNotice, queryNoticeList, removeNotice} from './service';
 
-/**
- * @en-US Add node
- * @zh-CN 添加节点
- * @param fields
- */
 
 const handleAdd = async (fields) => {
   const hide = message.loading('正在添加');
 
   try {
-    await addRule({ ...fields });
+    await saveNotice({...fields});
     hide();
-    message.success('Added successfully');
+    message.success('添加成功！');
     return true;
   } catch (error) {
     hide();
-    message.error('Adding failed, please try again!');
+    message.error('添加失败！');
     return false;
   }
 };
-/**
- * @en-US Update node
- * @zh-CN 更新节点
- *
- * @param fields
- */
 
-const handleUpdate = async (fields) => {
-  const hide = message.loading('Configuring');
-
+const handleUpdate = async (currentRow,fields) => {
+  const hide = message.loading('正在保存');
+  if(currentRow && currentRow.id){
+    fields.id = currentRow.id;
+  }
   try {
-    await updateRule({
-      name: fields.name,
-      desc: fields.desc,
-      key: fields.key,
-    });
+    await saveNotice(fields);
     hide();
-    message.success('Configuration is successful');
+    message.success('保存成功！');
     return true;
   } catch (error) {
     hide();
-    message.error('Configuration failed, please try again!');
+    message.error('保存失败！');
     return false;
   }
 };
-/**
- *  Delete node
- * @zh-CN 删除节点
- *
- * @param selectedRows
- */
 
-const handleRemove = async (selectedRows) => {
+const handleRemove = async (obj) => {
   const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
+  if (!obj) return true;
 
   try {
-    await removeRule({
-      key: selectedRows.map((row) => row.key),
-    });
+    await removeNotice(obj.id);
     hide();
-    message.success('Deleted successfully and will refresh soon');
+    message.success('删除成功！');
     return true;
   } catch (error) {
     hide();
-    message.error('Delete failed, please try again');
+    message.error('删除失败!');
     return false;
   }
 };
 
 const TableList = () => {
-  /**
-   * @en-US Pop-up window of new window
-   * @zh-CN 新建窗口的弹窗
-   *  */
+
   const [createModalVisible, handleModalVisible] = useState(false);
-  /**
-   * @en-US The pop-up window of the distribution update window
-   * @zh-CN 分布更新窗口的弹窗
-   * */
 
   const [updateModalVisible, handleUpdateModalVisible] = useState(false);
   const [showDetail, setShowDetail] = useState(false);
   const actionRef = useRef();
   const [currentRow, setCurrentRow] = useState();
   const [selectedRowsState, setSelectedRows] = useState([]);
-  /**
-   * @en-US International configuration
-   * @zh-CN 国际化配置
-   * */
 
   const intl = useIntl();
   const columns = [
@@ -126,7 +94,7 @@ const TableList = () => {
     },
 
     {
-      title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
+      title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status"/>,
       dataIndex: 'status',
       hideInForm: true,
       search: false,
@@ -147,12 +115,12 @@ const TableList = () => {
       search: false,
       dataIndex: 'validDate',
       valueType: 'dateTime',
-      renderFormItem: (item, { defaultRender, ...rest }, form) => {
+      renderFormItem: (item, {defaultRender, ...rest}, form) => {
         return defaultRender(item);
       },
     },
     {
-      title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating" />,
+      title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating"/>,
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
@@ -165,18 +133,27 @@ const TableList = () => {
         >
           修改
         </a>,
+        <a
+          key="delete"
+          onClick={async () => {
+            await handleRemove(record);
+            actionRef.current?.reloadAndRest?.();
+          }}
+        >
+          删除
+        </a>,
       ],
     },
   ];
   return (
     <PageContainer>
       <ProTable
-/*        headerTitle={intl.formatMessage({
-          id: 'pages.searchTable.title',
-          defaultMessage: 'Enquiry form',
-        })}*/
+        /*        headerTitle={intl.formatMessage({
+                  id: 'pages.searchTable.title',
+                  defaultMessage: 'Enquiry form',
+                })}*/
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         search={{
           labelWidth: 120,
         }}
@@ -189,10 +166,10 @@ const TableList = () => {
               handleModalVisible(true);
             }}
           >
-            <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />
+            <PlusOutlined/> <FormattedMessage id="pages.searchTable.new" defaultMessage="New"/>
           </Button>,
         ]}
-        request={listNotice} // rule  listNotice
+        request={queryNoticeList}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -200,7 +177,7 @@ const TableList = () => {
           },
         }}
       />
-      {selectedRowsState?.length > 0 && (
+      {/*      {selectedRowsState?.length > 0 && (
         <FooterToolbar
           extra={
             <div>
@@ -228,12 +205,9 @@ const TableList = () => {
             />
           </Button>
         </FooterToolbar>
-      )}
+      )}*/}
       <ModalForm
-        title={intl.formatMessage({
-          id: 'pages.searchTable.createForm.newRule',
-          defaultMessage: 'New rule',
-        })}
+        title={"添加公告"}
         width="400px"
         visible={createModalVisible}
         onVisibleChange={handleModalVisible}
@@ -250,25 +224,43 @@ const TableList = () => {
         }}
       >
         <ProFormText
+          label={"公告标题"}
           rules={[
             {
               required: true,
-              message: (
-                <FormattedMessage
-                  id="pages.searchTable.ruleName"
-                  defaultMessage="Rule name is required"
-                />
-              ),
+              message: "请输入公告标题",
             },
           ]}
+          placeholder={"请输入公告标题"}
           width="md"
-          name="name"
+          name="title"
         />
-        <ProFormTextArea width="md" name="desc" />
+        <ProFormTextArea
+          label={"公告内容"}
+          rules={[
+            {
+              required: true,
+              message: "请输入公告内容",
+            },
+          ]}
+          placeholder={"请输入公告内容"}
+          width="md" name="content"/>
+
+        <ProFormDateTimePicker
+          name="validDate"
+          width="md"
+          label={"公告有效期"}
+          rules={[
+            {
+              required: true,
+              message: "请选择公告有效期",
+            },
+          ]}
+        />
       </ModalForm>
       <UpdateForm
         onSubmit={async (value) => {
-          const success = await handleUpdate(value);
+          const success = await handleUpdate(currentRow || {},value);
 
           if (success) {
             handleUpdateModalVisible(false);
@@ -301,7 +293,7 @@ const TableList = () => {
       >
         {currentRow?.title && (
           <ProDescriptions
-            column={2}
+            column={1}
             title={currentRow?.title}
             request={async () => ({
               data: currentRow || {},
