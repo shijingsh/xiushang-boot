@@ -1,8 +1,8 @@
 import React, {useEffect, useState} from "react";
-import {Button, Card, Form, Input, message, Radio, Select,} from "antd";
+import {Button, Card, Form, Input, message, Radio, Select,InputNumber,} from "antd";
 import {PageContainer} from "@ant-design/pro-layout";
 import {history, useRequest} from "umi";
-import { editUser,queryUserDetail } from '../service';
+import { editClient,queryDetail } from '../service';
 const {Option} = Select;
 
 
@@ -38,15 +38,20 @@ const RegistrationForm = (props) => {
 
   useEffect(() => {
     form.setFieldsValue({
-      name: detail.name,
-      email: detail.email?detail.email:"",
-      mobile: detail.mobile,
-      deleted: detail.deleted + '',
+      clientName: detail.clientName,
+      clientType: detail.clientType,
+      clientSecret: detail.clientSecret,
+      webServerRedirectUri: detail.webServerRedirectUri,
+      accessTokenValidity: detail.accessTokenValidity,
+      refreshTokenValidity: detail.refreshTokenValidity,
+      appId: detail.appId,
+      secret: detail.secret,
     });
   }, [detail]);
 
+  const [clientType, setClientType] = useState("CLIENT_TYPE_WX_MINI_APP");
 
-  const { loading: submitting, run: saveEditUser } = useRequest(editUser, {
+  const { loading: submitting, run: saveEditClient } = useRequest(editClient, {
     manual: true,
     formatResult:(res) => {
       return  res;
@@ -55,7 +60,7 @@ const RegistrationForm = (props) => {
       if (res.errorCode === 0) {
         message.success('操作成功！');
         history.push({
-          pathname: '/admin/user-list'
+          pathname: '/client/list'
         });
       }else {
         message.error(res.errorText);
@@ -67,18 +72,12 @@ const RegistrationForm = (props) => {
     if(detail && detail.id){
       values.id = detail.id;
     }
-    saveEditUser(values);
+    saveEditClient(values);
   };
 
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select style={{width: 70}}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    </Form.Item>
-  );
-
+  const onChangeRadioGroup= (e) => {
+    setClientType(e.target.value);
+  };
 
   return (
     <Form
@@ -88,21 +87,39 @@ const RegistrationForm = (props) => {
       onFinish={onFinish}
       initialValues={{
         password:"",
-        confirm:""
+        confirm:"",
+        clientType:"CLIENT_TYPE_WX_MINI_APP"
       }}
       scrollToFirstError
     >
       <Form.Item
-        name="name"
+        name="clientName"
         label={
           <span>
-            昵称&nbsp;
+            客户端名称&nbsp;
           </span>
         }
         rules={[
           {
             required: true,
-            message: "请输入昵称!",
+            message: "请输入客户端名称!",
+            whitespace: true,
+          },
+        ]}
+      >
+        <Input/>
+      </Form.Item>
+      <Form.Item
+        name="clientSecret"
+        label={
+          <span>
+            客户端秘钥&nbsp;
+          </span>
+        }
+        rules={[
+          {
+            required: true,
+            message: "请输入客户端秘钥!",
             whitespace: true,
           },
         ]}
@@ -110,86 +127,60 @@ const RegistrationForm = (props) => {
         <Input/>
       </Form.Item>
 
-      <Form.Item
-        name="mobile"
-        label="手机号"
-        rules={[
-          {
-            pattern:/^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
-            message: "请输入有效的手机号码!",
-          },
-          /*{
-            type: "mobile",
-            message: "请输入有效的手机号码!",
-          },*/
-          {required: true, message: "请输入手机号!"}
-        ]}
+      <Form.Item name="clientType" label="客户端名类型"
+                 rules={[
+                   {
+                     required: true,
+                     message: "请选择客户端名类型!",
+                   },
+                 ]}
       >
-        <Input/>
-      </Form.Item>
-
-      <Form.Item
-        name="email"
-        label="邮箱"
-        rules={[
-          {
-            type: "email",
-            message: "请输入有效的邮箱!",
-          },
-          {
-            required: false,
-            message: "请输入邮箱!",
-          },
-        ]}
-      >
-        <Input/>
-      </Form.Item>
-
-      <Form.Item
-        name="password"
-        label="设置密码"
-        rules={[
-          {
-            required: true,
-            message: "请输入密码!",
-          },
-        ]}
-        hasFeedback
-      >
-        <Input.Password/>
-      </Form.Item>
-
-      <Form.Item
-        name="confirm"
-        label="确认密码"
-        dependencies={["password"]}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: "请输入确认密码!",
-          },
-          ({getFieldValue}) => ({
-            validator(rule, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                "两次输入密码不一致!"
-              );
-            },
-          }),
-        ]}
-      >
-        <Input.Password/>
-      </Form.Item>
-
-      <Form.Item name="deleted" label="账号状态">
-        <Radio.Group>
-          <Radio value={'0'}>正常</Radio>
-          <Radio value={'1'}>禁止</Radio>
+        <Radio.Group onChange={onChangeRadioGroup}>
+          <Radio value={'CLIENT_TYPE_WX_MINI_APP'}>小程序</Radio>
+          <Radio value={'CLIENT_TYPE_APP'}>APP</Radio>
+          <Radio value={'CLIENT_TYPE_WEB'}>Web</Radio>
         </Radio.Group>
       </Form.Item>
+
+      <Form.Item
+        name="webServerRedirectUri"
+        label="回调地址"
+      >
+        <Input/>
+      </Form.Item>
+
+      <Form.Item
+        name="accessTokenValidity"
+        label="认证令牌时效"
+      >
+        <InputNumber/>
+      </Form.Item>
+
+      <Form.Item
+        name="refreshTokenValidity"
+        label="刷新令牌时效"
+      >
+        <InputNumber/>
+      </Form.Item>
+
+      {
+        (clientType==="CLIENT_TYPE_APP" || clientType==="CLIENT_TYPE_WX_MINI_APP") &&
+          <>
+            <Form.Item
+              name="appId"
+              label={clientType==="CLIENT_TYPE_APP"?"APP包名":"appId"}
+            >
+              <Input/>
+            </Form.Item>
+
+            <Form.Item
+              name="secret"
+              label={clientType==="CLIENT_TYPE_APP"?"APP签名":"secret"}
+            >
+              <Input/>
+            </Form.Item>
+          </>
+      }
 
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
@@ -205,7 +196,7 @@ export default ({ location }) =>{
 
   const { data: detail, loading } = useRequest(() => {
     if(id){
-      return queryUserDetail(id);
+      return queryDetail(id);
     }else {
       return null;
     }

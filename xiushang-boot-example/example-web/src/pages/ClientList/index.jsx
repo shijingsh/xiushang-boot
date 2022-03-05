@@ -1,49 +1,15 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
-import React, { useState, useRef } from 'react';
-import {useIntl, FormattedMessage, history} from 'umi';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
+import {PlusOutlined} from '@ant-design/icons';
+import {Button, Drawer} from 'antd';
+import React, {useRef, useState} from 'react';
+import {FormattedMessage, history, useIntl} from 'umi';
+import {PageContainer} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { queryClientList,enableOrDisable } from './service';
+import {queryClientList} from './service';
 import ProDescriptions from "@ant-design/pro-descriptions";
-
-const handleRemove = async (selectedRows) => {
-  const hide = message.loading('正在删除');
-  if (!selectedRows) return true;
-
-  try {
-    /*await removeRule({
-      key: selectedRows.map((row) => row.key),
-    });*/
-    hide();
-    message.success('删除成功！');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败！');
-    return false;
-  }
-};
-
-const handleStatus = async (obj) => {
-  const hide = message.loading('正在修改');
-  if (!obj) return true;
-
-  try {
-    await enableOrDisable(obj.id);
-    hide();
-    message.success('操作成功！');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('操作失败！');
-    return false;
-  }
-};
 
 const  handleEdit = (id) => {
   history.push({
-    pathname: '/admin/user-edit',
+    pathname: '/client/client-edit',
     query: {
       id:id
     },
@@ -125,7 +91,7 @@ const ClientList = () => {
         <a
           key="editable"
           onClick={() => {
-            handleEdit(record.id);
+            handleEdit(record.clientId);
           }}
         >
           编辑
@@ -152,7 +118,7 @@ const ClientList = () => {
             onClick={() => {
 
               history.push({
-                pathname: '/admin/user-edit'
+                pathname: '/client/client-edit'
               });
             }}
           >
@@ -167,43 +133,6 @@ const ClientList = () => {
           },
         }}
       />
-{/*
-      {selectedRowsState?.length > 0 && (
-        <FooterToolbar
-          extra={
-            <div>
-              <FormattedMessage id="pages.searchTable.chosen" defaultMessage="Chosen" />{' '}
-              <a
-                style={{
-                  fontWeight: 600,
-                }}
-              >
-                {selectedRowsState.length}
-              </a>{' '}
-            </div>
-          }
-        >
-          <Button
-            onClick={async () => {
-              await handleRemove(selectedRowsState);
-              setSelectedRows([]);
-              actionRef.current?.reloadAndRest?.();
-            }}
-          >
-            <FormattedMessage
-              id="pages.searchTable.batchDeletion"
-              defaultMessage="Batch deletion"
-            />
-          </Button>
-          <Button type="primary">
-            <FormattedMessage
-              id="pages.searchTable.batchApproval"
-              defaultMessage="Batch approval"
-            />
-          </Button>
-        </FooterToolbar>
-      )}
-*/}
 
       <Drawer
         width={600}
@@ -214,15 +143,15 @@ const ClientList = () => {
         }}
         closable={false}
       >
-        {currentRow?.name && (
+        {currentRow?.clientId && (
           <ProDescriptions
-            column={2}
-            title={currentRow?.name}
+            column={1}
+            title={currentRow?.clientId}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
-              id: currentRow?.name,
+              id: currentRow?.clientId,
             }}
             columns={columns}
           />

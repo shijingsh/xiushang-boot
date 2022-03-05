@@ -17,7 +17,7 @@ public class OauthClientDetailsEntity extends BaseUserEntity {
 
     @ApiModelProperty(notes = "资源id列表",hidden = true)
     @JSONField(serialize = false, deserialize = false)
-    private String resourceIds;
+    private String resourceIds = "oauth2";
 
     @ApiModelProperty(notes = "客户端ID")
     private String clientId;

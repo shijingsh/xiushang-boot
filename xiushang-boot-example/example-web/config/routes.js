@@ -49,6 +49,13 @@ export default [
     component: './ClientList',
   },
   {
+    name: 'client.client-edit',
+    icon: 'table',
+    path: '/client/client-edit',
+    hideInMenu: true,
+    component: './ClientList/Edit',
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',

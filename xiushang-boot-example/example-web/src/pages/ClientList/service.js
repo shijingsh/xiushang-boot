@@ -29,10 +29,10 @@ export async function enableOrDisable(id, options) {
 
 
 
-export async function editUser(params) {
+export async function editClient(params) {
   params.loginName = params.mobile;
 
-  return request('/api/user/modifyByAdmin', {
+  return request('/api/user/client/post', {
     method: 'POST',
     data: params,
   });
@@ -40,9 +40,9 @@ export async function editUser(params) {
 
 
 
-export async function queryUserDetail(id) {
+export async function queryDetail(id) {
 
-  return request('/api/user/get?id='+id, {
+  return request('/api/user/client/get?clientId='+id, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

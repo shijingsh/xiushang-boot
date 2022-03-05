@@ -51,11 +51,18 @@ public class OauthClientDetailsService extends BaseServiceImpl<OauthClientDetail
             if(!clientDetailsDb.getUserId().equals(userId)){
                 return MethodResult.error("无权修改客户端信息！");
             }
+            oauthClientDetailsEntity.setResourceIds(clientDetailsDb.getResourceIds());
             oauthClientDetailsEntity.setClientId(clientDetailsDb.getClientId());
-            oauthClientDetailsEntity.setClientSecret(clientDetailsDb.getClientSecret());
+            if(StringUtils.isBlank(clientDetailsSaveVo.getClientSecret())){
+                oauthClientDetailsEntity.setClientSecret(clientDetailsDb.getClientSecret());
+            }else {
+                oauthClientDetailsEntity.setClientSecret(passwordEncoder.encode(clientDetailsSaveVo.getClientSecret()));
+            }
             oauthClientDetailsEntity.setCreateTime(clientDetailsDb.getCreateTime());
             oauthClientDetailsEntity.setScope(clientDetailsDb.getScope());
             oauthClientDetailsEntity.setAutoapprove(clientDetailsDb.getAutoapprove());
+            oauthClientDetailsEntity.setAdditionalInformation(clientDetailsDb.getAdditionalInformation());
+            oauthClientDetailsEntity.setAuthorities(clientDetailsDb.getAuthorities());
             oauthClientDetailsEntity.setAuthorizedGrantTypes(clientDetailsDb.getAuthorizedGrantTypes());
         }else {
 
@@ -78,6 +85,9 @@ public class OauthClientDetailsService extends BaseServiceImpl<OauthClientDetail
         //设置默认值
         if(oauthClientDetailsEntity.getClientType()==null){
             oauthClientDetailsEntity.setClientType(ClientTypeEnum.CLIENT_TYPE_WX_MINI_APP);
+        }
+        if(StringUtils.isBlank(oauthClientDetailsEntity.getResourceIds())){
+            oauthClientDetailsEntity.setResourceIds("oauth2");
         }
         if(StringUtils.isBlank(oauthClientDetailsEntity.getScope())){
             oauthClientDetailsEntity.setScope("all");

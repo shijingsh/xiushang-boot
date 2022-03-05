@@ -57,4 +57,5 @@ export default {
   'menu.notice.list': '公告管理',
   'menu.param.list': '参数配置',
   'menu.client.list': '客户端管理',
+  'menu.client.client-edit': '编辑客户端',
 };
