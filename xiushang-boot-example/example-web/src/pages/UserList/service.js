@@ -30,3 +30,14 @@ export async function enableOrDisable(id, options) {
     ...(options || {}),
   });
 }
+
+
+
+export async function editUser(params) {
+  params.loginName = params.mobile;
+
+  return request('/api/user/modifyByAdmin', {
+    method: 'POST',
+    data: params,
+  });
+}

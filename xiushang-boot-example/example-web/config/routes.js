@@ -62,6 +62,7 @@ export default [
       {
         path: '/admin/user-edit',
         name: 'user-edit',
+        hideInMenu: true,
         icon: 'smile',
         component: './UserList/Edit',
       },

@@ -1,7 +1,7 @@
 import { PlusOutlined } from '@ant-design/icons';
 import { Button, message, Input, Drawer } from 'antd';
 import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage } from 'umi';
+import {useIntl, FormattedMessage, history} from 'umi';
 import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import { queryUserList,enableOrDisable } from './service';
@@ -132,7 +132,10 @@ const UserList = () => {
             type="primary"
             key="primary"
             onClick={() => {
-              handleModalVisible(true);
+
+              history.push({
+                pathname: '/admin/user-edit'
+              });
             }}
           >
             <PlusOutlined /> <FormattedMessage id="pages.searchTable.new" defaultMessage="New" />

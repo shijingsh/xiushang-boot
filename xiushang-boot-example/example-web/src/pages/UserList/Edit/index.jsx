@@ -1,67 +1,19 @@
-import styles from "./index.less";
-import React, { useState } from "react";
-import {
-  Form,
-  Input,
-  Tooltip,
-  Cascader,
-  Select,
-  Row,
-  Col,
-  Card,
-  Checkbox,
-  Button,
-  AutoComplete,
-} from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+import React from "react";
+import {Button, Card, Form, Input, message, Select,} from "antd";
 import {PageContainer} from "@ant-design/pro-layout";
+import {history, useRequest} from "umi";
+import { editUser } from '../service';
+const {Option} = Select;
 
-const { Option } = Select;
-const AutoCompleteOption = AutoComplete.Option;
-
-const residences = [
-  {
-    value: "zhejiang",
-    label: "Zhejiang",
-    children: [
-      {
-        value: "hangzhou",
-        label: "Hangzhou",
-        children: [
-          {
-            value: "xihu",
-            label: "West Lake",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: "jiangsu",
-    label: "Jiangsu",
-    children: [
-      {
-        value: "nanjing",
-        label: "Nanjing",
-        children: [
-          {
-            value: "zhonghuamen",
-            label: "Zhong Hua Men",
-          },
-        ],
-      },
-    ],
-  },
-];
 
 const formItemLayout = {
   labelCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
+    xs: {span: 24},
+    sm: {span: 8},
   },
   wrapperCol: {
-    xs: { span: 24 },
-    sm: { span: 8 },
+    xs: {span: 24},
+    sm: {span: 8},
   },
 };
 const tailFormItemLayout = {
@@ -80,35 +32,36 @@ const tailFormItemLayout = {
 const RegistrationForm = () => {
   const [form] = Form.useForm();
 
+  const { loading: submitting, run: saveEditUser } = useRequest(editUser, {
+    manual: true,
+    formatResult:(res) => {
+      return  res;
+    },
+    onSuccess: (res, params) => {
+      if (res.errorCode === 0) {
+        message.success('操作成功！');
+        history.push({
+          pathname: '/admin/user-list'
+        });
+      }else {
+        message.error(res.errorText);
+      }
+    },
+  });
+
   const onFinish = (values) => {
-    console.log("Received values of form: ", values);
+    saveEditUser(values);
   };
 
   const prefixSelector = (
     <Form.Item name="prefix" noStyle>
-      <Select style={{ width: 70 }}>
+      <Select style={{width: 70}}>
         <Option value="86">+86</Option>
         <Option value="87">+87</Option>
       </Select>
     </Form.Item>
   );
 
-  const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-
-  const onWebsiteChange = (value) => {
-    if (!value) {
-      setAutoCompleteResult([]);
-    } else {
-      setAutoCompleteResult(
-        [".com", ".org", ".net"].map((domain) => `${value}${domain}`)
-      );
-    }
-  };
-
-  const websiteOptions = autoCompleteResult.map((website) => ({
-    label: website,
-    value: website,
-  }));
 
   return (
     <Form
@@ -117,161 +70,106 @@ const RegistrationForm = () => {
       name="register"
       onFinish={onFinish}
       initialValues={{
-        residence: ["zhejiang", "hangzhou", "xihu"],
         prefix: "86",
       }}
       scrollToFirstError
     >
       <Form.Item
-        name="email"
-        label="E-mail"
-        rules={[
-          {
-            type: "email",
-            message: "The input is not valid E-mail!",
-          },
-          {
-            required: true,
-            message: "Please input your E-mail!",
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item
-        name="password"
-        label="Password"
-        rules={[
-          {
-            required: true,
-            message: "Please input your password!",
-          },
-        ]}
-        hasFeedback
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
-        name="confirm"
-        label="Confirm Password"
-        dependencies={["password"]}
-        hasFeedback
-        rules={[
-          {
-            required: true,
-            message: "Please confirm your password!",
-          },
-          ({ getFieldValue }) => ({
-            validator(rule, value) {
-              if (!value || getFieldValue("password") === value) {
-                return Promise.resolve();
-              }
-              return Promise.reject(
-                "The two passwords that you entered do not match!"
-              );
-            },
-          }),
-        ]}
-      >
-        <Input.Password />
-      </Form.Item>
-
-      <Form.Item
-        name="nickname"
+        name="name"
         label={
           <span>
-            Nickname&nbsp;
-            <Tooltip title="What do you want others to call you?">
-              <QuestionCircleOutlined />
-            </Tooltip>
+            昵称&nbsp;
           </span>
         }
         rules={[
           {
             required: true,
-            message: "Please input your nickname!",
+            message: "请输入昵称!",
             whitespace: true,
           },
         ]}
       >
-        <Input />
+        <Input/>
       </Form.Item>
 
       <Form.Item
-        name="residence"
-        label="Habitual Residence"
+        name="mobile"
+        label="手机号"
         rules={[
           {
-            type: "array",
-            required: true,
-            message: "Please select your habitual residence!",
+            pattern:/^1[3|4|5|6|7|8|9][0-9]\d{8}$/,
+            message: "请输入有效的手机号码!",
+          },
+          /*{
+            type: "mobile",
+            message: "请输入有效的手机号码!",
+          },*/
+          {required: true, message: "请输入手机号!"}
+        ]}
+      >
+        <Input/>
+      </Form.Item>
+
+      <Form.Item
+        name="email"
+        label="邮箱"
+        rules={[
+          {
+            type: "email",
+            message: "请输入有效的邮箱!",
+          },
+          {
+            required: false,
+            message: "请输入邮箱!",
           },
         ]}
       >
-        <Cascader options={residences} />
+        <Input/>
       </Form.Item>
 
       <Form.Item
-        name="phone"
-        label="Phone Number"
-        rules={[{ required: true, message: "Please input your phone number!" }]}
+        name="password"
+        label="设置密码"
+        rules={[
+          {
+            required: true,
+            message: "请输入密码!",
+          },
+        ]}
+        hasFeedback
       >
-        <Input addonBefore={prefixSelector} style={{ width: "100%" }} />
+        <Input.Password/>
       </Form.Item>
 
       <Form.Item
-        name="website"
-        label="Website"
-        rules={[{ required: true, message: "Please input website!" }]}
+        name="confirm"
+        label="确认密码"
+        dependencies={["password"]}
+        hasFeedback
+        rules={[
+          {
+            required: true,
+            message: "请输入确认密码!",
+          },
+          ({getFieldValue}) => ({
+            validator(rule, value) {
+              if (!value || getFieldValue("password") === value) {
+                return Promise.resolve();
+              }
+              return Promise.reject(
+                "两次输入密码不一致!"
+              );
+            },
+          }),
+        ]}
       >
-        <AutoComplete
-          options={websiteOptions}
-          onChange={onWebsiteChange}
-          placeholder="website"
-        >
-          <Input />
-        </AutoComplete>
+        <Input.Password/>
       </Form.Item>
 
-      <Form.Item
-        label="Captcha"
-        extra="We must make sure that your are a human."
-      >
-        <Row gutter={8}>
-          <Col span={12}>
-            <Form.Item
-              name="captcha"
-              noStyle
-              rules={[
-                {
-                  required: true,
-                  message: "Please input the captcha you got!",
-                },
-              ]}
-            >
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Button>Get captcha</Button>
-          </Col>
-        </Row>
-      </Form.Item>
 
-      <Form.Item
-        name="agreement"
-        valuePropName="checked"
-        {...tailFormItemLayout}
-      >
-        <Checkbox>
-          I have read the <a href="">agreement</a>
-        </Checkbox>
-      </Form.Item>
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
-          Register
+          保存
         </Button>
       </Form.Item>
     </Form>
@@ -281,8 +179,8 @@ const RegistrationForm = () => {
 export default () => (
   <PageContainer>
     <Card bordered={false}>
-      <RegistrationForm />
+      <RegistrationForm/>
     </Card>
- </PageContainer>
+  </PageContainer>
 
 );
