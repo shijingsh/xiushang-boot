@@ -167,7 +167,7 @@ public class UserController {
      * @return
      */
     @ResponseBody
-    @PostMapping("/pageList")
+    @PostMapping("/listPage")
     @Secured(SecurityRole.ROLE_ADMIN)
     public CommonResult getPageList(@RequestBody UserSearchVo searchVo) {
 

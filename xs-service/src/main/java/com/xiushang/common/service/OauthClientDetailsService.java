@@ -102,7 +102,7 @@ public class OauthClientDetailsService extends BaseServiceImpl<OauthClientDetail
         BooleanExpression ex = entity.userId.eq(userId);
 
         if(StringUtils.isNotBlank(param.getSearchKey())){
-            ex = ex.and(entity.clientName.like("%" + param.getSearchKey() + "%"));
+            ex = ex.and(entity.clientName.like("%" + param.getSearchKey() + "%").or(entity.clientId.eq(param.getSearchKey())));
         }
         Page<OauthClientDetailsEntity> page = findPageList(ex,param.createPageRequest());
         LazyLoadUtil.fullLoad(page);

@@ -43,6 +43,12 @@ export default [
     component: './ParamList',
   },
   {
+    name: 'client.list',
+    icon: 'table',
+    path: '/client/list',
+    component: './ClientList',
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',

@@ -1,12 +1,11 @@
 import { request } from 'umi';
 import * as CommonUtils from '@/utils/CommonUtils';
 
-/** 获取用户列表 */
-export async function queryUserList(params, options) {
-  console.log(params)
-  params = CommonUtils.getPageParam(params);
+export async function queryClientList(params, options) {
 
-  return request('/api/user/listPage', {
+  params = CommonUtils.getPageParam(params);
+  params.searchKey = params.clientId;
+  return request('/api/user/client/listPage', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
