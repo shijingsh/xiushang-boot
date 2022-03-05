@@ -42,7 +42,7 @@ public class NewsServiceImpl extends BaseServiceImpl<NewsEntity> implements News
 
         String searchKey = helpSearchVo.getSearchKey();
         if (StringUtils.isNotBlank(searchKey)) {
-            ex = ex.and(entity.content.like("%" + searchKey + "%"));
+            ex = ex.and(entity.content.like("%" + searchKey + "%") .or(entity.title.like("%" + searchKey + "%")));
         }
 
         Page<NewsEntity> page = findPageList(ex, helpSearchVo.createPageRequest( new Sort.Order(Sort.Direction.ASC,"validDate")));

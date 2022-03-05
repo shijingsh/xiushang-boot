@@ -8,9 +8,6 @@ export const baseUrl = '/proxy'; //dev
 
 export function listData(res) {
 
-  if (res.data.rowData && res.data.rowData.length) {
-    res.data = res.data.rowData;
-  }
   if (res.data.totalCount) {
     res.total = res.data.totalCount;
   }
@@ -20,6 +17,13 @@ export function listData(res) {
   if (res.data.pageNo) {
     res.current = res.data.pageNo;
   }
+
+  if (res.data.rowData && res.data.rowData.length) {
+    res.data = res.data.rowData;
+  }else if(res.data.rowData !== undefined){
+    res.data = [];
+  }
+
   return res;
 }
 

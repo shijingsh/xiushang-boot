@@ -1,14 +1,14 @@
-import { PlusOutlined } from '@ant-design/icons';
-import { Button, message, Input, Drawer } from 'antd';
-import React, { useState, useRef } from 'react';
-import { useIntl, FormattedMessage } from 'umi';
-import { PageContainer, FooterToolbar } from '@ant-design/pro-layout';
+import {PlusOutlined} from '@ant-design/icons';
+import {Button, Drawer, message} from 'antd';
+import React, {useRef, useState} from 'react';
+import {FormattedMessage, useIntl} from 'umi';
+import {FooterToolbar, PageContainer} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
-import { ModalForm, ProFormText, ProFormTextArea } from '@ant-design/pro-form';
+import {ModalForm, ProFormText, ProFormTextArea} from '@ant-design/pro-form';
 import ProDescriptions from '@ant-design/pro-descriptions';
 import UpdateForm from './components/UpdateForm';
-import { rule, addRule, updateRule, removeRule,listNotice } from '@/services/ant-design-pro/api';
-import moment from "moment";
+import {addRule, listNotice, removeRule, updateRule} from './service';
+
 /**
  * @en-US Add node
  * @zh-CN 添加节点
@@ -105,7 +105,6 @@ const TableList = () => {
     {
       title: "公告名称",
       dataIndex: 'title',
-      tip: 'The rule name is the unique key',
       render: (dom, entity) => {
         return (
           <a
@@ -123,12 +122,14 @@ const TableList = () => {
       title: "公告内容",
       dataIndex: 'content',
       valueType: 'textarea',
+      search: false,
     },
 
     {
       title: <FormattedMessage id="pages.searchTable.titleStatus" defaultMessage="Status" />,
       dataIndex: 'status',
       hideInForm: true,
+      search: false,
       valueEnum: {
         0: {
           text: "无效",
@@ -143,27 +144,10 @@ const TableList = () => {
     {
       title: "有效期",
       sorter: true,
+      search: false,
       dataIndex: 'validDate',
       valueType: 'dateTime',
       renderFormItem: (item, { defaultRender, ...rest }, form) => {
-        const status = form.getFieldValue('status');
-
-        if (`${status}` === '0') {
-          return false;
-        }
-
-        if (`${status}` === '3') {
-          return (
-            <Input
-              {...rest}
-              placeholder={intl.formatMessage({
-                id: 'pages.searchTable.exception',
-                defaultMessage: 'Please enter the reason for the exception!',
-              })}
-            />
-          );
-        }
-
         return defaultRender(item);
       },
     },
@@ -179,13 +163,7 @@ const TableList = () => {
             setCurrentRow(record);
           }}
         >
-          <FormattedMessage id="pages.searchTable.config" defaultMessage="Configuration" />
-        </a>,
-        <a key="subscribeAlert" href="https://procomponents.ant.design/">
-          <FormattedMessage
-            id="pages.searchTable.subscribeAlert"
-            defaultMessage="Subscribe to alerts"
-          />
+          修改
         </a>,
       ],
     },
@@ -193,15 +171,16 @@ const TableList = () => {
   return (
     <PageContainer>
       <ProTable
-        headerTitle={intl.formatMessage({
+/*        headerTitle={intl.formatMessage({
           id: 'pages.searchTable.title',
           defaultMessage: 'Enquiry form',
-        })}
+        })}*/
         actionRef={actionRef}
         rowKey="key"
         search={{
           labelWidth: 120,
         }}
+        tableAlertRender={false}
         toolBarRender={() => [
           <Button
             type="primary"
@@ -214,28 +193,6 @@ const TableList = () => {
           </Button>,
         ]}
         request={listNotice} // rule  listNotice
-/*        request={() => {
-          return Promise.resolve({
-            data: [{
-              key: 0,
-              disabled: 0,
-              href: 'https://ant.design',
-              avatar: [
-                'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
-                'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
-              ][0],
-              name: `TradeCode `,
-              owner: '曲丽丽',
-              desc: '这是一段描述',
-              callNo: Math.floor(Math.random() * 1000),
-              status: Math.floor(Math.random() * 10) % 4,
-              updatedAt: moment().format('YYYY-MM-DD'),
-              createdAt: moment().format('YYYY-MM-DD'),
-              progress: Math.ceil(Math.random() * 100),
-            }],
-            success: true,
-          });
-        }}*/
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -255,16 +212,6 @@ const TableList = () => {
               >
                 {selectedRowsState.length}
               </a>{' '}
-              <FormattedMessage id="pages.searchTable.item" defaultMessage="项" />
-              &nbsp;&nbsp;
-              <span>
-                <FormattedMessage
-                  id="pages.searchTable.totalServiceCalls"
-                  defaultMessage="Total number of service calls"
-                />{' '}
-                {selectedRowsState.reduce((pre, item) => pre + item.callNo, 0)}{' '}
-                <FormattedMessage id="pages.searchTable.tenThousand" defaultMessage="万" />
-              </span>
             </div>
           }
         >
@@ -278,12 +225,6 @@ const TableList = () => {
             <FormattedMessage
               id="pages.searchTable.batchDeletion"
               defaultMessage="Batch deletion"
-            />
-          </Button>
-          <Button type="primary">
-            <FormattedMessage
-              id="pages.searchTable.batchApproval"
-              defaultMessage="Batch approval"
             />
           </Button>
         </FooterToolbar>

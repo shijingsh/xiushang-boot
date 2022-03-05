@@ -31,10 +31,10 @@ export default [
   },
 
   {
-    name: 'list.table-list',
+    name: 'notice.list',
     icon: 'table',
-    path: '/list',
-    component: './TableList',
+    path: '/notice/list',
+    component: './NoticeList',
   },
   {
     path: '/admin',
