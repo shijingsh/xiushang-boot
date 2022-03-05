@@ -1,12 +1,13 @@
 package com.xiushang.common.user.vo;
 
+import com.xiushang.framework.entity.vo.BaseVO;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import javax.persistence.Lob;
 
 @Data
-public class SystemParamSaveVo implements java.io.Serializable{
+public class SystemParamSaveVo extends BaseVO {
 
     /**
      * 参数中文名称

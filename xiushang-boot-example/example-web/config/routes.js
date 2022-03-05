@@ -37,6 +37,12 @@ export default [
     component: './NoticeList',
   },
   {
+    name: 'param.list',
+    icon: 'table',
+    path: '/param/list',
+    component: './ParamList',
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',

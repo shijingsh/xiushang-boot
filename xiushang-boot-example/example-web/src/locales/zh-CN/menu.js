@@ -55,5 +55,5 @@ export default {
   'menu.editor.koni': '拓扑编辑器',
 
   'menu.notice.list': '公告管理',
-
+  'menu.param.list': '参数配置',
 };

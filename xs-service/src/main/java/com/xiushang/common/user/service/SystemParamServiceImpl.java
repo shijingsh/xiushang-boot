@@ -82,10 +82,14 @@ public class SystemParamServiceImpl extends BaseServiceImpl<SystemParamEntity> i
     @Transactional
     public SystemParamEntity saveParam(SystemParamSaveVo paramVo) {
         String shopId = userService.getCurrentShopId();
-        List<SystemParamEntity> list = systemParamDao.findByShopIdAndParamName(shopId,paramVo.getParamName());
         SystemParamEntity paramEntity = null;
-        if(list!=null && list.size()>0){
-            paramEntity = list.get(0);
+        if(StringUtils.isBlank(paramVo.getId())){
+            List<SystemParamEntity> list = systemParamDao.findByShopIdAndParamName(shopId,paramVo.getParamName());
+            if(list!=null && list.size()>0){
+                paramEntity = list.get(0);
+            }
+        }else {
+            paramEntity = get(paramVo.getId());
         }
 
         if(paramEntity==null){
@@ -95,6 +99,8 @@ public class SystemParamServiceImpl extends BaseServiceImpl<SystemParamEntity> i
             paramEntity.setParamValue(paramVo.getParamValue());
             paramEntity.setRemark(paramVo.getRemark());
         }else {
+            paramEntity.setDeleted(DeleteEnum.VALID);
+            paramEntity.setParamName(paramVo.getParamName());
             paramEntity.setParamValue(paramVo.getParamValue());
             paramEntity.setRemark(paramVo.getRemark());
         }

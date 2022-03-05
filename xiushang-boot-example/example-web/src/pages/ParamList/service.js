@@ -6,10 +6,10 @@ import * as CommonUtils from "@/utils/CommonUtils";
 
 
 /** 获取列表 */
-export async function queryNoticeList(params, options) {
+export async function queryParamList(params, options) {
   params  = CommonUtils.getPageParam(params);
-  params.searchKey = params.title;
-  return request('/api/news/v1/listPage', {
+  params.searchKey = params.paramName;
+  return request('/api/param/listPage', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -21,8 +21,8 @@ export async function queryNoticeList(params, options) {
 
 
 /** 保存 */
-export async function saveNotice(params,options) {
-  return request('/api/news/v1/post', {
+export async function saveParam(params,options) {
+  return request('/api/param/post', {
     method: 'POST',
     data: params,
     ...(options || {}),
@@ -30,8 +30,8 @@ export async function saveNotice(params,options) {
 }
 
 /** 删除 */
-export async function removeNotice(id) {
-  return request('/api/news/v1/delete?id='+id, {
+export async function removeParam(id) {
+  return request('/api/param/delete?id='+id, {
     method: 'GET',
   });
 }
