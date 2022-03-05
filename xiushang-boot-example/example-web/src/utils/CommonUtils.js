@@ -23,6 +23,21 @@ export function listData(res) {
   return res;
 }
 
+export function getPageParam(params) {
+  if(!params){
+    params = {};
+  }
+
+  if(params.current){
+    params.pageNo = params.current
+  }else {
+    params.pageNo = 1;
+  }
+
+  return params;
+
+}
+
 export function getHomeUrl() {
   return window.location.protocol + '//' + window.location.host;
 }

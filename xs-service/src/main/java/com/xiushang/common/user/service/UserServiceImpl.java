@@ -84,17 +84,28 @@ public class UserServiceImpl implements UserService {
         return users.get(0);
     }
 
+    private BooleanExpression getUserCondition(QUserEntity entity,UserSearchVo searchVo){
+        BooleanExpression ex = entity.id.isNotNull();
+        if(searchVo.getDeleted()!=null){
+            ex = ex.and(entity.deleted.eq(searchVo.getDeleted()));
+        }
+        if (StringUtils.isNotBlank(searchVo.getLoginName())) {
+            ex = ex.and(entity.loginName.like("%" + searchVo.getLoginName() + "%"));
+        }
+        if (StringUtils.isNotBlank(searchVo.getMobile())) {
+            ex = ex.and(entity.mobile.eq(searchVo.getMobile()));
+        }
+        if (StringUtils.isNotBlank(searchVo.getName())) {
+            ex = ex.and(entity.name.like("%" + searchVo.getName() + "%"));
+        }
+
+        return ex;
+    }
+
     public Long findCount(UserSearchVo searchVo) {
         QUserEntity entity = QUserEntity.userEntity;
 
-        BooleanExpression ex = entity.deleted.eq(DeleteEnum.VALID);
-        if (searchVo != null) {
-            if (StringUtils.isNotBlank(searchVo.getLoginName())) {
-                ex = ex.and(entity.loginName.like("%" + searchVo.getLoginName() + "%"));
-            } else if (StringUtils.isNotBlank(searchVo.getName())) {
-                ex = ex.and(entity.name.like("%" + searchVo.getName() + "%"));
-            }
-        }
+        BooleanExpression ex = getUserCondition(entity,searchVo);
 
         JPAQuery query = new JPAQuery(entityManager);
         query.from(entity).where(
@@ -113,14 +124,7 @@ public class UserServiceImpl implements UserService {
             limit = 15;
         }
 
-        BooleanExpression ex = entity.id.isNotNull();
-        if (StringUtils.isNotBlank(searchVo.getLoginName())) {
-            ex = ex.and(entity.loginName.like("%" + searchVo.getLoginName() + "%"));
-        } else if (StringUtils.isNotBlank(searchVo.getMobile())) {
-            ex = ex.and(entity.mobile.eq(searchVo.getMobile()));
-        }else if (StringUtils.isNotBlank(searchVo.getName())) {
-            ex = ex.and(entity.name.like("%" + searchVo.getName() + "%"));
-        }
+        BooleanExpression ex =  getUserCondition( entity,searchVo);
 
         JPAQuery query = new JPAQuery(entityManager);
         query.from(entity)

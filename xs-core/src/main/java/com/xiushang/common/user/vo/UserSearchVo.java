@@ -13,5 +13,7 @@ public class UserSearchVo extends BaseSearchPageVo implements java.io.Serializab
     @ApiModelProperty(notes = "手机号")
     private String mobile;
 
+    @ApiModelProperty(notes = "是否已删除 （0 未删除  1 已删除）")
+    private Integer deleted ;
 
 }

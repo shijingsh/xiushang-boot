@@ -41,6 +41,13 @@ const handleStatus = async (obj) => {
   }
 };
 
+const  handleEdit = (id) => {
+  history.push({
+    pathname: '/admin/user-edit',
+    id: id,
+  });
+};
+
 
 const UserList = () => {
 
@@ -93,6 +100,7 @@ const UserList = () => {
     {
       title: "最后登陆时间",
       sorter: true,
+      search: false,
       dataIndex: 'lastLoginDate',
       valueType: 'dateTime',
       renderFormItem: (item, { defaultRender}) => {
@@ -104,6 +112,14 @@ const UserList = () => {
       dataIndex: 'option',
       valueType: 'option',
       render: (_, record) => [
+        <a
+          key="editable"
+          onClick={() => {
+            handleEdit(record.id);
+          }}
+        >
+          编辑
+        </a>,
         <a
           key="config"
           onClick={async () => {
@@ -124,9 +140,13 @@ const UserList = () => {
       <ProTable
         actionRef={actionRef}
         rowKey="id"
+        /*search={false}*/
         search={{
           labelWidth: 120,
         }}
+        /*options={false}*/
+        /*toolBarRender={false}*/
+        tableAlertRender={false}
         toolBarRender={() => [
           <Button
             type="primary"
@@ -149,6 +169,7 @@ const UserList = () => {
           },
         }}
       />
+{/*
       {selectedRowsState?.length > 0 && (
         <FooterToolbar
           extra={
@@ -184,6 +205,7 @@ const UserList = () => {
           </Button>
         </FooterToolbar>
       )}
+*/}
 
       <Drawer
         width={600}

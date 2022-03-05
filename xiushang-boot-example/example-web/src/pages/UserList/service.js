@@ -1,20 +1,17 @@
 import { request } from 'umi';
-
+import * as CommonUtils from '@/utils/CommonUtils';
 
 /** 获取用户列表 */
 export async function queryUserList(params, options) {
-  let param = {
-    "pageNo": 0,
-    "pageSize": 0,
-    "searchKey": "",
-    "shopId": ""
-  }
+  console.log(params)
+  params = CommonUtils.getPageParam(params);
+
   return request('/api/user/pageList', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
-    data: param,
+    data: params,
     ...(options || {}),
   });
 }
