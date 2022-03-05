@@ -44,7 +44,9 @@ const handleStatus = async (obj) => {
 const  handleEdit = (id) => {
   history.push({
     pathname: '/admin/user-edit',
-    id: id,
+    query: {
+      id:id
+    },
   });
 };
 

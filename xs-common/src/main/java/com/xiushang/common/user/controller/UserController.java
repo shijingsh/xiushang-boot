@@ -284,7 +284,9 @@ public class UserController {
             if(StringUtils.isNotBlank(user.getEmail())){
                 userEntity.setEmail(user.getEmail());
             }
-
+            if(user.getDeleted()!=null){
+                userEntity.setDeleted(user.getDeleted());
+            }
             userService.registerUser(userEntity);
         } catch (Exception e) {
             e.printStackTrace();

@@ -1,8 +1,8 @@
-import React from "react";
-import {Button, Card, Form, Input, message, Select,} from "antd";
+import React, {useEffect, useState} from "react";
+import {Button, Card, Form, Input, message, Radio, Select,} from "antd";
 import {PageContainer} from "@ant-design/pro-layout";
 import {history, useRequest} from "umi";
-import { editUser } from '../service';
+import { editUser,queryUserDetail } from '../service';
 const {Option} = Select;
 
 
@@ -29,8 +29,22 @@ const tailFormItemLayout = {
   },
 };
 
-const RegistrationForm = () => {
+const RegistrationForm = (props) => {
+
+  const { detail } = props;
+
+
   const [form] = Form.useForm();
+
+  useEffect(() => {
+    form.setFieldsValue({
+      name: detail.name,
+      email: detail.email?detail.email:"",
+      mobile: detail.mobile,
+      deleted: detail.deleted + '',
+    });
+  }, [detail]);
+
 
   const { loading: submitting, run: saveEditUser } = useRequest(editUser, {
     manual: true,
@@ -50,6 +64,9 @@ const RegistrationForm = () => {
   });
 
   const onFinish = (values) => {
+    if(detail && detail.id){
+      values.id = detail.id;
+    }
     saveEditUser(values);
   };
 
@@ -70,7 +87,8 @@ const RegistrationForm = () => {
       name="register"
       onFinish={onFinish}
       initialValues={{
-        prefix: "86",
+        password:"",
+        confirm:""
       }}
       scrollToFirstError
     >
@@ -166,6 +184,12 @@ const RegistrationForm = () => {
         <Input.Password/>
       </Form.Item>
 
+      <Form.Item name="deleted" label="账号状态">
+        <Radio.Group>
+          <Radio value={'0'}>正常</Radio>
+          <Radio value={'1'}>禁止</Radio>
+        </Radio.Group>
+      </Form.Item>
 
       <Form.Item {...tailFormItemLayout}>
         <Button type="primary" htmlType="submit">
@@ -176,11 +200,28 @@ const RegistrationForm = () => {
   );
 };
 
-export default () => (
-  <PageContainer>
-    <Card bordered={false}>
-      <RegistrationForm/>
-    </Card>
-  </PageContainer>
+export default ({ location }) =>{
+  const id = location.query.id ;
 
-);
+  const { data: detail, loading } = useRequest(() => {
+    if(id){
+      return queryUserDetail(id);
+    }else {
+      return null;
+    }
+  });
+
+  const [userDetail, setUserDetail] = useState({});
+  useEffect(() => {
+    setUserDetail(detail || []);
+  }, [detail]);
+
+  return (
+    <PageContainer>
+      <Card bordered={false}>
+        <RegistrationForm detail={userDetail}/>
+      </Card>
+    </PageContainer>
+
+  );
+}

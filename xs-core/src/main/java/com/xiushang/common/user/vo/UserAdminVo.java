@@ -21,4 +21,6 @@ public class UserAdminVo extends BaseVO {
     @ApiModelProperty(notes = "密码",position = 4,required = true)
     private String password;
 
+    @ApiModelProperty(notes = "是否已删除 （0 未删除  1 已删除）")
+    private Integer deleted;
 }

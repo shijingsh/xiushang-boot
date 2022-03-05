@@ -38,3 +38,15 @@ export async function editUser(params) {
     data: params,
   });
 }
+
+
+
+export async function queryUserDetail(id) {
+
+  return request('/api/user/get?id='+id, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
