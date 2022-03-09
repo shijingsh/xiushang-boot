@@ -1,6 +1,7 @@
 package com.xiushang.common.info.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.info.service.AppVersionService;
 import com.xiushang.common.info.vo.AppVersionSaveVo;
 import com.xiushang.common.info.vo.AppVersionVo;
@@ -38,6 +39,7 @@ public class AppVersionController {
      * 检查App版本
      * @return
      */
+    @XiushangApi
     @ApiOperation(value = "检查App版本", notes = " 此接口用于客户端检查版本更新")
     @ResponseBody
     @GetMapping("/checkVersion")
@@ -55,6 +57,7 @@ public class AppVersionController {
      * 更新App版本
      * @return
      */
+    @XiushangApi
     @ApiOperation(value = "更新App版本", notes = " 版本号格式：1.0.0")
     @ResponseBody
     @PostMapping("/updateVersion")

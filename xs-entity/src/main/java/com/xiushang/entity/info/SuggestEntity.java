@@ -29,21 +29,27 @@ public class SuggestEntity extends BaseEntity {
     /**
      * 姓名
      */
+    @ApiModelProperty(value = "姓名")
     private String name ;
     /**
      * 联系方式
      */
-    private String contact ;
+    @ApiModelProperty(value = "联系手机",required = true)
+    private String mobile ;
+
+    /**
+     * email
+     */
+    @ApiModelProperty(value = "联系邮箱")
+    private String email;
     /**
      * 建议内容
      */
     @Lob
     @Basic(fetch = FetchType.EAGER)
+    @ApiModelProperty(value = "建议内容")
     private String content;
-    /**
-     * email
-     */
-    private String email;
+
     /**
      * 来源
      */
@@ -58,11 +64,23 @@ public class SuggestEntity extends BaseEntity {
     @ElementCollection
     @CollectionTable(name="images_suggest", joinColumns=@JoinColumn(name="suggest_id"))
     @Column(name="images")
+    @ApiModelProperty(value = "相关图片")
     private List<String> images = new ArrayList<>();
     /**
      * 反馈状态 0 用户反馈  1 处理中  2 已处理
      */
+    @ApiModelProperty(value = "反馈状态 0 用户反馈  1 处理中  2 已处理")
     private Integer status = 0;
+
+    /**
+     * 反馈类型
+     * 0 用户主动反馈
+     * 1 用户被动相应 （客户要求给他来电）
+     *
+     */
+    @ApiModelProperty(value = "反馈类型",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
+    private Integer type = 0;
 
     public ShopEntity getBelongShop() {
         return belongShop;
@@ -80,12 +98,12 @@ public class SuggestEntity extends BaseEntity {
         this.name = name;
     }
 
-    public String getContact() {
-        return contact;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setContact(String contact) {
-        this.contact = contact;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getContent() {
@@ -126,5 +144,13 @@ public class SuggestEntity extends BaseEntity {
 
     public void setFromClient(String fromClient) {
         this.fromClient = fromClient;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
     }
 }

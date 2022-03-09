@@ -1,6 +1,7 @@
 package com.xiushang.common.info.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.info.service.AddressService;
 import com.xiushang.common.info.vo.AddressVo;
 import com.xiushang.entity.info.AddressEntity;
@@ -47,6 +48,7 @@ public class AddressController {
      * 保存
      * @return
      */
+    @XiushangApi
     @ApiOperation(value = "保存用户收货地址")
     @ResponseBody
     @PostMapping("/post")
@@ -61,6 +63,7 @@ public class AddressController {
      * 保存
      * @return
      */
+    @XiushangApi
     @ApiOperation(value = "设置用户默认收货地址")
     @ResponseBody
     @GetMapping("/setDefault")
@@ -73,6 +76,7 @@ public class AddressController {
      * 保存
      * @return
      */
+    @XiushangApi
     @ApiOperation(value = "删除用户收货地址")
     @ResponseBody
     @GetMapping("/delete")
@@ -84,6 +88,7 @@ public class AddressController {
     /**
      * 我的地址
      */
+    @XiushangApi
     @ApiOperation(value = "获取用户收货地址")
     @ResponseBody
     @GetMapping("/my")
@@ -100,6 +105,7 @@ public class AddressController {
     /**
      * 我的地址
      */
+    @XiushangApi
     @ApiOperation(value = "获取收货地址列表")
     @ResponseBody
     @PostMapping("/myList")

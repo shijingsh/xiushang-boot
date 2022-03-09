@@ -1,6 +1,7 @@
 package com.xiushang.common.info.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.info.service.SuggestService;
 import com.xiushang.common.info.vo.SuggestVo;
 import com.xiushang.entity.info.SuggestEntity;
@@ -50,6 +51,7 @@ public class SuggestController {
      * 保存
      * @return
      */
+    @XiushangApi
     @ApiOperation(value = "保存用户反馈")
     @ResponseBody
     @PostMapping("/post")
@@ -66,6 +68,7 @@ public class SuggestController {
      * @param param   请求
      * @return          PageTableVO
      */
+    @XiushangApi
     @ApiOperation(value = "获取用户反馈列表")
     @ResponseBody
     @PostMapping("/listPage")

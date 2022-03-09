@@ -1,6 +1,7 @@
 package com.xiushang.common.info.controller;
 
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
+import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.info.service.HelpService;
 import com.xiushang.common.info.vo.HelpSearchVo;
 import com.xiushang.common.info.vo.HelpVo;
@@ -45,6 +46,7 @@ public class HelpController {
      * 删除
      * @return
      */
+    @XiushangApi
     @ApiOperation(value = "删除帮助信息")
     @ResponseBody
     @GetMapping("/delete")
@@ -57,6 +59,7 @@ public class HelpController {
      * 保存
      * @return
      */
+    @XiushangApi
     @ApiOperation(value = "保存帮助信息")
     @ResponseBody
     @PostMapping("/post")
@@ -71,6 +74,7 @@ public class HelpController {
      * @param helpSearchVo
      * @return          PageTableVO
      */
+    @XiushangApi
     @ApiOperation(value = "获取帮助信息列表")
     @ResponseBody
     @PostMapping("/listPage")
