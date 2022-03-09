@@ -60,4 +60,6 @@ export default {
   'menu.client.client-edit': '编辑客户端',
 
   'menu.admin.sms-list': '短信管理',
+  'menu.help.list': '帮助信息',
+  'menu.help.help-edit': '编辑帮助',
 };

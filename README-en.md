@@ -357,5 +357,4 @@ Any questions and comments: scan the wechat QR code below the code. Remark "show
 
 
 
-| ![](https://www.xiushangsh.com/null/miniQrCode/wx_20220309144839.jpg)  
-| ------------------------------------------------------------ | ------------------------------------------------------------
+ ![](https://www.xiushangsh.com/null/miniQrCode/wx_20220309144839.jpg)  

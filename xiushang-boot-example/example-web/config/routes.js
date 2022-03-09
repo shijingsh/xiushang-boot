@@ -43,6 +43,19 @@ export default [
     component: './ParamList',
   },
   {
+    name: 'help.list',
+    icon: 'table',
+    path: '/help/list',
+    component: './HelpList',
+  },
+  {
+    name: 'help.help-edit',
+    icon: 'table',
+    path: '/help/help-edit',
+    hideInMenu: true,
+    component: './HelpList/Edit',
+  },
+  {
     name: 'client.list',
     icon: 'table',
     path: '/client/list',
