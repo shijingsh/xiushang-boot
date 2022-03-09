@@ -11,18 +11,20 @@ import com.xiushang.common.user.vo.SmsVo;
 import com.xiushang.common.utils.MD5;
 import com.xiushang.common.utils.ValidPassword;
 import com.xiushang.entity.UserEntity;
-import com.xiushang.entity.shop.ShopEntity;
+import com.xiushang.framework.entity.vo.PageTableVO;
+import com.xiushang.framework.entity.vo.SearchPageVo;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.sys.PropertyConfigurer;
+import com.xiushang.security.SecurityRole;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.service.spi.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.validation.Valid;
@@ -156,5 +158,18 @@ public class RegisterController {
 	}
 
 
+	/**
+	 * 分页查询短信列表
+	 *
+	 * @return
+	 */
+	@ResponseBody
+	@PostMapping("/api/sms/listPage")
+	@Secured(SecurityRole.ROLE_ADMIN)
+	public CommonResult getPageList(@RequestBody SearchPageVo searchVo) {
 
+		PageTableVO vo = smsService.findPageList(searchVo);
+
+		return CommonResult.success(vo);
+	}
 }

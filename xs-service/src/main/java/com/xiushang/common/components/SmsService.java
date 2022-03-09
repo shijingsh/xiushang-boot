@@ -7,15 +7,25 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.xiushang.common.user.service.SmsCodeService;
 import com.xiushang.common.user.service.SystemParamService;
 import com.xiushang.common.user.vo.SmsVo;
+import com.xiushang.common.utils.BaseServiceImpl;
+import com.xiushang.common.utils.LazyLoadUtil;
+import com.xiushang.entity.QSmsCodeEntity;
+import com.xiushang.entity.QSystemParamEntity;
 import com.xiushang.entity.SmsCodeEntity;
 import com.xiushang.entity.SystemParamEntity;
+import com.xiushang.framework.entity.vo.PageTableVO;
+import com.xiushang.framework.entity.vo.SearchPageVo;
 import com.xiushang.framework.sys.PropertyConfigurer;
+import com.xiushang.framework.utils.DeleteEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +36,7 @@ import java.util.Date;
  */
 @Service
 @Slf4j
-public class SmsService {
+public class SmsService extends BaseServiceImpl<SmsCodeEntity> {
 
 	//产品名称:云通信短信API产品,开发者无需替换
 	static final String product = "Dysmsapi";
@@ -145,5 +155,21 @@ public class SmsService {
 		smsCodeEntity.setCode(response.getCode());
 		smsCodeEntity.setMessage(response.getMessage());
 		smsCodeService.save(smsCodeEntity);
+	}
+
+
+	public PageTableVO findPageList(SearchPageVo searchVo) {
+
+		QSmsCodeEntity entity = QSmsCodeEntity.smsCodeEntity;
+		BooleanExpression ex = entity.deleted.eq(DeleteEnum.VALID);
+
+		if(StringUtils.isNotBlank(searchVo.getSearchKey())){
+			ex = ex.and(entity.mobile.eq(searchVo.getSearchKey()));
+		}
+		Page<SmsCodeEntity> page = findPageList(ex,searchVo.createPageRequest(new Sort.Order(Sort.Direction.DESC,"sendTime")));
+		LazyLoadUtil.fullLoad(page);
+		PageTableVO vo = new PageTableVO(page,searchVo);
+
+		return vo;
 	}
 }

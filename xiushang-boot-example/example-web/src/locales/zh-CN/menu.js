@@ -58,4 +58,6 @@ export default {
   'menu.param.list': '参数配置',
   'menu.client.list': '客户端管理',
   'menu.client.client-edit': '编辑客户端',
+
+  'menu.admin.sms-list': '短信管理',
 };

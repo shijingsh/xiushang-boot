@@ -1,7 +1,7 @@
 package com.xiushang.entity;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -50,11 +50,15 @@ public class SmsCodeEntity extends BaseEntity {
      */
     @ApiModelProperty(notes = "短信发送时间")
     private  Date sendTime;
+
     //-------------返回内容-------------------
-    @ApiModelProperty(notes = "requestId")
+    @ApiModelProperty(notes = "requestId",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private String requestId;
-    @ApiModelProperty(notes = "bizId")
+    @ApiModelProperty(notes = "bizId",hidden = true)
+    @JSONField(serialize = false, deserialize = false)
     private String bizId;
+
     @ApiModelProperty(notes = "code")
     private String code;
     @ApiModelProperty(notes = "message")

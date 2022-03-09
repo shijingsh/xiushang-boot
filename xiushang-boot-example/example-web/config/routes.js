@@ -86,6 +86,12 @@ export default [
         component: './UserList/Edit',
       },
       {
+        path: '/admin/sms-list',
+        name: 'sms-list',
+        icon: 'smile',
+        component: './SmsList',
+      },
+      {
         component: './404',
       },
     ],

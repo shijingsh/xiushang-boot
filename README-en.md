@@ -348,7 +348,14 @@ dubbo:
     port: 20880
 
 ```
-    
-### constraint
+ 
+
+## Contact information
+   
+
+Any questions and comments: scan the wechat QR code below the code. Remark "showup", enter wechat learning and exchange group.
 
 
+
+| ![](https://www.xiushangsh.com/null/miniQrCode/wx_20220309144839.jpg)  
+| ------------------------------------------------------------ | ------------------------------------------------------------
