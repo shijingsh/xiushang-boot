@@ -62,7 +62,7 @@ public class SuggestServiceImpl extends BaseServiceImpl<SuggestEntity> implement
         entity.setFromClient(clientId);
         suggestDao.save(entity);
 
-        String templateParam = "{\"code\":\""+entity.getContact()+"\"}";
+        String templateParam = "{\"code\":\""+entity.getMobile()+"\"}";
         sendSmsTip(entity,templateParam);
 
         return entity;
