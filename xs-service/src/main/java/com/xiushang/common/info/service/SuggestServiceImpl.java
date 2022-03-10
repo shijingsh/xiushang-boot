@@ -51,6 +51,10 @@ public class SuggestServiceImpl extends BaseServiceImpl<SuggestEntity> implement
             ex = ex.and(entity.type.eq(param.getType()));
         }
 
+        if(param.getStatus()!=null){
+            ex = ex.and(entity.status.eq(param.getStatus()));
+        }
+
         if(StringUtils.isNotBlank(param.getName())){
             ex = ex.and(entity.name.like("%" + param.getName() + "%"));
         }
@@ -106,6 +110,17 @@ public class SuggestServiceImpl extends BaseServiceImpl<SuggestEntity> implement
 
         entity.setHandlerUser(userEntity);
         entity.setHandlerContent(suggestProcessVo.getHandlerContent());
+
+        if(StringUtils.isNotBlank(suggestProcessVo.getName())) {
+            entity.setName(suggestProcessVo.getName());
+        }
+        if(StringUtils.isNotBlank(suggestProcessVo.getEmail())) {
+            entity.setEmail(suggestProcessVo.getEmail());
+        }
+        if(entity.getType()==1 && StringUtils.isNotBlank(suggestProcessVo.getContent())) {
+            entity.setEmail(suggestProcessVo.getContent());
+        }
+
         entity.setStatus(2);
         suggestDao.save(entity);
 

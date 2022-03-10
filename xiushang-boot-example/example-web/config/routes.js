@@ -89,6 +89,13 @@ export default [
         path: '/suggest/call',
         component: './suggest/call',
       },
+      {
+        name: 'suggest-edit',
+        icon: 'smile',
+        path: '/suggest/edit',
+        hideInMenu: true,
+        component: './suggest/Edit',
+      },
     ],
   },
   {

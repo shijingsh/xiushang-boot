@@ -66,4 +66,5 @@ export default {
   'menu.suggest': '反馈管理',
   'menu.suggest.suggest-list': '用户反馈',
   'menu.suggest.suggest-call': '电话回拨',
+  'menu.suggest.suggest-edit': '反馈处理',
 };

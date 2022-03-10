@@ -5,32 +5,34 @@ import {FormattedMessage, history, useIntl} from 'umi';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import {queryList, remove} from '../service';
+import {queryList, remove,saveProcessing,saveProcess} from '../service';
 
-const  handleEdit = (id) => {
+const  handleProcessing = async(obj) => {
+  const hide = message.loading('正在保存');
+  if (!obj) return true;
+
+  try {
+    await saveProcessing(obj.id);
+    hide();
+    message.success('保存成功！');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('保存失败!');
+    return false;
+  }
+};
+
+
+const  handleProcess = (obj) => {
   history.push({
-    pathname: '/help/help-edit',
+    pathname: '/suggest/edit',
     query: {
-      id:id
+      id:obj.id
     },
   });
 };
 
-const handleRemove = async (obj) => {
-  const hide = message.loading('正在删除');
-  if (!obj) return true;
-
-  try {
-    await remove(obj.id);
-    hide();
-    message.success('删除成功！');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败!');
-    return false;
-  }
-};
 
 const TableList = () => {
 
@@ -44,8 +46,8 @@ const TableList = () => {
   const intl = useIntl();
   const columns = [
     {
-      title: "帮助标题",
-      dataIndex: 'title',
+      title: "姓名",
+      dataIndex: 'name',
       render: (dom, entity) => {
         return (
           <a
@@ -60,38 +62,80 @@ const TableList = () => {
       },
     },
     {
-      title: "排序值",
-      dataIndex: 'displayOrder',
-      search: false,
+      title: "联系手机",
+      dataIndex: 'mobile',
+      copyable: true,
     },
     {
-      title: "创建时间",
-      dataIndex: 'createdDate',
+      title: "联系邮箱",
+      dataIndex: 'email',
+      copyable: true,
       search: false,
+    },
+/*    {
+      title: "意见内容",
+      dataIndex: 'content',
+      search: false,
+      ellipsis: true,
+      copyable: true,
+    },*/
+    {
+      title: "状态",
+      dataIndex: 'status',
+      hideInForm: true,
+      valueEnum: {
+        0: {
+          text: "未处理",
+        },
+        1: {
+          text: "处理中",
+        },
+        2: {
+          text: "已处理",
+        }
+      },
     },
     {
       title: <FormattedMessage id="pages.searchTable.titleOption" defaultMessage="Operating"/>,
       dataIndex: 'option',
       valueType: 'option',
-      render: (_, record) => [
-        <a
-          key="config"
-          onClick={() => {
-            handleEdit(record.id);
-          }}
-        >
-          修改
-        </a>,
-        <a
-          key="delete"
-          onClick={async () => {
-            await handleRemove(record);
-            actionRef.current?.reloadAndRest?.();
-          }}
-        >
-          删除
-        </a>,
-      ],
+      render: (_, record) => {
+        if(record.status ===2){
+          return [];
+        }
+        if(record.status ===1){
+          return [
+            <a
+              key="delete"
+              onClick={ () => {
+                handleProcess(record);
+              }}
+            >
+              标注已处理
+            </a>,
+          ]
+        }
+
+        return [
+          <a
+            key="config"
+            onClick={async() => {
+              await handleProcessing(record);
+              actionRef.current?.reloadAndRest?.();
+            }}
+          >
+            标注处理中
+          </a>,
+          <a
+            key="delete"
+            onClick={ () => {
+               handleProcess(record);
+            }}
+          >
+            标注已处理
+          </a>,
+        ]
+      },
     },
   ];
   return (
@@ -136,15 +180,15 @@ const TableList = () => {
         }}
         closable={false}
       >
-        {currentRow?.title && (
+        {currentRow?.id && (
           <ProDescriptions
             column={1}
-            title={currentRow?.title}
+            title={currentRow?.id}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
-              id: currentRow?.title,
+              id: currentRow?.id,
             }}
             columns={columns}
           />

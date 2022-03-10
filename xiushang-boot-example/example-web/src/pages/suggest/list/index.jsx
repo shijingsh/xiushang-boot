@@ -5,32 +5,34 @@ import {FormattedMessage, history, useIntl} from 'umi';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import {queryList, remove} from '../service';
+import {queryList, remove,saveProcessing,saveProcess} from '../service';
 
-const  handleEdit = (id) => {
+const  handleProcessing = async(obj) => {
+  const hide = message.loading('正在保存');
+  if (!obj) return true;
+
+  try {
+    await saveProcessing(obj.id);
+    hide();
+    message.success('保存成功！');
+    return true;
+  } catch (error) {
+    hide();
+    message.error('保存失败!');
+    return false;
+  }
+};
+
+
+const  handleProcess = (obj) => {
   history.push({
-    pathname: '/suggest/suggest-edit',
+    pathname: '/suggest/edit',
     query: {
-      id:id
+      id:obj.id
     },
   });
 };
 
-const handleRemove = async (obj) => {
-  const hide = message.loading('正在删除');
-  if (!obj) return true;
-
-  try {
-    await remove(obj.id);
-    hide();
-    message.success('删除成功！');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('删除失败!');
-    return false;
-  }
-};
 
 const TableList = () => {
 
@@ -105,9 +107,8 @@ const TableList = () => {
           return [
             <a
               key="delete"
-              onClick={async () => {
-                await handleRemove(record);
-                actionRef.current?.reloadAndRest?.();
+              onClick={ () => {
+                handleProcess(record);
               }}
             >
               标注已处理
@@ -118,17 +119,17 @@ const TableList = () => {
         return [
           <a
             key="config"
-            onClick={() => {
-              handleEdit(record.id);
+            onClick={async() => {
+              await handleProcessing(record);
+              actionRef.current?.reloadAndRest?.();
             }}
           >
             标注处理中
           </a>,
           <a
             key="delete"
-            onClick={async () => {
-              await handleRemove(record);
-              actionRef.current?.reloadAndRest?.();
+            onClick={ () => {
+               handleProcess(record);
             }}
           >
             标注已处理
@@ -179,15 +180,15 @@ const TableList = () => {
         }}
         closable={false}
       >
-        {currentRow?.title && (
+        {currentRow?.id && (
           <ProDescriptions
             column={1}
-            title={currentRow?.title}
+            title={currentRow?.id}
             request={async () => ({
               data: currentRow || {},
             })}
             params={{
-              id: currentRow?.title,
+              id: currentRow?.id,
             }}
             columns={columns}
           />

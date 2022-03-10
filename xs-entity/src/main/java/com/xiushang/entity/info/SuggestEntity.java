@@ -46,11 +46,11 @@ public class SuggestEntity extends BaseEntity {
     @ApiModelProperty(value = "联系邮箱")
     private String email;
     /**
-     * 建议内容
+     * 反馈内容
      */
     @Lob
     @Basic(fetch = FetchType.EAGER)
-    @ApiModelProperty(value = "建议内容")
+    @ApiModelProperty(value = "反馈内容")
     private String content;
 
     /**
@@ -81,10 +81,8 @@ public class SuggestEntity extends BaseEntity {
      * 1 用户被动相应 （客户要求给他来电）
      *
      */
-    @ApiModelProperty(value = "反馈类型",hidden = true)
-    @JSONField(serialize = false, deserialize = false)
+    @ApiModelProperty(value = "反馈类型")
     private Integer type = 0;
-
 
 
     @ManyToOne
@@ -92,7 +90,7 @@ public class SuggestEntity extends BaseEntity {
     @ApiModelProperty(value = "处理人")
     private UserEntity handlerUser;
     /**
-     * 建议内容
+     * 反馈内容
      */
     @Lob
     @Basic(fetch = FetchType.EAGER)

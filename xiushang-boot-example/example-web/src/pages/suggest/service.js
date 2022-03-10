@@ -46,3 +46,22 @@ export async function remove(id) {
     method: 'GET',
   });
 }
+
+
+/** 设置处理中 */
+export async function saveProcessing(id,options) {
+  return request('/api/suggest/processing?id='+id, {
+    method: 'GET',
+    ...(options || {}),
+  });
+}
+
+
+/** 设置处理完成 */
+export async function saveProcess(params,options) {
+  return request('/api/suggest/process', {
+    method: 'POST',
+    data: params,
+    ...(options || {}),
+  });
+}

@@ -19,11 +19,11 @@ public class SuggestVo extends BaseVO {
      * 联系方式
      */
     @ApiModelProperty(value = "联系方式",required = true)
-    private String contact ;
+    private String mobile ;
     /**
-     * 建议内容
+     * 反馈内容
      */
-    @ApiModelProperty(value = "建议内容",required = true)
+    @ApiModelProperty(value = "反馈内容",required = true)
     private String content;
     /**
      * email

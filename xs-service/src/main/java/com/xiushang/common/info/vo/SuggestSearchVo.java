@@ -21,6 +21,13 @@ public class SuggestSearchVo  extends BaseSearchPageVo {
      */
     @ApiModelProperty(value = "联系方式")
     private String mobile ;
+
+    /**
+     * 反馈状态 0 用户反馈  1 处理中  2 已处理
+     */
+    @ApiModelProperty(value = "反馈状态 0 用户反馈  1 处理中  2 已处理")
+    private Integer status;
+
     /**
      * 反馈类型
      * 0 用户主动反馈
