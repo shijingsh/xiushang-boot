@@ -47,7 +47,7 @@ public class PageTableVO<T> extends MgPageable {
 		}
 	}
 
-	public PageTableVO(Page page,SearchPageVo vo) {
+	public PageTableVO(Page page,BaseSearchPageVo vo) {
 		if(page!=null){
 			setRowData(page.getContent());
 			setTotalCount(page.getTotalElements());

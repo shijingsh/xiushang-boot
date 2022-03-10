@@ -3,14 +3,13 @@ package com.xiushang.common.info.controller;
 import com.github.xiaoymin.knife4j.annotations.ApiSort;
 import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.common.info.service.SuggestService;
+import com.xiushang.common.info.vo.SuggestProcessVo;
+import com.xiushang.common.info.vo.SuggestSearchVo;
 import com.xiushang.common.info.vo.SuggestVo;
 import com.xiushang.entity.info.SuggestEntity;
 import com.xiushang.framework.entity.vo.PageTableVO;
-import com.xiushang.framework.entity.vo.SearchPageVo;
 import com.xiushang.framework.log.CommonResult;
-
 import com.xiushang.security.SecurityRole;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -73,7 +72,7 @@ public class SuggestController {
     @ResponseBody
     @PostMapping("/listPage")
     @Secured({SecurityRole.ROLE_USER})
-    public CommonResult<PageTableVO<SuggestEntity>> listPage(@RequestBody SearchPageVo param) {
+    public CommonResult<PageTableVO<SuggestEntity>> listPage(@RequestBody SuggestSearchVo param) {
 
         PageTableVO vo = suggestService.findPageList(param);
 
@@ -81,4 +80,28 @@ public class SuggestController {
     }
 
 
+    @XiushangApi
+    @ApiOperation(value = "反馈处理中")
+    @ResponseBody
+    @GetMapping("/processing")
+    @Secured({SecurityRole.ROLE_USER})
+    public CommonResult<SuggestEntity> processing(@ApiParam(value = "id主键",required = true)String id ) {
+
+        SuggestEntity entity = suggestService.processing(id);
+
+        return CommonResult.success(entity);
+    }
+
+
+    @XiushangApi
+    @ApiOperation(value = "反馈处理中")
+    @ResponseBody
+    @PostMapping("/process")
+    @Secured({SecurityRole.ROLE_USER})
+    public CommonResult<SuggestEntity> process(@RequestBody SuggestProcessVo suggestProcessVo ) {
+
+        SuggestEntity entity = suggestService.process(suggestProcessVo);
+
+        return CommonResult.success(entity);
+    }
 }

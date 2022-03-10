@@ -2,6 +2,7 @@ package com.xiushang.entity.info;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.xiushang.entity.BaseEntity;
+import com.xiushang.entity.UserEntity;
 import com.xiushang.entity.shop.ShopEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.NotFound;
@@ -26,6 +27,8 @@ public class SuggestEntity extends BaseEntity {
     @JSONField(serialize = false, deserialize = false)
     @ApiModelProperty(hidden = true)
     private ShopEntity belongShop;
+
+
     /**
      * 姓名
      */
@@ -81,6 +84,20 @@ public class SuggestEntity extends BaseEntity {
     @ApiModelProperty(value = "反馈类型",hidden = true)
     @JSONField(serialize = false, deserialize = false)
     private Integer type = 0;
+
+
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    @ApiModelProperty(value = "处理人")
+    private UserEntity handlerUser;
+    /**
+     * 建议内容
+     */
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    @ApiModelProperty(value = "处理备注")
+    private String handlerContent;
 
     public ShopEntity getBelongShop() {
         return belongShop;
@@ -152,5 +169,21 @@ public class SuggestEntity extends BaseEntity {
 
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public UserEntity getHandlerUser() {
+        return handlerUser;
+    }
+
+    public void setHandlerUser(UserEntity handlerUser) {
+        this.handlerUser = handlerUser;
+    }
+
+    public String getHandlerContent() {
+        return handlerContent;
+    }
+
+    public void setHandlerContent(String handlerContent) {
+        this.handlerContent = handlerContent;
     }
 }

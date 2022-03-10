@@ -69,6 +69,29 @@ export default [
     component: './ClientList/Edit',
   },
   {
+    name: 'suggest',
+    icon: 'table',
+    path: '/suggest',
+    routes: [
+      {
+        path: '/suggest',
+        redirect: '/suggest/list',
+      },
+      {
+        name: 'suggest-list',
+        icon: 'smile',
+        path: '/suggest/list',
+        component: './suggest/list',
+      },
+      {
+        name: 'suggest-call',
+        icon: 'smile',
+        path: '/suggest/call',
+        component: './suggest/call',
+      },
+    ],
+  },
+  {
     path: '/admin',
     name: 'admin',
     icon: 'crown',
