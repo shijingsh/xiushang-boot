@@ -23,7 +23,7 @@ export async function queryList(params, options) {
 /** 查询详情 */
 export async function queryDetail(id) {
 
-  return request('/api/user/client/get?clientId='+id, {
+  return request('/api/help/get?id='+id, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
@@ -33,7 +33,7 @@ export async function queryDetail(id) {
 
 /** 保存 */
 export async function save(params,options) {
-  return request('/api/param/post', {
+  return request('/api/help/post', {
     method: 'POST',
     data: params,
     ...(options || {}),
@@ -42,7 +42,7 @@ export async function save(params,options) {
 
 /** 删除 */
 export async function remove(id) {
-  return request('/api/param/delete?id='+id, {
+  return request('/api/help/delete?id='+id, {
     method: 'GET',
   });
 }
