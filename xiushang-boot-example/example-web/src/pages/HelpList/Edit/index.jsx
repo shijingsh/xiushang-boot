@@ -40,7 +40,7 @@ const DataForm = (props) => {
   useEffect(() => {
     form.setFieldsValue({
       title: detail.title,
-      content: detail.content,
+      //content: detail.content,
       displayOrder: detail.displayOrder,
     });
   }, [detail]);
@@ -57,7 +57,7 @@ const DataForm = (props) => {
       if (res.errorCode === 0) {
         message.success('操作成功！');
         history.push({
-          pathname: '/client/list'
+          pathname: '/help/list'
         });
       }else {
         message.error(res.errorText);
@@ -143,7 +143,7 @@ const DataForm = (props) => {
           // images_upload_url={utils.url + '/fileclient-management/api/uploadpic'}
           // images_upload_handler={this.imagesUploadHandler}
           // initialValue='<p>在此輸入您的資訊內容</p>'
-          //value={detail.h5Content}
+          value={detail.content}
           init={{
             min_height: 500,
             //theme: 'modern',

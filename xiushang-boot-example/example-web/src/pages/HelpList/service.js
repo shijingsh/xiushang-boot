@@ -8,7 +8,7 @@ import * as CommonUtils from "@/utils/CommonUtils";
 /** 获取列表 */
 export async function queryList(params, options) {
   params  = CommonUtils.getPageParam(params);
-  params.searchKey = params.paramName;
+  params.searchKey = params.title;
   return request('/api/help/listPage', {
     method: 'POST',
     headers: {

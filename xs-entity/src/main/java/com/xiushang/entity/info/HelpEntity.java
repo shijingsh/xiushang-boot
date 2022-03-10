@@ -7,10 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 常见问题
@@ -31,8 +28,12 @@ public class HelpEntity extends BaseEntity {
 
     @ApiModelProperty(value = "标题")
     private String title;
+
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
     @ApiModelProperty(value = "内容")
     private String content;
+
     @ApiModelProperty(value = "排序值")
     private Integer displayOrder = 999;
 
