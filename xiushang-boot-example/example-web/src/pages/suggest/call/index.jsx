@@ -67,18 +67,10 @@ const TableList = () => {
       copyable: true,
     },
     {
-      title: "联系邮箱",
-      dataIndex: 'email',
-      copyable: true,
-      search: false,
+      title: "反馈时间",
+      dataIndex: 'createdDate',
     },
-/*    {
-      title: "意见内容",
-      dataIndex: 'content',
-      search: false,
-      ellipsis: true,
-      copyable: true,
-    },*/
+
     {
       title: "状态",
       dataIndex: 'status',

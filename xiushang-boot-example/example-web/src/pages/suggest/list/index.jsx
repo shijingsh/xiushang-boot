@@ -73,11 +73,15 @@ const TableList = () => {
       search: false,
     },
     {
-      title: "意见内容",
+      title: "反馈内容",
       dataIndex: 'content',
       search: false,
       ellipsis: true,
       copyable: true,
+    },
+    {
+      title: "反馈时间",
+      dataIndex: 'createdDate',
     },
     {
       title: "状态",
