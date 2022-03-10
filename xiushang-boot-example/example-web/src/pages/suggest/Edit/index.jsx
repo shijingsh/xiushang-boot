@@ -40,6 +40,8 @@ const DataForm = (props) => {
   const [form] = Form.useForm();
 
   const [fileList, setFileList] = useState([]);
+  const [type, setType] = useState(0);
+
   useEffect(() => {
     form.setFieldsValue({
       name: detail.name,
@@ -49,6 +51,7 @@ const DataForm = (props) => {
       content: detail.content,
       //images: detail.images || [],
     });
+    setType(detail.type)
     setFileList(detail.images || [])
   }, [detail]);
 
@@ -152,10 +155,10 @@ const DataForm = (props) => {
         name="content"
         label="反馈内容"
       >
-        <TextArea disabled={detail.type !== 1} rows={8}/>
+        <TextArea disabled={type !== 1} rows={8}/>
       </Form.Item>
       {
-        detail.type === 0 &&
+        type === 0 &&
         <Form.Item label="上传图片">
           <PicturesWall fileList={fileList}/>
         </Form.Item>

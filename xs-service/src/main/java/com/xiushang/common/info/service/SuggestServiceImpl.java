@@ -118,7 +118,7 @@ public class SuggestServiceImpl extends BaseServiceImpl<SuggestEntity> implement
             entity.setEmail(suggestProcessVo.getEmail());
         }
         if(entity.getType()==1 && StringUtils.isNotBlank(suggestProcessVo.getContent())) {
-            entity.setEmail(suggestProcessVo.getContent());
+            entity.setContent(suggestProcessVo.getContent());
         }
 
         entity.setStatus(2);

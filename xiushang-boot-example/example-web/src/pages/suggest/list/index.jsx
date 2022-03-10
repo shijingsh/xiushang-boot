@@ -183,7 +183,8 @@ const TableList = () => {
         {currentRow?.id && (
           <ProDescriptions
             column={1}
-            title={currentRow?.id}
+            ellipsis
+            title={currentRow?.name}
             request={async () => ({
               data: currentRow || {},
             })}

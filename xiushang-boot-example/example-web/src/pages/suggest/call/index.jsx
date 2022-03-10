@@ -5,7 +5,7 @@ import {FormattedMessage, history, useIntl} from 'umi';
 import {PageContainer} from '@ant-design/pro-layout';
 import ProTable from '@ant-design/pro-table';
 import ProDescriptions from '@ant-design/pro-descriptions';
-import {queryList, remove,saveProcessing,saveProcess} from '../service';
+import {queryListType, remove,saveProcessing,saveProcess} from '../service';
 
 const  handleProcessing = async(obj) => {
   const hide = message.loading('正在保存');
@@ -161,7 +161,7 @@ const TableList = () => {
             <PlusOutlined/> <FormattedMessage id="pages.searchTable.new" defaultMessage="New"/>
           </Button>,
         ]}
-        request={queryList}
+        request={queryListType}
         columns={columns}
         rowSelection={{
           onChange: (_, selectedRows) => {
@@ -183,7 +183,7 @@ const TableList = () => {
         {currentRow?.id && (
           <ProDescriptions
             column={1}
-            title={currentRow?.id}
+            title={currentRow?.name}
             request={async () => ({
               data: currentRow || {},
             })}

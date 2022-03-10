@@ -19,6 +19,19 @@ export async function queryList(params, options) {
   });
 }
 
+export async function queryListType(params, options) {
+  params  = CommonUtils.getPageParam(params);
+  params.type = 1;
+  return request('/api/suggest/listPage', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: params,
+    ...(options || {}),
+  });
+}
+
 
 /** 查询详情 */
 export async function queryDetail(id) {
