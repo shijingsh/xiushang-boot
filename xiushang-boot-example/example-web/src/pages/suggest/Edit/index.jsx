@@ -1,12 +1,15 @@
-import React, {useEffect, useState,useRef } from "react";
-import {Button, Card, Form, Input, message, Select,InputNumber,} from "antd";
+import React, {useEffect, useState, useRef} from "react";
+import {Button, Card, Form, Input, message, Select, InputNumber,} from "antd";
 import {PageContainer} from "@ant-design/pro-layout";
 import {history, useRequest} from "umi";
-import { saveProcess,queryDetail } from '../service';
+import {saveProcess, queryDetail} from '../service';
+
 const {Option} = Select;
-import { Editor } from '@tinymce/tinymce-react';
+import {Editor} from '@tinymce/tinymce-react';
 import * as CommonUtils from '@/utils/CommonUtils';
-const { TextArea } = Input;
+import PicturesWall from "@/components/PicturesWall";
+
+const {TextArea} = Input;
 
 const formItemLayout = {
   labelCol: {
@@ -33,11 +36,10 @@ const tailFormItemLayout = {
 
 const DataForm = (props) => {
 
-  const { detail } = props;
-
-
+  const {detail} = props;
   const [form] = Form.useForm();
 
+  const [fileList, setFileList] = useState([]);
   useEffect(() => {
     form.setFieldsValue({
       name: detail.name,
@@ -45,39 +47,41 @@ const DataForm = (props) => {
       mobile: detail.mobile,
       email: detail.email,
       content: detail.content,
+      //images: detail.images || [],
     });
+    setFileList(detail.images || [])
   }, [detail]);
 
   const editorRef = useRef(null);
 
 
-  const { loading: submitting, run: saveEdit } = useRequest(saveProcess, {
+  const {loading: submitting, run: saveEdit} = useRequest(saveProcess, {
     manual: true,
-    formatResult:(res) => {
-      return  res;
+    formatResult: (res) => {
+      return res;
     },
     onSuccess: (res, params) => {
       if (res.errorCode === 0) {
         message.success('操作成功！');
         let data = res.data;
-        if(data.type===1){
+        if (data.type === 1) {
           history.push({
             pathname: '/suggest/call'
           });
-        }else {
+        } else {
           history.push({
             pathname: '/suggest/list'
           });
         }
 
-      }else {
+      } else {
         message.error(res.errorText);
       }
     },
   });
 
   const onFinish = (values) => {
-    if(detail && detail.id){
+    if (detail && detail.id) {
       values.id = detail.id;
     }
     let content = tinymce.get('htmlEditor').getContent();
@@ -99,7 +103,7 @@ const DataForm = (props) => {
       const formData = new window.FormData();
       formData.append('file', blobInfo.blob(), blobInfo.filename());
 
-      CommonUtils.uploadFile(formData, 0, function(url) {
+      CommonUtils.uploadFile(formData, 0, function (url) {
         success(url);
       });
     } else {
@@ -107,16 +111,13 @@ const DataForm = (props) => {
     }
   };
 
-
   return (
     <Form
       {...formItemLayout}
       form={form}
       name="register"
       onFinish={onFinish}
-      initialValues={{
-
-      }}
+      initialValues={{}}
       scrollToFirstError
     >
       <Form.Item
@@ -153,7 +154,13 @@ const DataForm = (props) => {
       >
         <TextArea disabled={detail.type !== 1} rows={8}/>
       </Form.Item>
-      <Form.Item  label={"处理备注"}>
+      {
+        detail.type === 0 &&
+        <Form.Item label="上传图片">
+          <PicturesWall fileList={fileList}/>
+        </Form.Item>
+      }
+      <Form.Item label={"处理备注"}>
         <Editor
           id="htmlEditor"
           onInit={(evt, editor) => editorRef.current = editor}
@@ -164,7 +171,7 @@ const DataForm = (props) => {
           // automatic_uploads={!false}
           // images_upload_url={utils.url + '/fileclient-management/api/uploadpic'}
           // images_upload_handler={this.imagesUploadHandler}
-           initialValue='<p>已处理</p><br />'
+          initialValue='<p>已处理</p><br />'
           //value={detail.content}
           init={{
             min_height: 500,
@@ -195,17 +202,19 @@ const DataForm = (props) => {
           提交
         </Button>
       </Form.Item>
+
+
     </Form>
   );
 };
 
-export default ({ location }) =>{
-  const id = location.query.id ;
+export default ({location}) => {
+  const id = location.query.id;
 
-  const { data: detail, loading } = useRequest(() => {
-    if(id){
+  const {data: detail, loading} = useRequest(() => {
+    if (id) {
       return queryDetail(id);
-    }else {
+    } else {
       return null;
     }
   });

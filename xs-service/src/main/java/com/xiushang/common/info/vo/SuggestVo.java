@@ -38,4 +38,12 @@ public class SuggestVo extends BaseVO {
     private List<String> images = new ArrayList<>();
 
 
+    /**
+     * 反馈类型
+     * 0 用户主动反馈
+     * 1 用户被动相应 （客户要求给他来电）
+     *
+     */
+    @ApiModelProperty(value = "反馈类型")
+    private Integer type = 0;
 }

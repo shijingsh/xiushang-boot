@@ -41,7 +41,7 @@ public class SuggestController {
     @ResponseBody
     @GetMapping("/get")
     public CommonResult<SuggestEntity> get(@ApiParam(value = "id主键",required = true)String id) {
-        SuggestEntity entity = suggestService.get(id);
+        SuggestEntity entity = suggestService.getFull(id);
 
         return CommonResult.success(entity);
     }
