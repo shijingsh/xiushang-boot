@@ -221,6 +221,7 @@ VALUES
 
 add hosts
 127.0.0.1 www.xiushang-test.com
+请注意：一下测试连接，均已改成POST json格式。不要直接使用
 
 #### 登录页
 http://www.xiushang-test.com/oauthLogin
