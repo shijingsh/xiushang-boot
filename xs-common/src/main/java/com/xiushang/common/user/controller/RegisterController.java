@@ -141,9 +141,9 @@ public class RegisterController {
 				userEntity.setLoginName(registerVo.getLoginName());
 
 				if(StringUtils.isNotBlank(registerVo.getName())){
-					user.setName(registerVo.getName());
+					userEntity.setName(registerVo.getName());
 				}else {
-					user.setName(registerVo.getLoginName());
+					userEntity.setName(registerVo.getLoginName());
 				}
 				userEntity.setMobile(mobile);
 				userEntity.setPassword(MD5.GetMD5Code(registerVo.getPassword()));
