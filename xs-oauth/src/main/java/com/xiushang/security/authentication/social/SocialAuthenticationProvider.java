@@ -1,6 +1,7 @@
 package com.xiushang.security.authentication.social;
 
 import com.xiushang.common.components.SmsService;
+import com.xiushang.common.exception.InternalCodeAuthenticationServiceException;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.SocialLoginVo;
 import com.xiushang.entity.UserEntity;
@@ -14,7 +15,6 @@ import com.xiushang.service.impl.UserDetailsServiceImpl;
 import com.xiushang.util.SocialTypeEnum;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.authentication.AuthenticationProvider;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 
@@ -57,14 +57,14 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
 
             //注册时，必须有手机号
             if (StringUtils.isBlank(loginVo.getMobile())) {
-                throw new InternalAuthenticationServiceException("手机号码必填！");
+                throw new InternalCodeAuthenticationServiceException(100001,"手机号码必填！");
             }
             String code = loginVo.getCode();
             if (StringUtils.isBlank(code)) {
-                throw new InternalAuthenticationServiceException("验证码不能为空");
+                throw new InternalCodeAuthenticationServiceException(100002,"验证码不能为空");
             }
             if (!smsService.validateCode(loginVo.getMobile(), code)) {
-                throw new InternalAuthenticationServiceException("验证码不正确");
+                throw new InternalCodeAuthenticationServiceException(100003,"验证码不正确");
             }
             //不存在用户，则注册
             UserEntity userEntity = new UserEntity();
@@ -72,7 +72,11 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
             userEntity.setHeadPortrait(loginVo.getAvatarUrl());
             userEntity.setMobile(loginVo.getMobile());
             userEntity.setLoginName(loginVo.getMobile());        //手机号码作为登录名，password为空
-            userEntity.setName(loginVo.getNickName());
+            if(StringUtils.isNotBlank(loginVo.getNickName())) {
+                userEntity.setName(loginVo.getNickName());
+            }else{
+                userEntity.setName(loginVo.getMobile());
+            }
             userEntity.setLastLoginDate(new Date());
             userEntity.setLastLoginClient(clientId);
             userService.registerUser(userEntity);
@@ -96,7 +100,7 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         }
 
         if (securityUser == null) {
-            throw new InternalAuthenticationServiceException("无法获取用户社交账号信息");
+            throw new InternalCodeAuthenticationServiceException(100004,"无法获取用户社交账号信息");
         }
 
         //设置租户信息

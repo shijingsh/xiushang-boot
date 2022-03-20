@@ -49,7 +49,7 @@ public class AuthController {
             + "<p>图形验证码密码授权 grant_type=captcha,username,password  必填 </p>"
             + "<p>授权码模式 grant_type=authorization_code,code,redirect_uri 必填 </p>"
             + "<p>短信验证码授权 grant_type=sms_code,code,mobile 必填 </p>"
-            + "<p>社交账号授权 grant_type=social_type,socialId,socialType,nickName,avatarUrl,gender,email 必填 </p>"
+            + "<p>社交账号授权 grant_type=social_type(SOCIAL_TYPE_OPEN_ID、SOCIAL_TYPE_UNION_ID、SOCIAL_TYPE_APPLE_ID),socialId,socialType,nickName,avatarUrl,gender,email,mobile,code 等 其中 (mobile,code)绑定手机号码时必填 </p>"
             + "<p>微信授权 grant_type=wechat,nickName,avatarUrl,gender,email,iv,encryptedData 必填 </p>"
             + "<p>刷新token grant_type=refresh_token,refresh_token 必填 </p>"
             + "<p><font color='red'>注意： client_id,client_secret 两个参数是通过URL方式传参，即GET方式传参，其他参数通过POST json传参。所有授权方式client_id,client_secret 都是必传的。</font> </p>"

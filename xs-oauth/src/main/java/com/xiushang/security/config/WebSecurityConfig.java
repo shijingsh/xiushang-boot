@@ -156,6 +156,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setOauthClientDetailsDao(oauthClientDetailsDao);
         provider.setUserSocialDao(userSocialDao);
         provider.setUserService(userService);
+        provider.setSmsService(smsService);
         return provider;
     }
 

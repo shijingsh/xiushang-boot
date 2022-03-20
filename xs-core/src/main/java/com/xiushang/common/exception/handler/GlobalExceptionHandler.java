@@ -1,5 +1,6 @@
 package com.xiushang.common.exception.handler;
 
+import com.xiushang.common.exception.InternalCodeAuthenticationServiceException;
 import com.xiushang.common.exception.ServiceException;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.log.SecurityConstants;
@@ -31,7 +32,7 @@ public class GlobalExceptionHandler {
     public CommonResult handleException(Throwable e, HttpServletRequest request){
         // 打印堆栈信息
         this.printLog(request);
-        log.error("Exception,exception:{}", e, e);
+        log.error("Throwable,exception:{}", e, e);
 
         return CommonResult.error(e.getMessage());
     }
@@ -42,7 +43,7 @@ public class GlobalExceptionHandler {
     public CommonResult handleException(RuntimeException e, HttpServletRequest request){
         // 打印堆栈信息
         this.printLog(request);
-        log.error("Exception,exception:{}", e, e);
+        log.error("RuntimeException,exception:{}", e, e);
 
         return CommonResult.error(e.getMessage());
     }
@@ -52,7 +53,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(value = ServiceException.class)
     CommonResult ServiceExceptionHandler(ServiceException e) {
-        log.error("Exception,exception:{}", e, e);
+        log.error("ServiceException,exception:{}", e, e);
 
         return CommonResult.error( e.getMessage());
     }
@@ -64,7 +65,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = EntityNotFoundException.class)
     public CommonResult entityNotFoundException(EntityNotFoundException e) {
         // 打印堆栈信息
-        log.error("Exception,exception:{}", e, e);
+        log.error("EntityNotFoundException,exception:{}", e, e);
         return CommonResult.error( e.getMessage());
     }
 
@@ -73,19 +74,20 @@ public class GlobalExceptionHandler {
     public CommonResult badCredentialsException(BadCredentialsException e){
         // 打印堆栈信息
         //String message = "坏的凭证".equals(e.getMessage()) ? "用户名或密码不正确" : e.getMessage();
-        log.error("Exception,exception:{}", e, e);
+        log.error("BadCredentialsException,exception:{}", e, e);
         return CommonResult.error( e.getMessage());
     }
 
     @ExceptionHandler(AccessDeniedException.class)
     public CommonResult handleAuthorizationException(AccessDeniedException e)
     {
-        log.error("Exception,exception:{}", e, e);
+        log.error("AccessDeniedException,exception:{}", e, e);
         return CommonResult.error( e.getMessage());
     }
 
     @ExceptionHandler(value = BindException.class)
     public CommonResult bindExceptionHandle(BindException exception) {
+        log.error("BindException,exception:{}", exception, exception);
         BindingResult result = exception.getBindingResult();
 
         return getValidMessage(result);
@@ -93,10 +95,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public CommonResult methodArgumentNotValidExceptionHandle(MethodArgumentNotValidException exception) {
-
+        log.error("MethodArgumentNotValidException,exception:{}", exception, exception);
         BindingResult result = exception.getBindingResult();
 
         return getValidMessage(result);
+    }
+
+
+    @ExceptionHandler(value = InternalCodeAuthenticationServiceException.class)
+    public CommonResult methodArgumentNotValidExceptionHandle(InternalCodeAuthenticationServiceException exception) {
+        log.error("InternalCodeAuthenticationServiceException,exception:{}", exception, exception);
+
+        return CommonResult.error(exception.getErrorCode(), exception.getMessage());
     }
 
     private CommonResult getValidMessage(BindingResult result){

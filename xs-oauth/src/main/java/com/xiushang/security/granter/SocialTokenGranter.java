@@ -46,7 +46,10 @@ public class SocialTokenGranter extends AbstractTokenGranter {
         String avatarUrl = parameters.get("avatarUrl");
         String gender = parameters.get("gender");
         String email = parameters.get("email");
+
+        //登录时，绑定手机号码
         String mobile = parameters.get("mobile");
+        String code = parameters.get("code");
 
 
         SocialLoginVo loginVo = new SocialLoginVo();
@@ -58,6 +61,7 @@ public class SocialTokenGranter extends AbstractTokenGranter {
         loginVo.setGender(gender);
         loginVo.setEmail(email);
         loginVo.setMobile(mobile);
+        loginVo.setCode(code);
 
         parameters.remove("socialType");
         parameters.remove("socialId");
