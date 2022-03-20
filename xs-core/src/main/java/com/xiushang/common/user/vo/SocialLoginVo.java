@@ -20,6 +20,8 @@ public class SocialLoginVo implements java.io.Serializable{
     private String email;
     @ApiModelProperty(notes = "mobile")
     private String mobile;
+    @ApiModelProperty(notes = "短信验证码")
+    private String code;
 
     public String getClientId() {
         return clientId;
@@ -83,5 +85,13 @@ public class SocialLoginVo implements java.io.Serializable{
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

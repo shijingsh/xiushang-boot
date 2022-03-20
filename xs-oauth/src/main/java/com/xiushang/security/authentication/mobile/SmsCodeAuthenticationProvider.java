@@ -28,7 +28,7 @@ public class SmsCodeAuthenticationProvider extends TenantProvider implements Aut
         String clientId = authenticationToken.getClientId();
 
         if(StringUtils.isBlank(mobile)){
-            throw new InternalAuthenticationServiceException("验证码不正确");
+            throw new InternalAuthenticationServiceException("手机号码不能为空");
         }
         if(StringUtils.isBlank(code)){
             throw new InternalAuthenticationServiceException("验证码不能为空");

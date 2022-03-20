@@ -1,8 +1,8 @@
 package com.xiushang.security.authentication.social;
 
+import com.xiushang.common.components.SmsService;
 import com.xiushang.common.user.service.UserService;
 import com.xiushang.common.user.vo.SocialLoginVo;
-import com.xiushang.common.user.vo.WxLoginVo;
 import com.xiushang.entity.UserEntity;
 import com.xiushang.entity.UserSocialEntity;
 import com.xiushang.jpa.repository.UserSocialDao;
@@ -25,8 +25,10 @@ import java.util.List;
 
 public class SocialAuthenticationProvider extends TenantProvider implements AuthenticationProvider {
 
+    private SmsService smsService;
     private UserSocialDao userSocialDao;
     private UserService userService;
+
     @Override
     public boolean supports(Class<?> authentication) {
         //支持SocialAuthenticationToken来验证
@@ -45,17 +47,24 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         //校验ID
         String socialId = loginVo.getSocialId();
         String socialType = loginVo.getSocialType();
-        SocialTypeEnum socialTypeEnum =SocialTypeEnum.SOCIAL_TYPE_OPEN_ID;
-        if(StringUtils.isNotBlank(socialType)){
+        SocialTypeEnum socialTypeEnum = SocialTypeEnum.SOCIAL_TYPE_OPEN_ID;
+        if (StringUtils.isNotBlank(socialType)) {
             socialTypeEnum = SocialTypeEnum.valueOf(socialType);
         }
-        UserSocialEntity userSocialEntity = userSocialDao.findBySocialTypeAndSocialId(socialTypeEnum,socialId);
+        UserSocialEntity userSocialEntity = userSocialDao.findBySocialTypeAndSocialId(socialTypeEnum, socialId);
 
-        if(userSocialEntity == null){
+        if (userSocialEntity == null) {
 
             //注册时，必须有手机号
             if (StringUtils.isBlank(loginVo.getMobile())) {
                 throw new InternalAuthenticationServiceException("手机号码必填！");
+            }
+            String code = loginVo.getCode();
+            if (StringUtils.isBlank(code)) {
+                throw new InternalAuthenticationServiceException("验证码不能为空");
+            }
+            if (!smsService.validateCode(loginVo.getMobile(), code)) {
+                throw new InternalAuthenticationServiceException("验证码不正确");
             }
             //不存在用户，则注册
             UserEntity userEntity = new UserEntity();
@@ -71,21 +80,22 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
             securityUser = new SecurityUser(userEntity);
 
             //生成社交账号信息
-            if(StringUtils.isNotBlank(loginVo.getSocialId())){
+            if (StringUtils.isNotBlank(loginVo.getSocialId())) {
                 UserSocialEntity socialEntity = new UserSocialEntity();
                 socialEntity.setSocialId(loginVo.getSocialId());
                 socialEntity.setSocialType(socialTypeEnum);
 
-                saveSocialInfo(socialEntity,userEntity,loginVo);
+                saveSocialInfo(socialEntity, userEntity, loginVo);
             }
 
-        }else {
-            securityUser =  (SecurityUser)((UserDetailsServiceImpl) getUserDetailsService()).loadUserByUserId(userSocialEntity.getUserId());
+        } else {
+            securityUser = (SecurityUser) ((UserDetailsServiceImpl) getUserDetailsService()).loadUserByUserId(userSocialEntity.getUserId());
             //更新社交账号资料
-            saveSocialInfo(userSocialEntity,securityUser,loginVo);;
+            saveSocialInfo(userSocialEntity, securityUser, loginVo);
+            ;
         }
 
-        if(securityUser == null ){
+        if (securityUser == null) {
             throw new InternalAuthenticationServiceException("无法获取用户社交账号信息");
         }
 
@@ -95,11 +105,11 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         //设置附加权限
         List<SecurityRoleVo> list = new ArrayList<>();
         list.add(new SecurityRoleVo(SecurityRole.ROLE_USER));
-        if(super.isAdminClient(clientId)){
+        if (super.isAdminClient(clientId)) {
             list.add(new SecurityRoleVo(SecurityRole.ROLE_CLIENT_MANAGE));
         }
         //这时候已经认证成功了
-        SocialAuthenticationToken authenticationResult = new SocialAuthenticationToken(authenticationToken.getClientId(),securityUser
+        SocialAuthenticationToken authenticationResult = new SocialAuthenticationToken(authenticationToken.getClientId(), securityUser
                 , securityUser.getAuthorities(list));
         authenticationResult.setDetails(authenticationToken.getDetails());
 
@@ -122,7 +132,7 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         this.userService = userService;
     }
 
-    private void saveSocialInfo(UserSocialEntity socialEntity, UserEntity userEntity, SocialLoginVo loginVo){
+    private void saveSocialInfo(UserSocialEntity socialEntity, UserEntity userEntity, SocialLoginVo loginVo) {
 
         socialEntity.setUserId(userEntity.getId());
         socialEntity.setClientId(loginVo.getClientId());
@@ -132,5 +142,13 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
         socialEntity.setNickName(loginVo.getNickName());
 
         userSocialDao.save(socialEntity);
+    }
+
+    public SmsService getSmsService() {
+        return smsService;
+    }
+
+    public void setSmsService(SmsService smsService) {
+        this.smsService = smsService;
     }
 }
