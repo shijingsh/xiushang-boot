@@ -51,6 +51,9 @@ public class UserNameAuthenticationProvider  extends TenantProvider implements A
 
         // [4] 数据库用户的密码，一般都是加密过的
         String encryptedPassword = securityUser.getPassword();
+        if(StringUtils.isBlank(encryptedPassword)){
+            throw new BadCredentialsException(userName + " 您尚未设置密码，请先通过重置密码设置密码！");
+        }
         // 根据加密算法加密用户输入的密码，然后和数据库中保存的密码进行比较
         /*if(!passwordEncoder.matches(inputPassword, encryptedPassword)) {
             throw new BadCredentialsException(userName + " 输入账号或密码不正确");

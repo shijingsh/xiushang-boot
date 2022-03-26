@@ -67,7 +67,10 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
                 throw new InternalCodeAuthenticationServiceException(100003,"验证码不正确");
             }
             //不存在用户，则注册
-            UserEntity userEntity = new UserEntity();
+            UserEntity userEntity = userService.getUser(loginVo.getMobile());
+            if(userEntity == null){
+                userEntity = new UserEntity();
+            }
             userEntity.setEmail(loginVo.getEmail());
             userEntity.setHeadPortrait(loginVo.getAvatarUrl());
             userEntity.setMobile(loginVo.getMobile());
