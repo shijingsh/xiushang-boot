@@ -109,7 +109,8 @@ public class UserController {
 
 
         String oldPassMd5 = MD5.GetMD5Code(pswOld);
-        if (!StringUtils.equals(oldPassMd5, userEntity.getPassword())) {
+        //社交账号登录时，原密码可能为空
+        if (StringUtils.isNotBlank(userEntity.getPassword()) && !StringUtils.equals(oldPassMd5, userEntity.getPassword())) {
             return CommonResult.error(1, "原密码不正确，请重新输入");
         }
         /*if (!StringUtils.equals(psw, pswConfirm)) {
