@@ -23,6 +23,9 @@ public class SocialLoginVo implements java.io.Serializable{
     @ApiModelProperty(notes = "短信验证码")
     private String code;
 
+    @ApiModelProperty(notes = "微信登录时，传openId")
+    private String openId;
+
     public String getClientId() {
         return clientId;
     }
@@ -85,6 +88,14 @@ public class SocialLoginVo implements java.io.Serializable{
 
     public void setMobile(String mobile) {
         this.mobile = mobile;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public String getCode() {

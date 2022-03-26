@@ -91,12 +91,20 @@ public class SocialAuthenticationProvider extends TenantProvider implements Auth
 
                 saveSocialInfo(socialEntity, userEntity, loginVo);
             }
-
         } else {
             securityUser = (SecurityUser) ((UserDetailsServiceImpl) getUserDetailsService()).loadUserByUserId(userSocialEntity.getUserId());
             //更新社交账号资料
             saveSocialInfo(userSocialEntity, securityUser, loginVo);
-            ;
+        }
+        //unionId登录时，同时更新openId
+        if(socialTypeEnum== SocialTypeEnum.SOCIAL_TYPE_UNION_ID && StringUtils.isNotBlank(loginVo.getOpenId())){
+            UserSocialEntity userSocialEntity1 = userSocialDao.findBySocialTypeAndSocialId(SocialTypeEnum.SOCIAL_TYPE_OPEN_ID, loginVo.getOpenId());
+            if(userSocialEntity1==null){
+                userSocialEntity1 = new UserSocialEntity();
+                userSocialEntity1.setSocialId(loginVo.getOpenId());
+                userSocialEntity1.setSocialType(SocialTypeEnum.SOCIAL_TYPE_OPEN_ID);
+            }
+            saveSocialInfo(userSocialEntity1, securityUser, loginVo);
         }
 
         if (securityUser == null) {

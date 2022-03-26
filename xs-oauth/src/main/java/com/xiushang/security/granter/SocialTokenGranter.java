@@ -41,6 +41,7 @@ public class SocialTokenGranter extends AbstractTokenGranter {
 
         String socialType = parameters.get("socialType"); // 社交账号类型
         String socialId = parameters.get("socialId"); // 社交账号ID
+        String openId = parameters.get("openId");
 
         String nickName = parameters.get("nickName");
         String avatarUrl = parameters.get("avatarUrl");
@@ -55,6 +56,7 @@ public class SocialTokenGranter extends AbstractTokenGranter {
         SocialLoginVo loginVo = new SocialLoginVo();
         loginVo.setSocialId(socialId);
         loginVo.setSocialType(socialType);
+        loginVo.setOpenId(openId);
         loginVo.setAvatarUrl(avatarUrl);
         loginVo.setClientId(clientId);
         loginVo.setNickName(nickName);
@@ -65,6 +67,7 @@ public class SocialTokenGranter extends AbstractTokenGranter {
 
         parameters.remove("socialType");
         parameters.remove("socialId");
+        parameters.remove("openId");
         parameters.remove("nickName");
         parameters.remove("avatarUrl");
         parameters.remove("gender");

@@ -36,6 +36,9 @@ public class OAuthVo implements java.io.Serializable{
     @ApiModelProperty(notes = "社交账号Type",position = 11)
     private String socialType;
 
+    @ApiModelProperty(notes = "微信登录时，传openId")
+    private String openId;
+
     @ApiModelProperty(notes = "昵称",position = 12)
     private String nickName;
     @ApiModelProperty(notes = "头像",position = 13)
