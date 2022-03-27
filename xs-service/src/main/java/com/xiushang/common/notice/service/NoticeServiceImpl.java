@@ -34,15 +34,15 @@ public class NoticeServiceImpl extends BaseServiceImpl<NoticeEntity> implements 
     @Transactional(readOnly = true)
     public PageTableVO findPageList(SearchPageVo searchVo) {
 
-        String shopId  = userService.getCurrentShopId();
+        String shopId  = userService.getCurrentTenantShopId();
 
         return findPageList(searchVo,shopId);
     }
 
     @Transactional(readOnly = true)
-    public PageTableVO findShopPageList(SearchPageVo searchPageVo){
+    public PageTableVO findMyPageList(SearchPageVo searchPageVo){
 
-        String shopId  = userService.getCurrentTenantShopId();
+        String shopId  = userService.getCurrentShopId();
 
         return findPageList(searchPageVo,shopId);
     }

@@ -70,12 +70,12 @@ public class HelpController {
         return CommonResult.success(helpEntity);
     }
     /**
-     * 分页列表
+     * 获取租户帮助信息列表
      * @param searchPageVo
      * @return          PageTableVO
      */
     @XiushangApi
-    @ApiOperation(value = "获取帮助信息列表")
+    @ApiOperation(value = "获取租户帮助信息列表")
     @ResponseBody
     @PostMapping("/listPage")
     public CommonResult<PageTableVO<HelpEntity>> listPage(@RequestBody SearchPageVo searchPageVo) {
@@ -87,16 +87,16 @@ public class HelpController {
 
 
     /**
-     * 获取租户的帮助列表
+     * 获取我的帮助列表
      * @param searchPageVo
      * @return          PageTableVO
      */
     @ResponseBody
-    @PostMapping("/shopListPage")
+    @PostMapping("/myListPage")
     @Secured(SecurityRole.ROLE_CLIENT_MANAGE)
     public CommonResult<PageTableVO<HelpEntity>> shopListPage(@RequestBody SearchPageVo searchPageVo) {
 
-        PageTableVO vo = helpService.findShopPageList(searchPageVo);
+        PageTableVO vo = helpService.findMyPageList(searchPageVo);
 
         return CommonResult.success(vo);
     }

@@ -11,7 +11,7 @@ public interface NoticeService extends BaseService<NoticeEntity> {
 
     PageTableVO findPageList(SearchPageVo searchPageVo);
 
-    PageTableVO findShopPageList(SearchPageVo searchPageVo);
+    PageTableVO findMyPageList(SearchPageVo searchPageVo);
 
     NoticeEntity saveNotice(NoticeVo noticeVo);
 

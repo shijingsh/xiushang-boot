@@ -26,14 +26,14 @@ public class HelpServiceImpl extends BaseServiceImpl<HelpEntity> implements Help
     @Transactional(readOnly=true)
     public PageTableVO findPageList(SearchPageVo searchPageVo) {
 
-        String shopId  = userService.getCurrentShopId();
+        String shopId  = userService.getCurrentTenantShopId();
 
         return findPageList(searchPageVo,shopId);
     }
 
     @Transactional(readOnly=true)
-    public PageTableVO findShopPageList(SearchPageVo searchPageVo) {
-        String shopId = userService.getCurrentTenantShopId();
+    public PageTableVO findMyPageList(SearchPageVo searchPageVo) {
+        String shopId = userService.getCurrentShopId();
 
 
         return findPageList(searchPageVo,shopId);

@@ -75,12 +75,12 @@ public class NoticeController {
         return CommonResult.success(NoticeEntity);
     }
     /**
-     * 分页列表
+     * 获取租户公告列表
      * @param searchPageVo
      * @return          PageTableVO
      */
     @XiushangApi
-    @ApiOperation(value = "获取公告列表")
+    @ApiOperation(value = "获取租户公告列表")
     @ResponseBody
     @PostMapping("/listPage")
     public CommonResult<PageTableVO<NoticeEntity>> listPage(@RequestBody SearchPageVo searchPageVo) {
@@ -93,16 +93,16 @@ public class NoticeController {
 
 
     /**
-     * 获取租户的公告列表
+     * 获取我的公告列表
      * @param searchPageVo
      * @return          PageTableVO
      */
     @ResponseBody
-    @PostMapping("/shopListPage")
+    @PostMapping("/myListPage")
     @Secured(SecurityRole.ROLE_CLIENT_MANAGE)
     public CommonResult<PageTableVO<NoticeEntity>> shopListPage(@RequestBody SearchPageVo searchPageVo) {
 
-        PageTableVO vo = noticeService.findShopPageList(searchPageVo);
+        PageTableVO vo = noticeService.findMyPageList(searchPageVo);
 
         return CommonResult.success(vo);
     }

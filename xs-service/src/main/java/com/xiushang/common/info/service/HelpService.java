@@ -11,7 +11,7 @@ public interface HelpService extends BaseService<HelpEntity> {
 
     PageTableVO findPageList(SearchPageVo searchPageVo);
 
-    PageTableVO findShopPageList(SearchPageVo searchPageVo);
+    PageTableVO findMyPageList(SearchPageVo searchPageVo);
 
     HelpEntity saveHelp(HelpVo helpVo);
 
