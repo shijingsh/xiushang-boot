@@ -2,6 +2,7 @@ package com.xiushang.security.hadler;
 
 import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.framework.log.CommonResult;
+import com.xiushang.framework.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
@@ -28,7 +29,12 @@ public class ResourceAccessDeniedHandler implements AccessDeniedHandler {
 		response.setCharacterEncoding("utf-8");
 		response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-		CommonResult<String> commonResult = CommonResult.error(1,message);
+		int errorCode = 1;
+		if(UserHolder.getClientAuth()){
+			//当仅为客户端授权时，提示用户登录
+			errorCode = 403;
+		}
+		CommonResult<String> commonResult = CommonResult.error(errorCode,message);
 		String resBody = JsonUtils.toJsonStr(commonResult);
 
 		PrintWriter printWriter = response.getWriter();

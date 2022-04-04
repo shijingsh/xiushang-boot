@@ -49,6 +49,7 @@ public class ClientAuthenticationProvider extends TenantProvider implements Auth
         //客户端的授权者即是租户
         securityUser.setTenantId(userId);
         securityUser.setClientId(clientId);
+        securityUser.setClientAuth(true);
 
         //设置附加权限
         List<SecurityRoleVo> list = new ArrayList<>();

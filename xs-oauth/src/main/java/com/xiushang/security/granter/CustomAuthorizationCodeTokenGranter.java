@@ -108,6 +108,8 @@ public class CustomAuthorizationCodeTokenGranter extends AbstractTokenGranter {
 
         tenantProvider.settingTenantId(securityUser,clientId);
 
+        securityUser.setClientAuth(true);
+
         return new OAuth2Authentication(finalStoredOAuth2Request, userAuth);
 
     }

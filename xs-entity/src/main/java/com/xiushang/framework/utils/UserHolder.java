@@ -56,6 +56,19 @@ public class UserHolder {
 
         return user.getUserAdmin();
     }
+
+    /**
+     * 判断是否为客户端授权
+     */
+    public static Boolean getClientAuth() {
+        // 获取用户认证信息对象。
+        SecurityUser user = get();
+        if (Objects.isNull(user)) {
+            return false;
+        }
+
+        return user.getClientAuth();
+    }
     /**
      * 获得当前租户ID
      */

@@ -66,6 +66,8 @@ public class CustomImplicitTokenGranter extends AbstractTokenGranter {
 
         OAuth2Request requestForStorage = ((ImplicitTokenRequest)clientToken).getOAuth2Request();
 
+        securityUser.setClientAuth(true);
+
         return new OAuth2Authentication(requestForStorage, userAuth);
 
     }

@@ -38,6 +38,12 @@ public class SecurityUser extends UserEntity implements UserDetails {
     @ApiModelProperty(notes = "管理员用户")
     private Boolean userAdmin = false;
 
+    /**
+     * 客户端授权
+     */
+    @ApiModelProperty(notes = "客户端授权")
+    private Boolean clientAuth = false;
+
     public SecurityUser(UserEntity user) {
         if (user != null) {
             BeanUtils.copyProperties(user, this);
@@ -128,6 +134,14 @@ public class SecurityUser extends UserEntity implements UserDetails {
 
     public void setClientAdmin(Boolean clientAdmin) {
         this.clientAdmin = clientAdmin;
+    }
+
+    public Boolean getClientAuth() {
+        return clientAuth;
+    }
+
+    public void setClientAuth(Boolean clientAuth) {
+        this.clientAuth = clientAuth;
     }
 
     public Boolean getUserAdmin() {

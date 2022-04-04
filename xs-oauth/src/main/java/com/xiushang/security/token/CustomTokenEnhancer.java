@@ -28,6 +28,7 @@ public class CustomTokenEnhancer implements TokenEnhancer {
             SecurityUser user = (SecurityUser) authentication.getPrincipal();
             additionalInfo.put(SecurityConstants.AUTH_TENANT_ID_PARAM,user.getTenantId());
             additionalInfo.put(SecurityConstants.AUTH_CLIENT_ADMIN_PARAM,user.getClientAdmin());
+            additionalInfo.put(SecurityConstants.AUTH_CLIENT_AUTH_PARAM,user.getClientAuth());
             additionalInfo.put(SecurityConstants.AUTH_USER_ADMIN_PARAM,user.getUserAdmin());
         }
 
