@@ -32,7 +32,7 @@ public class SecurityAccessDeniedHandler implements AccessDeniedHandler {
 		int errorCode = 1;
 		if(UserHolder.getClientAuth()){
 			//当仅为客户端授权时，提示用户登录
-			errorCode = 403;
+			errorCode = 401;
 		}
 
 		CommonResult<String> commonResult = CommonResult.error(errorCode,message);
