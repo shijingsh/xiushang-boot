@@ -6,6 +6,7 @@ import com.xiushang.framework.utils.UserHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,11 @@ public class SecurityAccessDeniedHandler implements AccessDeniedHandler {
 		int errorCode = 1;
 		if(UserHolder.getClientAuth()){
 			//当仅为客户端授权时，提示用户登录
+			errorCode = 401;
+		}
+
+		Throwable cause = accessDeniedException.getCause();
+		if(cause instanceof InvalidTokenException) {
 			errorCode = 401;
 		}
 

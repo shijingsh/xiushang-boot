@@ -4,6 +4,7 @@ import com.xiushang.common.utils.JsonUtils;
 import com.xiushang.framework.log.CommonResult;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.oauth2.common.exceptions.InvalidTokenException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,7 +19,13 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         response.setCharacterEncoding("utf-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        CommonResult<String> commonResult = CommonResult.error(1,authException.getMessage());
+        Throwable cause = authException.getCause();
+        int errorCode = 403;
+        if(cause instanceof InvalidTokenException) {
+            errorCode = 401;
+        }
+
+        CommonResult<String> commonResult = CommonResult.error(errorCode,authException.getMessage());
         String resBody = JsonUtils.toJsonStr(commonResult);
 
         PrintWriter printWriter = response.getWriter();

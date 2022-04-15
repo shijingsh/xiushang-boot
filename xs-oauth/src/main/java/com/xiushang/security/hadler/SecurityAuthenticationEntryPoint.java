@@ -24,6 +24,8 @@ public class SecurityAuthenticationEntryPoint implements AuthenticationEntryPoin
 		//response.setHeader("Authorization", this.headerValue);
 		//response.sendError(HttpServletResponse.SC_UNAUTHORIZED, authException.getMessage());
 
+		int code;
+		String message;
 		Throwable cause = authException.getCause();
 		if(cause instanceof InvalidTokenException) {
 			log.info("InvalidTokenException:" + authException.getMessage());
@@ -31,8 +33,7 @@ public class SecurityAuthenticationEntryPoint implements AuthenticationEntryPoin
 			log.info("cause:" + authException.getMessage());
 		}
 
-		int code;
-		String message;
+
 		if("Full authentication is required to access this resource".equals(authException.getMessage())) {
 			code = HttpServletResponse.SC_FORBIDDEN;
 			message = "无权访问，未认证或授权访问受保护的资源。";

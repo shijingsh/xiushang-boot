@@ -25,7 +25,9 @@ public class ResourceExceptionEntryPoint implements AuthenticationEntryPoint
                          AuthenticationException authException) throws ServletException, IOException {
 
         Throwable cause = authException.getCause();
+        int errorCode = 403;
         if(cause instanceof InvalidTokenException) {
+            errorCode = 401;
             log.info("InvalidTokenException:" + authException.getMessage());
         }else{
             log.info("cause:" + authException.getMessage());
@@ -35,7 +37,7 @@ public class ResourceExceptionEntryPoint implements AuthenticationEntryPoint
         response.setCharacterEncoding("utf-8");
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
 
-        CommonResult<String> commonResult = CommonResult.error(403,authException.getMessage());
+        CommonResult<String> commonResult = CommonResult.error(errorCode,authException.getMessage());
         String resBody = JsonUtils.toJsonStr(commonResult);
 
         PrintWriter printWriter = response.getWriter();
