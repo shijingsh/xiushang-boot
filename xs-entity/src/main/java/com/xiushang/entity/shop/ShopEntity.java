@@ -95,7 +95,7 @@ public class ShopEntity extends BaseEntity {
      */
     @ApiModelProperty(notes = "商铺实景图")
     @ElementCollection
-    @CollectionTable(name="images_shop", joinColumns=@JoinColumn(name="shop_id"))
+    @CollectionTable(name="rel_images_shop", joinColumns=@JoinColumn(name="shop_id"))
     @Column(name="images")
     private List<String> images = new ArrayList<>();
 

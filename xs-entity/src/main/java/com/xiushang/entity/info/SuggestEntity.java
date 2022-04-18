@@ -65,7 +65,7 @@ public class SuggestEntity extends BaseEntity {
      * 相关图片
      */
     @ElementCollection
-    @CollectionTable(name="images_suggest", joinColumns=@JoinColumn(name="suggest_id"))
+    @CollectionTable(name="rel_images_suggest", joinColumns=@JoinColumn(name="suggest_id"))
     @Column(name="images")
     @ApiModelProperty(value = "相关图片")
     private List<String> images = new ArrayList<>();
