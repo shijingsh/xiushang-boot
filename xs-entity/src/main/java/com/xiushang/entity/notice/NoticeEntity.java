@@ -12,7 +12,7 @@ import java.util.Date;
  * 公告管理
  */
 @Entity
-@Table(name="app_notice")
+@Table(name="t_notice")
 public class NoticeEntity extends BaseEntity {
     /**
      * 所属商铺

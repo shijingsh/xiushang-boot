@@ -13,7 +13,7 @@ import javax.persistence.*;
  * 常见问题
  */
 @Entity
-@Table(name="app_help")
+@Table(name="t_help")
 public class HelpEntity extends BaseEntity {
 
     /**

@@ -16,7 +16,7 @@ import java.util.List;
  * 商铺
  */
 @Entity
-@Table(name="app_shop")
+@Table(name="t_shop")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class ShopEntity extends BaseEntity {
     /**

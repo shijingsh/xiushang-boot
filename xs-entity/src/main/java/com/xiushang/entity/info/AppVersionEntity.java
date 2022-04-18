@@ -9,7 +9,7 @@ import javax.persistence.*;
  * 版本管理
  */
 @Entity
-@Table(name="app_version")
+@Table(name="t_app_version")
 public class AppVersionEntity extends BaseEntity {
     /**
      * 商铺ID，可以实现配置多个APP

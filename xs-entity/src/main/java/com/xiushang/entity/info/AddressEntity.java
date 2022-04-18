@@ -13,7 +13,7 @@ import java.math.BigDecimal;
  * 用户地址
  */
 @Entity
-@Table(name="app_user_address")
+@Table(name="t_user_address")
 public class AddressEntity extends BaseEntity {
 
     @ManyToOne

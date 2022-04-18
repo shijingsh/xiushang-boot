@@ -16,7 +16,7 @@ import java.util.List;
  * 意见反馈
  */
 @Entity
-@Table(name="app_suggest")
+@Table(name="t_suggest")
 public class SuggestEntity extends BaseEntity {
     /**
      * 所属商铺

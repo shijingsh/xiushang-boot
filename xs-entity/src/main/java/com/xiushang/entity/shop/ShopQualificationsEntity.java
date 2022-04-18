@@ -10,7 +10,7 @@ import javax.persistence.*;
  * 商铺资质
  */
 @Entity
-@Table(name="app_shop_qualifications")
+@Table(name="t_shop_qualifications")
 public class ShopQualificationsEntity extends BaseEntity {
     /**
      * 所属商铺
