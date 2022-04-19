@@ -63,7 +63,7 @@ public class NoticeServiceImpl extends BaseServiceImpl<NoticeEntity> implements 
             ex = ex.and(entity.belongShop.id.eq(shopId));
         }
         if (StringUtils.isNotBlank(searchKey)) {
-            ex = ex.and(entity.content.like("%" + searchKey + "%"));
+            ex = ex.and(entity.title.like("%" + searchKey + "%").or(entity.content.like("%" + searchKey + "%")));
         }
 
         Page<NoticeEntity> page = findPageList(ex, searchVo.createPageRequest(
