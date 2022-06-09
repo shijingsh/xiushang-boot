@@ -3,13 +3,13 @@
 <parent>
         <artifactId>xiushang-boot</artifactId>
         <groupId>com.github.shijingsh</groupId>
-        <version>1.5.3</version>
+        <version>1.5.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.github.shijingsh</groupId>
     <artifactId>xs-entity</artifactId>
-    <version>1.5.3</version>
+    <version>1.5.4</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
