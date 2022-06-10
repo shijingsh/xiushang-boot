@@ -11,6 +11,7 @@ import com.xiushang.entity.SubscribeMsgAppointEntity;
 import com.xiushang.entity.oauth.OauthClientDetailsEntity;
 import com.xiushang.framework.log.CommonResult;
 import com.xiushang.framework.sys.PropertyConfigurer;
+import com.xiushang.jpa.repository.OauthClientDetailsDao;
 import com.xiushang.jpa.repository.SysSubscribeMsgAppointDao;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
@@ -32,8 +33,9 @@ public class SubscribeMsgService {
 
   @Autowired
   private UserService userService;
+
   @Autowired
-  private OauthClientDetailsService clientDetailsService;
+  private OauthClientDetailsDao oauthClientDetailsDao;
   /**
    * 发送订阅消息
    * @return
@@ -100,7 +102,7 @@ public class SubscribeMsgService {
       String grant_type = "client_credential";
 
       String clientId = userService.getCurrentClientId();
-      OauthClientDetailsEntity clientDetailsEntity = clientDetailsService.findByClientId(clientId);
+      OauthClientDetailsEntity clientDetailsEntity =  oauthClientDetailsDao.findByClientId(clientId);
 
       String appid = clientDetailsEntity.getAppId();
       String secret = clientDetailsEntity.getSecret();
