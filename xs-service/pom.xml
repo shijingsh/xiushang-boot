@@ -23,7 +23,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-core</artifactId>
+            <artifactId>common-core</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>

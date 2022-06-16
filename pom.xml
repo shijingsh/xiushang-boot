@@ -11,23 +11,12 @@
     <version>1.5.5</version>
     <modules>
         <module>xiushang-boot-example</module>
-
         <module>xs-common</module>
-
-        <module>xs-core</module>
-        <module>xs-framework</module>
         <module>xs-entity</module>
         <module>xs-service</module>
         <module>xs-oauth</module>
         <module>xs-job</module>
         <module>xs-marketing</module>
-        <module>xs-dubbo</module>
-        <module>xs-rocketmq</module>
-        <module>xs-solr</module>
-        <module>xs-pay</module>
-        <module>xs-mapstruct</module>
-        <module>xs-validation</module>
-        <module>xs-redis</module>
     </modules>
     <packaging>pom</packaging>
     <name>xiushang-boot</name>
