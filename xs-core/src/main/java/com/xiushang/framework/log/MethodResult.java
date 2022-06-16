@@ -9,12 +9,14 @@ import io.swagger.annotations.ApiModelProperty;
  */
 public class MethodResult<T> implements java.io.Serializable{
 
+    public static int SUCCESS = 0;
+    public static int ERROR = 1;
     /**
      * 响应编码 code:0为成功 其他值为失败
      */
     @ApiModelProperty(hidden = true)
     @JSONField(serialize = false, deserialize = false)
-    private int code = 0;
+    private int code = SUCCESS;
     /**
      * 错误提示
      */
@@ -89,9 +91,19 @@ public class MethodResult<T> implements java.io.Serializable{
     /**
      * 失败返回结果
      */
+    public static <T> MethodResult<T> error() {
+        MethodResult methodResult = new MethodResult<T>( "操作失败！",null);
+        methodResult.setSuccess(false);
+        methodResult.setCode(ERROR);
+        return methodResult;
+    }
+    /**
+     * 失败返回结果
+     */
     public static <T> MethodResult<T> error(String message) {
         MethodResult methodResult = new MethodResult<T>( message,null);
         methodResult.setSuccess(false);
+        methodResult.setCode(ERROR);
         return methodResult;
     }
 
@@ -102,7 +114,7 @@ public class MethodResult<T> implements java.io.Serializable{
         MethodResult methodResult = new MethodResult<T>( message,null);
         methodResult.setSuccess(false);
         if(code==0){
-            methodResult.setCode(1);
+            methodResult.setCode(ERROR);
         }else {
             methodResult.setCode(code);
         }
