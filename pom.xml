@@ -11,10 +11,12 @@
     <version>1.5.4</version>
     <modules>
         <module>xiushang-boot-example</module>
+
+        <module>xs-common</module>
+
         <module>xs-core</module>
         <module>xs-framework</module>
         <module>xs-entity</module>
-        <module>xs-common</module>
         <module>xs-service</module>
         <module>xs-oauth</module>
         <module>xs-job</module>
