@@ -27,6 +27,10 @@
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
+            <artifactId>common-framework</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-entity</artifactId>
         </dependency>
 

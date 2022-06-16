@@ -51,13 +51,13 @@
         <!-- mapstruct -->
         <dependency>
             <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-mapstruct</artifactId>
+            <artifactId>common-mapstruct</artifactId>
         </dependency>
 
         <!-- validation -->
         <dependency>
             <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-validation</artifactId>
+            <artifactId>common-validation</artifactId>
         </dependency>
 
     </dependencies>

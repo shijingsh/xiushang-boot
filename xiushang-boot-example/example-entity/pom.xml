@@ -15,7 +15,7 @@
         <!-- xiushang框架依赖 -->
         <dependency>
             <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-core</artifactId>
+            <artifactId>common-framework</artifactId>
             <version>${xiushang.version}</version>
         </dependency>
         <dependency>

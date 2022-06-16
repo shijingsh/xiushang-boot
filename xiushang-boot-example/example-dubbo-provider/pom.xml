@@ -22,7 +22,7 @@
         <!--dubbo依赖-->
         <dependency>
             <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-dubbo</artifactId>
+            <artifactId>common-dubbo</artifactId>
             <version>${xiushang.version}</version>
         </dependency>
 

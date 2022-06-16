@@ -232,11 +232,6 @@
         <dependencies>
             <dependency>
                 <groupId>com.github.shijingsh</groupId>
-                <artifactId>xs-core</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.shijingsh</groupId>
                 <artifactId>xs-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -260,30 +255,56 @@
                 <artifactId>xs-marketing</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            <dependency>
-                <groupId>com.github.shijingsh</groupId>
-                <artifactId>xs-dubbo</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.shijingsh</groupId>
-                <artifactId>xs-rocketmq</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.shijingsh</groupId>
-                <artifactId>xs-solr</artifactId>
-                <version>${project.version}</version>
-            </dependency>
 
+            <!-- common 子项目-->
             <dependency>
                 <groupId>com.github.shijingsh</groupId>
-                <artifactId>xs-mapstruct</artifactId>
+                <artifactId>common-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.shijingsh</groupId>
-                <artifactId>xs-validation</artifactId>
+                <artifactId>common-dubbo</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>common-framework</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>common-mapstruct</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>common-pay</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>common-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>common-rocketmq</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>common-solr</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>common-validation</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>common-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <!-- Apache Log4j2 远程代码执行漏洞 -->

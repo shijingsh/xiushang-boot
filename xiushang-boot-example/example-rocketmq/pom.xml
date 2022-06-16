@@ -23,7 +23,7 @@
 
         <dependency>
             <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-rocketmq</artifactId>
+            <artifactId>common-rocketmq</artifactId>
             <version>${xiushang.version}</version>
         </dependency>
 

@@ -27,7 +27,7 @@
         <!-- xs-common 公共接口 -->
         <dependency>
             <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-common</artifactId>
+            <artifactId>common-web</artifactId>
             <version>${xiushang.version}</version>
         </dependency>
 
