@@ -1,26 +1,18 @@
 package com.xiushang;
 
-import com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.builder.SpringApplicationBuilder;
-import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.Environment;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
-@SpringBootApplication(exclude = DruidDataSourceAutoConfigure.class)
-@Slf4j
-
-@EnableJpaRepositories(basePackages = "com.xiushang") //用于扫描Dao @Repository
-@EntityScan("com.xiushang.entity") //用于扫描JPA实体类 @Entity
+@SpringBootApplication
 @EnableScheduling
-@ServletComponentScan(basePackages = {"com.xiushang.filter"})
+@Slf4j
 public class JobApplication extends SpringBootServletInitializer {
 
   public static void main(String[] args) throws Exception {
