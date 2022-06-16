@@ -14,8 +14,15 @@
     <packaging>pom</packaging>
 
     <modules>
-   <!--     <module>common-core</module>
-        <module>common-redis</module>-->
+        <module>common-core</module>
+        <module>common-framework</module>
+        <module>common-mapstruct</module>
+        <module>common-pay</module>
+        <module>common-redis</module>
+        <module>common-rocketmq</module>
+        <module>common-solr</module>
+        <module>common-validation</module>
         <module>common-web</module>
     </modules>
+
 </project>
