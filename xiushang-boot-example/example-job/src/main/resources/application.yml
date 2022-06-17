@@ -35,7 +35,11 @@ spring:
     hibernate:
       ddl-auto: update # Hibernate ddl auto (create, create-drop, validate, update)
 
-
+  # 关闭spring data 的redis仓库即可
+  data:
+    redis:
+      repositories:
+        enabled: false
 
 #每天凌晨12点排序处理
 job:

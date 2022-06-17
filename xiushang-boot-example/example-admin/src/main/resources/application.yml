@@ -45,6 +45,11 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
     cache: false
+  # 关闭spring data 的redis仓库
+  data:
+    redis:
+      repositories:
+        enabled: false
 
 knife4j:
   enable: true
