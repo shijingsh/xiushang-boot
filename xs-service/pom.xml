@@ -31,6 +31,10 @@
         </dependency>
         <dependency>
             <groupId>com.github.shijingsh</groupId>
+            <artifactId>common-sms</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-entity</artifactId>
         </dependency>
 

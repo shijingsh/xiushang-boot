@@ -294,6 +294,11 @@
             </dependency>
             <dependency>
                 <groupId>com.github.shijingsh</groupId>
+                <artifactId>common-sms</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
                 <artifactId>common-solr</artifactId>
                 <version>${project.version}</version>
             </dependency>

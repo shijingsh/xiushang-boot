@@ -176,7 +176,7 @@
         </dependency>
 
         <!--阿里云短信-->
-        <dependency>
+        <!--<dependency>
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-core</artifactId>
             <version>3.7.1</version>
@@ -185,7 +185,7 @@
             <groupId>com.aliyun</groupId>
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
             <version>1.1.0</version>
-        </dependency>
+        </dependency>-->
         <!--core-->
         <dependency>
             <groupId>com.github.shijingsh</groupId>
