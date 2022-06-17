@@ -11,7 +11,7 @@ import java.util.Date;
  * 公告管理
  */
 @Entity
-@Table(name="app_news")
+@Table(name="t_news")
 public class NewsEntity extends BaseEntity {
     /**
      * 循环依赖测试
