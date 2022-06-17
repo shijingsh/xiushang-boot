@@ -186,6 +186,11 @@
             <artifactId>aliyun-java-sdk-dysmsapi</artifactId>
             <version>1.1.0</version>
         </dependency>
+        <!--core-->
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
 
     </dependencies>
 
