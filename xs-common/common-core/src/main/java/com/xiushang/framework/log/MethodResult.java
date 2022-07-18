@@ -1,6 +1,7 @@
 package com.xiushang.framework.log;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.xiushang.common.intf.Response;
 import io.swagger.annotations.ApiModelProperty;
 
 /**
@@ -87,6 +88,25 @@ public class MethodResult<T> implements java.io.Serializable{
      */
     public static <T> MethodResult<T> success(T data) {
         return new MethodResult<T>(data);
+    }
+
+    /**
+     * 成功返回结果
+     */
+    public static <T> MethodResult<T> success(Response<T> response) {
+
+        MethodResult methodResult = new MethodResult<T>( response.message(),response.data());
+        int code = response.code();
+        if(code==SUCCESS){
+            methodResult.setSuccess(true);
+            methodResult.setCode(SUCCESS);
+        }else {
+            methodResult.setCode(ERROR);
+            methodResult.setSuccess(false);
+            methodResult.setCode(code);
+        }
+
+        return methodResult;
     }
     /**
      * 失败返回结果

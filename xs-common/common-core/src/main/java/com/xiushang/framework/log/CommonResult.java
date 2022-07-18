@@ -1,5 +1,6 @@
 package com.xiushang.framework.log;
 
+import com.xiushang.common.intf.Response;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
@@ -104,6 +105,20 @@ public class CommonResult<T> implements java.io.Serializable{
 		}
 		return new CommonResult<T>(SUCCESS, "成功", methodResult.getData());
 	}
+
+
+	/**
+	 * 成功返回结果
+	 */
+	public static <T> CommonResult<T> success(Response<T> response) {
+		int code = response.code();
+		if(code!=SUCCESS){
+
+			return CommonResult.error(code,response.message());
+		}
+		return new CommonResult<T>(SUCCESS, "成功", response.data());
+	}
+
 	/**
 	 * 失败返回结果
 	 */
