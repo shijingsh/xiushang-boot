@@ -4,7 +4,7 @@ import com.querydsl.core.types.Predicate;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-public interface BaseService<T> {
+public interface BaseService<T> extends java.io.Serializable {
     void save(T t);
     T saveAndGet(T t);
     void saveAndFlush(T t);
