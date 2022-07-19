@@ -16,7 +16,6 @@
         <module>xs-service</module>
         <module>xs-oauth</module>
         <module>xs-job</module>
-        <module>xs-marketing</module>
     </modules>
     <packaging>pom</packaging>
     <name>xiushang-boot</name>
