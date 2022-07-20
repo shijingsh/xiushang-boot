@@ -29,7 +29,8 @@ public abstract class BaseEntity extends BaseLazy {
      */
     @Id
     @GeneratedValue(generator = "system-uuid", strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    //@GenericGenerator(name = "system-uuid", strategy = "uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "org.hibernate.id.UUIDGenerator" )
     @Column(length = 32)
     @ApiModelProperty(notes = "主键ID")
     protected String id;
