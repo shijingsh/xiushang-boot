@@ -23,7 +23,7 @@ public abstract class BaseUserEntity extends BaseLazy {
     @GeneratedValue(generator = "system-uuid-user", strategy = GenerationType.IDENTITY)
     //@GenericGenerator(name = "system-uuid-user", strategy = "uuid")
     @GenericGenerator(name = "system-uuid-user", strategy = "org.hibernate.id.UUIDGenerator" )
-    @Column(length = 32)
+    @Column(length = 36)
     @ApiModelProperty(notes = "主键ID")
     protected String id;
 
@@ -33,7 +33,7 @@ public abstract class BaseUserEntity extends BaseLazy {
      * 用于权限判断，不是自己的数据不能修改、删除
      */
     @ApiModelProperty(notes = "所属用户ID")
-    @Column(name = "user_id",updatable=false, length = 32)
+    @Column(name = "user_id",updatable=false, length = 36)
     protected String userId;
 
     public String getId() {

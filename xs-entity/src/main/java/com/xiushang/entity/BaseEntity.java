@@ -31,7 +31,7 @@ public abstract class BaseEntity extends BaseLazy {
     @GeneratedValue(generator = "system-uuid", strategy = GenerationType.IDENTITY)
     //@GenericGenerator(name = "system-uuid", strategy = "uuid")
     @GenericGenerator(name = "system-uuid", strategy = "org.hibernate.id.UUIDGenerator" )
-    @Column(length = 32)
+    @Column(length = 36)
     @ApiModelProperty(notes = "主键ID")
     protected String id;
 
@@ -39,7 +39,7 @@ public abstract class BaseEntity extends BaseLazy {
     /**
      * 创建实体对象的操作员ID
      */
-    @Column(name = "created_by_id",updatable=false, length = 32)
+    @Column(name = "created_by_id",updatable=false, length = 36)
     @JSONField(serialize = false, deserialize = false)
     @ApiModelProperty(hidden = true)
     protected String createdById;
@@ -54,7 +54,7 @@ public abstract class BaseEntity extends BaseLazy {
     /**
      * 最后修改实体对象的操作员ID
      */
-    @Column(name = "updated_by_id", length = 32)
+    @Column(name = "updated_by_id", length = 36)
     @JSONField(serialize = false, deserialize = false)
     @ApiModelProperty(hidden = true)
     protected String updatedById;
