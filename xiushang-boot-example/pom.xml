@@ -15,9 +15,7 @@
         <module>example-entity</module>
         <module>example-job</module>
         <module>example-service</module>
-
-        <module>example-dubbo-consumer</module>
-        <module>example-dubbo-provider</module>
+        <module>example-dubbo</module>
         <module>example-rocketmq</module>
     </modules>
     <groupId>com.xiushang</groupId>
