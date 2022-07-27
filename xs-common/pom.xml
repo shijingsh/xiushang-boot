@@ -16,8 +16,11 @@
     <modules>
         <module>common-core</module>
         <module>common-dubbo</module>
+        <module>common-elasticsearch</module>
         <module>common-framework</module>
+        <module>common-mybatis</module>
         <module>common-mapstruct</module>
+        <module>common-nacos</module>
         <module>common-pay</module>
         <module>common-redis</module>
         <module>common-rocketmq</module>

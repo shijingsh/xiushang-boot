@@ -69,9 +69,11 @@
         <querydsl.version>5.0.0</querydsl.version>
         <!--<spring.boot.version>2.4.0</spring.boot.version>-->
         <spring.boot.version>2.5.5</spring.boot.version>
+        <spring.cloud.version>2021.1</spring.cloud.version>
         <commons-pool2.version>2.10.0</commons-pool2.version>
         <druid.version>1.2.6</druid.version>
         <knife4j.version>3.0.5</knife4j.version>
+        <elasticsearch.version>7.10.1</elasticsearch.version>
         <knife4j.annotations.version>1.5.22</knife4j.annotations.version>
         <hutool.version>5.7.17</hutool.version>
         <dubbo.version>3.0.4</dubbo.version>
@@ -82,6 +84,7 @@
         <pay.version>2.14.3</pay.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <maven-compiler.version>3.8.1</maven-compiler.version>
+        <mysql.version>8.0.19</mysql.version>
     </properties>
 
     <build>
