@@ -59,6 +59,12 @@
             <groupId>com.github.shijingsh</groupId>
             <artifactId>common-validation</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo</artifactId>
+            <version>3.0.9</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
     <build>

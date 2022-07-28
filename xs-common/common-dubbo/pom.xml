@@ -19,7 +19,10 @@
     </properties>
     <dependencies>
 
-
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>common-core</artifactId>
+        </dependency>
         <!-- dubbo依赖 -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -39,6 +42,10 @@
                     <groupId>org.slf4j</groupId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-entity</artifactId>
         </dependency>
 
     </dependencies>

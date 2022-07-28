@@ -4,6 +4,13 @@ server:
   servlet:
     register-default-servlet: true
 
+# dubbo 相关配置
+dubbo:
+  application:
+    name: admin-consumer
+  registry:
+    address: zookeeper://192.168.29.12:2181
+
 spring:
   profiles:
     active: @env.id@

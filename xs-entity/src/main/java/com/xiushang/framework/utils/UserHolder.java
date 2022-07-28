@@ -1,6 +1,7 @@
 package com.xiushang.framework.utils;
 
 import com.xiushang.security.SecurityUser;
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
@@ -16,17 +17,28 @@ public class UserHolder {
      */
     public static SecurityUser get() {
         // 获取用户认证信息对象。
+        SecurityUser user = null;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // 认证信息可能为空，因此需要进行判断。
         if (Objects.nonNull(authentication)) {
             Object principal = authentication.getPrincipal();
 
             if (principal instanceof SecurityUser) {
-                SecurityUser user = (SecurityUser) principal;
+                 user = (SecurityUser) principal;
 
                 return user;
             }
         }
+
+        // dubbo 上下文中 找USER对象
+        if(user==null){
+            Object userObj =  RpcContext.getServerAttachment().getObjectAttachment("com_xiushang_global_user_key");
+            if (userObj instanceof SecurityUser) {
+                user = (SecurityUser) userObj;
+                return user;
+            }
+        }
+
         return null;
     }
 

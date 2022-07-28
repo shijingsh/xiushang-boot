@@ -3,13 +3,14 @@ package com.xiushang.admin.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
 import com.xiushang.admin.service.OrderPayDubboService;
+import com.xiushang.framework.utils.UserHolder;
+import com.xiushang.security.SecurityUser;
 import org.apache.dubbo.config.annotation.DubboService;
-import org.apache.dubbo.rpc.RpcContext;
 
 import java.io.Serializable;
 
 
-@DubboService(filter = "userFilter")
+@DubboService(filter = "userFilter",retries = 0)
 public class OrderPayDubboSericeImpl implements OrderPayDubboService, Serializable {
 
     @Override
@@ -18,10 +19,10 @@ public class OrderPayDubboSericeImpl implements OrderPayDubboService, Serializab
         object.put("code",0);
         object.put("msg","to pay");
 
-        String getClientAttachment = RpcContext.getClientAttachment().getAttachment("getClientAttachment");
-        String getServerAttachment = RpcContext.getServerAttachment().getAttachment("getServerAttachment");
-        System.out.println(getClientAttachment + "=========filter2");
-        System.out.println(getServerAttachment + "=========filter2");
+        SecurityUser user = UserHolder.get();
+        System.out.println("=========toPay=========");
+        System.out.println(user);
+
         return object;
     }
 }

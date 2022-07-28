@@ -37,6 +37,12 @@
             <artifactId>spring-session-data-redis</artifactId>
         </dependency>
 
+        <!--dubbo依赖-->
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>common-dubbo</artifactId>
+            <version>${xiushang.version}</version>
+        </dependency>
     </dependencies>
 
     <!--配置环境的profile-->

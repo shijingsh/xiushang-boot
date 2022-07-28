@@ -22,4 +22,6 @@ public class SecurityConstants {
     public static final String AUTH_USER_ADMIN_PARAM = "userAdmin";
 
     public static final long EXPIRATION_TIME = 36000000;
+
+    public static final String USER_KEY = "com_xiushang_global_user_key";
 }
