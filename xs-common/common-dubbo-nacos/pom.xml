@@ -23,14 +23,18 @@
             <groupId>com.github.shijingsh</groupId>
             <artifactId>common-core</artifactId>
         </dependency>
-        <!-- dubbo依赖 -->
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>xs-entity</artifactId>
+        </dependency>
+
+        <!-- Dubbo dependency -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo-spring-boot-starter</artifactId>
+            <artifactId>dubbo</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
 
-        <!-- dubbo 注册到nacos -->
         <!-- Dubbo Nacos registry dependency -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
@@ -38,16 +42,11 @@
             <version>${dubbo.version}</version>
         </dependency>
 
-        <!-- Keep latest Nacos client version -->
+        <!-- Alibaba Spring Context extension -->
         <dependency>
-            <groupId>com.alibaba.nacos</groupId>
-            <artifactId>nacos-client</artifactId>
-            <version>2.1.0</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-entity</artifactId>
+            <groupId>com.alibaba.spring</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>1.0.11</version>
         </dependency>
 
     </dependencies>
