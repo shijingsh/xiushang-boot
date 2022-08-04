@@ -16,6 +16,7 @@
     <modules>
         <module>common-core</module>
         <module>common-dubbo</module>
+        <module>common-dubbo-nacos</module>
         <module>common-elasticsearch</module>
         <module>common-framework</module>
         <module>common-mybatis</module>
