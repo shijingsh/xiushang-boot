@@ -28,10 +28,22 @@
             <artifactId>xs-entity</artifactId>
         </dependency>
 
-        <!-- Dubbo dependency -->
-        <dependency>
+       <!-- Dubbo dependency -->
+       <!-- <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo</artifactId>
+            <version>${dubbo.version}</version>
+        </dependency>-->
+        <!-- guava依赖 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>30.1.1-jre</version>
+        </dependency>
+        <!-- dubbo依赖 -->
+        <dependency>
+            <groupId>org.apache.dubbo</groupId>
+            <artifactId>dubbo-spring-boot-starter</artifactId>
             <version>${dubbo.version}</version>
         </dependency>
 
@@ -40,6 +52,12 @@
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-registry-nacos</artifactId>
             <version>${dubbo.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.nacos</groupId>
+            <artifactId>nacos-client</artifactId>
+            <version>2.0.4</version>
         </dependency>
 
         <!-- Alibaba Spring Context extension -->

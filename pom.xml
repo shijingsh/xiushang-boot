@@ -76,8 +76,8 @@
         <elasticsearch.version>7.10.1</elasticsearch.version>
         <knife4j.annotations.version>1.5.22</knife4j.annotations.version>
         <hutool.version>5.7.17</hutool.version>
-        <dubbo.version>3.0.4</dubbo.version>
-        <zookeeper.version>3.0.4</zookeeper.version>
+        <dubbo.version>3.0.10</dubbo.version>
+        <zookeeper.version>3.0.10</zookeeper.version>
         <lombok.version>1.18.22</lombok.version>
         <tencent.marketing.version>1.1.29</tencent.marketing.version>
         <payproject.version>1.0.2</payproject.version>
