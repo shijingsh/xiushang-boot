@@ -67,6 +67,13 @@
             <version>1.0.11</version>
         </dependency>
 
+        <!-- hibernate 序列化支持 -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+
     </dependencies>
 
 </project>
