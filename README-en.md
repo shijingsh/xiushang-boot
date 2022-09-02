@@ -4,7 +4,7 @@
  A lightweight microservice architecture implemented with springboot + Dubbo + rocketmq + JPA.
 
  Develop API interface project and complete API general functions: user module, API authorization, SMS, scheduled task, upload file, document management and wechat related interfaces.
- Main technology stack：springboot dubbo rocketMQ jpa oauth2 solr job pay marketingApi knife4j Swagger2  
+ Main technology stack：springboot dubbo rocketMQ jpa oauth2 solr job pay  knife4j Swagger2  
  
   demo：https://github.com/shijingsh/xiushang-boot/tree/master/xiushang-boot-example
   
@@ -57,59 +57,6 @@ mvn install
 ### usage
 
 Select the library you need to install
-
-```xml
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-core</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-entity</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-service</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-oauth</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-common</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-dubbo</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-rocketmq</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-marketing</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-solr</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-job</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-```
 
 
 ### api Multi version control
@@ -251,13 +198,24 @@ Table structure description：https://blog.csdn.net/qq_34997906/article/details/
 ### dubbo Microservice integration
           
 
-Add dependency
+dubbo + zookeeper Add dependency
 
 ```xml
         <dependency>
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-dubbo</artifactId>
             <version>1.5.3</version>
+            <type>jar</type>
+        </dependency>
+```
+
+dubbo + nacos Add dependency
+
+```xml
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>common-dubbo-nacos</artifactId>
+            <version>1.6.0</version>
             <type>jar</type>
         </dependency>
 ```
@@ -324,6 +282,7 @@ public class ConsumerController {
 
 #### dubbo Configuration related
 
+zookeeper config
 ```
 server:
   port: 7000
@@ -348,7 +307,27 @@ dubbo:
     port: 20880
 
 ```
- 
+ nacos config
+```
+dubbo:
+  application:
+    # 应用名称
+    name: service-provider
+    qosEnable: false
+  scan:
+    # 接口实现者（服务实现）包
+    base-packages: com.xiushang.dubbo.service
+  # 注册中心信息
+  registry:
+    address: nacos://192.168.29.12:8848
+  protocol:
+    # 协议名称
+    name: dubbo
+    # 协议端口
+    port: -1
+    # 序列化
+    serialization: persistent
+```
 
 ## Contact information
    

@@ -4,7 +4,7 @@
  Xiushang boot .
  使用springboot + dubbo +rocketMQ + jpa实现的轻量级微服务架构。
  为API接口项目开发，完成API通用功能：用户模块、Api授权、短信、定时任务、上传文件、文档管理、微信相关接口。
- 主要技术栈：springboot dubbo rocketMQ jpa oauth2 solr job pay marketingApi knife4j Swagger2  
+ 主要技术栈：springboot dubbo rocketMQ jpa oauth2 solr job pay  knife4j   
  
   实例：https://github.com/shijingsh/xiushang-boot/tree/master/xiushang-boot-example
   
@@ -51,61 +51,7 @@ mvn install
 
 ### 使用
 
-
 安装你需要的依赖
-```xml
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-core</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-entity</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-service</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-oauth</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-common</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-dubbo</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-rocketmq</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-marketing</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-solr</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-job</artifactId>
-            <version>1.5.3</version>
-        </dependency>
-```
-
 
 ### api 多版本控制
 
@@ -245,12 +191,23 @@ https://github.com/spring-projects/spring-security-oauth/blob/main/spring-securi
 
 ### dubbo 微服务集成
 
-添加依赖
+dubbo + zookeeper 添加依赖
 ```xml
         <dependency>
             <groupId>com.github.shijingsh</groupId>
-            <artifactId>xs-dubbo</artifactId>
-            <version>1.5.3</version>
+            <artifactId>common-dubbo</artifactId>
+            <version>1.6.0</version>
+            <type>jar</type>
+        </dependency>
+```
+
+dubbo + nacos 添加依赖
+
+```xml
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>common-dubbo-nacos</artifactId>
+            <version>1.6.0</version>
             <type>jar</type>
         </dependency>
 ```
@@ -337,7 +294,29 @@ dubbo:
     name: dubbo
     # 协议端口
     port: 20880
+```
 
+ nacos 使用一下配置
+ 
+```
+dubbo:
+  application:
+    # 应用名称
+    name: service-provider
+    qosEnable: false
+  scan:
+    # 接口实现者（服务实现）包
+    base-packages: com.xiushang.dubbo.service
+  # 注册中心信息
+  registry:
+    address: nacos://192.168.29.12:8848
+  protocol:
+    # 协议名称
+    name: dubbo
+    # 协议端口
+    port: -1
+    # 序列化
+    serialization: persistent
 ```
     
 ### 约束
