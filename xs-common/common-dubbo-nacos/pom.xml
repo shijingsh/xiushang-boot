@@ -29,11 +29,6 @@
         </dependency>
 
        <!-- Dubbo dependency -->
-       <!-- <dependency>
-            <groupId>org.apache.dubbo</groupId>
-            <artifactId>dubbo</artifactId>
-            <version>${dubbo.version}</version>
-        </dependency>-->
         <!-- guava依赖 -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -44,20 +39,17 @@
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-spring-boot-starter</artifactId>
-            <version>${dubbo.version}</version>
         </dependency>
 
         <!-- Dubbo Nacos registry dependency -->
         <dependency>
             <groupId>org.apache.dubbo</groupId>
             <artifactId>dubbo-registry-nacos</artifactId>
-            <version>${dubbo.version}</version>
         </dependency>
 
         <dependency>
             <groupId>com.alibaba.nacos</groupId>
             <artifactId>nacos-client</artifactId>
-            <version>2.1.0</version>
         </dependency>
 
         <!-- Alibaba Spring Context extension -->

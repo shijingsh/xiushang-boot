@@ -254,11 +254,16 @@
             </dependency>
             <dependency>
                 <groupId>com.github.shijingsh</groupId>
-                <artifactId>xs-marketing</artifactId>
+                <artifactId>xs-job</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
             <!-- common 子项目-->
+            <dependency>
+                <groupId>com.github.shijingsh</groupId>
+                <artifactId>common-web</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.shijingsh</groupId>
                 <artifactId>common-core</artifactId>
@@ -325,6 +330,27 @@
                 <groupId>org.apache.dubbo</groupId>
                 <artifactId>dubbo</artifactId>
                 <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-spring-boot-starter</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-registry-nacos</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.nacos</groupId>
+                <artifactId>nacos-client</artifactId>
+                <version>2.1.0</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
             </dependency>
             <!-- knife4j 框架 -->
             <dependency>
