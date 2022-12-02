@@ -45,6 +45,10 @@
             <version>1.1.0.RELEASE</version>
         </dependency>
         -->
+        <dependency>
+            <groupId>com.github.shijingsh</groupId>
+            <artifactId>common-redis</artifactId>
+        </dependency>
         <!-- BCrypt 加密 -->
         <dependency>
             <groupId>org.springframework.security</groupId>
