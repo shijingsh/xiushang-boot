@@ -3,12 +3,12 @@
     <parent>
         <artifactId>xs-common</artifactId>
         <groupId>com.github.shijingsh</groupId>
-        <version>1.6.0</version>
+        <version>1.6.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.github.shijingsh</groupId>
     <artifactId>common-solr</artifactId>
-    <version>1.6.0</version>
+    <version>1.6.1</version>
     <packaging>jar</packaging>
     <name>common-solr</name>
     <url>http://maven.apache.org</url>
