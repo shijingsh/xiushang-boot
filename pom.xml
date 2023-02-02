@@ -66,10 +66,11 @@
         <hibernate.version>5.3.15.Final</hibernate.version>
         <poi.version>3.10-FINAL</poi.version>
         <querydsl.version>5.0.0</querydsl.version>
-        <!--<spring.boot.version>2.4.0</spring.boot.version>-->
-        <spring.version>5.2.7.RELEASE</spring.version>
+
+        <spring.version>5.3.10</spring.version>
         <spring.boot.version>2.5.5</spring.boot.version>
         <spring.cloud.version>2021.1</spring.cloud.version>
+
         <commons-pool2.version>2.10.0</commons-pool2.version>
         <druid.version>1.2.6</druid.version>
         <knife4j.version>3.1.0</knife4j.version>
