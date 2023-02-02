@@ -63,11 +63,11 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
-        <spring.version>5.2.7.RELEASE</spring.version>
         <hibernate.version>5.3.15.Final</hibernate.version>
         <poi.version>3.10-FINAL</poi.version>
         <querydsl.version>5.0.0</querydsl.version>
         <!--<spring.boot.version>2.4.0</spring.boot.version>-->
+        <spring.version>5.2.7.RELEASE</spring.version>
         <spring.boot.version>2.5.5</spring.boot.version>
         <spring.cloud.version>2021.1</spring.cloud.version>
         <commons-pool2.version>2.10.0</commons-pool2.version>
