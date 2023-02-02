@@ -72,7 +72,7 @@
         <spring.cloud.version>2021.1</spring.cloud.version>
         <commons-pool2.version>2.10.0</commons-pool2.version>
         <druid.version>1.2.6</druid.version>
-        <knife4j.version>3.0.5</knife4j.version>
+        <knife4j.version>3.1.0</knife4j.version>
         <knife4j.annotations.version>1.5.22</knife4j.annotations.version>
         <elasticsearch.version>7.10.1</elasticsearch.version>
         <hutool.version>5.7.17</hutool.version>
