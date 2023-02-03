@@ -578,6 +578,14 @@
                     <artifactId>swagger-annotations</artifactId>
                     <groupId>io.swagger</groupId>
                 </exclusion>
+                <exclusion>
+                    <groupId>io.github.classgraph</groupId>
+                    <artifactId>classgraph</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>net.bytebuddy</groupId>
+                    <artifactId>byte-buddy</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <!-- 重新引入指定版本的swagger-annotations -->
