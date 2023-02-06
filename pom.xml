@@ -82,8 +82,8 @@
         <zookeeper.version>3.0.10</zookeeper.version>
         <lombok.version>1.18.22</lombok.version>
         <tencent.marketing.version>1.1.29</tencent.marketing.version>
-        <payproject.version>1.0.2</payproject.version>
-        <pay.version>2.14.3</pay.version>
+        <payproject.version>1.0.3</payproject.version>
+        <pay.version>2.14.4</pay.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
         <maven-compiler.version>3.8.1</maven-compiler.version>
         <mysql.version>8.0.19</mysql.version>
@@ -97,6 +97,7 @@
         <fastjson.version>1.2.78</fastjson.version>
         <log4j.version>2.17.0</log4j.version>
         <guava.version>30.1.1-jre</guava.version>
+        <junit.version>4.13</junit.version>
 
         <swagger2.version>1.5.22</swagger2.version>
         <swagger3.version>2.1.2</swagger3.version>
@@ -547,6 +548,24 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <!-- junit -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons.lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${commons.beanutils.version}</version>
             </dependency>
             <!-- Apache Log4j2 远程代码执行漏洞 -->
             <dependency>
