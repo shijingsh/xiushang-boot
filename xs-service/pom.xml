@@ -37,6 +37,11 @@
             <groupId>com.github.shijingsh</groupId>
             <artifactId>xs-entity</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 
