@@ -63,31 +63,33 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
-        <hibernate.version>5.4.32.Final</hibernate.version>
-        <poi.version>3.10-FINAL</poi.version>
-        <querydsl.version>5.0.0</querydsl.version>
+        <payproject.version>1.0.3</payproject.version>
+        <pay.version>2.14.4</pay.version>
+        <knife4j.version>3.1.0</knife4j.version>
+        <knife4j.annotations.version>1.5.22</knife4j.annotations.version>
+        <tencent.marketing.version>1.1.29</tencent.marketing.version>
 
+        <hibernate.version>5.4.32.Final</hibernate.version>
+        <querydsl.version>5.0.0</querydsl.version>
         <spring.version>5.3.10</spring.version>
         <spring.boot.version>2.5.5</spring.boot.version>
         <spring.cloud.version>2021.1</spring.cloud.version>
+        <mybatis.version>3.4.3</mybatis.version>
 
         <commons-pool2.version>2.10.0</commons-pool2.version>
+        <poi.version>3.10-FINAL</poi.version>
         <druid.version>1.2.6</druid.version>
-        <knife4j.version>3.1.0</knife4j.version>
-        <knife4j.annotations.version>1.5.22</knife4j.annotations.version>
+
         <elasticsearch.version>7.12.1</elasticsearch.version>
         <solr.version>8.5.1</solr.version>
         <hutool.version>5.7.17</hutool.version>
         <dubbo.version>3.0.10</dubbo.version>
         <zookeeper.version>3.0.10</zookeeper.version>
         <lombok.version>1.18.22</lombok.version>
-        <tencent.marketing.version>1.1.29</tencent.marketing.version>
-        <payproject.version>1.0.3</payproject.version>
-        <pay.version>2.14.4</pay.version>
+        <httpclient.version>4.5.12</httpclient.version>
         <org.mapstruct.version>1.4.2.Final</org.mapstruct.version>
-        <maven-compiler.version>3.8.1</maven-compiler.version>
+
         <mysql.version>8.0.19</mysql.version>
-        <mybatis.version>3.4.3</mybatis.version>
 
         <commons.lang3.version>3.12.0</commons.lang3.version>
         <commons.beanutils.version>1.9.4</commons.beanutils.version>
@@ -101,7 +103,7 @@
 
         <swagger2.version>1.5.22</swagger2.version>
         <swagger3.version>2.1.2</swagger3.version>
-        <httpclient.version>4.5.12</httpclient.version>
+
     </properties>
 
     <build>
