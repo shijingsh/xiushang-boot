@@ -421,6 +421,13 @@
                 <artifactId>commons-pool2</artifactId>
                 <version>${commons-pool2.version}</version>
             </dependency>
+            <!--Spring support-->
+            <dependency>
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>${spring.version}</version>
+                <scope>compile</scope>
+            </dependency>
             <!--Spring boot jpa-->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
