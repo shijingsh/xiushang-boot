@@ -2,6 +2,7 @@ package com.xiushang.entity.shop;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.xiushang.entity.BaseEntity;
+import com.xiushang.entity.UserEntity;
 import io.swagger.annotations.ApiModelProperty;
 
 import javax.persistence.*;
@@ -12,14 +13,13 @@ import javax.persistence.*;
 @Entity
 @Table(name="t_shop_qualifications")
 public class ShopQualificationsEntity extends BaseEntity {
-    /**
-     * 所属商铺
-     */
+
     @ManyToOne
-    @JoinColumn(name = "shop_id")
-    @ApiModelProperty(notes = "所属商铺",hidden = true)
+    @JoinColumn(name = "user_id")
     @JSONField(serialize = false, deserialize = false)
-    private ShopEntity belongShop;
+    @ApiModelProperty(hidden = true)
+    private UserEntity user;
+
     @Column(length = 50)
     @ApiModelProperty(notes = "真实姓名")
     private String realName;
@@ -44,13 +44,12 @@ public class ShopQualificationsEntity extends BaseEntity {
     /**审核原因 */
     private String auditOption;
 
-
-    public ShopEntity getBelongShop() {
-        return belongShop;
+    public UserEntity getUser() {
+        return user;
     }
 
-    public void setBelongShop(ShopEntity belongShop) {
-        this.belongShop = belongShop;
+    public void setUser(UserEntity user) {
+        this.user = user;
     }
 
     public String getRealName() {
