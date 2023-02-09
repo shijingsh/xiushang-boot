@@ -2,6 +2,7 @@
 package com.xiushang.admin.config;
 
 import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
+import com.github.xiaoymin.knife4j.spring.extension.OpenApiExtensionResolver;
 import com.xiushang.common.annotations.XiushangApi;
 import com.xiushang.config.ApiVersion;
 import com.xiushang.config.JWTIgnoreUrlsConfig;
@@ -39,10 +40,13 @@ public class SwaggerConfiguration {
     @Autowired
     private OAuth2UrlConfig oAuth2UrlConfig;
 
+    @Autowired
+    private  OpenApiExtensionResolver openApiExtensionResolver;
+
     @Bean
     public Docket defaultApi() {
 
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(groupApiInfo())
                 .groupName("1-全部接口")
                 .select()
@@ -52,13 +56,14 @@ public class SwaggerConfiguration {
                 .build()
                 .securitySchemes(securitySchemes())
                 .securityContexts(securityContexts())
+                .extensions(openApiExtensionResolver.buildExtensions(""))
                 //.globalOperationParameters(pars)
                 ;
     }
 
     @Bean
     public Docket commonDefault(){
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(groupApiInfo())
                 .groupName("2-公共接口")
                 .select()
@@ -67,12 +72,13 @@ public class SwaggerConfiguration {
                 .paths(PathSelectors.any())
                 .build()
                 .securitySchemes(securitySchemes())
-                .securityContexts(securityContexts());
+                .securityContexts(securityContexts())
+                .extensions(openApiExtensionResolver.buildExtensions(""));
     }
 
     @Bean
     public Docket v1Default(){
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(groupApiInfo())
                 .groupName("3-V1版本")
                 .select()
@@ -101,7 +107,7 @@ public class SwaggerConfiguration {
 
     @Bean
     public Docket v2Default(){
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(groupApiInfo())
                 .groupName("4-V2版本")
                 .select()
@@ -133,7 +139,7 @@ public class SwaggerConfiguration {
 
     @Bean
     public Docket web_api_prdt() {
-        return new Docket(DocumentationType.SWAGGER_2)
+        return new Docket(DocumentationType.OAS_30)
                 .apiInfo(groupApiInfo())
                 .groupName("公告管理")
                 .select()

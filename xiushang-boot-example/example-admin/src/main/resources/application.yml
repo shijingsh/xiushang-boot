@@ -61,7 +61,8 @@ spring:
 knife4j:
   enable: true
   setting:
-    enableFooter: true
+    language: zh-CN
+    enableFooter: false
     enableFooterCustom: true
     footerCustomContent: Apache License 2.0 | Copyright ©️ 2021 秀上
 
