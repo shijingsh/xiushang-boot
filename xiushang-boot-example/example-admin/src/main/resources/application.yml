@@ -61,7 +61,7 @@ spring:
 knife4j:
   enable: true
   setting:
-    enableFooter: false
+    enableFooter: true
     enableFooterCustom: true
     footerCustomContent: Apache License 2.0 | Copyright ©️ 2021 秀上
 
@@ -103,7 +103,12 @@ jwt:
       - /swagger-resources/**
       - /v2/api-docs
       - /v2/api-docs-ext
+      - /v3/api-docs
+      - /v3/api-docs-ext
+      - /v3/api-docs/swagger-config
       - /webjars/**
+      - /swagger-resources/**
+      - /swagger-resources/**
       #- /druid/**
       - /favicon.ico
       - /favicon.png

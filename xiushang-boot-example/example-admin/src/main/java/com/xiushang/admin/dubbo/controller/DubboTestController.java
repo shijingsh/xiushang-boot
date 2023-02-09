@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController()
 @RequestMapping("/api/dbtest")
 public class DubboTestController {
-    @DubboReference
+    @DubboReference(check = false)
     OrderDubboService orderDubboService;
 
     @ApiOperation(value = "dbtest")

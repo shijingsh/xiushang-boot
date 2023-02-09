@@ -13,6 +13,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 import java.net.InetAddress;
 
@@ -23,6 +24,7 @@ import java.net.InetAddress;
 @EnableScheduling
 @ServletComponentScan(basePackages = {"com.xiushang.filter"})
 @EnableRedisHttpSession
+@EnableSwagger2
 public class AdminApplication extends SpringBootServletInitializer {
 
   public static void main(String[] args) throws Exception {

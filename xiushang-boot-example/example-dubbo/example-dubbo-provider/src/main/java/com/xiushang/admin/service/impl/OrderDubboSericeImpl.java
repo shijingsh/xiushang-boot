@@ -19,7 +19,7 @@ import java.io.Serializable;
 @DubboService(filter = "userFilter",retries = 0)
 public class OrderDubboSericeImpl implements OrderDubboService, Serializable {
 
-    @DubboReference
+    @DubboReference(check = false)
     OrderPayDubboService orderPayDubboService;
 
     @Override
